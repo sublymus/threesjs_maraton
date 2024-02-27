@@ -20,14 +20,14 @@ const test = {
         test.roughness= 0;
     }
 }
-const gui = new GUI();
-
+const Gui = new GUI();
 
 export  class Product implements AbstractWorld {
     scene: THREE.Scene;
     camera: THREE.Camera;
     ring: THREE.Object3D | null = null;
     controls: OrbitControls | null = null;
+    gui:GUI
     constructor() {
 
         this.scene = new THREE.Scene();
@@ -35,6 +35,9 @@ export  class Product implements AbstractWorld {
         this.camera.position.set(5, 5, 5);
         this.camera.lookAt(0, 0, 0);
         this.scene = new THREE.Scene();
+        
+        this.gui  = Gui.addFolder(this.scene.uuid)
+        this.gui.close()
         const textureEquirec = new RGBELoader().load( '../World/images/royal_esplanade_1k.hdr',(texture)=>{
             texture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.background = texture;
@@ -58,23 +61,23 @@ export  class Product implements AbstractWorld {
         }
        
         let root: any = null
-        gui.addColor(test, 'scene').onChange(() => {
+        this.gui.addColor(test, 'scene').onChange(() => {
             this.scene.background = new THREE.Color(test.scene)
         });
         
-        gui.add(test, 'metalness', 0, 1, 0.1).onChange(() => {
+        this.gui.add(test, 'metalness', 0, 1, 0.1).onChange(() => {
             update(root, 'metalness', test.metalness)
         });;
-        gui.add(test, 'roughness', 0, 1, 0.1).onChange(() => {
+        this.gui.add(test, 'roughness', 0, 1, 0.1).onChange(() => {
             update(root, 'roughness', test.roughness)
         });
-        gui.add(test, 'emissiveIntensity', 0, 1, 0.01).onChange(() => {
+        this.gui.add(test, 'emissiveIntensity', 0, 1, 0.01).onChange(() => {
             update(root, 'emissiveIntensity', test.emissiveIntensity)
         });
-        gui.addColor(test, 'emissive').onChange(() => {
+        this.gui.addColor(test, 'emissive').onChange(() => {
             update(root, 'emissive', new THREE.Color(test.emissive))
         });
-        gui.addColor(test, 'color').onChange(() => {
+        this.gui.addColor(test, 'color').onChange(() => {
             update(root, 'color', new THREE.Color(test.color))
         });
 
@@ -161,7 +164,6 @@ export  class Product implements AbstractWorld {
         this.scene.add(light);
         this.scene.add(light1);
         this.scene.add(light2);
-
     }
     addGround() {
         const self = this;
@@ -189,13 +191,13 @@ export  class Product implements AbstractWorld {
         groundMaterial.map = new THREE.TextureLoader().load('../World/images/tissus2/30756994992.jpg' ); 
 
  
-        gui.add(test, 'metalness', 0, 1, 0.1).onChange(() => {
+        this.gui.add(test, 'metalness', 0, 1, 0.1).onChange(() => {
             // groundMaterial.ro
         });;
-        gui.add(test, 'roughness', 0, 1, 0.1).onChange(() => {
+        this.gui.add(test, 'roughness', 0, 1, 0.1).onChange(() => {
             // update(root, 'roughness', c.roughness)
         });
-        gui.addColor(test, 'ground').onChange(() => {
+        this.gui.addColor(test, 'ground').onChange(() => {
             groundMaterial.color = new THREE.Color(test.ground);
         });
 

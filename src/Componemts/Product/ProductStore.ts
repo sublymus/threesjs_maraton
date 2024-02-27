@@ -30,8 +30,8 @@ export interface Filter {
 export interface AppState {
     productScenus: Product | undefined
     products: { [key: string]: Product },
-    selectProduct: (uuid: string,products:{ [key: string]: Product }) => Promise<void>,
-    fetchProducts: (filter: Filter) =>Promise<void>
+    selectProduct: (uuid: string, products: { [key: string]: Product }) => Promise<void>,
+    fetchProducts: (filter: Filter) => Promise<void>
 }
 
 
@@ -54,14 +54,14 @@ export const useProductStore = create<AppState>((set) => ({
 
         set(() => ({ products }));
     },
-    async selectProduct(uuid: string,products:{ [key: string]: Product }) {
+    async selectProduct(uuid: string, products: { [key: string]: Product }) {
         const product = products[uuid]
         console.log('@@@  1', product);
-        
+
         if (!product) return;
         let productScenus = PRODUCT_SCENUS_CACHE[uuid];
         console.log('@@@  2', productScenus);
-        
+
         if (productScenus) {
             WorldManager.worldManager?.setWorld(productScenus.scenus);
             set(() => ({
@@ -71,18 +71,18 @@ export const useProductStore = create<AppState>((set) => ({
         }
         const { Product } = await import(/* @vite-ignore */product.screen_url);
         console.log('@@@  3', Product);
-        
-        WorldManager.worldManager?.setWorld(new (Product)());
-        PRODUCT_SCENUS_CACHE[uuid] = productScenus;
+
+        const world = new Product()
+        WorldManager.worldManager?.setWorld(world);
+
         productScenus = {
             ...product,
-            scenus: Product
+            scenus: world
         };
-        set(() => ({
-            productScenus
-        }));
 
-        set(data => ({ ...data, uuidSelected: uuid }))
+        PRODUCT_SCENUS_CACHE[uuid] = productScenus;
+
+        set(() => ({ uuidSelected: uuid ,productScenus}))
 
     }
 

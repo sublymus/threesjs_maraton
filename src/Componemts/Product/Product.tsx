@@ -1,20 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './Product.css'
 import { Cadre } from '../Cadre/Card';
 import { CadreManager } from '../Cadre/CadreManager'
 import { useProductStore } from './ProductStore';
-
-
 
 export function Products() {
   const { products, fetchProducts, selectProduct } = useProductStore()
   const productsRef = useRef<HTMLDivElement | null>(null)
   const cadreManagerRef = useRef<CadreManager | null>(null);
   const [productArray, setProductArray] = useState<Array<any>>()
+  console.log('@@@@@');
 
   useEffect(() => {
-    console.log('fetchProducts');
-
     const cadreManager = new CadreManager(productsRef);
     cadreManagerRef.current = cadreManager;
     cadreManager.init();
@@ -27,13 +24,10 @@ export function Products() {
       const list: any[] = []
       for (const uuid in products) {
         const product = products[uuid];
-        let node = document.createElement("div");
         const cadre = new Cadre();
         const productElement = (
           <div
           onClick={()=>{
-            console.log(product);
-            
             selectProduct(product.uuid,products)
           }}
             key={product.uuid}
