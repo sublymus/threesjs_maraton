@@ -3,8 +3,10 @@ import { Cadre, defaultData, type dataType } from "./Card";
 export class CadreManager {
     private data: dataType;
     cadreList: Cadre[] = []
-    constructor(private cadreContainer: React.MutableRefObject<HTMLDivElement | null>, data?:Partial<dataType>) {
-        this.data =  {...defaultData,...data};
+    lastTime = 0;
+    firstTime = true;
+    constructor(private cadreContainer: React.MutableRefObject<HTMLDivElement | null>, data?: Partial<dataType>) {
+        this.data = { ...defaultData, ...data };
     }
     isHover(isHover: boolean) {
         this.data.isHover = isHover
@@ -13,6 +15,7 @@ export class CadreManager {
         cadre.setdata(this.data);
         this.cadreList.push(cadre);
     }
+    
     init() {
         this.cadreContainer.current?.addEventListener('mousemove', (e) => {
             this.data.Y = e.clientY - this.data.SIZE / 2;
@@ -24,24 +27,18 @@ export class CadreManager {
         this.cadreContainer.current?.addEventListener('mouseleave', () => {
             this.data.isHover = false;
         });
-        
-        const animus = (_time: number) => {
-            // let setp = 0;
-            // if(firstTime){
-            //   setp = 0;
-            // }else{
-            //   setp = time-lastTime;
-            // }
-            // lastTime = time;
-           const index =  ['initFunc','delayFunc','reframeFunc', 'bellFunc','resizeFunc','impactFunc','endFunc'] as const
-           index.forEach((f) => {
-              this.cadreList.forEach(cadre => {
-                cadre[f]()
-              });
+
+        const animus = (time: number) => {
+            let step = 0;
+            step = this.firstTime&&!(this.firstTime=false) ? 0 : time - this.lastTime;
+
+            this.lastTime = time;
+            this.cadreList.forEach(cadre => {
+                cadre.anim(time, step)
             })
             requestAnimationFrame(animus);
-          }
-          requestAnimationFrame(animus);
+        }
+        requestAnimationFrame(animus);
     }
 }
 

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { AbstractWorld } from "../World";
+import { AbstractWorld, Feature } from "../World";
 export class Primitive implements AbstractWorld{
     scene:THREE.Scene;
     camera:THREE.Camera;
@@ -15,6 +15,15 @@ export class Primitive implements AbstractWorld{
         this.box = this.createBox(1, 1, 1);
         this.scene.add(this.box);
 
+    }
+    init(renderer: THREE.WebGLRenderer): void {
+        throw new Error("Method not implemented.");
+    }
+    getUUID(): string {
+        throw new Error("Method not implemented.");
+    }
+    getFeatures(): Feature[] {
+        throw new Error("Method not implemented.");
     }
     createBox(w: number, h: number, d: number) {
 

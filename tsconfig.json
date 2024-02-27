@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src//*", "src/World/World.ts"],
+  "include": ["src//*", "src/World/World.ts", "src/Componemts/Cadre/Card.ts", "src/Componemts/Cadre/CadreManager.ts", "src/Componemts/Cadre/Urls.ts", "src/Componemts/Product/ProductStore.ts", "src/Componemts/Product/Product.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

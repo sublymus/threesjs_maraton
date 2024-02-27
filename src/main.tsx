@@ -1,13 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import {WorldManager } from './World/World'
+import {Products} from './Componemts/Product/Product'
+import 'three/examples/jsm/Addons';
 import './index.css'
-import { World } from './World/World.ts'
 
-const world = new World()  
-world.animus(0)
-ReactDOM.createRoot(document.getElementById('root')!).render(
+
+const root = document.getElementById('root')!;
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App />
+    <Products/>
   </React.StrictMode>,
 )
+
+setTimeout(async () => {
+  const w = document.getElementById('world')!
+  root.prepend(w)
+  const world = new WorldManager(w)
+  world.animus(0); 
+});
