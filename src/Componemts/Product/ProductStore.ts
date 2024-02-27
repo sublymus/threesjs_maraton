@@ -40,7 +40,7 @@ const PRODUCT_SCENUS_CACHE: { [key: string]: ProductScenus } = {}
 export const useProductStore = create<AppState>((set) => ({
     productScenus: undefined,
     products: {},
-    fetchProducts: async (filter: Filter) => {
+    fetchProducts: async (_filter: Filter) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const products: { [key: string]: Product } = {};
         Urls.forEach((url, i) => {
@@ -48,7 +48,7 @@ export const useProductStore = create<AppState>((set) => ({
             products[uuid] = {
                 uuid,
                 image_url: [url.url],
-                screen_url: '../../World/Rings/Ring_petal_1.ts',
+                screen_url: `../../World/Rings/Ring_petal_${(i%7 )+1}.ts`,
             }
         });
 
