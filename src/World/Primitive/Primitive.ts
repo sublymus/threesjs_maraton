@@ -19,6 +19,11 @@ export class Primitive implements AbstractWorld{
     init(renderer: THREE.WebGLRenderer): void {
         throw new Error("Method not implemented.");
     }
+
+    featuresCollector(): { [key: string]: string; } {
+        return this._featuresCollector;
+    }
+
     getUUID(): string {
         throw new Error("Method not implemented.");
     }

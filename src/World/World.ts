@@ -2,20 +2,30 @@ import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
-export const  WorlGui = new GUI();
+export const WorlGui = new GUI();
 export interface Feature {
     icon: string,
     type: string,
-    path:string,
-    uuid:string,
-    ext:'.png'|'.jpg'|'.jpeg'|'.webp'
+    path: string,
+    uuid: string,
+    ext: '.png' | '.jpg' | '.jpeg' | '.webp'
     name: string,
     values: {
         label: string,
-        value: string,
-        ext?:string
+        id: string,
+        ext?: string
     }[]
 }
+type F1 = () => { [key: string]: string }
+type F2 = (key: string) => string
+type F3 = (key: string, value: string) => void
+export type  CollectedFeatures = {[key:string]:string} 
+export type FeaturesCollector  = {
+    add(key:string,value:string|undefined):void
+    get(key:string):string|undefined
+    all():CollectedFeatures
+};
+
 export interface AbstractWorld {
     getScene(): THREE.Scene
     getCamera(): THREE.Camera
@@ -24,7 +34,9 @@ export interface AbstractWorld {
     close(): void
     init(renderer: THREE.WebGLRenderer): void
     getUUID(): string;
-    getFeatures(): Feature[]
+    getFeatures(): Feature[];
+    showFeature(uuid: string): void;
+    featuresCollector: FeaturesCollector
 }
 const params = {
     exposure: 1.0,
@@ -47,7 +59,7 @@ export class WorldManager {
     public static worldManager: WorldManager | null = null;
     _renderer: THREE.WebGLRenderer;
     currentWorl: AbstractWorld | null = null;
-    stats:Stats
+    stats: Stats
     constructor(container: HTMLElement) {
         this._renderer = new THREE.WebGLRenderer({ antialias: true });
         this._renderer.setPixelRatio(window.devicePixelRatio);
@@ -55,56 +67,61 @@ export class WorldManager {
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
         this._renderer.toneMappingExposure = params.exposure;
-        
+
         this.stats = new Stats();
         document.body.appendChild(this.stats.dom);
         container.append(this._renderer.domElement);
         container.style.zIndex = '-100';
-        
+
         window.addEventListener('resize', this.onResize)
-        
+
         const gui = WorlGui.addFolder('World');
         const toneMappingFolder = gui.addFolder('tone mapping');
         toneMappingFolder.close();
-        
-        toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
-        .onChange( ()=> {
-            this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
-            });
-            
-        toneMappingFolder.add( params, 'blurriness', 0, 1 )
-        
-        .onChange( ( value )=> {
-            if(this.currentWorl)this.currentWorl.getScene().backgroundBlurriness = value;
-        } );
-        
-        toneMappingFolder.add( params, 'intensity', 0, 1 )
 
-        .onChange( ( value ) =>{
-            if(this.currentWorl)this.currentWorl.getScene().backgroundIntensity = value;
-        } );
-        
-        toneMappingFolder.add( params, 'exposure', 0, 2 )
-        
-        .onChange(()=> {
-            
-            this._renderer.toneMappingExposure = params.exposure;
-            
-        } );
-            
+        toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
+            .onChange(() => {
+                this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
+            });
+
+        toneMappingFolder.add(params, 'blurriness', 0, 1)
+
+            .onChange((value) => {
+                if (this.currentWorl) this.currentWorl.getScene().backgroundBlurriness = value;
+            });
+
+        toneMappingFolder.add(params, 'intensity', 0, 1)
+
+            .onChange((value) => {
+                if (this.currentWorl) this.currentWorl.getScene().backgroundIntensity = value;
+            });
+
+        toneMappingFolder.add(params, 'exposure', 0, 2)
+
+            .onChange(() => {
+
+                this._renderer.toneMappingExposure = params.exposure;
+
+            });
+
         WorldManager.worldManager = this;
     }
-        
+
     setWorld(world: AbstractWorld) {
         world.init(this._renderer);
         this.currentWorl = world;
         world.getScene().backgroundBlurriness = params.blurriness;
     }
 
-    onResize() {
+    onResize = () => {
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.domElement.height = window.innerHeight
         this._renderer.domElement.width = window.innerWidth;
+        if (this.currentWorl?.getCamera()) {
+            (this.currentWorl.getCamera() as any).aspect = window.innerWidth / window.innerHeight;
+            (this.currentWorl.getCamera() as any).updateProjectionMatrix();
+
+        }
     }
     animus = (time: number) => {
         const t = time * 0.001;

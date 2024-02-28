@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { AbstractWorld, Feature, WorlGui } from "../World";
+import { AbstractWorld, CollectedFeatures, Feature, FeaturesCollector, WorlGui } from "../World";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { ParametricGeometry ,OrbitControls, RGBELoader , GLTFLoader} from 'three/examples/jsm/Addons';
 import { noise2 } from "../Utils/perlin";
@@ -22,11 +22,81 @@ const test = {
 }
 const Gui = new GUI();
 
+const features: Feature[] = []
+for (let i = 0; i < 15; i++) {
+  features.push({
+    uuid: (Math.random() * 10000000).toString(32),
+    name: 'gem',
+    icon: '/src/World/images/gem/gem.png',
+    ext: '.png',
+    type: 'icon',
+    path: '/src/World/images/gem/',
+    values: [{
+      label: 'Grenat bleu',
+      id: 'blue_garnet',
+    }, {
+      label: 'Taaffeite',
+      id: 'taaffeite'
+    }, {
+      label: 'Grandidierite',
+      id: 'grandidierite'
+    }, {
+      label: 'Serendibite',
+      id: 'serendibite'
+    }, {
+      label: 'Diamant',
+      id: 'diamond'
+    }, {
+      label: 'Rubis',
+      id: 'ruby'
+    }, {
+      label: 'Alexandrite',
+      id: 'alexandrite'
+    }, {
+      label: 'Béryl rouge',
+      id: 'red_beryl'
+    }, {
+      label: 'Padparadscha Saphire',
+      id: 'padparadscha_saphire'
+    }, {
+      label: 'Musgravite',
+      id: 'musgravite'
+    }, {
+      label: 'Saphir',
+      id: 'sapphire'
+    }, {
+      label: 'Benitoite',
+      id: 'benitoite'
+    }, {
+      label: 'Opale noire',
+      id: 'black_opal'
+    }, {
+      label: 'Grenat démantoïde',
+      id: 'demantoid_garnet'
+    }, {
+      label: 'Poudretteite',
+      id: 'poudretteite'
+    }, {
+      label: 'Opale de feu',
+      id: 'fire_opal'
+    }, {
+      label: 'Jeremejevite',
+      id: 'jeremejevite'
+    }, {
+      label: 'Tanzanite',
+      id: 'tanzanite'
+    }]
+  })
+}
+
 export  class Product implements AbstractWorld {
     scene: THREE.Scene;
     camera: THREE.Camera;
     ring: THREE.Object3D | null = null;
+    featuresCollector:FeaturesCollector;
+    public collected : CollectedFeatures = {};
     controls: OrbitControls | null = null;
+
     gui:GUI
     constructor() {
 
@@ -99,6 +169,24 @@ export  class Product implements AbstractWorld {
             update(root, 'needsUpdate', true)
         })
 
+        this.featuresCollector = {
+            add:(key, value)=>{
+                if(value) {
+                    this.collected[key]=value;
+                    
+                } 
+                else{
+                    delete this.collected[key];
+                }
+                console.log(this.collected);
+                
+            },
+            all:()=> this.collected,
+            get:(key)=> this.collected[key],
+        }
+    }
+    showFeature(uuid: string): void {
+        throw new Error("Method not implemented.");
     }
     init(renderer :THREE.WebGLRenderer){
         this.controls = new OrbitControls(this.camera, renderer.domElement )
@@ -109,11 +197,13 @@ export  class Product implements AbstractWorld {
         this.controls.maxDistance = 20;
         this.controls.minDistance = 7
     }
+
+
     getUUID(): string {
         throw new Error("Method not implemented.");
     }
     getFeatures() : Feature[] {
-        return []
+        return features
     }
     noise2D(x: number, y: number) {
         const scale = 1;

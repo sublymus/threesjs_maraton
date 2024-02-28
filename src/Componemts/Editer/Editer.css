@@ -4,7 +4,7 @@
     left: calc(50% - calc(var(--editer-width) /2) + var(--products-width) /2);
     width: var(--editer-width);
     bottom: 50px;
-    transition: 500ms;
+    transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +20,7 @@
     position: absolute;
     left: 0;
     width: 800px;
-    transition: 500ms;
+    transition: all 0.3s ease-in-out;
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
@@ -37,33 +37,32 @@
 .feature {
     display: inline-block;
     background-position: center;
-    background-size: cover;
+    background-size: 60%;
     background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-    margin: 10px;
-    transition: 200ms;    
+    width: 70px;
+    height: 70px;
+    transition: all 0.3s ease-in-out;
     /* background: #e42525; */
     border-width: 1px;
     border-style: solid;
     border-color: #ffffff00;
+    border-radius: 50%;      
     filter: invert(88%); /************  TODO ****************/
 }
 
 .feature:hover {
-    transform: scale(1.1);
-    transition: 200ms;    
+    cursor: pointer;
+    background-size: 80%;
+    transition: 200ms;
 }
 
 .feature.active {
-    transform: scale(1.5);
-    transition: 200ms; 
+    transition: 200ms;
     background: #a5a5a577;
     border-color:#33333385;
     background-position: center;
-    background-size: 40px;
+    background-size: 80%;
     background-repeat: no-repeat;
-    border-radius: 50%;      
 }
 
 .more-top{
@@ -85,42 +84,22 @@
 
 .more-top, .more-left, .more-right{
     opacity: 0.5;
+    cursor: pointer;
     position: absolute;
     width: 60px;
     height: 60px;
     z-index: 10;
     border-radius: 50%;
     background: no-repeat center/50% url(/src/Componemts/Editer/arraow.png);
-    transition: 100ms;
+    transition: 200ms;
 }
 .more-top:hover, .more-left:hover, .more-right:hover{
     opacity: 0.7;
-    transition: 100ms;
+    transition: 200ms;
     background: no-repeat center/50% url(/src/Componemts/Editer/arraow.png),#c0c0c05c;
 }
 
   
-
-.features::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  .features::-webkit-scrollbar-track {
-      border-radius: 10px;
-      background: #a4a4a42d;
-      transition: 200ms;
-    }
-    
-    .features::-webkit-scrollbar-thumb {
-        background: #ffffff29;
-        border-radius: 10px;
-        transition: 200ms;    
-    }
-    
-    .features::-webkit-scrollbar-thumb:hover {
-        background: #c0c0c05c;
-      transition: 200ms;    
-  }
 
 
   .features-values{
@@ -144,12 +123,11 @@
 }
 
 .features-value:hover{
-    transform: scale(1.2);
-    transition: all 0.3s ease-in-out;
+    background-size: 80%;
+    transition: 200ms;
 }
 .features-value{
     cursor: pointer;
-   -webkit-user-drag: auto;
     position: relative;
     display: inline-block;
     height: 70px;
@@ -158,8 +136,22 @@
     background-repeat: no-repeat;
     background-position: center;
     /* margin: px 0px; */
-    transition: all 0.3s ease-in-out;
+    transition: 200ms;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e1c1c100;
+    border-radius: 50%;      
   }
+  .features-value.active{
+    transition: 200ms;
+    background: #a5a5a577;
+    border-color:#d0d0d085;
+    background-position: center;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    transition: 200ms;
+
+    }
 
   .features-value .label{
     position: absolute;

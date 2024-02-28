@@ -27,8 +27,8 @@ export interface Filter {
     }
 }
 
-export interface AppState {
-    productScenus: Product | undefined
+export interface ProductState {
+    productScenus: ProductScenus | undefined
     products: { [key: string]: Product },
     selectProduct: (uuid: string, products: { [key: string]: Product }) => Promise<void>,
     fetchProducts: (filter: Filter) => Promise<void>
@@ -37,7 +37,7 @@ export interface AppState {
 
 const PRODUCT_SCENUS_CACHE: { [key: string]: ProductScenus } = {}
 
-export const useProductStore = create<AppState>((set) => ({
+export const useProductStore = create<ProductState>((set) => ({
     productScenus: undefined,
     products: {},
     fetchProducts: async (_filter: Filter) => {
