@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { AbstractWorld, Feature } from "../World";
+import { AbstractWorld, Feature, WorlGui } from "../World";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { ParametricGeometry ,OrbitControls, RGBELoader , GLTFLoader} from 'three/examples/jsm/Addons';
 import { noise2 } from "../Utils/perlin";
@@ -32,13 +32,13 @@ export  class Product implements AbstractWorld {
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 300)
-        this.camera.position.set(5, 5, 5);
+        this.camera.position.set(20, 20, 20);
         this.camera.lookAt(0, 0, 0);
         this.scene = new THREE.Scene();
         
-        this.gui  = Gui.addFolder(this.scene.uuid)
+        this.gui  = WorlGui.addFolder(this.scene.uuid)
         this.gui.close()
-        const textureEquirec = new RGBELoader().load( '../World/images/royal_esplanade_1k.hdr',(texture)=>{
+        const textureEquirec = new RGBELoader().load( 'src/World/images/royal_esplanade_1k.hdr',(texture)=>{
             texture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.background = texture;
             this.scene.environment = texture;
@@ -82,13 +82,13 @@ export  class Product implements AbstractWorld {
         });
 
 
-        loader.load('../World/models/ring_1.glb', (gltf) => {
+        loader.load('src/World/models/ring_1.glb', (gltf) => {
             root = gltf.scene.children[0];
             // /his.ring = root
             this.ring = new THREE.Object3D();
             this.ring.add(root)
             root.rotation.x = 1.2
-            this.ring.translateY(0.5)
+            this.ring.translateY(2.2)
             self.scene.add(this.ring)
             root.scale.set(0.5, 0.5, 0.5)
             update(root, 'metalness', test.metalness)
@@ -106,7 +106,9 @@ export  class Product implements AbstractWorld {
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
         this.controls.enabled = true;
-        this.controls.update()
+        this.controls.enabled = true;
+        this.controls.maxDistance = 20;
+        this.controls.minDistance = 7
     }
     getUUID(): string {
         throw new Error("Method not implemented.");
@@ -181,14 +183,14 @@ export  class Product implements AbstractWorld {
 
         
         const groundMaterial = new THREE.MeshPhongMaterial();
-        groundMaterial.displacementMap = new THREE.TextureLoader().load('../World/images/tissus2/TexturesCom_Fabric_Rough2_512_height.jpg' ); 
+        groundMaterial.displacementMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_height.jpg' ); 
         groundMaterial.displacementScale = 0.2;
         groundMaterial.displacementBias = 0;
         groundMaterial.color = new THREE.Color(test.ground);
 
-        groundMaterial.normalMap = new THREE.TextureLoader().load('../World/images/tissus2/TexturesCom_Fabric_Rough2_512_normal.jpg' ); 
-        groundMaterial.specularMap = new THREE.TextureLoader().load('../World/images/tissus2/TexturesCom_Fabric_Rough2_512_albedo.jpg' ); 
-        groundMaterial.map = new THREE.TextureLoader().load('../World/images/tissus2/30756994992.jpg' ); 
+        groundMaterial.normalMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_normal.jpg' ); 
+        groundMaterial.specularMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_albedo.jpg' ); 
+        groundMaterial.map = new THREE.TextureLoader().load('src/World/images/tissus2/30756994992.jpg' ); 
 
  
         this.gui.add(test, 'metalness', 0, 1, 0.1).onChange(() => {

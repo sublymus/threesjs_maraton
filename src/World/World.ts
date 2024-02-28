@@ -1,5 +1,7 @@
 import * as THREE from "three";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
+export const  WorlGui = new GUI();
 export interface Feature {
     icon: string,
     type: string,
@@ -16,30 +18,81 @@ export interface AbstractWorld {
     update(time?: number, step?: number, renderer?: THREE.WebGLRenderer): void
     open(): void
     close(): void
-    init(renderer:THREE.WebGLRenderer):void
+    init(renderer: THREE.WebGLRenderer): void
     getUUID(): string;
     getFeatures(): Feature[]
 }
+const params = {
+    exposure: 1.0,
+    toneMapping: 'AgX' as const,
+    blurriness: 0.3,
+    intensity: 1.0,
+};
+
+const toneMappingOptions = {
+    None: THREE.NoToneMapping,
+    Linear: THREE.LinearToneMapping,
+    Reinhard: THREE.ReinhardToneMapping,
+    Cineon: THREE.CineonToneMapping,
+    ACESFilmic: THREE.ACESFilmicToneMapping,
+    AgX: THREE.AgXToneMapping,
+    Custom: THREE.CustomToneMapping
+};
 
 export class WorldManager {
-    public static worldManager:WorldManager|null = null;
+    public static worldManager: WorldManager | null = null;
     _renderer: THREE.WebGLRenderer;
     currentWorl: AbstractWorld | null = null;
-    constructor(container:HTMLElement) {
+    constructor(container: HTMLElement) {
         this._renderer = new THREE.WebGLRenderer({ antialias: true });
         this._renderer.setPixelRatio(window.devicePixelRatio);
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.setAnimationLoop(this.animus);
+
+        this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
+        this._renderer.toneMappingExposure = params.exposure;
+
         container.style.zIndex = '-100';
         container.append(this._renderer.domElement);
         WorldManager.worldManager = this;
 
         window.addEventListener('resize', this.onResize)
+
+        const gui = WorlGui.addFolder('World');
+        const toneMappingFolder = gui.addFolder('tone mapping');
+        toneMappingFolder.close();
+        
+        toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
+            .onChange( ()=> {
+                this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
+            });
+    
+            toneMappingFolder.add( params, 'blurriness', 0, 1 )
+
+            .onChange( ( value )=> {
+                if(this.currentWorl)this.currentWorl.getScene().backgroundBlurriness = value;
+            } );
+
+            toneMappingFolder.add( params, 'intensity', 0, 1 )
+
+            .onChange( ( value ) =>{
+                if(this.currentWorl)this.currentWorl.getScene().backgroundIntensity = value;
+            } );
+
+            toneMappingFolder.add( params, 'exposure', 0, 2 )
+
+            .onChange(()=> {
+
+                this._renderer.toneMappingExposure = params.exposure;
+               
+            } );
+
     }
 
     setWorld(world: AbstractWorld) {
         world.init(this._renderer);
         this.currentWorl = world;
+        world.getScene().backgroundBlurriness = params.blurriness;
     }
 
     onResize() {

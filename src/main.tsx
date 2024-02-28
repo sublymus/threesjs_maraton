@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {WorldManager } from './World/World'
+import 'three/examples/jsm/Addons';
 import {Products} from './Componemts/Product/Product'
 import './index.css'
 
