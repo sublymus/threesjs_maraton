@@ -13,16 +13,15 @@ export interface Feature {
     values: {
         label: string,
         id: string,
+        value?:string,
         ext?: string
     }[]
 }
-type F1 = () => { [key: string]: string }
-type F2 = (key: string) => string
-type F3 = (key: string, value: string) => void
-export type  CollectedFeatures = {[key:string]:string} 
+
+export type  CollectedFeatures = {[key:string]:Feature['values'][0]} 
 export type FeaturesCollector  = {
-    add(key:string,value:string|undefined):void
-    get(key:string):string|undefined
+    add(key:string,value:Feature['values'][0]|undefined):void
+    get(key:string):Feature['values'][0]|undefined
     all():CollectedFeatures
 };
 

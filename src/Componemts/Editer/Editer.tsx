@@ -63,7 +63,7 @@ export function Editer() {
                 productScenus?.scenus.featuresCollector.add(feature.uuid,undefined);
                 setValueId(undefined);
               } else {
-                productScenus?.scenus.featuresCollector.add(feature.uuid,_value.id);
+                productScenus?.scenus.featuresCollector.add(feature.uuid,_value);
                 setValueId(_value.id);
               }
             }}>
@@ -99,7 +99,7 @@ export function Editer() {
                   setFeature(null);
                 } else {
                   setFeature(_feature);
-                  setValueId(productScenus.scenus.featuresCollector.get(_feature.uuid))
+                  setValueId(productScenus.scenus.featuresCollector.get(_feature.uuid)?.id)
                 }
               }}></div>
             ))

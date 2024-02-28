@@ -34,57 +34,75 @@ for (let i = 0; i < 15; i++) {
     values: [{
       label: 'Grenat bleu',
       id: 'blue_garnet',
+      value:'2d3563'
     }, {
       label: 'Taaffeite',
-      id: 'taaffeite'
+      id: 'taaffeite',
+      value:'9575ab'
     }, {
       label: 'Grandidierite',
-      id: 'grandidierite'
+      id: 'grandidierite',
+      value:'3f7269'
     }, {
       label: 'Serendibite',
-      id: 'serendibite'
+      id: 'serendibite',
+      value:'024a3d'
     }, {
       label: 'Diamant',
-      id: 'diamond'
+      id: 'diamond',
+      value:'abdcf9'
     }, {
       label: 'Rubis',
-      id: 'ruby'
+      id: 'ruby',
+      value:'c24a4a'
     }, {
       label: 'Alexandrite',
-      id: 'alexandrite'
+      id: 'alexandrite',
+      value:'0d5a4c'
     }, {
       label: 'Béryl rouge',
-      id: 'red_beryl'
+      id: 'red_beryl',
+      value:'6f4060'
     }, {
       label: 'Padparadscha Saphire',
-      id: 'padparadscha_saphire'
+      id: 'padparadscha_saphire',
+      value:'98485d'
     }, {
       label: 'Musgravite',
-      id: 'musgravite'
+      id: 'musgravite',
+      value:'b2acad'
     }, {
       label: 'Saphir',
-      id: 'sapphire'
+      id: 'sapphire',
+      value:'288fc3'
     }, {
       label: 'Benitoite',
-      id: 'benitoite'
+      id: 'benitoite',
+      value:'286bc3'
     }, {
       label: 'Opale noire',
-      id: 'black_opal'
+      id: 'black_opal',
+      value:'4c415e'
     }, {
       label: 'Grenat démantoïde',
-      id: 'demantoid_garnet'
+      id: 'demantoid_garnet',
+      value:'5cb065'
     }, {
       label: 'Poudretteite',
-      id: 'poudretteite'
+      id: 'poudretteite',
+      value:'a770b5'
     }, {
       label: 'Opale de feu',
-      id: 'fire_opal'
+      id: 'fire_opal',
+      value:'b38a3c'
     }, {
       label: 'Jeremejevite',
-      id: 'jeremejevite'
+      id: 'jeremejevite',
+      value:'99a1ca'
     }, {
       label: 'Tanzanite',
-      id: 'tanzanite'
+      id: 'tanzanite',
+      value:'46518a'
     }]
   })
 }
@@ -130,7 +148,7 @@ export  class Product implements AbstractWorld {
             }
         }
        
-        let root: any = null
+        let root:any = null
         this.gui.addColor(test, 'scene').onChange(() => {
             this.scene.background = new THREE.Color(test.scene)
         });
@@ -150,7 +168,6 @@ export  class Product implements AbstractWorld {
         this.gui.addColor(test, 'color').onChange(() => {
             update(root, 'color', new THREE.Color(test.color))
         });
-
 
         loader.load('src/World/models/ring_1.glb', (gltf) => {
             root = gltf.scene.children[0];
@@ -173,6 +190,8 @@ export  class Product implements AbstractWorld {
             add:(key, value)=>{
                 if(value) {
                     this.collected[key]=value;
+                   if(value.value) update(root, 'color', new THREE.Color(parseInt(value.value,16)))
+                    console.log(value);
                     
                 } 
                 else{
