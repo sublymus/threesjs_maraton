@@ -47,7 +47,6 @@ export function Products() {
 
   return (
     <div className='ctn-products'>
-      <div className="back-products"></div>
       <div className="products" ref={productsRef}>
         {productArray}
       </div>

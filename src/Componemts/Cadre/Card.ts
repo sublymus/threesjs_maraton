@@ -4,7 +4,7 @@ export const defaultData = {
     INFLUENCE: 0.11,
     BELL_DELAY_Y: 5,
     IMPACT_DELAY_Y: 5,
-    AMPLITUDE: 200,
+    AMPLITUDE: 100,
     SCOPE: 200,
     STEP: 20,
     isHover: false,

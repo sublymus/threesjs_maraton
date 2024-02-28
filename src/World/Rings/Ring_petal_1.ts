@@ -32,7 +32,7 @@ export  class Product implements AbstractWorld {
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 300)
-        this.camera.position.set(20, 20, 20);
+        this.camera.position.set(7, 7, 7);
         this.camera.lookAt(0, 0, 0);
         this.scene = new THREE.Scene();
         

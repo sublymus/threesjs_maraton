@@ -1,15 +1,16 @@
 import React from 'react'
+import './index.css'
 import ReactDOM from 'react-dom/client'
 import {WorldManager } from './World/World'
 import 'three/examples/jsm/Addons';
 import {Products} from './Componemts/Product/Product'
-import './index.css'
-
+import {Editer} from './Componemts/Editer/Editer'
 
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Products/>
+    <Editer/>
   </React.StrictMode>,
 )
 
