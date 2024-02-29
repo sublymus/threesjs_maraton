@@ -48,19 +48,18 @@ export const useProductStore = create<ProductState>((set) => ({
             products[uuid] = {
                 uuid,
                 image_url: [url.url],
-                screen_url: `../../World/Rings/Ring_petal_${(i%7 )+1}.ts`,
+                screen_url: `../../World/Rings/Ring_petal_${1}.ts`,
             }
         });
 
         set(() => ({ products }));
     },
+    
     async selectProduct(uuid: string, products: { [key: string]: Product }) {
-        const product = products[uuid]
-        console.log('@@@  1', product);
+        const product = products[uuid];
 
         if (!product) return;
         let productScenus = PRODUCT_SCENUS_CACHE[uuid];
-        console.log('@@@  2', productScenus);
 
         if (productScenus) {
             WorldManager.worldManager?.setWorld(productScenus.scenus);
@@ -70,7 +69,6 @@ export const useProductStore = create<ProductState>((set) => ({
             return;
         }
         const { Product } = await import(/* @vite-ignore */product.screen_url);
-        console.log('@@@  3', Product);
 
         const world = new Product()
         WorldManager.worldManager?.setWorld(world);

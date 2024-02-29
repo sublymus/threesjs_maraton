@@ -17,7 +17,7 @@ export interface Feature {
         ext?: string
     }[]
 }
-
+export type Features = {[key:string]:Feature}
 export type  CollectedFeatures = {[key:string]:Feature['values'][0]} 
 export type FeaturesCollector  = {
     add(key:string,value:Feature['values'][0]|undefined):void
@@ -33,7 +33,7 @@ export interface AbstractWorld {
     close(): void
     init(renderer: THREE.WebGLRenderer): void
     getUUID(): string;
-    getFeatures(): Feature[];
+    getFeatures(): Features;
     showFeature(uuid: string): void;
     featuresCollector: FeaturesCollector
 }

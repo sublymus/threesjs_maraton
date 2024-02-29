@@ -40,6 +40,9 @@ export class Cadre {
     setDiv(div:HTMLDivElement) {
         this.div = div;
     }
+    getDiv(){
+        return this.div
+    }
     init() {
 
         if (!this.div) return

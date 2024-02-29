@@ -29,7 +29,7 @@
 }
 
 .product {
-  cursor: pointer;
+  /* cursor: pointer; */
   filter: none;
   margin: 5px 30px;
   width: 200px;
@@ -45,7 +45,7 @@
 }
 
 .products::-webkit-scrollbar-track {
-  background: #c9191900;
+  background: #88888800;
 }
 
 .products::-webkit-scrollbar-thumb {
