@@ -175,7 +175,7 @@ export  class Product implements AbstractWorld {
             this.ring = new THREE.Object3D();
             this.ring.add(root)
             root.rotation.x = 1.2
-            this.ring.translateY(0.5)
+            this.ring.translateY(2.1)
             self.scene.add(this.ring)
             root.scale.set(0.5, 0.5, 0.5)
             update(root, 'metalness', test.metalness)

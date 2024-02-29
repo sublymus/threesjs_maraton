@@ -41,6 +41,6 @@
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #d1d1d100;
+  background: #b38a3c;
   transition: 200ms;
 }
