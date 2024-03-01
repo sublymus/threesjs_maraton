@@ -1,4 +1,4 @@
-export type FuncAsArray = { [key: number]: (this: Cadre) => void }
+export type FuncAsArray = { [key: number]: (this: HorizontalCadre) => void }
 export const defaultData = {
     SIZE: 200,
     INFLUENCE: 0.11,
@@ -15,7 +15,7 @@ export const defaultData = {
 }
 export type dataType = typeof defaultData;
 
-export class Cadre {
+export class HorizontalCadre {
 
     private tx = 0;
     // private ty = 0;

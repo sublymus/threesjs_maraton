@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Editer.css'
 import { Feature } from '../../World/World';
-import { useProductStore } from '../Product/ProductStore';
+import { useProductStore } from '../Products/ProductStore';
 
 const MIN_FeatureS_HEIGHT = 100;
 const MAX_FeatureS_HEIGHT = 600;

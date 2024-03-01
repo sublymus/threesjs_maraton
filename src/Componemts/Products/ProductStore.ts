@@ -1,7 +1,7 @@
 
 
 import { create } from 'zustand'
-import { Urls } from '../Cadre/Urls'
+import { Urls } from '../VerticalCadre/Urls'
 import { AbstractWorld, WorldManager } from '../../World/World'
 
 export interface Product {

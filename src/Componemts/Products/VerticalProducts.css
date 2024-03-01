@@ -1,26 +1,17 @@
-
-
-.ctn-products{
+.vert-ctn-products{
   position: absolute;
   height: 100%;
   width: 220px; 
 }
 
-.ctn-products:hover .back-products {
-  width: 500px;
-  transition: 300ms;
-}
-
-
-
-.products:hover {
+.vert-ctn-products .products:hover {
   width: 350px;
   transition: 0ms;
 }
 
-.products {
+.vert-ctn-products .products {
   position: absolute;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: visible;
   /* background: #345;*/
   transition: 1000ms;
@@ -28,8 +19,8 @@
   height: 100%;
 }
 
-.product {
-  /* cursor: pointer; */
+.vert-ctn-products .product {
+  cursor: pointer;
   filter: none;
   margin: 5px 30px;
   width: 200px;
@@ -40,18 +31,18 @@
   border-radius: 10px;
 }
 
-.products::-webkit-scrollbar {
+.vert-ctn-products .products::-webkit-scrollbar {
   width: 10px;
 }
 
-.products::-webkit-scrollbar-track {
+.vert-ctn-products .products::-webkit-scrollbar-track {
   background: #88888800;
 }
 
-.products::-webkit-scrollbar-thumb {
+.vert-ctn-products .products::-webkit-scrollbar-thumb {
   background: #88888800;
 }
 
-.products::-webkit-scrollbar-thumb:hover {
+.vert-ctn-products .products::-webkit-scrollbar-thumb:hover {
   background: #55555500;
 }

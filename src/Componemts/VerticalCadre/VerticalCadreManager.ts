@@ -1,17 +1,17 @@
-import { Cadre, defaultData, type dataType } from "./Card";
+import { VerticalCadre, defaultData, type dataType } from "./VerticalCadre";
 
-export class CadreManager {
+export class VerticalCadreManager {
     private data: dataType;
-    cadreList: Cadre[] = []
+    cadreList: VerticalCadre[] = []
     lastTime = 0;
     firstTime = true;
     constructor(private cadreContainer: React.MutableRefObject<HTMLDivElement | null>, data?: Partial<dataType>) {
         this.data = { ...defaultData, ...data };
     }
-    isHover(isHover: boolean) {
+    isHover(isHover: boolean) { 
         this.data.isHover = isHover
     }
-    push(cadre: Cadre) {
+    push(cadre: VerticalCadre) {
         cadre.setdata(this.data);
         this.cadreList.push(cadre);
     }
