@@ -20,7 +20,6 @@ export function VerticalProducts() {
   }, [fetchProducts]);
 
   useEffect(() => {
-    console.log('products');
     if (verticalCadreManagerRef.current) {
       const list: any[] = []
       for (const uuid in products) {

@@ -63,7 +63,6 @@ export function HorizontalProducts() {
         indice.current.style.width = Math.abs(center)+'px';
         indice.current.style.left = (center>0?(window.innerWidth/2-center):window.innerWidth/2)+'px';
       }
-      console.log(center,onProcess);
       if(productsRef.current)productsRef.current.scrollTo({
         top: 0,
         left: productsRef.current.scrollLeft -(center/50),

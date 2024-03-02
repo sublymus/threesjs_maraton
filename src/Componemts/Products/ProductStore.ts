@@ -1,5 +1,6 @@
 
-
+import { VerticalProducts } from "./VerticalProducts";
+import { HorizontalProducts } from "./HorizontalProducts";
 import { create } from 'zustand'
 import { Urls } from '../VerticalCadre/Urls'
 import { AbstractWorld, WorldManager } from '../../World/World'
@@ -31,15 +32,18 @@ export interface ProductState {
     productScenus: ProductScenus | undefined
     products: { [key: string]: Product },
     selectProduct: (uuid: string, products: { [key: string]: Product }) => Promise<void>,
-    fetchProducts: (filter: Filter) => Promise<void>
+    fetchProducts: (filter: Filter) => Promise<void>;
+    
 }
 
 
 const PRODUCT_SCENUS_CACHE: { [key: string]: ProductScenus } = {}
 
+
 export const useProductStore = create<ProductState>((set) => ({
     productScenus: undefined,
     products: {},
+    
     fetchProducts: async (_filter: Filter) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const products: { [key: string]: Product } = {};
@@ -54,7 +58,7 @@ export const useProductStore = create<ProductState>((set) => ({
 
         set(() => ({ products }));
     },
-    
+
     async selectProduct(uuid: string, products: { [key: string]: Product }) {
         const product = products[uuid];
 
@@ -80,7 +84,7 @@ export const useProductStore = create<ProductState>((set) => ({
 
         PRODUCT_SCENUS_CACHE[uuid] = productScenus;
 
-        set(() => ({ uuidSelected: uuid ,productScenus}))
+        set(() => ({ uuidSelected: uuid, productScenus }))
 
     }
 

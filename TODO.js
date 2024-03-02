@@ -1,36 +1,77 @@
 /*
 ***********************
-********  page_client 
+********  (provider domain) page_client 
 ***********************
 
-# list des produit
-## Vertical
-## Horizontal
+# WorldManager {
+   * charger le World et mise en cache
+   * adapter la retio, si user maintient  @qualite
+   * le world doit etre < 1 < 2 @performance
+}
 
-# edit product
-## bottom
-## top
+# list des produit {
+    * Vertical @responsive
+    * Horizontal @responsive
+}
 
-# Cart
-## big
-## small
+# edit product {
+   * bottom_responsive @responsive
+    top_responsive  @responsive
+}
+
+# Cart {
+    big_responsive @responsive
+    small_responsive @responsive
+}
+
+
+
+
+Loading
+
+Music
+
+
+Payement
+
+Theme sombre / claire
+
+catalogue (responsive )
+
+filter (responsive )
+
+
+
+
+
+
+# animation event
+showFeature(uuid)
+
+************************
+********  (provider domain) page_provider 
+************************
+
+cartegories
+Cree - delete - edit
+
+product
+Cree - delete - edit
+
+catalogue
+
+
+
+***************************
+********  (sublymus domain) page_admin (grsnfoke,)
+***************************
+
 
 
 
 
 ************************
-********  page_syblymus
-***********************
-
-
-
-
-
-
-
-
-************************
-********  page_provider 
+********  page_acceuille (for sublymus)
 ************************
 
 

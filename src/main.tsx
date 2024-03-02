@@ -3,15 +3,13 @@ import './index.css'
 import ReactDOM from 'react-dom/client'
 import {WorldManager } from './World/World'
 import 'three/examples/jsm/Addons';
-import {VerticalProducts} from './Componemts/Products/VerticalProducts'
-import {HorizontalProducts} from './Componemts/Products/HorizontalProducts'
+import {Products} from './Componemts/Products/Products'
 import {Editer} from './Componemts/Editer/Editer'
 
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <HorizontalProducts/>
-    {/* <VerticalProducts/> */}
+    <Products/>
     <Editer/>
   </React.StrictMode>,
 )

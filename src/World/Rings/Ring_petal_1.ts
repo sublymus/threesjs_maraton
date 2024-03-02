@@ -297,8 +297,7 @@ export class Product implements AbstractWorld {
         else {
           delete this.collected[key];
         }
-        console.log(this.collected);
-
+        
       },
       all: () => this.collected,
       get: (key) => this.collected[key],
