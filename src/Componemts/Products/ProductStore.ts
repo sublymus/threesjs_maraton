@@ -1,6 +1,4 @@
 
-import { VerticalProducts } from "./VerticalProducts";
-import { HorizontalProducts } from "./HorizontalProducts";
 import { create } from 'zustand'
 import { Urls } from '../VerticalCadre/Urls'
 import { AbstractWorld, WorldManager } from '../../World/World'

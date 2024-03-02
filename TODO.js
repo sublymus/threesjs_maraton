@@ -2,6 +2,11 @@
 ***********************
 ********  (provider domain) page_client 
 ***********************
+# general {
+    if (cadre.x+cadre.w > 0) || (cadre.x - win.w)  => cadre.appendChild();
+    else cadre.removeChild();
+}
+
 
 # WorldManager {
    * charger le World et mise en cache
@@ -12,6 +17,7 @@
 # list des produit {
     * Vertical @responsive
     * Horizontal @responsive
+    scroll bar
 }
 
 # edit product {

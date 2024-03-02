@@ -11,10 +11,8 @@ export function HorizontalProducts() {
   const productsRef = useRef<HTMLDivElement | null>(null)
   const horizontalCadreManagerRef = useRef<HorizontalCadreManager | null>(null);
   const indice = useRef<HTMLDivElement | null>(null);
-  const [productArray, setProductArray] = useState<Array<any>>()
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [timeOutId, setTimeOutId] = useState(0);
-  const [onProcess, setOnProcess] = useState(false);
+  const [productArray, setProductArray] = useState<Array<any>>();
+  const [onProcess , setOnProcess ] = useState(false)
   const [state] = useState({
     nearDiv :undefined as ({
       rect:DOMRect,
@@ -52,10 +50,9 @@ export function HorizontalProducts() {
       return near;
     },
     divList:[] as HTMLDivElement[],
-    onScrollStart() {
-    },
-    onScroll() {
-      const nearDiv = state.refreshNearDiv(div=>div.style.transform = 'scale(1)');
+    anim() {
+      if(onProcess) return
+      const nearDiv = state.refreshNearDiv(div=> div==state.nearDiv?.div?(div.style.transform = 'scale(1)'):null);
       if(!nearDiv) return
       const center = Math.floor((nearDiv.d_center*1000))/1000;
       nearDiv.div.style.transform = 'scale(1.2)';
@@ -69,9 +66,7 @@ export function HorizontalProducts() {
         behavior: "instant",
       })
     },
-    onScrollEnd() {
     
-    }
   })
   useEffect(() => {
     const horizontalCadreManager = new HorizontalCadreManager(productsRef);
@@ -82,7 +77,7 @@ export function HorizontalProducts() {
 
   useEffect(() => {
     setInterval(()=>{
-      state.onScroll()
+      state.anim()
     })
   }, []);
 
@@ -118,20 +113,29 @@ export function HorizontalProducts() {
   return (
     <div className='hori-ctn-products'>
       <div className="indice" ref={indice}></div>
-      <div className="products" ref={productsRef} onScroll={(e) => {
-        if(onProcess)return e.preventDefault()
-        clearTimeout(timeOutId);
-        if (!isScrolling) {
-          setIsScrolling(true);
-          state.onScrollStart();
-        }
-        const id = setTimeout(() => {
-          setIsScrolling(false);
-          state.onScrollEnd();
-        }, 100);
-        setTimeOutId(id);
-        state.onScroll();
+      <div className="products" ref={productsRef} 
+      onDrag={()=>{
+        console.log('drag');
+        
+      }}
+      onTouchMove={()=>{
+        setOnProcess(true)
+        console.log('touche');
+        
+      }}
+      onTouchCancel={()=>{
+        setOnProcess(false)
+      }}
+      onTouchEnd={()=>{
+        setOnProcess(false)
+        console.log('touche');
+        
+      }}
+      onMouseDown={()=>{
+         console.log('down');
+       
       }}>
+
         {productArray}
       </div>
     </div>

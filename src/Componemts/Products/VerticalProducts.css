@@ -11,7 +11,7 @@
 
 .vert-ctn-products .products {
   position: absolute;
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: visible;
   /* background: #345;*/
   transition: 1000ms;

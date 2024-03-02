@@ -18,7 +18,6 @@ export function Products() {
     return (
         <>
         { state.current}
-        {size.width}px / {size.height}px
         </>
     )
 }
