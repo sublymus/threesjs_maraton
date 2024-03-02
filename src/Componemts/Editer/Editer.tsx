@@ -12,13 +12,12 @@ export function Editer() {
         current:  undefined as JSX.Element| undefined
     });
     const size = useWindowSize()
-    const isTop = window.innerWidth > window.innerHeight;
+    
+    const isTop = (size.width||0) <=( size.height||0);
      
      state.current = isTop?(state.top?state.top:(state.top=<TopEditer/>)):(state.bottom?state.bottom:(state.bottom= <BottomEditer/>))
     return (
-        <>{
-            size
-        }
+        <>
         { state.current}
         </>
     )

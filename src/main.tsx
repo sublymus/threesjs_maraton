@@ -5,14 +5,12 @@ import {WorldManager } from './World/World'
 import 'three/examples/jsm/Addons';
 import {Products} from './Componemts/Products/Products'
 import {Editer} from './Componemts/Editer/Editer'
-import { VerticalProducts } from './Componemts/Products/VerticalProducts';
-import { BottomEditer } from './Componemts/Editer/BottomEditer';
 
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <VerticalProducts/>
-    <BottomEditer/>
+    <Products/>
+    <Editer/>
   </React.StrictMode>,
 )
 

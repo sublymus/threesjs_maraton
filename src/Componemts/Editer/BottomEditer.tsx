@@ -40,7 +40,6 @@ export function BottomEditer() {
       if (height > MAX_FeatureS_HEIGHT) height = MAX_FeatureS_HEIGHT;
       setFeaturesHeight(height + 10);
     }
-
   }, [size, productScenus]);
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export function BottomEditer() {
   }, [feature])
 
   const moreDisplay = moreRequired ? (size == 'hight' ? 'none' : 'inherit') : 'none';
-
+ 
   return productScenus && (
     <div className='bot-ctn-edit ' style={{ height: `${featuresHeight}px` }} ref={ctn_featuresDivRef}>
       <div className='more-top' style={{ display: moreRequired ? 'inherit' : 'none', transform: size == 'hight' ? 'rotateZ(90deg)' : 'rotateZ(-90deg)' }} onClick={() => {

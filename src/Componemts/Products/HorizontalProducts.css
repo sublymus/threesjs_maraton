@@ -7,7 +7,7 @@
 }
 
 .hori-ctn-products .products {
-  padding: 0 calc(50vw - 15px - var(--products-width) /2 ) ;
+  padding: 30px calc(50vw - 15px - var(--products-width) /2 ) ;
   position: absolute;
   overflow-y: hidden;
   overflow-x: scroll;
@@ -19,6 +19,7 @@
 }
 
 .hori-ctn-products .product {
+  margin-top: 100px;
   display: inline-block;
   cursor: pointer;
   filter: none;
@@ -29,6 +30,7 @@
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
+  /* transition: 200ms; */
 }
 
 .hori-ctn-products .products::-webkit-scrollbar {

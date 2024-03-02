@@ -1,26 +1,27 @@
 .top-ctn-edit {
     position: absolute;
     background: #345;
-    left: calc(50% - calc(var(--editer-width) /2) + var(--products-width) /2);
-    width: var(--editer-width);
-    bottom: 50px;
+    top: 50px;
+    width: 70px;
+    height: 70px;
     transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.top-ctn-edit .ctn-features{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    /* background: #358; */
+.top-ctn-edit  .edit-btn{
+    width: 50px;
+    height: 50px;
+    background: no-repeat center/50% url(/src/Componemts/Editer/arraow.png);
 }
 
 .top-ctn-edit .features{
+    top: 100px;
+    height:800px ;
     position: absolute;
-    left: 0;
-    width: 800px;
+    left: 5px;
+    height: 800px;
     transition: all 0.3s ease-in-out;
     overflow: auto;
     display: flex;
@@ -28,11 +29,6 @@
     align-items: flex-start;
     align-content: flex-start;
     justify-content: center;
-}
-
-.top-ctn-edit .features.low{
-    display: block;
-    white-space:nowrap;
 }
 
 .top-ctn-edit .feature {
@@ -66,56 +62,15 @@
     background-repeat: no-repeat;
 }
 
-.top-ctn-edit .more-top{
-    top:-50px;
-    left:calc(50% - 10px);
-    transform: rotateZ(90deg);
-}
-
-.top-ctn-edit .more-right{
-    top: calc( 50% - 40px);
-    right:-70px;
-}
-
-.top-ctn-edit .more-left{
-    top: calc( 50% - 40px);
-    left: -70px;
-    transform: rotateZ(180deg);
-}
-
-.top-ctn-edit .more-top, .more-left, .more-right{
-    opacity: 0.5;
-    cursor: pointer;
+.top-ctn-edit  .features-values{
     position: absolute;
-    width: 60px;
-    height: 60px;
-    z-index: 10;
-    border-radius: 50%;
-    background: no-repeat center/50% url(/src/Componemts/Editer/arraow.png);
-    transition: 200ms;
-}
-.top-ctn-edit .more-top:hover, .more-left:hover, .more-right:hover{
-    opacity: 0.7;
-    transition: 200ms;
-    background: no-repeat center/50% url(/src/Componemts/Editer/arraow.png),#c0c0c05c;
-}
-
-  
-
-.top-ctn-edit .ctn-features-values{
-    width: 800px;
-    top: -150px;
-    position: absolute;
+    padding-left: 10px;
+    top: 100px;
+    /* left: 100px; */
+    left: 80px;
+    width: 400px;
     display: flex;
     justify-content: center;
-    transition: 200ms;
-}
-
-
-
-  .features-values{
-    max-width: 800px;
-    display: flex;
     flex-wrap: wrap;
     background: rgba(0, 0, 0, 0.183);
     border-radius: 40px;
@@ -123,19 +78,10 @@
     border: 3px solid #00000059;
 }
 
-/* .features-values-back{
-    width: 800px;
-    top: -150px;
-    position: absolute;
-    border-radius: 40px;
-    border: 3px solid #333;
-    filter: blur(2px);
-    background: rgba(167, 167, 167, 0.599);
-} */
-
 .top-ctn-edit .features-value:hover{
     background-size: 80%;
 }
+
 .top-ctn-edit .features-value{
     cursor: pointer;
     position: relative;

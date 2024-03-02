@@ -4,18 +4,18 @@ import { HorizontalProducts } from "./HorizontalProducts";
 import { useWindowSize } from "../Hooks";
 
 export function Products() {
-    const a = (<div></div>);
-    type E = typeof a;
     const [state] = useState({
-        vertical: undefined as E| undefined,
-        horizontal:  undefined as E| undefined,
-        current:  undefined as E| undefined
+        vertical: undefined as JSX.Element| undefined,
+        horizontal:  undefined as JSX.Element| undefined,
+        current:  undefined as JSX.Element| undefined
     });
     const size = useWindowSize()
-    const isVertical = window.innerWidth > window.innerHeight;
+    
+    const isVertical = (size.width||0) >=( size.height||0);
      
      state.current = isVertical?(state.vertical?state.vertical:(state.vertical=<VerticalProducts/>)):(state.horizontal?state.horizontal:(state.horizontal= <HorizontalProducts/>))
-    return (
+    
+     return (
         <>
         { state.current}
         </>

@@ -16,13 +16,15 @@
 
 # list des produit {
     * Vertical @responsive
-    * Horizontal @responsive
-    scroll bar
+    * Horizontal @responsive{
+        optimiser PC Mobile
+    }
+    scroll bar a gauche
 }
 
 # edit product {
    * bottom_responsive @responsive
-    top_responsive  @responsive
+   * top_responsive  @responsive
 }
 
 # Cart {

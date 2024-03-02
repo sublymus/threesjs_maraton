@@ -53,8 +53,10 @@ export function HorizontalProducts() {
     anim() {
       if(onProcess) return
       const nearDiv = state.refreshNearDiv(div=> div==state.nearDiv?.div?(div.style.transform = 'scale(1)'):null);
-      if(!nearDiv) return
-      const center = Math.floor((nearDiv.d_center*1000))/1000;
+      if(!nearDiv ) return
+      console.log({...nearDiv});
+      
+      const center = Math.floor((nearDiv.d_center*10000))/10000;
       nearDiv.div.style.transform = 'scale(1.2)';
       if(indice.current){
         indice.current.style.width = Math.abs(center)+'px';
@@ -62,11 +64,10 @@ export function HorizontalProducts() {
       }
       if(productsRef.current)productsRef.current.scrollTo({
         top: 0,
-        left: productsRef.current.scrollLeft -(center/50),
+        left: productsRef.current.scrollLeft - (center/500),
         behavior: "instant",
       })
     },
-    
   })
   useEffect(() => {
     const horizontalCadreManager = new HorizontalCadreManager(productsRef);
@@ -121,7 +122,6 @@ export function HorizontalProducts() {
       onTouchMove={()=>{
         setOnProcess(true)
         console.log('touche');
-        
       }}
       onTouchCancel={()=>{
         setOnProcess(false)
