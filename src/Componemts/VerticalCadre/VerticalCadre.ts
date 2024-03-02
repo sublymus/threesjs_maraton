@@ -1,7 +1,7 @@
 export type FuncAsArray = { [key: number]: (this: VerticalCadre) => void }
 export const defaultData = {
     SIZE: 200,
-    INFLUENCE: 0.11,
+    INFLUENCE: 1,
     BELL_DELAY_Y: 5,
     IMPACT_DELAY_Y: 5,
     AMPLITUDE: 100,
