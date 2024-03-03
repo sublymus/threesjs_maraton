@@ -2,6 +2,7 @@ import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
+
 export const WorlGui = new GUI();
 export interface Feature {
     icon: string,
@@ -13,16 +14,16 @@ export interface Feature {
     values: {
         label: string,
         id: string,
-        value?:string,
+        value?: string,
         ext?: string
     }[]
 }
-export type Features = {[key:string]:Feature}
-export type  CollectedFeatures = {[key:string]:Feature['values'][0]} 
-export type FeaturesCollector  = {
-    add(key:string,value:Feature['values'][0]|undefined):void
-    get(key:string):Feature['values'][0]|undefined
-    all():CollectedFeatures
+export type Features = { [key: string]: Feature }
+export type CollectedFeatures = { [key: string]: Feature['values'][0] }
+export type FeaturesCollector = {
+    add(key: string, value: Feature['values'][0] | undefined): void
+    get(key: string): Feature['values'][0] | undefined
+    all(): CollectedFeatures
 };
 
 export interface AbstractWorld {
@@ -38,7 +39,7 @@ export interface AbstractWorld {
     featuresCollector: FeaturesCollector
 }
 const params = {
-    exposure: 1.0,
+    exposure: 2.0,
     toneMapping: 'AgX' as const,
     blurriness: 0.3,
     intensity: 1.0,
@@ -56,6 +57,19 @@ const toneMappingOptions = {
 
 export class WorldManager {
     public static worldManager: WorldManager | null = null;
+    public static loadCache<T extends Function>(loader: {
+        load: (path: string, setter: T) => any
+    }, path: string, setter: T) {
+        if (WorldManager.WorldCache[path]) setter(WorldManager.WorldCache[path]);
+        else {
+            //@ts-ignore
+            loader.load(path, (res: any) => {
+                WorldManager.WorldCache[path] = res;
+                setter(res);
+            });
+        }
+    }
+    public static WorldCache: { [path: string]: any } = {};
     _renderer: THREE.WebGLRenderer;
     currentWorl: AbstractWorld | null = null;
     stats: Stats
@@ -66,7 +80,6 @@ export class WorldManager {
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
         this._renderer.toneMappingExposure = params.exposure;
-
         this.stats = new Stats();
         document.body.appendChild(this.stats.dom);
         container.append(this._renderer.domElement);

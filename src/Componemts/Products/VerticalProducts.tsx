@@ -6,7 +6,7 @@ import { useProductStore } from './ProductStore';
 
 
 export function VerticalProducts() {
-  const { products, fetchProducts, selectProduct } = useProductStore()
+  const { products, fetchProducts, selectProduct, productScenus } = useProductStore()
   const productsRef = useRef<HTMLDivElement | null>(null)
   const verticalCadreManagerRef = useRef<VerticalCadreManager | null>(null);
   const [productArray, setProductArray] = useState<Array<any>>()
@@ -28,13 +28,17 @@ export function VerticalProducts() {
         const productElement = (
           <div
             style={{ backgroundImage: `url(${product.image_url[0]})` }}
-            className='product'
+            className={`product ${(product.uuid == productScenus?.uuid) ? 'active' : ''}`}
+            data-uuid={uuid}
             onClick={() => {
-              selectProduct(product.uuid, products)
+              selectProduct(uuid, products);
+              console.log(product.uuid, productScenus?.uuid);
             }}
             key={product.uuid}
-            ref={(ref)=>ref?verticalcadre.setDiv(ref):null}
-          ></div>
+            ref={(ref) => ref ? verticalcadre.setDiv(ref) : null}
+          >
+            <div className='index'></div>
+          </div>
         );
         verticalCadreManagerRef.current.push(verticalcadre);
         list.push(productElement);
@@ -43,6 +47,19 @@ export function VerticalProducts() {
     }
   }, [products]);
 
+  useEffect(() => {
+    if (verticalCadreManagerRef.current) {
+      verticalCadreManagerRef.current.cadreList.forEach((cadre) => {
+        const div = cadre.getDiv();
+
+        if (div) {
+          const valid  = productScenus?.uuid == div.dataset.uuid;
+          div.className = 'product ' + valid;
+          console.log(productScenus?.uuid, div.dataset.uuid , valid);
+        }
+      })
+    }
+  }, [productScenus])
 
   return (
     <div className='vert-ctn-products'>

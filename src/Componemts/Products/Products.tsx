@@ -11,8 +11,8 @@ export function Products() {
     });
     const size = useWindowSize()
     
-    const isVertical = (size.width||0) >=( size.height||0);
-     
+    let isVertical = (size.width||0) >=( size.height||0);
+     if(!isVertical)isVertical = size.width > 1200 ? true:false
      state.current = isVertical?(state.vertical?state.vertical:(state.vertical=<VerticalProducts/>)):(state.horizontal?state.horizontal:(state.horizontal= <HorizontalProducts/>))
     
      return (

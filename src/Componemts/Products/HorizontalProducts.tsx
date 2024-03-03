@@ -54,7 +54,6 @@ export function HorizontalProducts() {
       if(onProcess) return
       const nearDiv = state.refreshNearDiv(div=> div==state.nearDiv?.div?(div.style.transform = 'scale(1)'):null);
       if(!nearDiv ) return
-      console.log({...nearDiv});
       
       const center = Math.floor((nearDiv.d_center*10000))/10000;
       nearDiv.div.style.transform = 'scale(1.2)';

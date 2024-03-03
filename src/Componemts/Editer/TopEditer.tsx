@@ -16,10 +16,6 @@ export function TopEditer() {
   const { productScenus } = useProductStore()
   const [feature, setFeature] = useState<Feature | null>(null)
   const featuresDivRef = useRef<HTMLDivElement | null>(null);
-  const ctn_featuresDivRef = useRef<HTMLDivElement | null>(null);
-  const [featuresHeight, setFeaturesHeight] = useState(MIN_FeatureS_HEIGHT);
-  const [valuesHeight, setValuesHeight] = useState(MIN_FeatureS_HEIGHT);
-  const [moreRequired, setMoreRequired] = useState(false);
   const [valueId, setValueId] = useState<string | undefined>(undefined);
 
 
@@ -28,7 +24,7 @@ export function TopEditer() {
     height: 0
   }
   const size = useWindowSize();
-  const s = window.innerWidth - 80;
+  const s = size.width - 80;
   const r = 400;
   const w = s < r ? s : r
   dim.width = w;

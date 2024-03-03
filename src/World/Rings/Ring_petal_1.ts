@@ -1,46 +1,12 @@
 import * as THREE from "three";
-import { AbstractWorld, CollectedFeatures, Feature, Features, FeaturesCollector, WorlGui } from "../World";
+import { AbstractWorld, CollectedFeatures, Feature, Features, FeaturesCollector, WorlGui, WorldManager } from "../World";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
-import { ParametricGeometry, OrbitControls, RGBELoader, GLTFLoader } from 'three/examples/jsm/Addons';
-import { noise2 } from "../Utils/perlin";
-const testWorld = {
-  scene: 0x334455,
-  ground: 0x4ffcf9e,
-}
-const testGem = {
-  color: 0x84d5dc,//pc
-  metalness: 0,
-  roughness: 0,
-  reflectivity: 0,
-  ior: 1.1,
-  thickness: 30,
-  clearcoat: 0,
-  transmission: 1,
-  
-}
-const testMetal = {
-  color: 0xbead2e,//pc
-  metalness: 1,
-  roughness: 0,
-  gold() {
+import { ParametricGeometry } from "three/examples/jsm/geometries/ParametricGeometry.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+// import { noise2 } from "../Utils/perlin";
 
-    testGem.color = 0x84d5dc;
-    testGem.metalness = 1;
-    testGem.roughness = 0;
-  },
-  silver() {
-
-    testGem.color = 0x84d5dc;
-    testGem.metalness = 1;
-    testGem.roughness = 0;
-  },
-  bronz() {
-
-    testGem.color = 0x84d5dc;
-    testGem.metalness = 1;
-    testGem.roughness = 0;
-  }
-}
 
 const gemFeature : Feature = {
   uuid: (Math.random() * 10000000).toString(32),
@@ -157,6 +123,44 @@ const features: Features = {
 
 
 export class Product implements AbstractWorld {
+  public static testWorld = {
+    scene: 0x334455,
+    ground: 0x4ffcf9e,
+  }
+  public static testGem = {
+    color: 0x84d5dc,//pc
+    metalness: 0,
+    roughness: 0,
+    reflectivity: 0,
+    ior: 1.1,
+    thickness: 30,
+    clearcoat: 0,
+    transmission: 1,
+    
+  }
+  public static testMetal = {
+    color: 0xbead2e,//pc
+    metalness: 1,
+    roughness: 0,
+    gold() {
+  
+      Product.testGem.color = 0x84d5dc;
+      Product.testGem.metalness = 1;
+      Product.testGem.roughness = 0;
+    },
+    silver() {
+  
+      Product.testGem.color = 0x84d5dc;
+      Product.testGem.metalness = 1;
+      Product.testGem.roughness = 0;
+    },
+    bronz() {
+  
+      Product.testGem.color = 0x84d5dc;
+      Product.testGem.metalness = 1;
+      Product.testGem.roughness = 0;
+    }
+  }
   scene: THREE.Scene;
   camera: THREE.Camera;
   ring: THREE.Object3D | null = null;
@@ -176,18 +180,17 @@ export class Product implements AbstractWorld {
 
     this.gui = WorlGui.addFolder(this.scene.uuid)
     this.gui.close()
-    new RGBELoader().load('src/World/images/royal_esplanade_1k.hdr', (texture) => {
+
+    const path = '/src/World/images/royal_esplanade_1k.hdr';
+    const setTexture =  (texture:THREE.DataTexture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       this.scene.background = texture;
       this.scene.environment = texture;
-    }, undefined,
-      // onError callback
-      (error) => {
-        console.error('Error loading HDR file:', error);
-      });
+    }
 
+    WorldManager.loadCache(new RGBELoader(), path, setTexture)
 
-    const loader = new GLTFLoader();
+    
 
     const updateGem = (o: any, key: string, value: any) => {
       let i = 0;
@@ -213,71 +216,76 @@ export class Product implements AbstractWorld {
     this.worldGui =   this.gui.addFolder('World');
     const gemGui =   this.gui.addFolder('Gem');
     const metalGui =   this.gui.addFolder('Metal');
-    this.worldGui.addColor(testWorld, 'scene').onChange(() => {
-      this.scene.background = new THREE.Color(testWorld.scene)
+    this.worldGui.addColor(Product.testWorld, 'scene').onChange(() => {
+      this.scene.background = new THREE.Color(Product.testWorld.scene)
     });
     
-
-    metalGui.add(testMetal, 'metalness', 0, 1, 0.1).onChange(() => {
-      updateMetal(root, 'metalness', testMetal.metalness)
+    metalGui.add(Product.testMetal, 'metalness', 0, 1, 0.1).onChange(() => {
+      updateMetal(root, 'metalness', Product.testMetal.metalness)
     });;
-    metalGui.add(testMetal, 'roughness', 0, 1, 0.1).onChange(() => {
-      updateMetal(root, 'roughness', testMetal.roughness)
+    metalGui.add(Product.testMetal, 'roughness', 0, 1, 0.1).onChange(() => {
+      updateMetal(root, 'roughness', Product.testMetal.roughness)
     });
-    metalGui.addColor(testMetal, 'color').onChange(() => {
-      updateMetal(root, 'color', new THREE.Color(testMetal.color))
+    metalGui.addColor(Product.testMetal, 'color').onChange(() => {
+      updateMetal(root, 'color', new THREE.Color(Product.testMetal.color))
     });
-    gemGui.add(testGem, 'metalness', 0, 1, 0.1).onChange(() => {
-      updateGem(root, 'metalness', testGem.metalness)
+    gemGui.add(Product.testGem, 'metalness', 0, 1, 0.1).onChange(() => {
+      updateGem(root, 'metalness', Product.testGem.metalness)
     });;
-    gemGui.add(testGem, 'roughness', 0, 1, 0.1).onChange(() => {
-      updateGem(root, 'roughness', testGem.roughness)
+    gemGui.add(Product.testGem, 'roughness', 0, 1, 0.1).onChange(() => {
+      updateGem(root, 'roughness', Product.testGem.roughness)
     });
-    gemGui.addColor(testGem, 'color').onChange(() => {
-      updateGem(root, 'color', new THREE.Color(testGem.color))
+    gemGui.addColor(Product.testGem, 'color').onChange(() => {
+      updateGem(root, 'color', new THREE.Color(Product.testGem.color))
     });
-    gemGui.add(testGem, 'reflectivity', 0, 1.0, 0.01).name('Reflectivity').onChange(() => {
-      updateGem(root, 'reflectivity', testGem.reflectivity)
+    gemGui.add(Product.testGem, 'reflectivity', 0, 1.0, 0.01).name('Reflectivity').onChange(() => {
+      updateGem(root, 'reflectivity', Product.testGem.reflectivity)
 
     })
-    gemGui.add(testGem, 'ior',1, 3, 0.1).name('ior').onChange(() => {
-      updateGem(root, 'ior', testGem.ior)
+    gemGui.add(Product.testGem, 'ior',1, 3, 0.1).name('ior').onChange(() => {
+      updateGem(root, 'ior', Product.testGem.ior)
 
     })
-    gemGui.add(testGem, 'thickness', 0, 50.0, 1).name('thickness').onChange(() => {
-      updateGem(root, 'thickness', testGem.thickness)
+    gemGui.add(Product.testGem, 'thickness', 0, 50.0, 1).name('thickness').onChange(() => {
+      updateGem(root, 'thickness', Product.testGem.thickness)
 
     })
-    gemGui.add(testGem, 'transmission', 0, 1.0, 0.01).name('transmission').onChange(() => {
-      updateGem(root, 'transmission', testGem.transmission)
+    gemGui.add(Product.testGem, 'transmission', 0, 1.0, 0.01).name('transmission').onChange(() => {
+      updateGem(root, 'transmission', Product.testGem.transmission)
 
     })
-    gemGui.add(testGem, 'clearcoat', 0, 1.0, 0.01).name('clearcoat').onChange(() => {
-      updateGem(root, 'clearcoat', testGem.clearcoat)
+    gemGui.add(Product.testGem, 'clearcoat', 0, 1.0, 0.01).name('clearcoat').onChange(() => {
+      updateGem(root, 'clearcoat', Product.testGem.clearcoat)
 
     })
-    loader.load('src/World/models/ring_1.glb', (gltf) => {
-      root = gltf.scene.children[0];
+
+    const seTmodel = (gltf) => {
+      root = gltf.scene.children[0].clone();
+      console.log(root);
+      
       this.ring = new THREE.Object3D();
       this.ring.add(root);
       root.rotation.x = 0
       this.ring.translateY(0)
       this.scene.add(this.ring)
       root.scale.set(0.5, 0.5, 0.5)
-      updateMetal(root, 'metalness', testMetal.metalness)
-      updateMetal(root, 'roughness', testMetal.roughness)
-      updateMetal(root, 'color', new THREE.Color(testMetal.color))
-      updateGem(root, 'metalness', testGem.metalness)
-      updateGem(root, 'roughness', testGem.roughness)
-      updateGem(root, 'color', new THREE.Color(testGem.color))
-      updateGem(root, 'reflectivity', testGem.reflectivity)
-      updateGem(root, 'ior', testGem.ior)
-      updateGem(root, 'thickness', testGem.thickness)
-      updateGem(root, 'transmission', testGem.transmission)
-      updateGem(root, 'clearcoat', testGem.clearcoat)
+      updateMetal(root, 'metalness', Product.testMetal.metalness)
+      updateMetal(root, 'roughness', Product.testMetal.roughness)
+      updateMetal(root, 'color', new THREE.Color(Product.testMetal.color))
+      updateGem(root, 'metalness', Product.testGem.metalness)
+      updateGem(root, 'roughness', Product.testGem.roughness)
+      updateGem(root, 'color', new THREE.Color(Product.testGem.color))
+      updateGem(root, 'reflectivity', Product.testGem.reflectivity)
+      updateGem(root, 'ior', Product.testGem.ior)
+      updateGem(root, 'thickness', Product.testGem.thickness)
+      updateGem(root, 'transmission', Product.testGem.transmission)
+      updateGem(root, 'clearcoat', Product.testGem.clearcoat)
       updateGem(root, 'side', THREE.DoubleSide)
-    })
+    }
+    const modelPath = 'src/World/models/ring_1.glb';
 
+    new GLTFLoader().load(modelPath,seTmodel);
+    
     const upDateFeatureMap ={
       [metalFeature.uuid] : (value:string)=>{
         updateMetal(root, 'color', new THREE.Color(parseInt(value, 16)))
@@ -304,7 +312,7 @@ export class Product implements AbstractWorld {
     }
 
 
-    //this.addLight();
+    // this.addLight();
     // this.addGround();
   }
   showFeature(uuid: string): void {
@@ -327,36 +335,6 @@ export class Product implements AbstractWorld {
   getFeatures(): Features {
     return features
   }
-  noise2D(x: number, y: number) {
-    const scale = 1;
-    return noise2(x * scale, y * scale);
-  }
-
-  smoothNoise2D(x: number, y: number) {
-    const scale = 1000;
-    const octaves = 10;
-    const persistence = 1;
-    const exponentiation = 10;
-    const height = 1;
-    const lacunarity = 10;
-    const xs = x * scale;
-    const ys = y * scale
-    let amplitude = 1.0;
-    let frequency = 1.0;
-    let normalization = 0;
-    let total = 0;
-    for (let o = 0; o < octaves; o++) {
-      const noiseValue = noise2(
-        xs * frequency, ys * frequency) * 0.5 + 0.5;
-      total += noiseValue * amplitude;
-      normalization += amplitude;
-      amplitude *= persistence;
-      frequency *= lacunarity;
-    }
-    total /= normalization;
-    return Math.pow(total, exponentiation) * height;
-  }
-
   createBox(w: number, h: number, d: number) {
 
     const boxGeometry = new THREE.BoxGeometry(w, h, d);
@@ -397,9 +375,9 @@ export class Product implements AbstractWorld {
     groundMaterial.displacementMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_height.jpg');
     groundMaterial.displacementScale = 0.2;
     groundMaterial.displacementBias = 0;
-    groundMaterial.color = new THREE.Color(testWorld.ground);
-    this.worldGui.addColor(testWorld,'ground').onChange(() => {
-      groundMaterial.color = new THREE.Color(testWorld.ground)
+    groundMaterial.color = new THREE.Color(Product.testWorld.ground);
+    this.worldGui.addColor(Product.testWorld,'ground').onChange(() => {
+      groundMaterial.color = new THREE.Color(Product.testWorld.ground)
     });
     groundMaterial.normalMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_normal.jpg');
     groundMaterial.specularMap = new THREE.TextureLoader().load('src/World/images/tissus2/TexturesCom_Fabric_Rough2_512_albedo.jpg');

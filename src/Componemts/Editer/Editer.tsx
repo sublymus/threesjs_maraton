@@ -13,8 +13,8 @@ export function Editer() {
     });
     const size = useWindowSize()
     
-    const isTop = (size.width||0) <=( size.height||0);
-     
+    let isTop = (size.width||0) <=( size.height||0);
+    if(isTop) isTop = (size.width>1200)? false:true
      state.current = isTop?(state.top?state.top:(state.top=<TopEditer/>)):(state.bottom?state.bottom:(state.bottom= <BottomEditer/>))
     return (
         <>
