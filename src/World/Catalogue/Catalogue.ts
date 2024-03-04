@@ -6,18 +6,18 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Ring_model_Event } from "../Rings/Ring_petal_1";
 import { rotate } from "three/examples/jsm/nodes/Nodes.js";
 
-const BOX_SIZE =7;
+const BOX_SIZE =6.4;
 
 const MARGE = 0;
-let RELATIVE_SCLAE = 0.3;
-const SCALE = 1.2
+let RELATIVE_SCLAE = 0.2;
+const SCALE = 2
 const NEAR = 5
 
 export class Catalogue implements AbstractWorld {
     featuresCollector: FeaturesCollector;
     scene: THREE.Scene;
     camera: THREE.Camera;
-    gui: GUI;
+    gui: GUI | undefined;
     collected: { [key: string]: any } = {};
     controls: OrbitControls | null = null;
     mouse = {
@@ -41,8 +41,8 @@ export class Catalogue implements AbstractWorld {
         this.scene = new THREE.Scene();
 // console.log(this.camera);
 
-        this.gui = WorlGui.addFolder(this.scene.uuid)
-        this.gui.close()
+        // this.gui = WorlGui.addFolder(this.scene.uuid);
+        // this.gui.close()
 
         this.scene.add(this.groupe.model);
         const path = '/src/World/images/royal_esplanade_1k.hdr';
@@ -52,6 +52,7 @@ export class Catalogue implements AbstractWorld {
             this.scene.environment = texture;
         }
 
+        
         WorldManager.loadCache(new RGBELoader(), path, setTexture)
 
         const upDateFeatureMap: { [key: string]: Function } = {
@@ -59,6 +60,7 @@ export class Catalogue implements AbstractWorld {
                 //update
             }
         }
+
         this.featuresCollector = {
             add: (key, value) => {
                 if (value) {
@@ -72,7 +74,6 @@ export class Catalogue implements AbstractWorld {
             all: () => this.collected,
             get: (key) => this.collected[key],
         }
-
        
         Ring_model_Event.fun.push((model)=>{
             this.addModel(model.clone());
@@ -82,8 +83,6 @@ export class Catalogue implements AbstractWorld {
             this.addModel(model.clone());
             this.addModel(model.clone());
         })
-
-        
     }
     addModel(model: THREE.Object3D) {
         this.groupe.model.add(model)
@@ -142,7 +141,10 @@ export class Catalogue implements AbstractWorld {
 
         }
         window.addEventListener('resize',()=>{
-            this.updateCamera()
+            this.updateCamera();
+            (this.camera as any).aspect = window.innerWidth / window.innerHeight;
+            (this.camera as any).updateProjectionMatrix();
+        
         })
         document.addEventListener('keyup', (e) => {
 
@@ -163,26 +165,26 @@ export class Catalogue implements AbstractWorld {
         renderer.domElement.tabIndex = 1;
         renderer.domElement.addEventListener('mousemove', mouse)
         renderer.domElement.addEventListener('touchmove', touche)
-        // this.controls = new OrbitControls(this.camera, renderer.domElement)
-        // this.controls.target.z = 0;
-        // this.controls.enableDamping = false;
-        // this.controls.dampingFactor = 0.05;
-        // this.controls.enabled = true;
-        // this.controls.maxDistance = 20;
-        // this.controls.minDistance = 7;
+        this.controls = new OrbitControls(this.camera, renderer.domElement)
+        this.controls.target.z = 0;
+        this.controls.enableDamping = false;
+        this.controls.dampingFactor = 0.05;
+        this.controls.enabled = true;
+        this.controls.maxDistance = 20;
+        this.controls.minDistance = 7;
         // console.log('EEEEEEEEEEEEEEE');
 
     }
     updateCamera(){
         const a = window.innerWidth/window.innerHeight;
-            const w = 10;
+            const w = 15;
             const h = w/a;
             const phi = ((this.camera as any).fov/180)*Math.PI;
             const m = (h/2)/Math.tan(phi/2);
             const l = Math.sqrt(Math.pow(m,2)-Math.pow(w/2,2))
             console.log({a,w,h,phi,m,l});
             
-            this.camera.position.z= (w>h)?w*2:l;
+            this.camera.position.z= (w>h*0.8)?w*2.3:l;
             //@ts-ignore
             this.camera.updateProjectionMatrix();
     }

@@ -136,12 +136,6 @@ export class WorldManager {
 
     onResize = () => {
         this._renderer.setSize(window.innerWidth, window.innerHeight);
-        // this._renderer.domElement.height = window.innerHeight
-        // this._renderer.domElement.width = window.innerWidth;
-        if (this.currentWorl?.getCamera()) {
-            (this.currentWorl.getCamera() as any).aspect = window.innerWidth / window.innerHeight;
-            (this.currentWorl.getCamera() as any).updateProjectionMatrix();
-        }
     }
 
     animus = (time: number) => {

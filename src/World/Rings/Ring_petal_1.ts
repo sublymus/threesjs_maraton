@@ -316,6 +316,10 @@ export class Product implements AbstractWorld {
       get: (key) => this.collected[key],
     }
 
+    window.addEventListener('resize',()=>{
+        (this.camera as any).aspect = window.innerWidth / window.innerHeight;
+        (this.camera as any).updateProjectionMatrix();
+    })
 
     // this.addLight();
     // this.addGround();

@@ -31,12 +31,12 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #d9d9d915;
+  background: #d9d9d9a5;
   border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #bfbfbf21;
+  background: #0ebd3f;
   border-radius: 10px;
   transition: 200ms;
 }
