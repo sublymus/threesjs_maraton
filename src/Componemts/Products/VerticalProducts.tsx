@@ -54,8 +54,7 @@ export function VerticalProducts() {
 
         if (div) {
           const valid  = productScenus?.uuid == div.dataset.uuid;
-          div.className = 'product ' + valid;
-          console.log(productScenus?.uuid, div.dataset.uuid , valid);
+          div.className = 'product ' +( valid?'selected':'');
         }
       })
     }

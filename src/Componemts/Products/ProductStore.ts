@@ -65,7 +65,7 @@ export const useProductStore = create<ProductState>((set) => ({
 
 async function _selectProduct(uuid: string, products: { [key: string]: Product }, set:any) {
     const product = products[uuid];
-
+    WorldManager.worldManager?.currentWorl?.close();
     if (!product) return;
     let productScenus = PRODUCT_SCENUS_CACHE[uuid];
 

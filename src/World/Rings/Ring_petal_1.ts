@@ -7,6 +7,10 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { noise2 } from "../Utils/perlin";
 
+export let Ring_model_Event = {
+  fun :[] as ((model:THREE.Object3D)=>any)[],
+  ring:null as THREE.Object3D|null
+};
 
 const gemFeature : Feature = {
   uuid: (Math.random() * 10000000).toString(32),
@@ -173,7 +177,7 @@ export class Product implements AbstractWorld {
   constructor() {
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 300)
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100)
     this.camera.position.set(7, 7, 7);
     this.camera.lookAt(0, 0, 0);
     this.scene = new THREE.Scene();
@@ -259,12 +263,13 @@ export class Product implements AbstractWorld {
 
     })
 
-    const seTmodel = (gltf) => {
+    const seTmodel = (gltf:any) => {
       root = gltf.scene.children[0].clone();
       console.log(root);
       
       this.ring = new THREE.Object3D();
       this.ring.add(root);
+      Ring_model_Event.fun.forEach(fun => fun(this.ring!));
       root.rotation.x = 0
       this.ring.translateY(0)
       this.scene.add(this.ring)
@@ -325,12 +330,13 @@ export class Product implements AbstractWorld {
     this.controls.dampingFactor = 0.05;
     this.controls.enabled = true;
     this.controls.maxDistance = 20;
-    this.controls.minDistance = 7
+    this.controls.minDistance = 7;
+    // this.controls.domElement = document.createElement('div');
   }
 
 
   getUUID(): string {
-    throw new Error("Method not implemented.");
+    throw this.scene.uuid
   }
   getFeatures(): Features {
     return features
@@ -403,11 +409,11 @@ export class Product implements AbstractWorld {
     // this.ring.scale.set( (t%1000)/1000, (t%1000)/1000, (t%1000)/1000 );
     this.controls?.update();
   }
-  open(): void {
-    throw new Error("Method not implemented.");
+  open(_renderer:THREE.WebGLRenderer): void {
+    if(this.controls)this.controls.enabled = true;
   }
   close(): void {
-    throw new Error("Method not implemented.");
+    if(this.controls)this.controls.enabled = false ;
   }
 
 }

@@ -2,7 +2,6 @@ import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
-
 export const WorlGui = new GUI();
 export interface Feature {
     icon: string,
@@ -30,7 +29,7 @@ export interface AbstractWorld {
     getScene(): THREE.Scene
     getCamera(): THREE.Camera
     update(time?: number, step?: number, renderer?: THREE.WebGLRenderer): void
-    open(): void
+    open(renderer : THREE.WebGLRenderer): void
     close(): void
     init(renderer: THREE.WebGLRenderer): void
     getUUID(): string;
@@ -70,11 +69,12 @@ export class WorldManager {
         }
     }
     public static WorldCache: { [path: string]: any } = {};
-    _renderer: THREE.WebGLRenderer;
+    private _renderer: THREE.WebGLRenderer;
     currentWorl: AbstractWorld | null = null;
-    stats: Stats
+    stats: Stats;
+    // WorlList
     constructor(container: HTMLElement) {
-        this._renderer = new THREE.WebGLRenderer({ antialias: true });
+        this._renderer = new THREE.WebGLRenderer();
         this._renderer.setPixelRatio(window.devicePixelRatio);
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.setAnimationLoop(this.animus);
@@ -83,6 +83,8 @@ export class WorldManager {
         this.stats = new Stats();
         document.body.appendChild(this.stats.dom);
         container.append(this._renderer.domElement);
+        // this._renderer.setSize(window.innerWidth*0.7,window.innerHeight*0.7)
+        this._renderer.setPixelRatio(0.9 );
         container.style.zIndex = '-100';
 
         window.addEventListener('resize', this.onResize)
@@ -121,20 +123,27 @@ export class WorldManager {
 
     setWorld(world: AbstractWorld) {
         world.init(this._renderer);
+        world.open(this._renderer);
         this.currentWorl = world;
         world.getScene().backgroundBlurriness = params.blurriness;
     }
 
+    setExposure(uuid:string,data:{exposure?:number,toneMapping?:keyof typeof toneMappingOptions}){
+        if(uuid != this.currentWorl?.getScene().uuid) return;
+        if(data.toneMapping)this._renderer.toneMapping = toneMappingOptions[data.toneMapping];
+        if( data.exposure) this._renderer.toneMappingExposure = data.exposure
+    }
+
     onResize = () => {
         this._renderer.setSize(window.innerWidth, window.innerHeight);
-        this._renderer.domElement.height = window.innerHeight
-        this._renderer.domElement.width = window.innerWidth;
+        // this._renderer.domElement.height = window.innerHeight
+        // this._renderer.domElement.width = window.innerWidth;
         if (this.currentWorl?.getCamera()) {
             (this.currentWorl.getCamera() as any).aspect = window.innerWidth / window.innerHeight;
             (this.currentWorl.getCamera() as any).updateProjectionMatrix();
-
         }
     }
+
     animus = (time: number) => {
         const t = time * 0.001;
         this.stats.update();
