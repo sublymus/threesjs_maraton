@@ -8,8 +8,9 @@ import { WorldLauncher } from './WorldLauncher'
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    {/* <Products/>
-    <Editer/> */}
+    <Products/>
+    <Editer/>
+    
   </React.StrictMode>,
 )
 

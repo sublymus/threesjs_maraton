@@ -1,41 +1,21 @@
 import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
+import { Tactil } from "../Tools/Tactil";
+import { Feature} from "../DataBase";
 
-export const WorlGui = new GUI();
-export interface Feature {
-    icon: string,
-    type: string,
-    path: string,
-    uuid: string,
-    ext: '.png' | '.jpg' | '.jpeg' | '.webp'
-    name: string,
-    values: {
-        label: string,
-        id: string,
-        value?: string,
-        ext?: string
-    }[]
-}
-export type Features = { [key: string]: Feature }
-export type CollectedFeatures = { [key: string]: Feature['values'][0] }
-export type FeaturesCollector = {
-    add(key: string, value: Feature['values'][0] | undefined): void
-    get(key: string): Feature['values'][0] | undefined
-    all(): CollectedFeatures
-};
+export const WorlGui : GUI|null =null //new GUI();
+
 
 export interface AbstractWorld {
+    init(renderer: THREE.WebGLRenderer): void
     getScene(): THREE.Scene
     getCamera(): THREE.Camera
     update(time?: number, step?: number, renderer?: THREE.WebGLRenderer): void
+    showFeature(uuid: string): void;
+    updateFeature(feature:Feature,value:Feature['values'][0]):void;
     open(renderer : THREE.WebGLRenderer): void
     close(): void
-    init(renderer: THREE.WebGLRenderer): void
-    getUUID(): string;
-    getFeatures(): Features;
-    showFeature(uuid: string): void;
-    featuresCollector: FeaturesCollector
 }
 const params = {
     exposure: 2.0,
@@ -69,9 +49,11 @@ export class WorldManager {
         }
     }
     public static WorldCache: { [path: string]: any } = {};
+    public static tactil= new Tactil();
+    
     private _renderer: THREE.WebGLRenderer;
-    currentWorl: AbstractWorld | null = null;
-    stats: Stats;
+    public currentWorl: AbstractWorld | null = null;
+    private stats: Stats;
     // WorlList
     constructor(container: HTMLElement) {
         this._renderer = new THREE.WebGLRenderer();
@@ -81,15 +63,17 @@ export class WorldManager {
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
         this._renderer.toneMappingExposure = params.exposure;
         this.stats = new Stats();
-        document.body.appendChild(this.stats.dom);
         container.append(this._renderer.domElement);
-        // this._renderer.setSize(window.innerWidth*0.7,window.innerHeight*0.7)
+        container.append(WorldManager.tactil.getView())
         this._renderer.setPixelRatio(0.9 );
         container.style.zIndex = '-100';
 
         window.addEventListener('resize', this.onResize)
 
-        const gui = WorlGui.addFolder('World');
+        WorldManager.tactil.resize({height:window.innerHeight,width:window.innerWidth})
+    
+        if(WorlGui){
+            const gui = WorlGui.addFolder('World');
         const toneMappingFolder = gui.addFolder('tone mapping');
         toneMappingFolder.close();
 
@@ -116,7 +100,7 @@ export class WorldManager {
 
                 this._renderer.toneMappingExposure = params.exposure;
 
-            });
+            });}
 
         WorldManager.worldManager = this;
     }
@@ -135,7 +119,8 @@ export class WorldManager {
     }
 
     onResize = () => {
-        this._renderer.setSize(window.innerWidth, window.innerHeight);
+        WorldManager.tactil.resize({height:window.innerHeight,width:window.innerWidth})
+        this._renderer.setSize(window.innerWidth, window.innerHeight,true);
     }
 
     animus = (time: number) => {

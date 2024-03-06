@@ -1,4 +1,4 @@
-import { Feature } from '../../World/World';
+import { Feature } from '../../DataBase';
 
 import { create } from 'zustand'
 

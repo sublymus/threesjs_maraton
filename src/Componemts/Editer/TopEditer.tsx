@@ -1,19 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import './TopEditer.css'
-import { Feature } from '../../World/World';
 import { useProductStore } from '../Products/ProductStore';
 import { useWindowSize } from '../Hooks';
-
-const MIN_FeatureS_HEIGHT = 100;
-const MAX_FeatureS_HEIGHT = 600;
-const Feature_ZISE = 50 + 20;//width+padding
-
-
-const VALUES_ICON_SIZE = 40 + 30;//width+padding 
-
+import { Feature } from '../../DataBase';
 
 export function TopEditer() {
-  const { productScenus } = useProductStore()
+  const { product } = useProductStore()
   const [feature, setFeature] = useState<Feature | null>(null)
   const featuresDivRef = useRef<HTMLDivElement | null>(null);
   const [valueId, setValueId] = useState<string | undefined>(undefined);
@@ -34,18 +26,18 @@ export function TopEditer() {
   dim.height = Math.min(l,6) * v;
 
 
-  return productScenus && (
+  return product && (
     <div className='top-ctn-edit' >
       <div className='edit-btn'></div>
       <div className="features" ref={featuresDivRef}>
         {
-          Object.values(productScenus.scenus.getFeatures()).map((_feature) => (
-            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.uuid} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
+          Object.values(product.features).map((_feature) => (
+            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.image})` }} onClick={() => {
               if (feature == _feature) {
                 setFeature(null);
               } else {
                 setFeature(_feature);
-                setValueId(productScenus.scenus.featuresCollector.get(_feature.uuid)?.id)
+                setValueId(product.featuresCollector?.getCollectedFeatures(_feature.id)?.id)
               }
             }}></div>
           ))
@@ -54,12 +46,12 @@ export function TopEditer() {
       <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:l>6?'scroll':'inherit'}}>
         {feature && (
           feature.values.map((_value) => (
-            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${feature.path}${_value.id}${_value.ext || feature.ext})` }} onClick={() => {
+            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${_value.url})` }} onClick={() => {
               if (valueId == _value.id) {
-                productScenus?.scenus.featuresCollector.add(feature.uuid, undefined);
+                product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {
-                productScenus?.scenus.featuresCollector.add(feature.uuid, _value);
+                product?.featuresCollector?.collectFeature(feature, _value);
                 setValueId(_value.id);
               }
             }}>

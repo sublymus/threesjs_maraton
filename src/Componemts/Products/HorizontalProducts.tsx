@@ -89,17 +89,17 @@ export function HorizontalProducts() {
         const horizontalcadre = new HorizontalCadre();
         const productElement = (
           <div
-            style={{ backgroundImage: `url(${product.image_url[0]})` }}
+            style={{ backgroundImage: `url(${product.images[0]})` }}
             className='product'
             onClick={() => {
-              selectProduct(product.uuid, products)
+              selectProduct(product.id, products)
             }}
             ref={ref=>{
               if(ref){
                 state.divList.push(ref);
               };
             }}
-            key={product.uuid}
+            key={product.id}
           ></div>
         );
         horizontalCadreManagerRef.current.push(horizontalcadre);

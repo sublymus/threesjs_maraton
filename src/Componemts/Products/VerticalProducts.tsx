@@ -6,7 +6,7 @@ import { useProductStore } from './ProductStore';
 
 
 export function VerticalProducts() {
-  const { products, fetchProducts, selectProduct, productScenus } = useProductStore()
+  const { products, fetchProducts, selectProduct, product } = useProductStore()
   const productsRef = useRef<HTMLDivElement | null>(null)
   const verticalCadreManagerRef = useRef<VerticalCadreManager | null>(null);
   const [productArray, setProductArray] = useState<Array<any>>()
@@ -27,14 +27,14 @@ export function VerticalProducts() {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div
-            style={{ backgroundImage: `url(${product.image_url[0]})` }}
-            className={`product ${(product.uuid == productScenus?.uuid) ? 'active' : ''}`}
+            style={{ backgroundImage: `url(${product.images[0]})` }}
+            className={`product ${(product.id == product?.id) ? 'active' : ''}`}
             data-uuid={uuid}
             onClick={() => {
               selectProduct(uuid, products);
-              console.log(product.uuid, productScenus?.uuid);
+              console.log(product.id, product?.id);
             }}
-            key={product.uuid}
+            key={product.id}
             ref={(ref) => ref ? verticalcadre.setDiv(ref) : null}
           >
             <div className='index'></div>
@@ -53,12 +53,12 @@ export function VerticalProducts() {
         const div = cadre.getDiv();
 
         if (div) {
-          const valid  = productScenus?.uuid == div.dataset.uuid;
+          const valid  = product?.id == div.dataset.uuid;
           div.className = 'product ' +( valid?'selected':'');
         }
       })
     }
-  }, [productScenus])
+  }, [product])
 
   return (
     <div className='vert-ctn-products'>

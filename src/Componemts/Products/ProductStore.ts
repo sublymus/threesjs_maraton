@@ -1,19 +1,17 @@
 
 import { create } from 'zustand'
-import { Urls } from '../VerticalCadre/Urls'
-import { AbstractWorld, WorldManager } from '../../World/World'
+import { DataBase, Feature, ProductInterface } from '../../DataBase'
+import { AbstractWorld, WorldManager } from '../../World/WorldManager'
 
-export interface Product {
-    uuid: string,
-    image_url: string[],
-    screen_url: string,
-}
-export interface ProductScenus extends Product {
-    uuid: string,
-    image_url: string[],
-    screen_url: string,
-    scenus: AbstractWorld
-}
+
+export type CollectedFeatures = { [key: string]: Feature['values'][0] }
+
+export type FeaturesCollector = {
+    collectFeature(feature: Feature, value: Feature['values'][0] | undefined): void
+    getCollectedFeatures(key: string): Feature['values'][0] | undefined
+    allCollectedFeatures(): CollectedFeatures
+};
+
 
 export interface Filter {
     page?: number,
@@ -25,69 +23,83 @@ export interface Filter {
     }
 }
 
-export interface ProductState {
-    productScenus: ProductScenus | undefined
-    products: { [key: string]: Product },
-    selectProduct: (uuid: string, products: { [key: string]: Product }) => Promise<void>,
-    fetchProducts: (filter: Filter) => Promise<void>;
+interface ProductScenus extends ProductInterface {
+    featuresCollector?: FeaturesCollector,
+    scene?: AbstractWorld
+}
+
+interface MapProductScenus{
+    [key: string]:ProductScenus
 }
 
 
-const PRODUCT_SCENUS_CACHE: { [key: string]: ProductScenus } = {}
+export interface ProductState {
+    products: MapProductScenus
+    product:ProductScenus|undefined,
+    selectProduct: (id: string, products: MapProductScenus) => Promise<void>,
+    fetchProducts: (filter: Filter) => Promise<void>;
+}
 
+const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
 
 export const useProductStore = create<ProductState>((set) => ({
-    productScenus: undefined,
+    product: undefined,
     products: {},
 
     fetchProducts: async (_filter: Filter) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const products: { [key: string]: Product } = {};
-        Urls.forEach((url, i) => {
-            const uuid = (Math.random() * 10000000).toString(32) + i;
-            products[uuid] = {
-                uuid,
-                image_url: [url.url],
-                screen_url: `/src/World/Rings/Ring_petal_${1}.ts`,
-            }
-        });
-        
-        await _selectProduct(Object.values(products)[0].uuid, products,set);
+        const products = await DataBase.fetchRings()
+        await showProductWorld(Object.values(products)[0].id, products);
         set(() => ({ products }));
     },
 
-    async selectProduct(uuid: string, products: { [key: string]: Product }) {
-
-        await _selectProduct(uuid, products, set);
-
+    async selectProduct(id: string, products: MapProductScenus) {
+        await showProductWorld(id, products);
+        set(()=>({product:products[id]}))
     }
 }))
 
-async function _selectProduct(uuid: string, products: { [key: string]: Product }, set:any) {
-    const product = products[uuid];
-    WorldManager.worldManager?.currentWorl?.close();
+async function showProductWorld(id: string, products: MapProductScenus) {
+    const product = products[id];
     if (!product) return;
-    let productScenus = PRODUCT_SCENUS_CACHE[uuid];
+    
+    WorldManager.worldManager?.currentWorl?.close();
 
-    if (productScenus) {
-        WorldManager.worldManager?.setWorld(productScenus.scenus);
-        set(() => ({
-            productScenus
-        }))
+    let productCache = PRODUCTS_CACHE[id];
+
+    if (productCache?.scene) {
+        WorldManager.worldManager?.setWorld(productCache.scene);
         return;
     }
-    const { Product } = await import(/* @vite-ignore */product.screen_url);
 
-    const world = new Product()
+    const { World } = await import(/* @vite-ignore */product.scene_url);
+
+    const world = new World() as AbstractWorld;
     WorldManager.worldManager?.setWorld(world);
 
-    productScenus = {
+    const collector :CollectedFeatures = {}
+    productCache = {
         ...product,
-        scenus: world
+        scene: world,
+        featuresCollector:{
+            collectFeature(feature, value){
+               if(value){
+                   collector[feature.id] = value
+                   world.updateFeature(feature, value)
+                }else{
+                    collector[feature.id] = feature.default
+                   world.updateFeature(feature, feature.default)
+                }
+            },
+            getCollectedFeatures(key){
+                return collector[key];
+            },
+            allCollectedFeatures(){
+                return collector
+            }
+        }
+
     };
 
-    PRODUCT_SCENUS_CACHE[uuid] = productScenus;
-
-    set(() => ({ uuidSelected: uuid, productScenus }))
+    PRODUCTS_CACHE[id] = productCache;
 
 }

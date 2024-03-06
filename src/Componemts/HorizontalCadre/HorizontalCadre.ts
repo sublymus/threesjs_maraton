@@ -1,6 +1,6 @@
 export type FuncAsArray = { [key: number]: (this: HorizontalCadre) => void }
 export const defaultData = {
-    SIZE: 200,
+    SIZE: 100,
     INFLUENCE: 0.11,
     BELL_DELAY_Y: 5,
     IMPACT_DELAY_Y: 5,

@@ -1,23 +1,19 @@
 import * as THREE from "three";
-import { AbstractWorld, Features, FeaturesCollector, WorlGui, WorldManager } from "../World";
+import { AbstractWorld, WorldManager } from "../WorldManager";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
-import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Ring_model_Event } from "../Rings/Ring_petal_1";
-import { rotate } from "three/examples/jsm/nodes/Nodes.js";
+import { Feature} from "../../DataBase";
 
-const BOX_SIZE =6.4;
+const BOX_SIZE = 6.4;
 
 const MARGE = 0;
 let RELATIVE_SCLAE = 0.2;
 const SCALE = 2
-const NEAR = 5
-
+const NEAR = 5;
 export class Catalogue implements AbstractWorld {
-    featuresCollector: FeaturesCollector;
     scene: THREE.Scene;
     camera: THREE.Camera;
-    gui: GUI | undefined;
     collected: { [key: string]: any } = {};
     controls: OrbitControls | null = null;
     mouse = {
@@ -26,56 +22,34 @@ export class Catalogue implements AbstractWorld {
     }
     index = 0;
     groupe = {
-        position :{
-            x:0
+        position: {
+            x: 0
         },
-        index : 0,
-        model : new THREE.Object3D,
+        index: 0,
+        model: new THREE.Object3D,
     }
     constructor() {
+        WorldManager.tactil.addListener('direction', (direction) => {
+            this.setTactilDirection(direction);
+        })
+
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.01, 300)
-        // this.camera.position.set(0, 0, 5);
         this.camera.lookAt(0, 0, 0);
         this.updateCamera()
         this.scene = new THREE.Scene();
-// console.log(this.camera);
-
-        // this.gui = WorlGui.addFolder(this.scene.uuid);
-        // this.gui.close()
-
         this.scene.add(this.groupe.model);
         const path = '/src/World/images/royal_esplanade_1k.hdr';
+
         const setTexture = (texture: THREE.DataTexture) => {
             texture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.background = texture;
             this.scene.environment = texture;
         }
 
-        
         WorldManager.loadCache(new RGBELoader(), path, setTexture)
 
-        const upDateFeatureMap: { [key: string]: Function } = {
-            'feature_A': () => {
-                //update
-            }
-        }
-
-        this.featuresCollector = {
-            add: (key, value) => {
-                if (value) {
-                    this.collected[key] = value;
-                    upDateFeatureMap[key](value.value || value.id)
-                }
-                else {
-                    delete this.collected[key];
-                }
-            },
-            all: () => this.collected,
-            get: (key) => this.collected[key],
-        }
-       
-        Ring_model_Event.fun.push((model)=>{
+        Ring_model_Event.fun.push((model) => {
             this.addModel(model.clone());
             this.addModel(model.clone());
             this.addModel(model.clone());
@@ -84,9 +58,11 @@ export class Catalogue implements AbstractWorld {
             this.addModel(model.clone());
         })
     }
+    updateFeature(_feature: Feature): void {
+        throw new Error("Method not implemented.");
+    }
     addModel(model: THREE.Object3D) {
         this.groupe.model.add(model)
-       // model.scale.set(0.5, 0.5, 0.5)
         model.position.x = ((this.groupe.model.children.length - 1) * (BOX_SIZE + MARGE))
         console.log(model.position.x);
 
@@ -98,19 +74,26 @@ export class Catalogue implements AbstractWorld {
         return this.camera
     }
     update(_time?: number | undefined, _step?: number | undefined, _renderer?: THREE.WebGLRenderer | undefined): void {
-        this.groupe.model.position.x  += (this.getPositionX()- this.groupe.model.position.x)/10
-        this.groupe.model.children.forEach((model,i)=>{
-            if(i == this.index){
-                model.position.z += (NEAR - model.position.z)/10   
-                model.scale.x = model.scale.y = model.scale.z  +=  (SCALE*RELATIVE_SCLAE - model.scale.x)/10;
-            }else{
-                model.position.z += (-1 - model.position.z)/10
-                model.scale.x = model.scale.y = model.scale.z  +=  (RELATIVE_SCLAE - model.scale.x)/10;
+        this.groupe.model.position.x += (this.getPositionX() - this.groupe.model.position.x) / 10
+        this.groupe.model.children.forEach((model, i) => {
+            if (i == this.index) {
+                model.position.z += (NEAR - model.position.z) / 10
+                model.scale.x = model.scale.y = model.scale.z += (SCALE * RELATIVE_SCLAE - model.scale.x) / 10;
+            } else {
+                model.position.z += (-1 - model.position.z) / 10
+                model.scale.x = model.scale.y = model.scale.z += (RELATIVE_SCLAE - model.scale.x) / 10;
             }
-            
+
         })
     }
     isOpen = false;
+
+    scrollX = 0;
+    scrollY = 0;
+    setTactilDirection({ x }: { x: number, y: number }) {
+
+        this.setIndex(this.index + x)
+    }
     open(_renderer: THREE.WebGLRenderer): void {
         this.isOpen = true;
     }
@@ -118,12 +101,12 @@ export class Catalogue implements AbstractWorld {
         this.isOpen = false;
     }
     setIndex(i: number) {
-        this.index = i<0?0:(i>=this.groupe.model.children.length?this.groupe.model.children.length-1:i);
+        this.index = i < 0 ? 0 : (i >= this.groupe.model.children.length ? this.groupe.model.children.length - 1 : i);
         this.groupe.position.x = -this.getPositionX();
         console.log(this.index);
-        
+
     }
-    getPositionX(){
+    getPositionX() {
         return -(this.index * (BOX_SIZE + MARGE))
     }
     init(renderer: THREE.WebGLRenderer): void {
@@ -140,26 +123,10 @@ export class Catalogue implements AbstractWorld {
             this.mouse.y = (e.touches[0].clientY - y) / y;
 
         }
-        window.addEventListener('resize',()=>{
+        window.addEventListener('resize', () => {
             this.updateCamera();
             (this.camera as any).aspect = window.innerWidth / window.innerHeight;
             (this.camera as any).updateProjectionMatrix();
-        
-        })
-        document.addEventListener('keyup', (e) => {
-
-            if (true) {
-                switch (e.code) {
-                    case 'ArrowRight': this.setIndex(this.index + 1)
-
-                        break;
-                    case 'ArrowLeft': this.setIndex(this.index - 1)
-
-                        break;
-                }
-            }
-            console.log(e);
-
 
         })
         renderer.domElement.tabIndex = 1;
@@ -172,30 +139,21 @@ export class Catalogue implements AbstractWorld {
         this.controls.enabled = true;
         this.controls.maxDistance = 20;
         this.controls.minDistance = 7;
-        // console.log('EEEEEEEEEEEEEEE');
 
     }
-    updateCamera(){
-        const a = window.innerWidth/window.innerHeight;
-            const w = 15;
-            const h = w/a;
-            const phi = ((this.camera as any).fov/180)*Math.PI;
-            const m = (h/2)/Math.tan(phi/2);
-            const l = Math.sqrt(Math.pow(m,2)-Math.pow(w/2,2))
-            console.log({a,w,h,phi,m,l});
-            
-            this.camera.position.z= (w>h*0.8)?w*2.3:l;
-            //@ts-ignore
-            this.camera.updateProjectionMatrix();
-    }
-    getUUID(): string {
-        throw this.scene.uuid
-    }
-    getFeatures(): Features {
-        return {}// throw new Error("Method not implemented.");
+    updateCamera() {
+        const a = window.innerWidth / window.innerHeight;
+        const w = 15;
+        const h = w / a;
+        const phi = ((this.camera as any).fov / 180) * Math.PI;
+        const m = (h / 2) / Math.tan(phi / 2);
+        const l = Math.sqrt(Math.pow(m, 2) - Math.pow(w / 2, 2))
+        this.camera.position.z = (w > h * 0.8) ? w * 2.3 : l;
+        //@ts-ignore
+        this.camera.updateProjectionMatrix();
     }
     showFeature(_uuid: string): void {
-        //throw new Error("Method not implemented.");
+        throw new Error("Method not implemented.");
     }
 
 } 

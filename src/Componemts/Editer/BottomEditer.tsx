@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './BottomEditer.css'
-import { Feature } from '../../World/World';
 import { useProductStore } from '../Products/ProductStore';
+import { Feature } from '../../DataBase';
 
 const MIN_FeatureS_HEIGHT = 100;
 const MAX_FeatureS_HEIGHT = 600;
@@ -14,7 +14,7 @@ const VALUES_ICON_SIZE = 40 + 30;//width+padding
 
 
 export function BottomEditer() {
-  const { productScenus } = useProductStore()
+  const { product } = useProductStore()
   const [feature, setFeature] = useState<Feature | null>(null)
   const featuresDivRef = useRef<HTMLDivElement | null>(null);
   const ctn_featuresDivRef = useRef<HTMLDivElement | null>(null);
@@ -26,9 +26,9 @@ export function BottomEditer() {
 
   useEffect(() => {
     if (!ctn_featuresDivRef.current) return
-    if (!productScenus?.scenus) return
+    if (!product?.scene) return
     const width = ctn_featuresDivRef.current?.getBoundingClientRect().width;
-    const length = Object.keys(productScenus.scenus.getFeatures()).length;
+    const length = Object.keys(product.features).length;
     const sumWidth = length * Feature_ZISE
     const required = sumWidth > width;
     setMoreRequired(required)
@@ -40,7 +40,7 @@ export function BottomEditer() {
       if (height > MAX_FeatureS_HEIGHT) height = MAX_FeatureS_HEIGHT;
       setFeaturesHeight(height + 10);
     }
-  }, [size, productScenus]);
+  }, [size, product]);
 
   useEffect(() => {
     if (!feature) return
@@ -53,7 +53,7 @@ export function BottomEditer() {
 
   const moreDisplay = moreRequired ? (size == 'hight' ? 'none' : 'inherit') : 'none';
  
-  return productScenus && (
+  return product && (
     <div className='bot-ctn-edit ' style={{ height: `${featuresHeight}px` }} ref={ctn_featuresDivRef}>
       <div className='more-top' style={{ display: moreRequired ? 'inherit' : 'none', transform: size == 'hight' ? 'rotateZ(90deg)' : 'rotateZ(-90deg)' }} onClick={() => {
         setSize(size == 'hight' ? 'low' : 'hight')
@@ -63,12 +63,12 @@ export function BottomEditer() {
       <div className='features-values'>
         {feature && (
           feature.values.map((_value) => (
-            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${feature.path}${_value.id}${_value.ext || feature.ext})` }} onClick={() => {
+            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${_value.url})` }} onClick={() => {
               if (valueId == _value.id) {
-                productScenus?.scenus.featuresCollector.add(feature.uuid, undefined);
+                product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {
-                productScenus?.scenus.featuresCollector.add(feature.uuid, _value);
+                product?.featuresCollector?.collectFeature(feature, _value);
                 setValueId(_value.id);
               }
             }}>
@@ -99,13 +99,13 @@ export function BottomEditer() {
         }}></div>
         <div className={"features " + (moreRequired ? size : '')} style={{ height: `${featuresHeight}px`, ...(size == 'low' ? { whiteSpace: 'nowrap' } : {}) }} ref={featuresDivRef}>
           {
-            Object.values(productScenus.scenus.getFeatures()).map((_feature) => (
-              <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.uuid} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
+            Object.values(product.features).map((_feature) => (
+              <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.image})` }} onClick={() => {
                 if (feature == _feature) {
                   setFeature(null);
                 } else {
                   setFeature(_feature);
-                  setValueId(productScenus.scenus.featuresCollector.get(_feature.uuid)?.id)
+                  setValueId(product.featuresCollector?.getCollectedFeatures(_feature.id)?.id)
                 }
               }}></div>
             ))
