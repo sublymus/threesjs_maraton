@@ -158,6 +158,7 @@ export class World implements AbstractWorld {
   }
   open(_renderer: THREE.WebGLRenderer): void {
     if (this.controls) this.controls.enabled = true;
+    WorldManager.tactil.visibility(false);
   }
   close(): void {
     if (this.controls) this.controls.enabled = false;

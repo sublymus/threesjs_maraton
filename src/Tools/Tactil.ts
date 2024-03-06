@@ -1,3 +1,4 @@
+import "./Tactil.css";
 export type VECTOR = { x: number, y: number }
 type CallbackVector = ((v: VECTOR) => any);
 export class Tactil {
@@ -22,7 +23,6 @@ export class Tactil {
 
     private tactil: HTMLDivElement;
     private scrollable: HTMLDivElement;
-    private Log: HTMLPreElement;
     private lastdirection: VECTOR = {
         x: 0,
         y: 0
@@ -31,37 +31,30 @@ export class Tactil {
         x: 0,
         y: 0
     };
-    resize: (rec: { width: number, height: number }) => void;
+    resize(rec: { width: number, height: number }){
+        this.tactil.style.width = rec.width + 'px';
+        this.tactil.style.height = rec.height + 'px';
+        this.tactil.style.top = 0 + 'px';
+        this.tactil.style.left = 0 + 'px';
+
+        this.rect = rec;
+
+        this.scrollable.style.width = (this.rect.width * 2) + 'px';
+        this.scrollable.style.height = (this.rect.height * 2) + 'px';
+
+    }
+    visibility(isVisible:boolean){
+        this.tactil.style.display = isVisible?'block':'none'
+    }
     constructor() {
 
         this.tactil = document.createElement('div');
         this.scrollable = document.createElement('div');
         this.tactil.style.position = 'absolute';
         this.tactil.style.overflow = 'scroll';
-
-        this.Log = document.createElement('pre');
-        this.Log.style.position = 'absolute';
-        document.body.append(this.Log);
-        this.Log.style.top = '200px'
-        this.Log.textContent = `
-            L e f t  =  ${this.tactil.scrollLeft};
-            T o p    =   ${this.tactil.scrollTop} ; 
-        `
+        this.tactil.className = 'tactil'
         this.tactil.append(this.scrollable);
-        this.resize = (rec) => {
-            this.tactil.style.width = rec.width + 'px';
-            this.tactil.style.height = rec.height + 'px';
-            this.tactil.style.top = 0 + 'px';
-            this.tactil.style.left = 0 + 'px';
-
-            this.rect = rec;
-
-            this.scrollable.style.width = (this.rect.width * 2) + 'px';
-            this.scrollable.style.height = (this.rect.height * 2) + 'px';
-
-        }
-
-
+        
         function isMounted(node: Node) {
             if (node.nodeType === Node.DOCUMENT_NODE) return true;
             if (node.parentNode == undefined) return false;

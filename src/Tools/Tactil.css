@@ -1,0 +1,19 @@
+.tactil::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tactil::-webkit-scrollbar-track {
+    background: #b6b6b600;
+    border-radius: 10px;
+}
+
+.tactil::-webkit-scrollbar-thumb {
+    background: #69696900;
+    border-radius: 10px;
+    transition: 200ms;
+}
+
+.tactil::-webkit-scrollbar-thumb:hover {
+    background: #b3890000;
+    transition: 200ms;
+}

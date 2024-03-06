@@ -32,6 +32,7 @@ export class Catalogue implements AbstractWorld {
         WorldManager.tactil.addListener('direction', (direction) => {
             this.setTactilDirection(direction);
         })
+        WorldManager.tactil.visibility(true)
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.01, 300)
@@ -96,6 +97,7 @@ export class Catalogue implements AbstractWorld {
     }
     open(_renderer: THREE.WebGLRenderer): void {
         this.isOpen = true;
+        WorldManager.tactil.visibility(true);
     }
     close(): void {
         this.isOpen = false;
