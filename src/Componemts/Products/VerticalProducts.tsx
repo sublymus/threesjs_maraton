@@ -32,7 +32,6 @@ export function VerticalProducts() {
             data-uuid={uuid}
             onClick={() => {
               selectProduct(uuid, products);
-              console.log(product.id, product?.id);
             }}
             key={product.id}
             ref={(ref) => ref ? verticalcadre.setDiv(ref) : null}

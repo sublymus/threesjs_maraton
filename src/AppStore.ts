@@ -17,7 +17,7 @@ const Pages = {
     ],
     product:[
         'editer',
-        'list',
+        'products',
         'summary',
         'filter'
     ],
@@ -30,12 +30,21 @@ const Pages = {
     about:[
         'about'
     ],
-}
+} as const
 interface AppState {
     page: keyof typeof Pages,
-    Pages:typeof Pages
+    Pages:typeof Pages,
+    setPage(page :keyof typeof Pages):void,
+    isAllowed<T extends keyof typeof Pages, C extends typeof Pages[T][number]  >(page:T,component:C):true|null;
 }
-export const useProductStore = create<AppState>((set) => ({
+export const useAppStore = create<AppState>((set) => ({
     page:'catalogue',
-    Pages
+    Pages,
+    setPage(page) {
+        set(()=>({page}))
+    },
+    isAllowed(page,component) {
+        //@ts-ignore
+        return Pages[page].includes(component)||null
+    },
 }))

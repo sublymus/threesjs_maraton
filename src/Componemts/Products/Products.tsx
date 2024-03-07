@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { VerticalProducts } from "./VerticalProducts";
 import { HorizontalProducts } from "./HorizontalProducts";
 import { useWindowSize } from "../Hooks";
+import { useAppStore  } from "../../AppStore";
 
 export function Products() {
+    const {page , isAllowed} = useAppStore();
+   
     const [state] = useState({
         vertical: undefined as JSX.Element| undefined,
         horizontal:  undefined as JSX.Element| undefined,
@@ -17,7 +20,7 @@ export function Products() {
     
      return (
         <>
-        { state.current}
+        { isAllowed(page,'products')&&state.current}
         </>
     )
 }

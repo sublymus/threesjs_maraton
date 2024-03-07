@@ -23,10 +23,6 @@ export class Tactil {
 
     private tactil: HTMLDivElement;
     private scrollable: HTMLDivElement;
-    private lastdirection: VECTOR = {
-        x: 0,
-        y: 0
-    };
     private progress: VECTOR = {
         x: 0,
         y: 0
@@ -61,7 +57,6 @@ export class Tactil {
             if (node.parentNode == undefined) return false;
             return isMounted(node.parentNode);
         }
-        let isDirectionChanged = false;
         const id = setInterval(() => {
             if (isMounted(this.tactil)) {
                 this.tactil.scrollLeft = this.marge;
@@ -80,10 +75,12 @@ export class Tactil {
 
     alertDistance() {
 
+        this.distance.x = this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollLeft,
+            this.distance.y = this.progress.y * (this.rect.height - 3 * this.marge) + this.tactil.scrollTop
         for (const cb of this.register.distance) {
             cb({
-                x: this.distance.x = this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollLeft,
-                y: this.distance.y = this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollTop
+                x: this.distance.x,
+                y: this.distance.y
             })
         }
     }
@@ -106,11 +103,12 @@ export class Tactil {
         }
         this.lastSetpDistance.x = this.distance.x
         this.lastSetpDistance.y = this.distance.y
-        console.log(step, Math.abs(step.x) / step.x,this.distance);
+        const dx = step.y == 0 ? 0 : Math.abs(step.y) / step.y;
+        const dy = step.x == 0 ? 0 : Math.abs(step.x) / step.x;
         for (const cb of this.register.direction) {
             cb({
-                x: step.x==0?0:Math.abs(step.x) / step.x,
-                y: step.y==0?0:Math.abs(step.y) / step.y
+                x: dx,
+                y: dy
             })
         }
 
@@ -133,12 +131,14 @@ export class Tactil {
             return this.lastScroll.y = this.tactil.scrollTop = this.rect.height - (2 * this.marge)
         }
 
+
         for (const cb of this.register.scroll) {
             cb({
                 x: this.tactil.scrollWidth,
                 y: this.tactil.scrollHeight
             })
         }
+
         this.alertDistance();
         this.alertStep();
     }

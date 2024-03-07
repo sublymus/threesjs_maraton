@@ -28,40 +28,46 @@ interface ProductScenus extends ProductInterface {
     scene?: AbstractWorld
 }
 
-interface MapProductScenus{
-    [key: string]:ProductScenus
+interface MapProductScenus {
+    [key: string]: ProductScenus
 }
 
 
 export interface ProductState {
     products: MapProductScenus
-    product:ProductScenus|undefined,
+    product: ProductScenus | undefined,
     selectProduct: (id: string, products: MapProductScenus) => Promise<void>,
     fetchProducts: (filter: Filter) => Promise<void>;
 }
 
-const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
 
+const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
+const IMPORT_CACHE: { [url: string]: any } = {}
 export const useProductStore = create<ProductState>((set) => ({
     product: undefined,
     products: {},
 
     fetchProducts: async (_filter: Filter) => {
         const products = await DataBase.fetchRings()
-        await showProductWorld(Object.values(products)[0].id, products);
-        set(() => ({ products }));
+        const product = Object.values(products)[0];
+        if (!product) return;
+        await showProductWorld(product.id, products);
+        set(() => ({ products, product }));
     },
 
     async selectProduct(id: string, products: MapProductScenus) {
+        const product = products[id];
+        if (!product) return;
         await showProductWorld(id, products);
-        set(()=>({product:products[id]}))
+        set(() => ({ product: products[id] }))
     }
 }))
 
 async function showProductWorld(id: string, products: MapProductScenus) {
+
     const product = products[id];
     if (!product) return;
-    
+
     WorldManager.worldManager?.currentWorl?.close();
 
     let productCache = PRODUCTS_CACHE[id];
@@ -70,30 +76,37 @@ async function showProductWorld(id: string, products: MapProductScenus) {
         WorldManager.worldManager?.setWorld(productCache.scene);
         return;
     }
+    
+    let World: any;
+    if (IMPORT_CACHE[product.scene_url]) {
+        World = IMPORT_CACHE[product.scene_url];
 
-    const { World } = await import(/* @vite-ignore */product.scene_url);
+    } else {
+        World = (await import(/* @vite-ignore */product.scene_url)).World
+        IMPORT_CACHE[product.scene_url] = World;
+    }
 
     const world = new World() as AbstractWorld;
     WorldManager.worldManager?.setWorld(world);
 
-    const collector :CollectedFeatures = {}
+    const collector: CollectedFeatures = {}
     productCache = {
         ...product,
         scene: world,
-        featuresCollector:{
-            collectFeature(feature, value){
-               if(value){
-                   collector[feature.id] = value
-                   world.updateFeature(feature, value)
-                }else{
+        featuresCollector: {
+            collectFeature(feature, value) {
+                if (value) {
+                    collector[feature.id] = value
+                    world.updateFeature(feature, value)
+                } else {
                     collector[feature.id] = feature.default
-                   world.updateFeature(feature, feature.default)
+                    world.updateFeature(feature, feature.default)
                 }
             },
-            getCollectedFeatures(key){
+            getCollectedFeatures(key) {
                 return collector[key];
             },
-            allCollectedFeatures(){
+            allCollectedFeatures() {
                 return collector
             }
         }

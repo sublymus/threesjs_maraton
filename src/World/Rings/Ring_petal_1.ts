@@ -74,8 +74,6 @@ export class World implements AbstractWorld {
 
     const seTmodel = (gltf: any) => {
       root = gltf.scene.children[0].clone();
-      console.log(root);
-
       this.ring = new THREE.Object3D();
       this.ring.add(root);
       Ring_model_Event.fun.forEach(fun => fun(this.ring!));

@@ -11,7 +11,8 @@ const MARGE = 0;
 let RELATIVE_SCLAE = 0.2;
 const SCALE = 2
 const NEAR = 5;
-export class Catalogue implements AbstractWorld {
+export class CatalogueWorld implements AbstractWorld {
+    public static catalogueWorld :CatalogueWorld|null = null;
     scene: THREE.Scene;
     camera: THREE.Camera;
     collected: { [key: string]: any } = {};
@@ -30,6 +31,7 @@ export class Catalogue implements AbstractWorld {
     }
     outId = 0;
     constructor() {
+        CatalogueWorld.catalogueWorld = this;
         WorldManager.tactil.addListener('step', (step) => {
             //this.setTactilDirection(direction);
             if (step.x != 0) {
@@ -42,9 +44,6 @@ export class Catalogue implements AbstractWorld {
                     this.setIndex(Math.round(this.index));
                 }, 500);
             }
-        })
-        WorldManager.tactil.addListener('distance', (d) => {
-            // this.setTactilDistance(d);
         })
         WorldManager.tactil.visibility(true);
 

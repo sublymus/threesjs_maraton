@@ -203,7 +203,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_002',
@@ -215,7 +215,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_003',
@@ -227,7 +227,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_004',
@@ -239,7 +239,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_005',
@@ -251,7 +251,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_006',
@@ -263,7 +263,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_007',
@@ -275,7 +275,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     }, {
         id: '1_000_008',
         description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
@@ -286,7 +286,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_009',
@@ -298,7 +298,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_010',
@@ -310,7 +310,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_011',
@@ -322,7 +322,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_0012',
@@ -334,7 +334,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_013',
@@ -346,7 +346,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_014',
@@ -358,7 +358,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     }, {
         id: '1_000_015',
         description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
@@ -369,7 +369,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_0016',
@@ -381,7 +381,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_017',
@@ -393,7 +393,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_018',
@@ -405,7 +405,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_019',
@@ -417,7 +417,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_020',
@@ -429,7 +429,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },
     {
         id: '1_000_021',
@@ -441,6 +441,6 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: 'src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Ring_petal_1'
     },] as ProductInterface[]
 }
