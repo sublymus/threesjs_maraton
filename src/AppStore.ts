@@ -30,7 +30,6 @@ const Pages = {
     about:[
         'about'
     ],
-
 }
 interface AppState {
     page: keyof typeof Pages,

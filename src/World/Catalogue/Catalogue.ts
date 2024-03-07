@@ -3,7 +3,7 @@ import { AbstractWorld, WorldManager } from "../WorldManager";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Ring_model_Event } from "../Rings/Ring_petal_1";
-import { Feature} from "../../DataBase";
+import { Feature } from "../../DataBase";
 
 const BOX_SIZE = 6.4;
 
@@ -28,11 +28,25 @@ export class Catalogue implements AbstractWorld {
         index: 0,
         model: new THREE.Object3D,
     }
+    outId = 0;
     constructor() {
-        WorldManager.tactil.addListener('direction', (direction) => {
-            this.setTactilDirection(direction);
+        WorldManager.tactil.addListener('step', (step) => {
+            //this.setTactilDirection(direction);
+            if (step.x != 0) {
+                clearTimeout(this.outId)
+                let s = step.x / 200;
+                const l = 0.2;
+                s = s >l?l:(s<-l?-l:s)
+                this.setIndex(this.index + s);
+                this.outId = setTimeout(() => {
+                    this.setIndex(Math.round(this.index));
+                }, 500);
+            }
         })
-        WorldManager.tactil.visibility(true)
+        WorldManager.tactil.addListener('distance', (d) => {
+            // this.setTactilDistance(d);
+        })
+        WorldManager.tactil.visibility(true);
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.01, 300)
@@ -64,9 +78,7 @@ export class Catalogue implements AbstractWorld {
     }
     addModel(model: THREE.Object3D) {
         this.groupe.model.add(model)
-        model.position.x = ((this.groupe.model.children.length - 1) * (BOX_SIZE + MARGE))
-        console.log(model.position.x);
-
+        model.position.x = ((this.groupe.model.children.length - 1) * (BOX_SIZE + MARGE));
     }
     getScene(): THREE.Scene {
         return this.scene;
@@ -95,6 +107,17 @@ export class Catalogue implements AbstractWorld {
 
         this.setIndex(this.index + x)
     }
+    dx = 0
+    setTactilDistance({ x }: { x: number, y: number }) {
+        const d = 100
+        if (x - this.dx > d) {
+            this.setIndex(this.index + 1)
+            this.dx = x
+        } else if (x - this.dx < -d) {
+            this.setIndex(this.index - 1)
+            this.dx = x
+        }
+    }
     open(_renderer: THREE.WebGLRenderer): void {
         this.isOpen = true;
         WorldManager.tactil.visibility(true);
@@ -105,8 +128,6 @@ export class Catalogue implements AbstractWorld {
     setIndex(i: number) {
         this.index = i < 0 ? 0 : (i >= this.groupe.model.children.length ? this.groupe.model.children.length - 1 : i);
         this.groupe.position.x = -this.getPositionX();
-        console.log(this.index);
-
     }
     getPositionX() {
         return -(this.index * (BOX_SIZE + MARGE))
@@ -134,14 +155,6 @@ export class Catalogue implements AbstractWorld {
         renderer.domElement.tabIndex = 1;
         renderer.domElement.addEventListener('mousemove', mouse)
         renderer.domElement.addEventListener('touchmove', touche)
-        this.controls = new OrbitControls(this.camera, renderer.domElement)
-        this.controls.target.z = 0;
-        this.controls.enableDamping = false;
-        this.controls.dampingFactor = 0.05;
-        this.controls.enabled = true;
-        this.controls.maxDistance = 20;
-        this.controls.minDistance = 7;
-
     }
     updateCamera() {
         const a = window.innerWidth / window.innerHeight;

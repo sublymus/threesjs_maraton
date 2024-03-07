@@ -31,7 +31,7 @@ export class Tactil {
         x: 0,
         y: 0
     };
-    resize(rec: { width: number, height: number }){
+    resize(rec: { width: number, height: number }) {
         this.tactil.style.width = rec.width + 'px';
         this.tactil.style.height = rec.height + 'px';
         this.tactil.style.top = 0 + 'px';
@@ -43,9 +43,10 @@ export class Tactil {
         this.scrollable.style.height = (this.rect.height * 2) + 'px';
 
     }
-    visibility(isVisible:boolean){
-        this.tactil.style.display = isVisible?'block':'none'
+    visibility(isVisible: boolean) {
+        this.tactil.style.display = isVisible ? 'block' : 'none'
     }
+
     constructor() {
 
         this.tactil = document.createElement('div');
@@ -54,72 +55,65 @@ export class Tactil {
         this.tactil.style.overflow = 'scroll';
         this.tactil.className = 'tactil'
         this.tactil.append(this.scrollable);
-        
+
         function isMounted(node: Node) {
             if (node.nodeType === Node.DOCUMENT_NODE) return true;
             if (node.parentNode == undefined) return false;
             return isMounted(node.parentNode);
         }
-
+        let isDirectionChanged = false;
         const id = setInterval(() => {
             if (isMounted(this.tactil)) {
                 this.tactil.scrollLeft = this.marge;
                 this.tactil.scrollTop = this.marge;
                 clearInterval(id);
                 this.tactil.addEventListener('scroll', this.onScroll)
+                this.tactil.addEventListener('scrollend', () => {
+
+                })
             }
         }, 100);
         setInterval(() => {
-            this.lastdirection.x = 0;
-            this.lastdirection.y = 0;
-        }, 1000);
+            //dir()
+        }, 100);
     }
+
     alertDistance() {
 
         for (const cb of this.register.distance) {
             cb({
-                x: this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollLeft,
-                y: this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollTop
+                x: this.distance.x = this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollLeft,
+                y: this.distance.y = this.progress.x * (this.rect.width - 3 * this.marge) + this.tactil.scrollTop
             })
         }
     }
+
+    distance: VECTOR = {
+        x: 0,
+        y: 0
+    }
+    lastSetpDistance: VECTOR = {
+        x: 0,
+        y: 0
+    }
     alertStep() {
         const step: VECTOR = {
-            x: this.tactil.scrollLeft - this.lastScroll.x,
-            y: this.tactil.scrollTop - this.lastScroll.y
+            x: this.distance.x - this.lastSetpDistance.x,
+            y: this.distance.y - this.lastSetpDistance.y
         };
         for (const cb of this.register.step) {
             cb(step)
         }
-        /**************************
-      *  DIRECTION
-      **************************/
-        let isDirectionChanged = false;
-        if (Math.abs(step.x) > 5) {
-            if (step.x < 0 && this.lastdirection.x >= 0) {
-                isDirectionChanged = true;
-                this.lastdirection.x = -1;
-            } else if (step.x > 0 && this.lastdirection.x <= 0) {
-                isDirectionChanged = true;
-                this.lastdirection.x = 1;
-            }
-        }
-        if (Math.abs(step.y) > 5) {
-            if (this.lastdirection.y >= 0 && step.y < 0) {
-                isDirectionChanged = true;
-                this.lastdirection.y = -1;
-            } else if (this.lastdirection.y <= 0 && step.y > 0) {
-                isDirectionChanged = true;
-                this.lastdirection.y = 1;
-            }
+        this.lastSetpDistance.x = this.distance.x
+        this.lastSetpDistance.y = this.distance.y
+        console.log(step, Math.abs(step.x) / step.x,this.distance);
+        for (const cb of this.register.direction) {
+            cb({
+                x: step.x==0?0:Math.abs(step.x) / step.x,
+                y: step.y==0?0:Math.abs(step.y) / step.y
+            })
         }
 
-        if (isDirectionChanged) {
-
-            for (const cb of this.register.direction) {
-                cb(this.lastdirection)
-            }
-        }
     }
 
     onScroll = () => {
@@ -141,8 +135,8 @@ export class Tactil {
 
         for (const cb of this.register.scroll) {
             cb({
-                x:this.tactil.scrollWidth,
-                y:this.tactil.scrollHeight
+                x: this.tactil.scrollWidth,
+                y: this.tactil.scrollHeight
             })
         }
         this.alertDistance();
