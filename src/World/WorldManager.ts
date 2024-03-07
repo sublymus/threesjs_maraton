@@ -15,6 +15,7 @@ export interface AbstractWorld {
     showFeature(uuid: string): void;
     updateFeature(feature:Feature,value:Feature['values'][0]):void;
     open(renderer : THREE.WebGLRenderer): void
+    getModel():Promise<THREE.Object3D>
     close(): void
 }
 const params = {

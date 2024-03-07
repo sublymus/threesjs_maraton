@@ -1,0 +1,25 @@
+.catalogue-description {
+    position: absolute;
+    background: #345;
+    max-width: 800px;
+    width: 80vw;
+    height: 15vh;
+    bottom: 10vh;
+    left: calc(calc(100vw - 80vw) / 2);
+    text-align: center;
+    color: #ffffff;
+    /* font-size: 16px; */
+}
+
+@media (1000px <=width) {
+    .catalogue-description {
+        left: calc(50vw - 400px);
+    }
+}
+
+@media (min-height: 680px),
+screen and (orientation: portrait) {
+    * {
+        font-size: x-large;
+    }
+}

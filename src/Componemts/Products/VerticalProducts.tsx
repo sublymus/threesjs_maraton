@@ -22,13 +22,14 @@ export function VerticalProducts() {
   useEffect(() => {
     if (verticalCadreManagerRef.current) {
       const list: any[] = []
+      let first=true;
       for (const uuid in products) {
         const product = products[uuid];
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div
             style={{ backgroundImage: `url(${product.images[0]})` }}
-            className={`product ${(product.id == product?.id) ? 'active' : ''}`}
+            className={`product ${(first) ? 'selected' : ''}`}
             data-uuid={uuid}
             onClick={() => {
               selectProduct(uuid, products);
@@ -41,6 +42,7 @@ export function VerticalProducts() {
         );
         verticalCadreManagerRef.current.push(verticalcadre);
         list.push(productElement);
+        first= false;
       }
       setProductArray(list);
     }

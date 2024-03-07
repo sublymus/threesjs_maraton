@@ -77,15 +77,7 @@ async function showProductWorld(id: string, products: MapProductScenus) {
         return;
     }
     
-    let World: any;
-    if (IMPORT_CACHE[product.scene_url]) {
-        World = IMPORT_CACHE[product.scene_url];
-
-    } else {
-        World = (await import(/* @vite-ignore */product.scene_url)).World
-        IMPORT_CACHE[product.scene_url] = World;
-    }
-
+    const {World} =await import(/* @vite-ignore */product.scene_url)
     const world = new World() as AbstractWorld;
     WorldManager.worldManager?.setWorld(world);
 

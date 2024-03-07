@@ -6,12 +6,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Feature } from "../../DataBase";
 // import { noise2 } from "../Utils/perlin";
 
-export let Ring_model_Event = {
-  fun: [] as ((model: THREE.Object3D) => any)[],
-  ring: null as THREE.Object3D | null
-};
-
-
 
 export class World implements AbstractWorld {
   public static testWorld = {
@@ -39,6 +33,7 @@ export class World implements AbstractWorld {
   ring: THREE.Object3D | null = null;
   controls: OrbitControls | null = null;
   upDateFeatureMap:{[key:string]: (value:Feature['values'][0]) => void} 
+  modelPromise :Promise<THREE.Object3D>
   constructor() {
 
     this.scene = new THREE.Scene();
@@ -76,7 +71,6 @@ export class World implements AbstractWorld {
       root = gltf.scene.children[0].clone();
       this.ring = new THREE.Object3D();
       this.ring.add(root);
-      Ring_model_Event.fun.forEach(fun => fun(this.ring!));
       root.rotation.x = 0
       this.ring.translateY(0)
       this.scene.add(this.ring)
@@ -93,10 +87,15 @@ export class World implements AbstractWorld {
       updateGem(root, 'transmission', World.testGem.transmission)
       updateGem(root, 'clearcoat', World.testGem.clearcoat)
       updateGem(root, 'side', THREE.DoubleSide)
+      return this.ring
     }
     const modelPath = 'src/World/models/ring_1.glb';
-
-    new GLTFLoader().load(modelPath, seTmodel);
+    this.modelPromise = new Promise((rev)=>{
+      new GLTFLoader().load(modelPath, (gltf)=>{
+        rev(seTmodel(gltf))
+      });
+    })
+    
 
     window.addEventListener('resize', () => {
       (this.camera as any).aspect = window.innerWidth / window.innerHeight;
@@ -111,7 +110,9 @@ export class World implements AbstractWorld {
       }
    }
   }
-
+  getModel(){
+    return this.modelPromise
+  }
   showFeature(_id: string): void {
     throw new Error("Method not implemented.");
   }

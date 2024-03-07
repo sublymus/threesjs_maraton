@@ -182,6 +182,9 @@ const features: Features = {
 
 
 export const DataBase = {
+    async fetchCatalogue(name:string){
+        return this.catalogueProduct
+    },
     async fetchRings() {
         const list: { [id: string]: ProductInterface } = {};
         this.rings_Products.forEach((p) => {
@@ -193,6 +196,90 @@ export const DataBase = {
         const products = await this.fetchRings()
         return products[product_id]?.features
     },
+    catalogueProduct:[{
+        id: '1_000_001',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona1',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_002',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona2',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_003',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona3',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_004',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona4',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_005',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona5',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_006',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona6',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    },
+    {
+        id: '1_000_007',
+        description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
+        features,
+        images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        model_images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
+        name: 'Ladona7',
+        status: 0,
+        colaborator_id: 'noag',
+        engineer_id: 'noga',
+        scene_url: '/src/World/Rings/Ring_petal_1'
+    }],
     rings_Products: [{
         id: '1_000_001',
         description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',

@@ -16,7 +16,7 @@ export function useWindowSize() {
           height: window.innerHeight,
         });
       }
-      // Add event listener
+    
       window.addEventListener("resize", handleResize);
       // Call handler right away so state gets updated with initial window size
       handleResize();

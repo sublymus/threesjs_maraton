@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { AbstractWorld, WorldManager } from "../WorldManager";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { Ring_model_Event } from "../Rings/Ring_petal_1";
 import { Feature } from "../../DataBase";
 
 const BOX_SIZE = 6.4;
@@ -12,6 +11,10 @@ let RELATIVE_SCLAE = 0.2;
 const SCALE = 2
 const NEAR = 5;
 export class CatalogueWorld implements AbstractWorld {
+    public static Info = {
+        product:null,
+    }
+    
     public static catalogueWorld :CatalogueWorld|null = null;
     scene: THREE.Scene;
     camera: THREE.Camera;
@@ -62,22 +65,25 @@ export class CatalogueWorld implements AbstractWorld {
         }
 
         WorldManager.loadCache(new RGBELoader(), path, setTexture)
-
-        Ring_model_Event.fun.push((model) => {
-            this.addModel(model.clone());
-            this.addModel(model.clone());
-            this.addModel(model.clone());
-            this.addModel(model.clone());
-            this.addModel(model.clone());
-            this.addModel(model.clone());
-        })
+    }
+    getModel(): Promise<THREE.Object3D<THREE.Object3DEventMap>> {
+        throw new Error("Method not implemented.");
     }
     updateFeature(_feature: Feature): void {
         throw new Error("Method not implemented.");
     }
     addModel(model: THREE.Object3D) {
-        this.groupe.model.add(model)
-        model.position.x = ((this.groupe.model.children.length - 1) * (BOX_SIZE + MARGE));
+        this.groupe.model.add(model);
+        this.disposeChildren();
+    }
+    disposeChildren(){
+        this.groupe.model.children.forEach((model,i)=>{
+            model.position.x = (i * (BOX_SIZE + MARGE));
+        })
+        this.setIndex(this.index);
+    }
+    removeAll() {
+        this.groupe.model.children.forEach(c=>this.groupe.model.remove(c));
     }
     getScene(): THREE.Scene {
         return this.scene;
@@ -125,7 +131,7 @@ export class CatalogueWorld implements AbstractWorld {
         this.isOpen = false;
     }
     setIndex(i: number) {
-        this.index = i < 0 ? 0 : (i >= this.groupe.model.children.length ? this.groupe.model.children.length - 1 : i);
+        this.index = i < 0 ? 0 : (i >= this.groupe.model.children.length-1 ? this.groupe.model.children.length - 1 : i);
         this.groupe.position.x = -this.getPositionX();
     }
     getPositionX() {
