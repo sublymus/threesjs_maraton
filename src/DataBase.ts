@@ -1,6 +1,18 @@
 
 export type Features = { [key: string]: Feature }
 
+export interface Category{
+    id:string,
+    name:string,
+    description:string,
+    product:ProductInterface,
+}
+export interface Catalogue{
+    id:string,
+    name:string,
+    categories:Category[],
+}
+
 type Value = {
     id: string,
     label: string,
@@ -38,9 +50,8 @@ export interface ProductInterface {
     scene_url: string,
     colaborator_id: string,
     engineer_id: string,
-    status: 0,// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
+    status: number,// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
 }
-
 
 const gemFeature: Feature = {
     id: (Math.random() * 10000000).toString(32),
@@ -154,22 +165,25 @@ const metalFeature: Feature = {
     default: {
         label: 'Gold',
         id: 'gold',
+        url:'/src/World/images/metal/metal.png',
         value: 'bead2e'
     },
     values: [{
         label: 'Gold',
         id: 'gold',
+        url:'/src/World/images/metal/gold.png',
         value: 'bead2e'
     }, {
         label: 'Silver',
         id: 'silver',
+        url:'/src/World/images/metal/silver.png',
         value: 'eeeeee'
     }, {
         label: 'Bronze',
         id: 'bronz',
+        url:'/src/World/images/metal/bronz.png',
         value: 'ffaa55'
     },]
-
 }
 
 
@@ -182,21 +196,53 @@ const features: Features = {
 
 
 export const DataBase = {
-    async fetchCatalogue(name:string){
-        return this.catalogueProduct
+    async fetchCatalogues(){
+        return  [
+            {
+                id:'12345',
+                name:'Catalogue',
+                categories :this.catalogueProducts.map((p,i)=>({
+                    id:'1345'+i,
+                    name:'Category_'+i,
+                    product:p,
+                    description:'Category_'+i+'  ==>  '+p.description
+                }) satisfies Category),
+            },{
+                id:'12346',
+                name:'Nouvaute',
+                categories :this.catalogueProducts.map((p,i)=>({
+                    id:'1345'+i,
+                    name:'Category_'+i,
+                    product:p,
+                    description:'Category_'+i+'  ==>  '+p.description
+                }) satisfies Category),
+            },{
+                id:'12347',
+                name:'Populaire',
+                categories :this.catalogueProducts.map((p,i)=>({
+                    id:'1345'+i,
+                    name:'Category_'+i,
+                    product:p,
+                    description:'Category_'+i+'  ==>  '+p.description
+                }) satisfies Category),
+            },{
+                id:'12348',
+                name:'Meuilleur ventes',
+                categories :this.catalogueProducts.map((p,i)=>({
+                    id:'1345'+i,
+                    name:'Category_'+i,
+                    product:p,
+                    description:'Category_'+i+'  ==>  '+p.description
+                }) satisfies Category),
+            }
+        ] satisfies Catalogue[]
     },
+
     async fetchRings() {
-        const list: { [id: string]: ProductInterface } = {};
-        this.rings_Products.forEach((p) => {
-            list[p.id] = p
-        })
-        return list
+       
+        return  this.rings_Products;
     },
-    async fetchFeatures(product_id: string) {
-        const products = await this.fetchRings()
-        return products[product_id]?.features
-    },
-    catalogueProduct:[{
+    catalogueProducts:[{
         id: '1_000_001',
         description: 'Logo Google Cloud Fournie par Google Cloud Translation. Envoyer des commentaires. Traduction de sites Web. Détecter la langue. Détecter la langue. Français.',
         features,

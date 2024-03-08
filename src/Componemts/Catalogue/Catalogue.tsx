@@ -8,13 +8,14 @@ import { useCatalogueStore } from "./CatalogueStore";
 
 export function Catalogue() {
     const { page } = useAppStore();
-    const {fetchCatalogue} = useCatalogueStore();
+    const {fetchCatalogues , initCatalogueListener} = useCatalogueStore();
     useEffect(() => {
         if (CatalogueWorld.catalogueWorld) return
         new World();
         const catalogue = new CatalogueWorld();
         WorldManager.worldManager?.setWorld(catalogue);
-        fetchCatalogue('catalogue')
+        fetchCatalogues();
+        initCatalogueListener();
     }, [])
     useEffect(() => {
         if (!CatalogueWorld.catalogueWorld) return
@@ -22,5 +23,6 @@ export function Catalogue() {
             WorldManager.worldManager?.setWorld(CatalogueWorld.catalogueWorld);
         }
     }, [page])
+
     return (<></>)
 }

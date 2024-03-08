@@ -1,13 +1,24 @@
 import { useAppStore } from "../../AppStore";
 import "./CatalogueDescription.css";
 import { useCatalogueStore } from "../Catalogue/CatalogueStore";
+import { useProductStore } from "../Products/ProductStore";
 export function CatalogueDescription() {
-    const { page, isAllowed } = useAppStore();
-    const {info} = useCatalogueStore()
-    return (
-        isAllowed(page, 'catalogue_description') && <div className="catalogue-description">
-            {info?.selectedProduct?.description}
-            Une bague est un bijou qui se porte généralement au doigt en forme d'anneau, plus ou moins large, serti ou non de pierres et quelquefois gravé. Au même titre que les boucles d'oreilles, les bagues peuvent être constituées de toutes sortes de matériaux, incluant métal, plastique, bois, os et verre   
+    const { page, isAllowed,setPage } = useAppStore();
+    const { catalogue, selectedCategory } = useCatalogueStore();
+    const {fetchProducts}= useProductStore();
+    return isAllowed(page, 'catalogue_description') && (
+        <div className="catalogue-description">
+            <p className="description">
+                {catalogue?.name} {selectedCategory?.id}{selectedCategory?.description}
+            </p>
+            <span className="see-all" onClick={() => {
+                fetchProducts({
+                    filter:{
+                        category_id:selectedCategory?.id
+                    }
+                })
+                setPage(page == 'catalogue' ? 'product' : 'catalogue')
+            }}> See all {selectedCategory?.name}</span>
         </div>
     )
 }

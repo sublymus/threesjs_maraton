@@ -68,7 +68,7 @@ export function BottomEditer() {
                 product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {
-                product?.featuresCollector?.collectFeature(feature, _value);
+                product.featuresCollector?.collectFeature(feature, _value);
                 setValueId(_value.id);
               }
             }}>

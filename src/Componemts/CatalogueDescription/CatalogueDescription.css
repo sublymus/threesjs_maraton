@@ -1,25 +1,50 @@
 .catalogue-description {
     position: absolute;
-    background: #345;
     max-width: 800px;
+    /* background: rgba(51, 68, 85, 0.185); */
     width: 80vw;
     height: 15vh;
     bottom: 10vh;
     left: calc(calc(100vw - 80vw) / 2);
-    text-align: center;
     color: #ffffff;
-    /* font-size: 16px; */
+    font-size:2pc ;
+    line-height: 28px;
+    font-size: small;
+    text-align: center;
+    font-family: arial, sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    
+}
+.see-all {
+    background: rgba(51, 68, 85, 0.542);
+    color: #345;
+    font-size:large;
+    border: 1px #345 solid;
+    border-radius: 20px;
+    padding: 20px 30px;
+    transition: 200ms;
+}
+
+.description{
+    margin: 0 30px;
+}
+.see-all:hover {
+    cursor: pointer;
+    background: rgba(91, 106, 122, 0.542);
+    color: #345;
+    font-size:large;
+    border: 1px #345 solid;
+    border-radius: 20px;
+    padding: 20px 30px;
+    transition: 200ms;
 }
 
 @media (1000px <=width) {
     .catalogue-description {
         left: calc(50vw - 400px);
-    }
-}
-
-@media (min-height: 680px),
-screen and (orientation: portrait) {
-    * {
-        font-size: x-large;
     }
 }

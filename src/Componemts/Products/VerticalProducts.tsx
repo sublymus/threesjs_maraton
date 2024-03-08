@@ -23,16 +23,15 @@ export function VerticalProducts() {
     if (verticalCadreManagerRef.current) {
       const list: any[] = []
       let first=true;
-      for (const uuid in products) {
-        const product = products[uuid];
+      for (const product of  products) {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div
             style={{ backgroundImage: `url(${product.images[0]})` }}
             className={`product ${(first) ? 'selected' : ''}`}
-            data-uuid={uuid}
+            data-uuid={product.id}
             onClick={() => {
-              selectProduct(uuid, products);
+              selectProduct(product);
             }}
             key={product.id}
             ref={(ref) => ref ? verticalcadre.setDiv(ref) : null}

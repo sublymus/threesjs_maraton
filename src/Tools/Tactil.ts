@@ -1,18 +1,11 @@
 import "./Tactil.css";
+import { Callback , Emitter } from "./Emitter";
 export type VECTOR = { x: number, y: number }
-type CallbackVector = ((v: VECTOR) => any);
-export class Tactil {
-    private register: {
-        step: CallbackVector[],
-        direction: CallbackVector[];
-        distance: CallbackVector[]
-        scroll: CallbackVector[]
-    } = {
-            direction: [],
-            distance: [],
-            scroll: [],
-            step: []
-        }
+
+
+const events = ['step','direction','distance','scroll'] as const
+export class Tactil extends Emitter<VECTOR , typeof events> {
+  
     private lastScroll: VECTOR = {
         x: 0,
         y: 0
@@ -44,7 +37,12 @@ export class Tactil {
     }
 
     constructor() {
-
+        super(events ,{
+            direction: [],
+            distance: [],
+            scroll: [],
+            step: []
+        })
         this.tactil = document.createElement('div');
         this.scrollable = document.createElement('div');
         this.tactil.style.position = 'absolute';
@@ -146,12 +144,5 @@ export class Tactil {
     getView() {
         return this.tactil;
     }
-    addListener(event: keyof typeof this.register, cb: CallbackVector) {
-        this.register[event].push(cb)
-    }
-    removeListener(event: keyof typeof this.register, cb: CallbackVector) {
-        this.register[event] = this.register[event].filter((_cb) => {
-            return cb !== cb;
-        })
-    }
+   
 }

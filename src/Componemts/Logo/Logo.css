@@ -1,5 +1,9 @@
 .catalogue-logo{
-    background: #345;
-    width: 400px;
+    top: 30px;
+    left: 20px;
+    position: absolute;
+    font-size: 4em;
+    font-family: "Caveat", cursive;;
+    color: #fff;
     height: 80px;
 }

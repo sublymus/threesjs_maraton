@@ -21,7 +21,6 @@ export class World implements AbstractWorld {
     thickness: 30,
     clearcoat: 0,
     transmission: 1,
-
   }
   public static testMetal = {
     color: 0xbead2e,//pc
@@ -32,8 +31,8 @@ export class World implements AbstractWorld {
   camera: THREE.Camera;
   ring: THREE.Object3D | null = null;
   controls: OrbitControls | null = null;
-  upDateFeatureMap:{[key:string]: (value:Feature['values'][0]) => void} 
-  modelPromise :Promise<THREE.Object3D>
+  upDateFeatureMap: { [key: string]: (value: Feature['values'][0]) => void }
+  modelPromise: Promise<THREE.Object3D>
   constructor() {
 
     this.scene = new THREE.Scene();
@@ -48,6 +47,7 @@ export class World implements AbstractWorld {
       this.scene.background = texture;
       this.scene.environment = texture;
     }
+
     WorldManager.loadCache(new RGBELoader(), path, setTexture)
 
     const updateGem = (o: any, key: string, value: any) => {
@@ -70,7 +70,9 @@ export class World implements AbstractWorld {
     const seTmodel = (gltf: any) => {
       root = gltf.scene.children[0].clone();
       this.ring = new THREE.Object3D();
-      this.ring.add(root);
+      const base = new THREE.Object3D();
+      base.add(root);
+      this.ring.add(base);
       root.rotation.x = 0
       this.ring.translateY(0)
       this.scene.add(this.ring)
@@ -86,32 +88,42 @@ export class World implements AbstractWorld {
       updateGem(root, 'thickness', World.testGem.thickness)
       updateGem(root, 'transmission', World.testGem.transmission)
       updateGem(root, 'clearcoat', World.testGem.clearcoat)
-      updateGem(root, 'side', THREE.DoubleSide)
+      updateGem(root, 'side', THREE.DoubleSide);
+
+      // const box = this.createBox(10, 10, 10);
+      // this.ring.add(box)
       return this.ring
     }
     const modelPath = 'src/World/models/ring_1.glb';
-    this.modelPromise = new Promise((rev)=>{
-      new GLTFLoader().load(modelPath, (gltf)=>{
+    this.modelPromise = new Promise((rev) => {
+      new GLTFLoader().load(modelPath, (gltf) => {
         rev(seTmodel(gltf))
       });
     })
-    
+
 
     window.addEventListener('resize', () => {
       (this.camera as any).aspect = window.innerWidth / window.innerHeight;
       (this.camera as any).updateProjectionMatrix();
     })
-    this.upDateFeatureMap ={
-      'metal': (value:Feature['values'][0]) => {
-        if(value.value)updateMetal(root, 'color', new THREE.Color(parseInt(value.value, 16)))
+    this.upDateFeatureMap = {
+      'metal': (value: Feature['values'][0]) => {
+        if (value.value) updateMetal(root, 'color', new THREE.Color(parseInt(value.value, 16)))
       },
       'gem': (value: Feature['values'][0]) => {
-        if(value.value)updateGem(root, 'color', new THREE.Color(parseInt(value.value, 16)))
+        if (value.value) updateGem(root, 'color', new THREE.Color(parseInt(value.value, 16)))
       }
-   }
+    }
   }
-  getModel(){
+  getModel() {
     return this.modelPromise
+  }
+  presentation() {
+    if (this.ring) {
+      const base = this.ring.children[0];
+      const model = base.children[0]
+      model.rotation.x = Math.PI * (85 / 180);
+    }
   }
   showFeature(_id: string): void {
     throw new Error("Method not implemented.");
@@ -124,18 +136,21 @@ export class World implements AbstractWorld {
     this.controls.enabled = true;
     this.controls.maxDistance = 20;
     this.controls.minDistance = 7;
-    // this.controls.domElement = document.createElement('div');
   }
 
- 
 
-  updateFeature(feature: Feature,value:Feature['values'][0]) {
+
+  updateFeature(feature: Feature, value: Feature['values'][0]) {
     this.upDateFeatureMap[feature.name]?.(value)
   }
   createBox(w: number, h: number, d: number) {
 
     const boxGeometry = new THREE.BoxGeometry(w, h, d);
-    const boxMaterial = new THREE.MeshNormalMaterial();
+    const boxMaterial = new THREE.MeshNormalMaterial({
+      side: THREE.DoubleSide,
+      opacity: 0.1,
+      transparent: true
+    });
 
     const box = new THREE.Mesh(boxGeometry, boxMaterial)
     box.geometry
@@ -149,10 +164,9 @@ export class World implements AbstractWorld {
     return this.camera
   }
   update(t: number) {
-    // console.log('$$$$$4');
     t = t / 10
     // this.ring?.rotation.set(0, t, 0);
-    // this.ring.scale.set( (t%1000)/1000, (t%1000)/1000, (t%1000)/1000 );
+    //this.ring.scale.set( (t%1000)/1000, (t%1000)/1000, (t%1000)/1000 );
     this.controls?.update();
   }
   open(_renderer: THREE.WebGLRenderer): void {
@@ -162,5 +176,4 @@ export class World implements AbstractWorld {
   close(): void {
     if (this.controls) this.controls.enabled = false;
   }
-
 }

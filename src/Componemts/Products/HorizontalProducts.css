@@ -1,9 +1,10 @@
 /* 300 cadreW-max  */
 .hori-ctn-products{
   position: absolute;
-  height: 300px;
+  height: 320px;
   width: 100%; 
   bottom: 0;
+  
 }
 
 .hori-ctn-products .products {
@@ -24,13 +25,17 @@
   cursor: pointer;
   filter: none;
   margin: 0 30px;
-  width: 220px;
-  height: 220px;
+  width: 250px;
+  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 10px;
-  /* transition: 200ms; */
+  transition: 200ms;
+}
+.hori-ctn-products .product.active {
+ transform: scale(1.2);
+  transition: 200ms;
 }
 
 .hori-ctn-products .products::-webkit-scrollbar {
@@ -49,11 +54,3 @@
   background: #55555500;
 }
 
-
-.indice{
-  z-index: 10;
-  position: absolute;
-  bottom: 450px;
-  background: rgb(85, 65, 51);
-  height: 20px;
-}

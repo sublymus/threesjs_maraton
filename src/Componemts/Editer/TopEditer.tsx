@@ -24,8 +24,6 @@ export function TopEditer() {
   const n = Math.floor((w - 20) / v);
   const l = Math.ceil((feature?.values.length || 0) / n);
   dim.height = Math.min(l,6) * v;
-
-
   return product && (
     <div className='top-ctn-edit' >
       <div className='edit-btn'></div>
@@ -47,7 +45,9 @@ export function TopEditer() {
         {feature && (
           feature.values.map((_value) => (
             <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${_value.url})` }} onClick={() => {
+              
               if (valueId == _value.id) {
+                
                 product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {

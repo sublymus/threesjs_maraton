@@ -3,8 +3,7 @@
 ********  (provider domain) page_client 
 ***********************
 # general {
-    if (cadre.x+cadre.w > 0) || (cadre.x - win.w)  => cadre.appendChild();
-    else cadre.removeChild();
+    
 }
 
 

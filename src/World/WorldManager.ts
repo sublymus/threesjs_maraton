@@ -4,7 +4,7 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import { Tactil } from "../Tools/Tactil";
 import { Feature} from "../DataBase";
 
-export const WorlGui : GUI|null =null //new GUI();
+export const WorlGui : GUI|null =new GUI();
 
 
 export interface AbstractWorld {
@@ -16,6 +16,7 @@ export interface AbstractWorld {
     updateFeature(feature:Feature,value:Feature['values'][0]):void;
     open(renderer : THREE.WebGLRenderer): void
     getModel():Promise<THREE.Object3D>
+    presentation():void
     close(): void
 }
 const params = {
@@ -58,7 +59,7 @@ export class WorldManager {
     // WorlList
     constructor(container: HTMLElement) {
         this._renderer = new THREE.WebGLRenderer();
-        this._renderer.setPixelRatio(window.devicePixelRatio);
+        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio,1));
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
@@ -66,7 +67,6 @@ export class WorldManager {
         this.stats = new Stats();
         container.append(this._renderer.domElement);
         container.append(WorldManager.tactil.getView())
-        this._renderer.setPixelRatio(0.9 );
         container.style.zIndex = '-100';
 
         window.addEventListener('resize', this.onResize)
