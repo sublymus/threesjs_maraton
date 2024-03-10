@@ -102,6 +102,7 @@ export class WorldManager {
                 this._renderer.toneMappingExposure = params.exposure;
 
             });}
+            WorlGui?.close()
 
         WorldManager.worldManager = this;
     }

@@ -13,7 +13,8 @@ const Pages = {
         'research_bar',
         'card',
         'nav_option',
-        'logo'
+        'top-bar',
+        // 'logo'
     ],
     product:[
         'editer',
@@ -22,13 +23,24 @@ const Pages = {
         'filter'
     ],
     profile:[
-        'profile'
+        'profile',
+        'top-bar',
     ],
     customer_service:[
-        'customer service'
+        'customer service',
+        'top-bar',
     ],
     about:[
-        'about'
+        'page-about',
+        'top-bar',
+    ],
+    blog:[
+        'page-blog',
+        'top-bar',
+    ],
+    service:[
+        'page-service',
+        'top-bar',
     ],
 } as const
 interface AppState {

@@ -264,7 +264,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: '/src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Watch_model_A'
     },
     {
         id: '1_000_003',
@@ -336,7 +336,7 @@ export const DataBase = {
         status: 0,
         colaborator_id: 'noag',
         engineer_id: 'noga',
-        scene_url: '/src/World/Rings/Ring_petal_1'
+        scene_url: '/src/World/Rings/Watch_model_A'
     },
     {
         id: '1_000_002',

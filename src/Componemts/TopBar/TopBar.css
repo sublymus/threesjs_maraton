@@ -1,0 +1,109 @@
+.top-bar {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100px;
+}
+
+.top-bar-ctn {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    min-width: 420px;
+    max-width: 1800px;
+    margin: 20px 0;
+}
+
+.top-bar .logo {
+    top: 30px;
+    left: 20px;
+    font-size: 4em;
+    font-family: "Caveat", cursive;
+    color: #fff;
+    height: 80px;
+}
+
+.top-bar .nav-link {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    top: 3vh;
+    width: 100vw;
+    transition: 200ms;
+    /* max-width: 680px; */
+    /* left: calc( 50vw - 340px ); */
+}
+
+.top-bar .link {
+    transition: 200ms;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    /* background: rgba(50, 50, 50, 0.127); */
+    /* border: 1px solid #33333352; */
+    /* border-radius: 50px; */
+    /* font-size: x-large; */
+    color: #ffffffa5
+}
+
+.top-bar .link:hover {
+    color: #ffffff;
+    transition: 200ms;
+}
+
+.top-bar .research {
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    transition: 200ms;
+    height: 50px;
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 20px;
+}
+
+.top-bar input {
+    all: unset;
+    /* background: #345; */
+    width: 100%;
+    margin: 0 10px;
+    color: rgb(37, 49, 61);
+}
+
+.top-bar .icon-research {
+    background: no-repeat center/70% url(../../res/search.png);
+    filter: invert(30%);
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+}
+
+.top-bar .cart {
+    background: no-repeat center/50% url(../../res/shopping-cart.png), #ffffffa0;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 10px;
+}
+
+.top-bar .cart:hover {
+    opacity: 0.8;
+}
+
+.top-bar .profile {
+
+    background: no-repeat center/70% url(../../res/circle-user-round.png), #ffffffa0;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 10px;
+}
+
+.top-bar .profile:hover {
+    opacity: 0.8;
+}
