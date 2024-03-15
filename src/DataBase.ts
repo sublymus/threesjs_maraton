@@ -18,6 +18,7 @@ type Value = {
     label: string,
     url?: string,
     value?: string,
+    price?: number
 }
 
 export interface Feature {
@@ -36,7 +37,7 @@ export interface Feature {
     'inpute_date_interval'| //interval de values[0] -> values[1]
     'file'| //interval de values[0] -> values[1]
     'input_file', // ->values[0]
-    default: Value,
+    default_id:string,
     values: Value[]
 }
 
@@ -48,7 +49,7 @@ export interface ProductInterface {
     images: string[],
     model_images: string[],
     scene_url: string,
-    colaborator_id: string,
+    collaborator: string,
     engineer_id: string,
     status: number,// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
 }
@@ -58,12 +59,7 @@ const gemFeature: Feature = {
     name: 'gem',
     image: '/src/World/images/gem/gem.png',
     view: 'icon',
-    default: {
-        label: 'Grenat bleu',
-        id: 'blue_garnet',
-        url: '/src/World/images/gem/blue_garnet.png',
-        value: '2d3563'
-    },
+    default_id:'blue_garnet',
     values: [{
         label: 'Grenat bleu',
         id: 'blue_garnet',
@@ -162,27 +158,25 @@ const metalFeature: Feature = {
     name: 'metal',
     image: '/src/World/images/metal/metal.png',
     view: 'icon',
-    default: {
-        label: 'Gold',
-        id: 'gold',
-        url:'/src/World/images/metal/metal.png',
-        value: 'bead2e'
-    },
+    default_id: "gold" ,
     values: [{
         label: 'Gold',
         id: 'gold',
         url:'/src/World/images/metal/gold.png',
-        value: 'bead2e'
+        value: 'bead2e',
+        price:200
     }, {
         label: 'Silver',
         id: 'silver',
         url:'/src/World/images/metal/silver.png',
-        value: 'eeeeee'
+        value: 'eeeeee',
+        price:200
     }, {
         label: 'Bronze',
         id: 'bronz',
         url:'/src/World/images/metal/bronz.png',
-        value: 'ffaa55'
+        value: 'ffaa55',
+        price:200
     },]
 }
 
