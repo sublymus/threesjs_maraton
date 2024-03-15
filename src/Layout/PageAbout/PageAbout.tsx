@@ -9,9 +9,7 @@ export function PageAbout() {
             <div className="about-background" onClick={() => {
                 setPage('catalogue')
             }}></div>
-            <div className="ctn-about">
-
-                
+            <div className="ctn-about">                
                 <div >
                 <div className="close" onClick={() => {
                     setPage('catalogue')

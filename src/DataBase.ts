@@ -180,7 +180,6 @@ const metalFeature: Feature = {
     },]
 }
 
-
 const features: Features = {
     [metalFeature.id]: metalFeature,
     [gemFeature.id]: gemFeature
