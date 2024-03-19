@@ -1,7 +1,8 @@
 .vert-ctn-products{
   position: absolute;
-  height: 100%;
-  width: 220px; 
+  height: calc( 100% - 100px);
+  width: 220px;
+  bottom: 0; 
 }
 .vert-ctn-products.blur{
   position: absolute;

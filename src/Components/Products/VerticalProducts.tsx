@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './VerticalProducts.css'
-import { VerticalCadre } from '../VerticalCadre/VerticalCadre';
-import { VerticalCadreManager } from '../VerticalCadre/VerticalCadreManager'
+import { VerticalCadre } from './VerticalCadre/VerticalCadre';
+import { VerticalCadreManager } from './VerticalCadre/VerticalCadreManager'
 import { useProductStore } from './ProductStore';
 
 

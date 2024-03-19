@@ -5,7 +5,7 @@ import { Editer } from './Components/Editer/Editer'
 import { WorldView } from './Components/WorldView/WorldView'
 import { Catalogue } from './Components/Catalogue/Catalogue'
 import { NavOption } from './Components/NavOption/NavOption'
-import { Card ,MiniCard} from './Components/Card/Card'
+// import { Card ,MiniCard} from './Components/Card/Card'
 import { ResearchBar } from './Components/ResearchBar/ResearchBar'
 import { TopBar } from './Components/TopBar/TopBar'
 import { ProfileImage } from './Components/ProfileImage/ProfileImage'
@@ -27,8 +27,8 @@ ReactDOM.createRoot(root).render(
     <Editer />
     <WorldView root={root} />
     <NavOption/>
-    <Card/>
-    <MiniCard/>
+    {/* <Card/> */}
+    {/* <MiniCard/> */}
     <ResearchBar/>
     <TopBar/>
     <ProfileImage/>

@@ -22,7 +22,7 @@ export function TopEditer() {
   dim.width = w;
   const v = 70;
   const n = Math.floor((w - 20) / v);
-  const l = Math.ceil((feature?.values.length || 0) / n);
+  const l = Math.ceil((feature?.values?.length || 0) / n);
   dim.height = Math.min(l,6) * v;
   return product && (
     <div className='top-ctn-edit' >
@@ -30,12 +30,12 @@ export function TopEditer() {
       <div className="features" ref={featuresDivRef}>
         {
           Object.values(product.features).map((_feature) => (
-            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.image})` }} onClick={() => {
+            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
               if (feature == _feature) {
                 setFeature(null);
               } else {
                 setFeature(_feature);
-                setValueId(product.featuresCollector?.getCollectedFeatures(_feature.id)?.id)
+                setValueId((product.featuresCollector?.getCollectedFeatures(_feature.id) as any)?.id)
               }
             }}></div>
           ))
@@ -43,16 +43,16 @@ export function TopEditer() {
       </div>
       <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:l>6?'scroll':'inherit'}}>
         {feature && (
-          feature.values.map((_value) => (
-            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${_value.url})` }} onClick={() => {
+          feature.values?.map((_value) => (
+            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${(_value as any).url})` }} onClick={() => {
               
-              if (valueId == _value.id) {
+              if (valueId == (_value as any).id) {
                 
                 product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {
-                product?.featuresCollector?.collectFeature(feature, _value);
-                setValueId(_value.id);
+                product?.featuresCollector?.collectFeature(feature, (_value as any));
+                setValueId((_value as any).id);
               }
             }}>
               <span className='lable'></span>

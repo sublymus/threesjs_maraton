@@ -2,23 +2,29 @@ import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { Tactil } from "../Tools/Tactil";
-import { Feature} from "../DataBase";
+import { Feature, VALUES } from "../DataBase";
 
-export const WorlGui : GUI|null =new GUI();
+export const WorlGui: GUI | null = new GUI();
 
+export interface AbstractLocalLoader {
+    showFeature(uuid: string): void;
+    updateFeature(feature: Feature, value: VALUES|undefined): void;
+    getModel(): Promise<THREE.Object3D>;
+    getDependencies(): Dependencies;
+    init(this: AbstractWorld, dependencies: Dependencies['obj']): void
+}
 
 export interface AbstractWorld {
-    init(renderer: THREE.WebGLRenderer): void
+    localLoader: AbstractLocalLoader;
+    init(this: AbstractWorld, dependencies: Dependencies['obj'], renderer: THREE.WebGLRenderer, world:typeof WorldManager): void
+    getDependencies(): Dependencies,
     getScene(): THREE.Scene
     getCamera(): THREE.Camera
     update(time?: number, step?: number, renderer?: THREE.WebGLRenderer): void
-    showFeature(uuid: string): void;
-    updateFeature(feature:Feature,value:Feature['values'][0]):void;
-    open(renderer : THREE.WebGLRenderer): void
-    getModel():Promise<THREE.Object3D>
-    presentation():void
+    open(): void
     close(): void
-}
+};
+
 const params = {
     exposure: 2.0,
     toneMapping: 'AgX' as const,
@@ -36,6 +42,17 @@ const toneMappingOptions = {
     Custom: THREE.CustomToneMapping
 };
 
+export interface Dependencies {
+    obj: {
+        [key: string]: any,
+    },
+    path: {
+        [key: string]: string,
+    }
+}
+
+type i = (obj: Dependencies['obj'], renderer: THREE.WebGLRenderer , world:typeof WorldManager) => void|((obj: Dependencies['obj']) => void)
+
 export class WorldManager {
     public static worldManager: WorldManager | null = null;
     public static loadCache<T extends Function>(loader: {
@@ -50,16 +67,18 @@ export class WorldManager {
             });
         }
     }
-    public static WorldCache: { [path: string]: any } = {};
-    public static tactil= new Tactil();
     
-    private _renderer: THREE.WebGLRenderer;
+    public static WorldCache: { [path: string]: any } = {};
+    public static tactil = new Tactil();
+    
+    public _renderer: THREE.WebGLRenderer;
     public currentWorl: AbstractWorld | null = null;
     private stats: Stats;
     // WorlList
     constructor(container: HTMLElement) {
+        WorldManager.worldManager = this;
         this._renderer = new THREE.WebGLRenderer();
-        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio,1));
+        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
@@ -71,58 +90,71 @@ export class WorldManager {
 
         window.addEventListener('resize', this.onResize)
 
-        WorldManager.tactil.resize({height:window.innerHeight,width:window.innerWidth})
-    
-        if(WorlGui){
+        WorldManager.tactil.resize({ height: window.innerHeight, width: window.innerWidth })
+
+        if (WorlGui) {
             const gui = WorlGui.addFolder('World');
-        const toneMappingFolder = gui.addFolder('tone mapping');
-        toneMappingFolder.close();
+            const toneMappingFolder = gui.addFolder('tone mapping');
+            toneMappingFolder.close();
 
-        toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
-            .onChange(() => {
-                this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
-            });
+            toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
+                .onChange(() => {
+                    this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
+                });
 
-        toneMappingFolder.add(params, 'blurriness', 0, 1)
+            toneMappingFolder.add(params, 'blurriness', 0, 1)
 
-            .onChange((value) => {
-                if (this.currentWorl) this.currentWorl.getScene().backgroundBlurriness = value;
-            });
+                .onChange((value) => {
+                    if (this.currentWorl) this.currentWorl.getScene().backgroundBlurriness = value;
+                });
 
-        toneMappingFolder.add(params, 'intensity', 0, 1)
+            toneMappingFolder.add(params, 'intensity', 0, 1)
 
-            .onChange((value) => {
-                if (this.currentWorl) this.currentWorl.getScene().backgroundIntensity = value;
-            });
+                .onChange((value) => {
+                    if (this.currentWorl) this.currentWorl.getScene().backgroundIntensity = value;
+                });
 
-        toneMappingFolder.add(params, 'exposure', 0, 2)
+            toneMappingFolder.add(params, 'exposure', 0, 2)
 
-            .onChange(() => {
+                .onChange(() => {
 
-                this._renderer.toneMappingExposure = params.exposure;
+                    this._renderer.toneMappingExposure = params.exposure;
 
-            });}
-            WorlGui?.close()
+                });
+        }
+        WorlGui?.close()
 
-        WorldManager.worldManager = this;
+    }
+    public async initialize(dependencies: Dependencies, initializer: i) {
+        const obj: any = {};
+        await new Promise(async (rev) => {
+            for (const key in dependencies.path) {
+                if (Object.prototype.hasOwnProperty.call(dependencies.path, key)) {
+                    const path = dependencies.path[key];
+                    const module = await import(/* @vite-ignore */ path);
+                    obj[key] = module[key]||module;
+                }
+            }
+            rev(null)
+        });
+        initializer(obj, this._renderer , WorldManager );
     }
 
     setWorld(world: AbstractWorld) {
-        world.init(this._renderer);
-        world.open(this._renderer);
+        world.open();
         this.currentWorl = world;
         world.getScene().backgroundBlurriness = params.blurriness;
     }
 
-    setExposure(uuid:string,data:{exposure?:number,toneMapping?:keyof typeof toneMappingOptions}){
-        if(uuid != this.currentWorl?.getScene().uuid) return;
-        if(data.toneMapping)this._renderer.toneMapping = toneMappingOptions[data.toneMapping];
-        if( data.exposure) this._renderer.toneMappingExposure = data.exposure
+    setExposure(uuid: string, data: { exposure?: number, toneMapping?: keyof typeof toneMappingOptions }) {
+        if (uuid != this.currentWorl?.getScene().uuid) return;
+        if (data.toneMapping) this._renderer.toneMapping = toneMappingOptions[data.toneMapping];
+        if (data.exposure) this._renderer.toneMappingExposure = data.exposure
     }
 
     onResize = () => {
-        WorldManager.tactil.resize({height:window.innerHeight,width:window.innerWidth})
-        this._renderer.setSize(window.innerWidth, window.innerHeight,true);
+        WorldManager.tactil.resize({ height: window.innerHeight, width: window.innerWidth })
+        this._renderer.setSize(window.innerWidth, window.innerHeight, true);
     }
 
     animus = (time: number) => {

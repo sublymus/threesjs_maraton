@@ -1,5 +1,5 @@
 import "./Tactil.css";
-import { Callback , Emitter } from "./Emitter";
+import { Emitter } from "./Emitter";
 export type VECTOR = { x: number, y: number }
 
 

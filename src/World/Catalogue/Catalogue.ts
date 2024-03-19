@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { AbstractWorld, WorldManager } from "../WorldManager";
+import { AbstractLocalLoader, AbstractWorld, Dependencies, WorldManager } from "../WorldManager";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Feature } from "../../DataBase";
@@ -20,7 +20,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
     public static Info = {
         product: null,
     }
-
+    
     public static catalogueWorld: CatalogueWorld | null = null;
     scene: THREE.Scene;
     camera: THREE.Camera;
@@ -39,6 +39,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         model: new THREE.Object3D,
     }
     outId = 0;
+    localLoader: AbstractLocalLoader;
     constructor() {
         super(events, {
             chance: []
@@ -58,7 +59,6 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
             }
         })
         WorldManager.tactil.visibility(true);
-
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.01, 300)
         this.camera.lookAt(0, 0, 0);
@@ -66,7 +66,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         this.scene = new THREE.Scene();
         this.scene.add(this.groupe.model);
         const path = '/src/World/images/royal_esplanade_1k.hdr';
-
+        
         const setTexture = (texture: THREE.DataTexture) => {
             texture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.background = texture;
@@ -74,11 +74,16 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         }
 
         WorldManager.loadCache(new RGBELoader(), path, setTexture)
+        //@ts-ignore
+        this.localLoader =  null;
+    }
+    getDependencies(): Dependencies {
+        throw new Error("Method not implemented.");
     }
     presentation(): void {
         throw new Error("Method not implemented.");
     }
-   async getModel(): Promise<THREE.Object3D> {
+    async getModel(): Promise<THREE.Object3D> {
         return this.groupe.model
     }
     updateFeature(_feature: Feature): void {
@@ -122,7 +127,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
             }
         })
     }
-    open(_renderer: THREE.WebGLRenderer): void {
+    open(): void {
         WorldManager.tactil.visibility(true);
     }
     close(): void {}

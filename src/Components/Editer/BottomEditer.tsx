@@ -28,7 +28,7 @@ export function BottomEditer() {
     if (!ctn_featuresDivRef.current) return
     if (!product?.scene) return
     const width = ctn_featuresDivRef.current?.getBoundingClientRect().width;
-    const length = Object.keys(product.features).length;
+    const length = product.features.length;
     const sumWidth = length * Feature_ZISE
     const required = sumWidth > width;
     setMoreRequired(required)
@@ -46,7 +46,7 @@ export function BottomEditer() {
     if (!feature) return
     const width = ctn_featuresDivRef.current?.getBoundingClientRect().width;
     if (!width) return
-    const h = VALUES_ICON_SIZE * (1 + (feature.values.length * VALUES_ICON_SIZE) / width)
+    const h = VALUES_ICON_SIZE * (1 + ((feature.values?.length||0) * VALUES_ICON_SIZE) / width)
     setValuesHeight(h);
 
   }, [feature])
@@ -62,14 +62,14 @@ export function BottomEditer() {
       <div className="ctn-features-values"  style={{ display: feature ? 'flex' : 'none', height: `${valuesHeight}px`, top: `${-valuesHeight - 70 +(moreRequired?0:50)}px` }}>
       <div className='features-values'>
         {feature && (
-          feature.values.map((_value) => (
-            <div key={_value.id} className={'features-value ' + (_value.id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${_value.url})` }} onClick={() => {
-              if (valueId == _value.id) {
+          feature.values?.map((_value) => (
+            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${(_value as any).url})` }} onClick={() => {
+              if (valueId == (_value as any).id) {
                 product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);
               } else {
                 product.featuresCollector?.collectFeature(feature, _value);
-                setValueId(_value.id);
+                setValueId((_value as any).id);
               }
             }}>
               <span className='lable'></span>
@@ -100,12 +100,12 @@ export function BottomEditer() {
         <div className={"features " + (moreRequired ? size : '')} style={{ height: `${featuresHeight}px`, ...(size == 'low' ? { whiteSpace: 'nowrap' } : {}) }} ref={featuresDivRef}>
           {
             Object.values(product.features).map((_feature) => (
-              <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.image})` }} onClick={() => {
+              <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
                 if (feature == _feature) {
                   setFeature(null);
                 } else {
                   setFeature(_feature);
-                  setValueId(product.featuresCollector?.getCollectedFeatures(_feature.id)?.id)
+                  setValueId((product.featuresCollector?.getCollectedFeatures(_feature.id) as any)?.id)
                 }
               }}></div>
             ))

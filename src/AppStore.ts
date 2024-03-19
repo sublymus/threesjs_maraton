@@ -1,6 +1,8 @@
 
 import { create } from 'zustand'
 
+export const Host = 'http://localhost:3333';
+
 const Pages = {
     loading:[
         'loading'

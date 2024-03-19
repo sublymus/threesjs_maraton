@@ -1,7 +1,7 @@
 
 import { create } from 'zustand'
-import { Catalogue, Category, DataBase, ProductInterface } from '../../DataBase'
-import { AbstractWorld } from '../../World/WorldManager'
+import { Catalogue, Category, DataBase } from '../../DataBase'
+import { AbstractLocalLoader, WorldManager } from '../../World/WorldManager'
 import { CatalogueWorld } from '../../World/Catalogue/Catalogue'
 
 
@@ -15,7 +15,7 @@ interface AppState {
     setCatalogue(catalogue:Catalogue):Promise<void>
 }
 
-const CATALOGUE_CATEGORY_WORLD_CACHE : {[name:string]:AbstractWorld[]}= {}
+const CATALOGUE_CATEGORY_LOADER_CACHE : {[name:string]:AbstractLocalLoader[]}= {}
 
 let CATALOGUES_CACHE:Catalogue[]|null = null;
 
@@ -51,10 +51,10 @@ export const useCatalogueStore = create<AppState>((set) => ({
 
 
 async function setCatalogueCategory(catalogue:Catalogue) {
-    if(CATALOGUE_CATEGORY_WORLD_CACHE[catalogue.id]) {
+    if(CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id]) {
         CatalogueWorld.catalogueWorld?.removeAll();
-        const promises = CATALOGUE_CATEGORY_WORLD_CACHE[catalogue.id].map((category_world)=>new Promise(async (rev)=>{
-            rev(await category_world.getModel());
+        const promises = CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].map((loader)=>new Promise(async (rev)=>{
+            rev(await loader.getModel());
         }));
         (await Promise.allSettled(promises)).map(m=>(m as any).value).forEach((model)=>{
             CatalogueWorld.catalogueWorld?.addModel(model);
@@ -62,14 +62,16 @@ async function setCatalogueCategory(catalogue:Catalogue) {
         return 
     }
     
-    CATALOGUE_CATEGORY_WORLD_CACHE[catalogue.id] = [];
+    CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id] = [];
     const promises = catalogue.categories.map((category)=>new Promise(async (rev)=>{
-        const {World} =await import(/* @vite-ignore */category.product.scene_url)
-        const world = new World() as AbstractWorld;
-        CATALOGUE_CATEGORY_WORLD_CACHE[catalogue.id].push(world)
-        const model = await world.getModel();
+        const {LocalLoader} = await import(/* @vite-ignore */`${category.scene_dir}/LocalLoader.js`)
+        const loader = new LocalLoader() as AbstractLocalLoader;
+        
+        await WorldManager.worldManager?.initialize(loader.getDependencies(),loader.init)
+       
+        CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].push(loader)
+        const model = await loader.getModel();
         model.userData.category = category;
-        world.presentation()
         rev(model)
     }));
     const models = (await Promise.allSettled(promises)).filter((f)=>f.status=='fulfilled').map(m=>(m as any).value);

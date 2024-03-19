@@ -1,9 +1,7 @@
 import './TopBar.css'
 import { useAppStore } from "../../AppStore";
-import React from 'react';
-
 export function TopBar() {
-    const { page, isAllowed, setPage } = useAppStore();
+    const { page, setPage } = useAppStore();
     return (
         <div className="top-bar">
             <div className="top-bar-ctn">

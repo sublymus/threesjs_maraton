@@ -58,7 +58,9 @@ export function PageService() {
                 setPage('catalogue')
             }}></div>
             <div className="ctn-service">
-                <div className="close"></div>
+                <div className="close"  onClick={() => {
+                setPage('catalogue')
+            }}></div>
                 <div className="ctn-service2">
                     <div className="discussion-ctn">
                         {

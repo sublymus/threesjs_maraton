@@ -18,7 +18,7 @@ export function CatalogueOnglet() {
                 return (<div className={"onglet "+(active?.id == catalogue.id?'active':'')} key={catalogue.id} onClick={()=>{
                     setCatalogue(catalogue);
                 }}>
-                {catalogue.name}
+                {catalogue.label}
                 </div>)
             })}
         </div>

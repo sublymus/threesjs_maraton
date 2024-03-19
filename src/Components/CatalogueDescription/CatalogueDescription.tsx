@@ -9,16 +9,19 @@ export function CatalogueDescription() {
     return isAllowed(page, 'catalogue_description') && (
         <div className="catalogue-description">
             <p className="description">
-                {catalogue?.name} {selectedCategory?.id}{selectedCategory?.description}
+                {catalogue?.label} {selectedCategory?.id}{selectedCategory?.description}
             </p>
             <span className="see-all" onClick={() => {
+                console.log('##########');
+                
                 fetchProducts({
                     filter:{
                         category_id:selectedCategory?.id
                     }
+                }).then(()=>{
+                    setPage(page == 'catalogue' ? 'product' : 'catalogue')
                 })
-                setPage(page == 'catalogue' ? 'product' : 'catalogue')
-            }}> See all {selectedCategory?.name}</span>
+            }}> See all {selectedCategory?.label}</span>
         </div>
     )
 }
