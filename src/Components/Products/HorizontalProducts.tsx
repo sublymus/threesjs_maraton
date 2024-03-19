@@ -1,3 +1,4 @@
+import { Host } from '../../AppStore';
 import './HorizontalProducts.css'
 import { useProductStore } from './ProductStore';
 import { useEffect, useState } from 'react'
@@ -20,7 +21,7 @@ useEffect(()=>{
 
         {products.map(product=>(
           <div
-          style={{ backgroundImage: `url(${product.images[0]})` }}
+          style={{ backgroundImage: `url(${Host}${product.images[0]})` }}
           className={'product ' + (active == product.id?'active':'')}
           onClick={() => {
             selectProduct(product)

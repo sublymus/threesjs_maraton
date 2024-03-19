@@ -3,6 +3,7 @@ import './VerticalProducts.css'
 import { VerticalCadre } from './VerticalCadre/VerticalCadre';
 import { VerticalCadreManager } from './VerticalCadre/VerticalCadreManager'
 import { useProductStore } from './ProductStore';
+import { Host } from '../../AppStore';
 
 
 export function VerticalProducts() {
@@ -27,7 +28,7 @@ export function VerticalProducts() {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div
-            style={{ backgroundImage: `url(${product.images[0]})` }}
+            style={{ backgroundImage: `url(${Host}${product.images[0]})` }}
             className={`product ${(first) ? 'selected' : ''}`}
             data-uuid={product.id}
             onClick={() => {

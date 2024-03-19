@@ -28,7 +28,7 @@ export function BottomEditer() {
     if (!ctn_featuresDivRef.current) return
     if (!product?.scene) return
     const width = ctn_featuresDivRef.current?.getBoundingClientRect().width;
-    const length = product.features.length;
+    const length = product.features?.length||0;
     const sumWidth = length * Feature_ZISE
     const required = sumWidth > width;
     setMoreRequired(required)
@@ -99,7 +99,7 @@ export function BottomEditer() {
         }}></div>
         <div className={"features " + (moreRequired ? size : '')} style={{ height: `${featuresHeight}px`, ...(size == 'low' ? { whiteSpace: 'nowrap' } : {}) }} ref={featuresDivRef}>
           {
-            Object.values(product.features).map((_feature) => (
+            product.features&&Object.values(product.features).map((_feature) => (
               <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
                 if (feature == _feature) {
                   setFeature(null);

@@ -264,7 +264,7 @@ const features: Feature[] = [metalFeature,gemFeature]
 
 
 
-const scene_dir = `http://localhost:3333/fs/products_scene_dir_016f8a7e-9a8e-4717-b68b-53dce0c9fa63/RingJS`
+const scene_dir = `/fs/products_scene_dir_016f8a7e-9a8e-4717-b68b-53dce0c9fa63/RingJS`
 
 export const DataBase = {
     async fetchCatalogues() {

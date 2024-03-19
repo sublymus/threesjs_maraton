@@ -29,7 +29,7 @@ export function TopEditer() {
       <div className='edit-btn'></div>
       <div className="features" ref={featuresDivRef}>
         {
-          Object.values(product.features).map((_feature) => (
+          product.features&&Object.values(product.features).map((_feature) => (
             <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
               if (feature == _feature) {
                 setFeature(null);

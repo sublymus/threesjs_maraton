@@ -2,6 +2,7 @@
 import { create } from 'zustand'
 import { DataBase, Feature, ProductInterface, VALUES } from '../../DataBase'
 import { AbstractWorld, WorldManager } from '../../World/WorldManager'
+import { Host } from '../../AppStore';
 
 export type CollectedFeatures = { [key: string]: VALUES | undefined}
 
@@ -40,9 +41,14 @@ export const useProductStore = create<ProductState>((set) => ({
     products: [],
 
     fetchProducts: async (_filter: Filter) => {
-        const products = await DataBase.fetchRings()
-        const product = Object.values(products)[0];
+        const response = await fetch(`${Host}/get_products/?page=1&limit=25&is_features_required=true`,{
+            method:'GET'
+        });
+        const products = (await response.json()) as ProductScenus[]
+        
+        const product = products[0];
         if (!product) return;
+        console.log(product);
         
         const productScenus = await showProductWorld(product);
         set(() => ({ products, product:productScenus }));
@@ -58,7 +64,6 @@ export const useProductStore = create<ProductState>((set) => ({
 
 async function showProductWorld(product:ProductScenus) {
     if(!WorldManager.worldManager) {
-        console.log('********************** worldManager required *****************************');
         return;
     }
     if (!product) return;
@@ -72,7 +77,7 @@ async function showProductWorld(product:ProductScenus) {
         return productCache
     }
     
-    const {World} =await import(/* @vite-ignore */`${product.scene_dir}/World.js`);
+    const {World} =await import(/* @vite-ignore */`${Host}${product.scene_dir}/World.js`);
 
     const world = new World() as AbstractWorld
     await WorldManager.worldManager.initialize(world.getDependencies(),(...a)=>{

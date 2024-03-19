@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { Catalogue, Category, DataBase } from '../../DataBase'
 import { AbstractLocalLoader, WorldManager } from '../../World/WorldManager'
 import { CatalogueWorld } from '../../World/Catalogue/Catalogue'
+import { Host } from '../../AppStore'
 
 
 
@@ -64,7 +65,7 @@ async function setCatalogueCategory(catalogue:Catalogue) {
     
     CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id] = [];
     const promises = catalogue.categories.map((category)=>new Promise(async (rev)=>{
-        const {LocalLoader} = await import(/* @vite-ignore */`${category.scene_dir}/LocalLoader.js`)
+        const {LocalLoader} = await import(/* @vite-ignore */`${Host}${category.scene_dir}/LocalLoader.js`)
         const loader = new LocalLoader() as AbstractLocalLoader;
         
         await WorldManager.worldManager?.initialize(loader.getDependencies(),loader.init)
