@@ -1,6 +1,6 @@
 
 import { create } from 'zustand'
-import { Catalogue, Category, DataBase } from '../../DataBase'
+import { CatalogueInterface, Category } from '../../DataBase'
 import { AbstractLocalLoader, WorldManager } from '../../World/WorldManager'
 import { CatalogueWorld } from '../../World/Catalogue/Catalogue'
 import { Host } from '../../AppStore'
@@ -8,76 +8,81 @@ import { Host } from '../../AppStore'
 
 
 interface AppState {
-    selectedCategory:Category|undefined,
-    catalogue: Catalogue |undefined,
-    catalogues:Catalogue[]
-    fetchCatalogues():Promise<void>,
-    initCatalogueListener():void
-    setCatalogue(catalogue:Catalogue):Promise<void>
+    selectedCategory: Category | undefined,
+    catalogue: CatalogueInterface | undefined,
+    catalogues: CatalogueInterface[]
+    fetchCatalogues(): Promise<void>,
+    initCatalogueListener(): void
+    setCatalogue(catalogue: CatalogueInterface): Promise<void>
 }
 
-const CATALOGUE_CATEGORY_LOADER_CACHE : {[name:string]:AbstractLocalLoader[]}= {}
+const CATALOGUE_CATEGORY_LOADER_CACHE: { [name: string]: AbstractLocalLoader[] } = {}
 
-let CATALOGUES_CACHE:Catalogue[]|null = null;
+let CATALOGUES_CACHE: CatalogueInterface[] | null = null;
 
 export const useCatalogueStore = create<AppState>((set) => ({
-    catalogue:undefined,
-    catalogues:[],
-    selectedCategory:undefined,
+    catalogue: undefined,
+    catalogues: [],
+    selectedCategory: undefined,
     async setCatalogue(catalogue) {
         await setCatalogueCategory(catalogue);
-        set(()=>({catalogue:catalogue}))
+        set(() => ({ catalogue: catalogue }))
     },
     async fetchCatalogues() {
-        if(CATALOGUES_CACHE) return;
+        if (CATALOGUES_CACHE) return;
+
+        const response = await fetch(`${Host}/get_catalogs/?page=1&limit=25&text=un&index=0&is_category_required=true`, {
+            method: 'GET',
+        });
         
-        const catalogues = await DataBase.fetchCatalogues();
+        const catalogues = await response.json() as CatalogueInterface[]
+        console.log(catalogues);
         CATALOGUES_CACHE = catalogues;
         const catalogue = catalogues[0];
         setCatalogueCategory(catalogue);
-       set(()=>({catalogues,catalogue}));
+        set(() => ({ catalogues, catalogue }));
     },
-    initCatalogueListener(){
+    initCatalogueListener() {
         /**
          * il ya un seul CatalogueWorld affiche la list de  produits d'un catalogue
          */
-        CatalogueWorld.catalogueWorld?.addListener('chance',(event)=>{
-           set(()=>({
-            selectedCategory:event.focusedModel?.userData.category,
-           }))
-            
+        CatalogueWorld.catalogueWorld?.addListener('chance', (event) => {
+            set(() => ({
+                selectedCategory: event.focusedModel?.userData.category,
+            }))
+
         })
     }
 }));
 
 
-async function setCatalogueCategory(catalogue:Catalogue) {
-    if(CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id]) {
+async function setCatalogueCategory(catalogue: CatalogueInterface) {
+    if (CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id]) {
         CatalogueWorld.catalogueWorld?.removeAll();
-        const promises = CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].map((loader)=>new Promise(async (rev)=>{
+        const promises = CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].map((loader) => new Promise(async (rev) => {
             rev(await loader.getModel());
         }));
-        (await Promise.allSettled(promises)).map(m=>(m as any).value).forEach((model)=>{
+        (await Promise.allSettled(promises)).map(m => (m as any).value).forEach((model) => {
             CatalogueWorld.catalogueWorld?.addModel(model);
         });
-        return 
+        return
     }
-    
+
     CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id] = [];
-    const promises = catalogue.categories.map((category)=>new Promise(async (rev)=>{
-        const {LocalLoader} = await import(/* @vite-ignore */`${Host}${category.scene_dir}/LocalLoader.js`)
+    const promises = catalogue.categories.map((category) => new Promise(async (rev) => {
+        const { LocalLoader } = await import(/* @vite-ignore */`${Host}${category.scene_dir}/LocalLoader.js`)
         const loader = new LocalLoader() as AbstractLocalLoader;
-        
-        await WorldManager.worldManager?.initialize(loader.getDependencies(),loader.init)
-       
+
+        await WorldManager.worldManager?.initialize(loader.getDependencies(), loader.init)
+
         CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].push(loader)
         const model = await loader.getModel();
         model.userData.category = category;
         rev(model)
     }));
-    const models = (await Promise.allSettled(promises)).filter((f)=>f.status=='fulfilled').map(m=>(m as any).value);
+    const models = (await Promise.allSettled(promises)).filter((f) => f.status == 'fulfilled').map(m => (m as any).value);
     CatalogueWorld.catalogueWorld?.removeAll();
-    models.forEach((model=>{
+    models.forEach((model => {
         CatalogueWorld.catalogueWorld?.addModel(model);
     }));
 }

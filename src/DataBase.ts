@@ -13,7 +13,7 @@ export interface Category {
     created_at?:string;
     updated_at?:string
 }
-export interface Catalogue {
+export interface CatalogueInterface {
     id: string,
     label: string,
     description?:string,
@@ -326,7 +326,7 @@ export const DataBase = {
                     description: 'Category_' + i + '  ==>  ' + p.description
                 }) satisfies Category),
             }
-        ] satisfies Catalogue[]
+        ] satisfies CatalogueInterface[]
     },
 
     async fetchRings() {
