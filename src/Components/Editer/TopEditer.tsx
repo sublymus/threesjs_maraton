@@ -19,7 +19,7 @@ export function TopEditer() {
   const s = size.width - 80;
   const r = 400;
   const w = s < r ? s : r
-  dim.width = w;
+  dim.width = w; 
   const v = 70;
   const n = Math.floor((w - 20) / v);
   const l = Math.ceil((feature?.values?.length || 0) / n);

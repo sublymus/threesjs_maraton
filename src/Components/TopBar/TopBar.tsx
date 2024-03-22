@@ -1,5 +1,5 @@
 import './TopBar.css'
-import { useAppStore } from "../../AppStore";
+import { useAppStore } from "../../AppStore"; 
 export function TopBar() {
     const { page, setPage } = useAppStore();
     return (
@@ -29,7 +29,9 @@ export function TopBar() {
                 <div className="cart">
                   
                 </div>
-                <div className="profile">
+                <div className="myprofile" onClick={()=>{
+                    setPage('profile');
+                }}>
                 </div>
                 
             </div>

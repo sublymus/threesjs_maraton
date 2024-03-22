@@ -10,13 +10,7 @@ const Pages = {
     catalogue: [
         'catalogue_description',
         'catalogue_onglet',
-        'profile_image',
-        'nav_link',
-        'research_bar',
-        'card',
-        'nav_option',
         'top-bar',
-        // 'logo'
     ],
     product:[
         'editer',
@@ -25,11 +19,11 @@ const Pages = {
         'filter'
     ],
     profile:[
-        'profile',
+        'page-profile',
         'top-bar',
     ],
     customer_service:[
-        'customer service',
+        'customer-service',
         'top-bar',
     ],
     about:[
@@ -44,16 +38,31 @@ const Pages = {
         'page-service',
         'top-bar',
     ],
-} as const
+} as const;
+
+type navQS = (qs:Record<string,any>)=>Record<string,any>
+
 interface AppState {
     page: keyof typeof Pages,
+    qs:Record<string,any>,
     Pages:typeof Pages,
+    pageList:string[],
+    navNext(qs:navQS|undefined):void,
+    navBack(qs:navQS|undefined):void,
     setPage(page :keyof typeof Pages):void,
     isAllowed<T extends keyof typeof Pages, C extends typeof Pages[T][number]  >(page:T,component:C):true|null;
 }
 export const useAppStore = create<AppState>((set) => ({
     page:'catalogue',
     Pages,
+    qs:{},
+    pageList:[],
+    navNext(){
+
+    },
+    navBack(){
+
+    },
     setPage(page) {
         set(()=>({page}))
     },

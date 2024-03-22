@@ -90,7 +90,7 @@
     opacity: 0.8;
 }
 
-.top-bar .profile {
+.top-bar .myprofile {
 
     background: no-repeat center/70% url(../../res/circle-user-round.png), #ffffffa0;
     /* filter: invert(30%); */
