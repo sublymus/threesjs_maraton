@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAppStore } from '../../AppStore'
-import { CreateAccount } from './PageCreateAccount'
-import './Profile.css'
+import { useAppStore } from '../../AppStore';
+import { CreateAccount } from './PageCreateAccount';
+import './Profile.css';
 import { useProfileStore } from './ProfileStore';
 export function Profile() {
     const { page, setPage, isAllowed, } = useAppStore();

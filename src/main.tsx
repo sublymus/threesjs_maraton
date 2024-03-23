@@ -19,6 +19,7 @@ import React from 'react'
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
+    <App/>
     <Products />
     <Editer />
     <WorldView root={root} />
@@ -32,3 +33,9 @@ ReactDOM.createRoot(root).render(
     <PageService/>
   </React.StrictMode>,
 )
+
+
+function App(){
+  
+  return (<></>)
+}

@@ -35,7 +35,19 @@ export const useProfileStore = create<ProfileStore>((set) => ({
         localStorage.setItem('user',JSON.stringify(user));
     },
     async google_connexion() {
+       
+       const response =  await fetch(`${Host}/google_connexion`,{
+            //redirect :'follow'
+        });
+        console.log('json',await response.json());
+        console.log('redirected', response.redirected);
+        console.log('headers', response.headers);
+        console.log('url', response.url);
         
+
+        const user = await response.json();
+        set(()=>({user , profilePage:'profile'}));
+        localStorage.setItem('user',JSON.stringify(user));
     },
     async create_user({ email, full_name, password, photos }) {
         

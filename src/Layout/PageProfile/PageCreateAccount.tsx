@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppStore } from '../../AppStore'
+import { Host, useAppStore } from '../../AppStore'
 import { useProfileStore } from './ProfileStore'
 import './Profile.css'
 import React from "react";
@@ -146,7 +146,7 @@ export function CreateAccount() {
                 <div></div>
             </div>
             <div className="social">
-                <div className="google" onClick={onGoogleConnexion}><span></span>GOOGLE</div>
+                <a href ={`${Host}/google_connexion`} className="google" onClick={onGoogleConnexion}><span></span>GOOGLE</a>
             </div>
         </div>
 
