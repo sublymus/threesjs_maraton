@@ -6,7 +6,7 @@ import { useCatalogueStore } from "./CatalogueStore";
 // import React from "react";
 
 export function Catalogue() {
-    const { page } = useAppStore();
+    const { pathList , check} = useAppStore();
     const {fetchCatalogues , initCatalogueListener} = useCatalogueStore();
     useEffect(() => {
         if (CatalogueWorld.catalogueWorld) return
@@ -18,10 +18,10 @@ export function Catalogue() {
     }, [])
     useEffect(() => {
         if (!CatalogueWorld.catalogueWorld) return
-        if(page=='catalogue'){
+        if(check('catalogue')){
             WorldManager.worldManager?.setWorld(CatalogueWorld.catalogueWorld);
         }
-    }, [page])
+    }, [pathList])
 
     return (<></>)
 }

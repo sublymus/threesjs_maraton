@@ -1,6 +1,6 @@
 
 import { create } from 'zustand'
-import { DataBase, Feature, ProductInterface, VALUES } from '../../DataBase'
+import { Feature, ProductInterface, VALUES } from '../../DataBase'
 import { AbstractWorld, WorldManager } from '../../World/WorldManager'
 import { Host } from '../../AppStore';
 

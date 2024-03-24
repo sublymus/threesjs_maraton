@@ -1496,7 +1496,7 @@ UTIF.bufferToURI = function(buff) {
 		var ar = img["t256"]*img["t257"];
 		if(ar>ma) {  ma=ar;  page=img;  }
 	}
-	UTIF.decodeImage(buff, page, ifds);
+	UTIF.decodeImage(buff,  ifds);
 	var rgba = UTIF.toRGBA8(page), w=page.width, h=page.height;
 	
 	var cnv = document.createElement("canvas");  cnv.width=w;  cnv.height=h;

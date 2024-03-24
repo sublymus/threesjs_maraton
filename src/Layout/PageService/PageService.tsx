@@ -25,7 +25,7 @@ const discussions = [
         icon: '',
         is_closed: false,
     },
-]
+];
 const messages = [
     {
         id: "1",
@@ -50,16 +50,16 @@ const messages = [
     },
 ]
 export function PageService() {
-    const { page, isAllowed, setPage } = useAppStore();
+    const {  check, setAbsPath } = useAppStore();
     const [discussion, setDiscussion] = useState<typeof discussions[0] | null>(discussions[0])
-    return isAllowed(page, 'page-service') && (
+    return check( 'service') && (
         <div className="page-service">
             <div className="service-background" onClick={() => {
-                setPage('catalogue')
+                setAbsPath(['catalogue'])
             }}></div>
             <div className="ctn-service">
                 <div className="close"  onClick={() => {
-                setPage('catalogue')
+                setAbsPath(['catalogue'])
             }}></div>
                 <div className="ctn-service2">
                     <div className="discussion-ctn">

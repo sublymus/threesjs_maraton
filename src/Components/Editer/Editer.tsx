@@ -6,7 +6,7 @@ import { useAppStore  } from "../../AppStore";
 import { useProductStore } from '../Products/ProductStore';
 
 export function Editer() {
-    const {page , isAllowed} = useAppStore();
+    const { check} = useAppStore();
     useProductStore()
     const [state] = useState({
         bottom: undefined as JSX.Element| undefined,
@@ -19,5 +19,5 @@ export function Editer() {
     if(isTop) isTop = (size.width>1200)? false:true
      state.current = isTop?(state.top?state.top:(state.top=<TopEditer/>)):(state.bottom?state.bottom:(state.bottom= <BottomEditer/>)) 
      
-     return isAllowed(page,'editer')&&state.current
+     return check('editer')&&state.current
 }

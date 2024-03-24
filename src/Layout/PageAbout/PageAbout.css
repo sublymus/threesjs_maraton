@@ -115,6 +115,7 @@
     height: 40px;
     border-radius: 100px;
     transition: 200ms;
+    z-index: 10;
 }
 
 .page-about  .close:hover{

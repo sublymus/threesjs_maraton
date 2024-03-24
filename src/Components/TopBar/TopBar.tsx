@@ -1,25 +1,25 @@
 import './TopBar.css'
 import { useAppStore } from "../../AppStore"; 
 export function TopBar() {
-    const { page, setPage } = useAppStore();
-    return (
+    const {  setAbsPath ,check } = useAppStore();
+    return check('top-bar')&&(
         <div className="top-bar">
             <div className="top-bar-ctn">
                 <div className="logo" onClick={() => {
-                    setPage(page == 'catalogue' ? 'product' : 'catalogue')
+                    setAbsPath(['catalogue'])
                 }}>SUBLYMUS</div>
                 <div className="nav-link">
                     <div className="link" onClick={() => {
-                        setPage('product')
+                         setAbsPath(['product'])
                     }}>Products</div>
                     <div className="link" onClick={() => {
-                        setPage('service')
+                         setAbsPath(['service'])
                     }}>customer service</div>
                     <div className="link" onClick={() => {
-                        setPage('blog')
+                         setAbsPath(['blog'])
                     }}>blog</div>
                     <div className="link" onClick={() => {
-                        setPage('about')
+                         setAbsPath(['about'])
                     }}>about us</div>
                 </div>
                 <div className="research">
@@ -30,7 +30,7 @@ export function TopBar() {
                   
                 </div>
                 <div className="myprofile" onClick={()=>{
-                    setPage('profile');
+                     setAbsPath(['profile','user']);
                 }}>
                 </div>
                 

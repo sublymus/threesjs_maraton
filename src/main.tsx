@@ -14,28 +14,36 @@ import { PageBlog } from "./Layout/PageBlog/PageBlog";
 import { PageService } from "./Layout/PageService/PageService";
 
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useAppStore } from './AppStore'
 
 const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App/>
+    <App />
     <Products />
     <Editer />
     <WorldView root={root} />
-    <TopBar/>
-    <Profile/>
-    <CatalogueOnglet/>
-    <CatalogueDescription/>
-    <Catalogue/>
-    <PageAbout/>
-    <PageBlog/>
-    <PageService/>
+    <TopBar />
+    <Profile />
+    <CatalogueOnglet />
+    <CatalogueDescription />
+    <Catalogue />
+    <PageAbout />
+    <PageBlog />
+    <PageService />
   </React.StrictMode>,
 )
 
 
-function App(){
-  
+function App() {
+  const {pathList , init} =  useAppStore();
+  useEffect(() => {
+    // let  list  = pathList.filter(f => f!=='/')
+    // if(list.length <= 0) list = ['catalogue']
+    init()
+    // window.location.hash = list.join('/');
+
+  }, []);
   return (<></>)
 }

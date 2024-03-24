@@ -3,10 +3,10 @@ import "./CatalogueDescription.css";
 import { useCatalogueStore } from "../Catalogue/CatalogueStore";
 import { useProductStore } from "../Products/ProductStore";
 export function CatalogueDescription() {
-    const { page, isAllowed,setPage } = useAppStore();
+    const {  check,setAbsPath } = useAppStore();
     const { catalogue, selectedCategory } = useCatalogueStore();
     const {fetchProducts}= useProductStore();
-    return isAllowed(page, 'catalogue_description') && (
+    return check( 'catalogue_description') && (
         <div className="catalogue-description">
             <p className="description">
                 {catalogue?.label} {selectedCategory?.id}{selectedCategory?.description}
@@ -17,7 +17,7 @@ export function CatalogueDescription() {
                         category_id:selectedCategory?.id
                     }
                 }).then(()=>{
-                    setPage(page == 'catalogue' ? 'product' : 'catalogue')
+                    setAbsPath(['product'])
                 })
             }}> See all {selectedCategory?.label}</span>
         </div>

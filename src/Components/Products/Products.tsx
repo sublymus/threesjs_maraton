@@ -5,7 +5,7 @@ import { useWindowSize } from "../Hooks";
 import { useAppStore  } from "../../AppStore";
 
 export function Products() {
-    const {page , isAllowed} = useAppStore();
+    const {check} = useAppStore();
    
     const [state] = useState({
         vertical: undefined as JSX.Element| undefined,
@@ -20,7 +20,7 @@ export function Products() {
     
      return (
         <>
-        { isAllowed(page,'products')&&state.current}
+        { check('products')&&state.current}
         </>
     )
 }

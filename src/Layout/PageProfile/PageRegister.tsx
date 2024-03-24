@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Host, useAppStore } from '../../AppStore'
 import { useProfileStore } from './ProfileStore'
-import './Profile.css'
+import './PageRegister.css'
 import React from "react";
 
-export function CreateAccount() {
-    const { user, create_user, profilePage, setProfilePage ,connexion , google_connexion  } = useProfileStore();
-    const { page, setPage, isAllowed, } = useAppStore();
+export function PageRegister() {
+    const { create_user, connexion , google_connexion , } = useProfileStore();
+    const { check , setAbsPath, setPath} = useAppStore();
     const [isPhotoOpen, setIsPhotoOpen] = useState(false);
     const [photo, setPhoto] = useState('/src/res//photo2.png');
     const [photoFile, setPhotoFile] = useState<HTMLInputElement['files']>(null);
@@ -18,6 +18,10 @@ export function CreateAccount() {
     const [passwordError, setPasswordError] = useState('');
     const [canSee, setCanSee] = useState(false);
 
+    const canCreate = check('create');
+    const canLogin = check('login');
+    console.log({canCreate , canLogin});
+    
     const onImageChange = (event: any) => {
         if (event.target.files && event.target.files[0]) {
             setPhotoFile(event.target.files)
@@ -25,16 +29,13 @@ export function CreateAccount() {
         }
     }
     const onSend = () => {
-        let hasError = false;
         if (password.length < 8) {
             setPasswordError('Minimum 8 character is required');
-            hasError = true;
         } else {
             setPasswordError('');
         }
-        if (profilePage=='register' && fullName.length < 3) {
+        if (canCreate && fullName.length < 3) {
             setFullNameError('Minimum 3 character is required');
-            hasError = true;
         } else {
             setFullNameError('');
         }
@@ -42,7 +43,6 @@ export function CreateAccount() {
         const regexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'g')
         if (!regexp.test(email)) {
             setEmailError('invalid Email');
-            hasError = true;
         } else {
             setEmailError('');
         }
@@ -52,7 +52,7 @@ export function CreateAccount() {
             password,
             photos: photoFile
         }
-        profilePage=='register'?create_user(data):connexion(data);
+        canCreate?create_user(data):connexion(data);
     }
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length > 50) {
@@ -88,24 +88,24 @@ export function CreateAccount() {
         google_connexion()
     }
 
-    return (profilePage == 'register' || profilePage=='login') && (
+    return (canCreate || canLogin) && (
 
-        <div className="create-account">
+        <div className="page-register">
             <div className="show-photo" style={{ display: isPhotoOpen ? 'block' : 'none' }}>
                 <div className="back" onClick={() => {
-                    isPhotoOpen ? setIsPhotoOpen(false) : setPage('catalogue');
+                    isPhotoOpen ? setIsPhotoOpen(false) : setAbsPath(['catalogue']);
                 }}>
                     <div className="photo" style={{ backgroundImage: `url('${photo}')` }}></div>
                 </div>
             </div>
-            <div className="photo" style={{ backgroundImage: `url('${profilePage=='login'?'/src/res/photo2.png':photo}')` }}>
-                <div className="open" style={{display:profilePage=='login'?'none':'block'}} onClick={() => {
+            <div className="photo" style={{ backgroundImage: `url('${canLogin?'/src/res/photo2.png':photo}')` }}>
+                <div className="open" style={{display:canLogin?'none':'block'}} onClick={() => {
                     setIsPhotoOpen(true);
                 }}></div>
                 <input  id='register-photo' type='file' onChange={onImageChange} />
-                <label className="edit" style={{display:profilePage=='login'?'none':'initial'}} htmlFor='register-photo'></label>
+                <label className="edit" style={{display:canLogin?'none':'initial'}} htmlFor='register-photo'></label>
             </div>
-            <div  className="ctn-name" style={{display:profilePage=='login'?'none':'initial'}}>
+            <div  className="ctn-name" style={{display:canLogin?'none':'initial'}}>
                 <h3>Full Name</h3>
                 <input type="text" onChange={onNameChange} />
                 <div className="promt">
@@ -135,10 +135,10 @@ export function CreateAccount() {
                 </div>
             </div>
             <div className="btn">
-                <div className="send" onClick={onSend}>{profilePage=='login'?'Connexion':'Create account'}</div>
+                <div className="send" onClick={onSend}>{canLogin?'Connexion':'Create account'}</div>
                 <a onClick={() => {
-                   setProfilePage(profilePage=='login'?'register':'login')
-                }}>{profilePage=='login'?'Create account':'Connexion'}</a>
+                   setPath(canLogin?'create':'login')
+                }}>{canLogin?'Create account':'Connexion'}</a>
             </div>
             <div className="separator">
                 <div></div>

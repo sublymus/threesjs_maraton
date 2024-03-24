@@ -3,16 +3,16 @@ import { useAppStore } from "../../AppStore";
 // import React from 'react';
 
 export function PageAbout() {
-    const { page, isAllowed, setPage } = useAppStore();
-    return isAllowed(page, 'page-about') && (
+    const {  check, setAbsPath } = useAppStore();
+    return check( 'about') && (
         <div className="page-about" >
             <div className="about-background" onClick={() => {
-                setPage('catalogue')
+                setAbsPath(['catalogue']);
             }}></div>
             <div className="ctn-about">                
                 <div >
                 <div className="close" onClick={() => {
-                    setPage('catalogue')
+                    setAbsPath(['catalogue'])
                 }}></div>
                 <div className="banner"></div>
                 <div className='structure'>
@@ -30,11 +30,11 @@ export function PageAbout() {
                             </div>
                             <div className="site">
                                 <div className="icon"></div>
-                                <a href='https://github.com/sublymus' className="label">https://github.com/sublymus</a>
+                                <a href='#sublymus' className="label">https://github.com/sublymus</a>
                             </div>
                             <div className="phone">
                                 <div className="icon"></div>
-                                <a href='https://github.com/sublymus' className="label">+7(999)xxx-xx-xx</a>
+                                <a href='#ok' className="label">+7(999)xxx-xx-xx</a>
                             </div>
                         </div>
                         <div className="map"></div>

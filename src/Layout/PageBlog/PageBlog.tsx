@@ -2,15 +2,15 @@ import './PageBlog.css'
 import { useAppStore } from "../../AppStore";
 
 export function PageBlog() {
-    const { page, isAllowed, setPage } = useAppStore();
-    return isAllowed(page, 'page-blog') && (
+    const {  check, setAbsPath } = useAppStore();
+    return check( 'blog') && (
         <div className="page-blog">
             <div className="blog-background" onClick={() => {
-                setPage('catalogue')
+                setAbsPath(['catalogue'])
             }}></div>
             <div className="ctn-blog">
                 <div className='close' onClick={() => {
-                    setPage('catalogue')
+                    setAbsPath(['catalogue']);
                 }}></div>
                 <div className='blog-block'>
                 <div className='block reverse'>

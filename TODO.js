@@ -32,6 +32,14 @@
 }
 
 
+Router{
+
+    setPath('PageA1') <==> setPath('PageA1')
+    setPath('PageB','PageB2') 
+    setPath('../','../','PageA1');
+
+
+}
 
 
 Loading

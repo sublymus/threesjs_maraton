@@ -6,6 +6,7 @@
     z-index: -1;
     display: flex;
     justify-content: center;
+   
 }
 
 .page-profile .profile-background {
@@ -30,6 +31,8 @@
     border-radius: 20px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.37);
+    display: flex;
+   
 }
 
 .page-profile .close {
@@ -49,226 +52,22 @@
     background: no-repeat center/cover url(src/res/x.png), rgb(255, 255, 255);
 }
 
-/* ///////////////////////////////// */
-
-.page-profile .create-account {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.page-profile .create-account .show-photo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-}
-
-.page-profile .create-account .show-photo .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(29, 29, 29, 0.767);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.page-profile .create-account .show-photo+.photo {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    background: no-repeat center/cover url('/src/res/photo2.png'), rgb(255, 255, 255);
-    border-radius: 50%;
-}
-
-.page-profile .create-account .show-photo .photo {
-    width: 80%;
-    height: 80%;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: #fff0;
-    background-position: center;
-}
-
-
-.page-profile .create-account .open {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    background: no-repeat center/0% url('/src/res/focus.png'), rgba(255, 255, 255, 0);
-    border-radius: 50%;
-    filter: invert(100%);
-    transition: 500ms;
-    cursor: pointer;
-}
-
-.page-profile .create-account .open:hover {
-    background: no-repeat center/30% url('/src/res/focus.png'), rgba(255, 255, 255, 0.329);
-    visibility: visible;
-    transition: 500ms;
-}
-
-
-.page-profile .create-account .edit:hover {
-    transition: 200ms;
-    filter: invert(1005);
-}
-
-.page-profile .create-account .edit {
-    all: unset;
-    position: absolute;
-    cursor: pointer;
-    transition: 200ms;
-    bottom: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    background: no-repeat center/60% url('/src/res/pencil.png'), rgba(51, 51, 68, 0.466);
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.page-profile .create-account .photo input {
-    all: unset;
-    display: none;
-}
-
-.page-profile .create-account p.count {
-    font-family: fantasy;
-    font-size: 14px;
-    margin: 0 5px;
-}
-
-.page-profile .create-account p.error {
-    font-family: fantasy;
-    font-size: 14px;
-    margin: 0 5px;
-    color: brown;
-}
-
-.page-profile .create-account .promt {
-    display: flex;
-    justify-content: space-between;
-    color: #345;
-}
-
-.page-profile .create-account h3 {
-    font-weight: normal;
-    color: #345;
-}
-
-.page-profile .create-account input:hover , .page-profile .create-account input:focus {
-    background: #fff;
-}
-.page-profile .create-account input {
-    all: unset;
-    background: #ffffff62;
-    padding: 5px 7px;
-    color: #345;
-    border-radius: 5px;
-}
-
-.page-profile .create-account .ctn-password {
-    display: flex;
-    background: #ffffff62;
-    border-radius: 5px;
-}
-
-.page-profile .create-account .ctn-password input {
-    width: 260px;
-    background: #ffffff00;
-}.page-profile .create-account .ctn-password input:hover{
-    background: #fff;
-}
-
-.page-profile .create-account .eye {
-    width: 30px;
-    height: 30px;
-    filter: invert(30%);
-    background: no-repeat center/cover url(/src/res/eye.png);
-}
-
-.page-profile .create-account .eye.off {
-    background: no-repeat center/cover url(/src/res/eye-off.png);
-}
-
-.page-profile .create-account .btn {
-    display: flex;
-    width: 300px;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.page-profile .create-account .btn a {
-    text-decoration: underline;
-    color: rgb(0, 104, 207);
-    padding: 5px 20px;
-}
-
-.page-profile .create-account .send {
-    background: #157c00;
-    padding: 5px 7px;
-    color: rgb(255, 255, 255);
-    border-radius: 5px;
-}
-
-.page-profile .create-account .send:hover {
-    background: #1dac00;
-    transition: 200ms;
-}
-
-.page-profile .create-account .separator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 5px 0px;
-    transition: 200ms;
-}
-
-.page-profile .create-account .separator div {
+.page-profile .profile-nav {
     width: 30%;
-    min-width: 70px;
-    max-width: 140px;
-    height: 1px;
-    margin: 5px 10px;
-    border-top: solid 1px rgba(51, 68, 85, 0.733);
+    max-width: 300px;
+    height: 100%;
 }
 
-.page-profile .create-account .separator span {
-    color: #345;
-}
-
-.page-profile .create-account .social {
-    color: #345;
-}
-
-.page-profile .create-account .google:hover{
-    transform: scale(1.05);
-    transition: 200ms;
-    background: #ffffffce;
-}
-
-.page-profile .create-account .google {
-    color: #345;
-    transition: 200ms;
-    background: #fff;
-    padding: 10px;
+.page-profile li {
+    text-align: center;
+    padding: 7px;
+    margin: 5px;
+    background: #999;
+    transition: 300ms;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
 }
 
-.page-profile .create-account .google span {
-    display: inline-block;
-    width: 30px;
-    margin-right: 10px;
-    height: 30px;
-    background: no-repeat center/cover url(/src//res//google.png);
+.page-profile li:hover{
+    background: #d1d1d1;
+    transition: 300ms;
 }
