@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { Host, useAppStore } from '../../AppStore'
-import { useProfileStore } from './ProfileStore'
-import './PageRegister.css'
+import { Host, useAppStore  , DefaultImage} from '../../AppStore'
+import { useRegisterStore } from './RegisterStore'
+import { ProfilePhoto } from "../../Components/ProfilePhoto/ProfilePhoto";
+import './PageRegister.css';
+import { useProfileStore } from "../PageProfile/ProfileStore";
 import React from "react";
 
 export function PageRegister() {
-    const { create_user, connexion , google_connexion , } = useProfileStore();
-    const { check , setAbsPath, setPath} = useAppStore();
-    const [isPhotoOpen, setIsPhotoOpen] = useState(false);
-    const [photo, setPhoto] = useState('/src/res//photo2.png');
+    const { create_user, connexion, google_connexion} = useRegisterStore();
+    const { openPhoto}= useProfileStore();
+    const { check, setPath } = useAppStore();
+    const [] = useState(false);
     const [photoFile, setPhotoFile] = useState<HTMLInputElement['files']>(null);
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -20,14 +22,8 @@ export function PageRegister() {
 
     const canCreate = check('create');
     const canLogin = check('login');
-    console.log({canCreate , canLogin});
-    
-    const onImageChange = (event: any) => {
-        if (event.target.files && event.target.files[0]) {
-            setPhotoFile(event.target.files)
-            setPhoto(URL.createObjectURL(event.target.files[0]));
-        }
-    }
+    console.log({ canCreate, canLogin });
+
     const onSend = () => {
         if (password.length < 8) {
             setPasswordError('Minimum 8 character is required');
@@ -52,7 +48,7 @@ export function PageRegister() {
             password,
             photos: photoFile
         }
-        canCreate?create_user(data):connexion(data);
+        canCreate ? create_user(data) : connexion(data);
     }
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length > 50) {
@@ -84,28 +80,16 @@ export function PageRegister() {
         setFullName(e.target.value);
     }
 
-    const onGoogleConnexion = ()=>{
+    const onGoogleConnexion = () => {
         google_connexion()
     }
 
     return (canCreate || canLogin) && (
 
         <div className="page-register">
-            <div className="show-photo" style={{ display: isPhotoOpen ? 'block' : 'none' }}>
-                <div className="back" onClick={() => {
-                    isPhotoOpen ? setIsPhotoOpen(false) : setAbsPath(['catalogue']);
-                }}>
-                    <div className="photo" style={{ backgroundImage: `url('${photo}')` }}></div>
-                </div>
-            </div>
-            <div className="photo" style={{ backgroundImage: `url('${canLogin?'/src/res/photo2.png':photo}')` }}>
-                <div className="open" style={{display:canLogin?'none':'block'}} onClick={() => {
-                    setIsPhotoOpen(true);
-                }}></div>
-                <input  id='register-photo' type='file' onChange={onImageChange} />
-                <label className="edit" style={{display:canLogin?'none':'initial'}} htmlFor='register-photo'></label>
-            </div>
-            <div  className="ctn-name" style={{display:canLogin?'none':'initial'}}>
+            
+            <ProfilePhoto init={DefaultImage} canEdit={!!canCreate} canOpen onOpen={(photo)=> openPhoto(photo)} onChange={setPhotoFile} />
+            <div className="ctn-name" style={{ display: canLogin ? 'none' : 'initial' }}>
                 <h3>Full Name</h3>
                 <input type="text" onChange={onNameChange} />
                 <div className="promt">
@@ -135,10 +119,10 @@ export function PageRegister() {
                 </div>
             </div>
             <div className="btn">
-                <div className="send" onClick={onSend}>{canLogin?'Connexion':'Create account'}</div>
+                <div className="send" onClick={onSend}>{canLogin ? 'Connexion' : 'Create account'}</div>
                 <a onClick={() => {
-                   setPath(canLogin?'create':'login')
-                }}>{canLogin?'Create account':'Connexion'}</a>
+                    setPath(canLogin ? 'create' : 'login')
+                }}>{canLogin ? 'Create account' : 'Connexion'}</a>
             </div>
             <div className="separator">
                 <div></div>
@@ -146,9 +130,11 @@ export function PageRegister() {
                 <div></div>
             </div>
             <div className="social">
-                <a href ={`${Host}/google_connexion`} className="google" onClick={onGoogleConnexion}><span></span>GOOGLE</a>
+                <a href={`${Host}/google_connexion`} className="google" onClick={onGoogleConnexion}><span></span>GOOGLE</a>
             </div>
         </div>
 
     )
 }
+
+

@@ -1,0 +1,50 @@
+.profile-photo {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: no-repeat center/cover url('/src/res/photo2.png'), rgb(255, 255, 255);
+    border-radius: 50%;
+}
+
+
+.profile-photo .open {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: no-repeat center/0% url('/src/res/focus.png'), rgba(255, 255, 255, 0);
+    border-radius: 50%;
+    filter: invert(100%);
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.profile-photo .open:hover {
+    background: no-repeat center/30% url('/src/res/focus.png'), rgba(255, 255, 255, 0.329);
+    visibility: visible;
+    transition: 500ms;
+}
+
+
+.profile-photo .edit:hover {
+    transition: 200ms;
+    filter: invert(1005);
+}
+
+.profile-photo .edit {
+    all: unset;
+    position: absolute;
+    cursor: pointer;
+    transition: 200ms;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/60% url('/src/res/pencil.png'), rgba(51, 51, 68, 0.466);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#photo-input {
+    all: unset;
+    display: none;
+}

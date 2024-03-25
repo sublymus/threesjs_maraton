@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 export const Host = 'http://localhost:3333';
+export const DefaultImage = '/src/res//photo2.png';
 
 type PageType = {
     [key: string]: null | PageType
@@ -30,7 +31,7 @@ const Pages = {
             'command': {
                 'profile-nav': null
             },
-            'card': {
+            'cart': {
                 'profile-nav': null
             },
             favorites:{},
@@ -197,6 +198,8 @@ export const useAppStore = create<AppState>((set) => ({
             const c = currentPage[path];
             if (c && (c[component] === null)) {
                 return true;
+            }else if(c===undefined) {
+                return
             }
             currentPage = c;
         }

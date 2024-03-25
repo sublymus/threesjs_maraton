@@ -49,8 +49,7 @@ export const useCatalogueStore = create<AppState>((set) => ({
         CatalogueWorld.catalogueWorld?.addListener('chance', (event) => {
             set(() => ({
                 selectedCategory: event.focusedModel?.userData.category,
-            }))
-
+            }));
         })
     }
 }));
