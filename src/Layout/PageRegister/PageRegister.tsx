@@ -7,7 +7,7 @@ import { useProfileStore } from "../PageProfile/ProfileStore";
 import React from "react";
 
 export function PageRegister() {
-    const { create_user, connexion, google_connexion} = useRegisterStore();
+    const {user, create_user, connexion, google_connexion} = useRegisterStore();
     const { openPhoto}= useProfileStore();
     const { check, setPath } = useAppStore();
     const [] = useState(false);
@@ -23,6 +23,7 @@ export function PageRegister() {
     const canCreate = check('create');
     const canLogin = check('login');
     console.log({ canCreate, canLogin });
+    console.log('PageRegister', user);
 
     const onSend = () => {
         if (password.length < 8) {

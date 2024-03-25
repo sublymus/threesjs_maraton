@@ -1,36 +1,6 @@
 .page-service {
-    position: absolute;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    display: flex;
-    justify-content: center;
-}
-
-.page-service .service-background {
-    position: absolute;
-    top: 0;
-    z-index: -10;
-    filter: blur(100px);
-    background: no-repeat center/cover url('../../res/back.jpeg');
     width: 100%;
     height: 100%;
-}
-
-.page-service .ctn-service {
-    position: relative;
-    transform: translateY(20vh);
-    background: rgba(255, 255, 255, 0.37);
-    width: 100vw;
-    height: 70vh;
-    min-width: 600px;
-    max-width: 1000px;
-    /* min-height: 600px; */
-    max-height: 1400px;
-    border-radius: 20px;
-    overflow: hidden;
-    overflow-y: auto;
 }
 
 .page-service .ctn-service2 {

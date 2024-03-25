@@ -34,17 +34,21 @@ const Pages = {
             'cart': {
                 'profile-nav': null
             },
-            favorites:{},
-            visited:{},
-            'top-bar': null,
-        },
-        about: {
-            'top-bar': null,
-        },
-        blog: {
-            'top-bar': null,
-        },
-        service: {
+            favorites:{
+                'profile-nav': null
+            },
+            visited:{
+                'profile-nav': null
+            },
+            about: {
+                'profile-nav': null
+            },
+            blog: {
+                'profile-nav': null
+            },
+            service: {
+                'profile-nav': null
+            },
             'top-bar': null,
         },
     }
@@ -101,15 +105,7 @@ interface AppState {
     init(): void;
 }
 
-const navHashList: string[] = [];
-
-const SkeepCache: Record<string, {
-    last: string;
-    current: string;
-    next: string;
-}> = {}
-
-const DEFAULT_PAGE = ['/','catalogue'];
+const DEFAULT_PAGE = ['/','profile','about'];
 
 let isInitialized = false;
 let getListener = (set: (cb: (data: Partial<AppState>) => Partial<AppState>) => any) => {
@@ -127,7 +123,7 @@ export const useAppStore = create<AppState>((set) => ({
     Pages,
     qs: {},
     navHistory: [],
-    pathList: ['/', 'profile', 'user'],
+    pathList: DEFAULT_PAGE,
     //lastPathList: ['/'],
     // skeep(id, ...page) {
 
@@ -156,7 +152,7 @@ export const useAppStore = create<AppState>((set) => ({
     init() {
         if (isInitialized) return;
         listener = getListener(set);
-        navHistoryUpdate(set, useAppStore.getInitialState().pathList);
+        navHistoryUpdate( useAppStore.getInitialState().pathList);
         window.addEventListener('hashchange', listener);
         isInitialized = true;
     },
@@ -169,7 +165,7 @@ export const useAppStore = create<AppState>((set) => ({
         return;
     },
     setPath(...paths) {
-        editPath(set, paths)
+        editPath(paths)
     },
 
     setAbsPath(paths) {
@@ -179,13 +175,13 @@ export const useAppStore = create<AppState>((set) => ({
             //@ts-ignore
             const c = currentPage[path]
             if (!c) {
-                navHistoryUpdate(set, nav);
+                navHistoryUpdate( nav);
                 return;
             }
             currentPage = c;
             nav.push(path as string);
         }
-        navHistoryUpdate(set, nav);
+        navHistoryUpdate( nav);
         return
     },
     check(component) {
@@ -207,17 +203,12 @@ export const useAppStore = create<AppState>((set) => ({
     },
 }))
 
-
-function navHistoryUpdate(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => any, pathList: string[]) {
+function navHistoryUpdate(pathList: string[]) {
     const path = pathList.join('/').replace('//', '')
     window.location.hash = path;
 }
 
-
-
-
-
-function editPath(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => any, paths: string[]) {
+function editPath( paths: string[]) {
     if (paths[0] === '/') {
         let nav: string[] = [];
         let currentPage = Pages
@@ -226,7 +217,7 @@ function editPath(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => a
             //@ts-ignore
             const c = currentPage[path]
             if (c === null) {
-                navHistoryUpdate(set, nav);
+                navHistoryUpdate( nav);
                 return;
             } else if (c === undefined) {
                 console.error(' Error Path don\'t exist');
@@ -235,13 +226,11 @@ function editPath(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => a
             currentPage = c;
             nav.push(path as string);
         }
-        navHistoryUpdate(set, nav);
+        navHistoryUpdate( nav);
         return
     }
 
-    if (paths[0] === './') {
-        paths.shift();
-    }
+    if (paths[0] === './')   paths.shift();
 
     let i = 1;
     if (paths[0] === '../') {
@@ -250,7 +239,6 @@ function editPath(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => a
             else break;
         }
         paths = paths.slice(i - 1, paths.length);
-
     }
 
     const list = useAppStore.getState().pathList;
@@ -271,7 +259,7 @@ function editPath(set: (cb: (data: Partial<AppState>) => Partial<AppState>) => a
             }
             currentPage = c;
         }
-        navHistoryUpdate(set, _paths);
+        navHistoryUpdate( _paths);
     }
     return
 }

@@ -9,10 +9,6 @@ import { Profile } from './Layout/PageProfile/Profile'
 import { CatalogueOnglet } from './Components/CatalogueOnglet/CatalogueOnglet'
 import { CatalogueDescription } from './Components/CatalogueDescription/CatalogueDescription'
 
-import { PageAbout } from "./Layout/PageAbout/PageAbout";
-import { PageBlog } from "./Layout/PageBlog/PageBlog";
-import { PageService } from "./Layout/PageService/PageService";
-
 
 import React, { useEffect } from 'react'
 import { useAppStore } from './AppStore'
@@ -29,15 +25,13 @@ ReactDOM.createRoot(root).render(
     <CatalogueOnglet />
     <CatalogueDescription />
     <Catalogue />
-    <PageAbout />
-    <PageBlog />
-    <PageService />
+    
   </React.StrictMode>,
 )
 
 
 function App() {
-  const {pathList , init} =  useAppStore();
+  const { init} =  useAppStore();
   useEffect(() => {
     // let  list  = pathList.filter(f => f!=='/')
     // if(list.length <= 0) list = ['catalogue']

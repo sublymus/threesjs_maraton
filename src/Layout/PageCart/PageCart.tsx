@@ -1,13 +1,14 @@
 import { useAppStore } from "../../AppStore"
-import './PageUser.css'
+import './PageCart.css'
 import { useRegisterStore } from "../PageRegister/RegisterStore";
+import React from "react";
 
 
-export function PageUser() {
+export function PageCart() {
     const { check } = useAppStore();
     const {user}= useRegisterStore();
-    return (check('user') &&
-        <div className="user-page">
+    return (check('cart') &&
+        <div className="page-cart">
             {JSON.stringify(user)}
         </div>
     )

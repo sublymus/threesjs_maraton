@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 //@ts-ignore
-import { Host  , DefaultImage} from '../../AppStore';
+import { Host  , DefaultImage, useAppStore} from '../../AppStore';
 
 interface UserInterface {
     id: string;
@@ -22,12 +22,12 @@ interface RegisterStore {
 }
 export const useRegisterStore = create<RegisterStore>((set) => ({
     user: undefined,
-    RegisterPage: 'register',
     async connexion({email,password}){
         const response = await fetch(`${Host}/connexion?email=${email}&password=${password}`);
         const user = await response.json();
         set(()=>({user , RegisterPage:'Register'}));
         localStorage.setItem('user',JSON.stringify(user));
+        useAppStore.getState().setAbsPath(['profile','user']);
     },
     async google_connexion() {
        
@@ -63,7 +63,8 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
         });
 
         const user = await response.json();
-        set(()=>({user , RegisterPage:'Register'}));
+        set(()=>({user}));
+        useAppStore.getState().setAbsPath(['profile','user']);
         localStorage.setItem('user',JSON.stringify(user));
     },
     async tryToken() {

@@ -50,52 +50,45 @@ const messages = [
     },
 ]
 export function PageService() {
-    const {  check, setAbsPath } = useAppStore();
+    const { check } = useAppStore();
     const [discussion, setDiscussion] = useState<typeof discussions[0] | null>(discussions[0])
-    return check( 'service') && (
+    return check('service') && (
         <div className="page-service">
-            <div className="service-background" onClick={() => {
-                setAbsPath(['catalogue'])
-            }}></div>
-            <div className="ctn-service">
-                <div className="close"  onClick={() => {
-                setAbsPath(['catalogue'])
-            }}></div>
-                <div className="ctn-service2">
-                    <div className="discussion-ctn">
+
+            <div className="ctn-service2">
+                <div className="discussion-ctn">
+                    {
+                        discussions.map((discusion) => (
+                            <div className='discussion' key={discusion.id} onClick={() => {
+                                setDiscussion(discusion)
+                            }}>
+                                <div className="icon">{discusion.icon}</div>
+                                <div className="title">{discusion.title.length >= 35 ? discusion.title.slice(0, 35) + '...' : discusion.title}</div>
+                                <div className={"is-closed " + (discusion.is_closed ? 'yes' : '')}>{(discusion.is_closed ? 'open' : 'close')}</div>
+                            </div>))
+                    }
+                </div>
+                <div className="messages">
+                    <div className="ctn-sms">
                         {
-                            discussions.map((discusion) => (
-                                <div className='discussion' key={discusion.id} onClick={() => {
-                                    setDiscussion(discusion)
-                                }}>
-                                    <div className="icon">{discusion.icon}</div>
-                                    <div className="title">{discusion.title.length >= 35 ? discusion.title.slice(0, 35) + '...' : discusion.title}</div>
-                                    <div className={"is-closed " + (discusion.is_closed ? 'yes' : '')}>{(discusion.is_closed ? 'open' : 'close')}</div>
-                                </div>))
-                        }
-                    </div>
-                    <div className="messages">
-                        <div className="ctn-sms">
-                            {
-                                messages.map((message) => (
-                                    <div key={message.id} className={'message-ctn ' + ((message.client != discussion?.service_id) ? 'right' : '')}>
-                                        <div className={"message "}>
-                                            <div className="icon"></div>
-                                            <div className="text-ctn">
-                                                <div className="text">{message.text}</div>
-                                                <div className="bottom">
-                                                    <div className='hour'>{message.created_at}</div>
-                                                </div>
+                            messages.map((message) => (
+                                <div key={message.id} className={'message-ctn ' + ((message.client != discussion?.service_id) ? 'right' : '')}>
+                                    <div className={"message "}>
+                                        <div className="icon"></div>
+                                        <div className="text-ctn">
+                                            <div className="text">{message.text}</div>
+                                            <div className="bottom">
+                                                <div className='hour'>{message.created_at}</div>
                                             </div>
                                         </div>
                                     </div>
-                                ))
-                            }
-                        </div>
-                        <div className="sender">
-                            <textarea  name="sms" id="sms" />
-                            <div className='icon'></div>
-                        </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div className="sender">
+                        <textarea name="sms" id="sms" />
+                        <div className='icon'></div>
                     </div>
                 </div>
             </div>
