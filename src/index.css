@@ -5,7 +5,7 @@
   box-sizing: border-box;
   /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   font-family:  "Akaya Telivigala", system-ui; */
-  font-family: "Edu NSW ACT Foundation", cursive;
+  
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -18,6 +18,9 @@
   overflow: hidden;
 }
 
+body{
+  font-family: "Edu NSW ACT Foundation", cursive;
+}
 
 #world{
   position: absolute;

@@ -31,7 +31,6 @@
     display: flex;
 }
 
-
 .page-profile .close {
     position: absolute;
     z-index: 20;
@@ -48,10 +47,6 @@
     transition: 200ms;
     background: no-repeat center/cover url(src/res/x.png), rgb(255, 255, 255);
 }
-
-
-
-
 
 .page-profile .show-photo {
     position: absolute;
@@ -100,7 +95,7 @@
 
 .page-profile .ctn-profile-nav {
     position: relative;
-    width: 40%;
+    width: 30%;
     max-width: 400px;
     height: 100%;
     transition: 200ms;

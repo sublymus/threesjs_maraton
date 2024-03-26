@@ -22,9 +22,7 @@ export function PageRegister() {
 
     const canCreate = check('create');
     const canLogin = check('login');
-    console.log({ canCreate, canLogin });
-    console.log('PageRegister', user);
-
+    
     const onSend = () => {
         if (password.length < 8) {
             setPasswordError('Minimum 8 character is required');

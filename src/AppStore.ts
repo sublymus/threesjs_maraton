@@ -10,46 +10,32 @@ const Pages = {
     '/': {
         loading: {},
         catalogue: {
-            'catalogue_description': null,
-            'catalogue_onglet': null,
-            'top-bar': null,
+            catalogue_description: null,
+            catalogue_onglet: null,
+            top_bar: null,
         },
         product: {
-            'editer': null,
-            'products': null,
-            'summary': null,
-            'filter': null,
-            'top-bar': null,
+            editer: null,
+            products: null,
+            summary: null,
+            filter: null,
+            top_bar: null,
         },
         profile: {
-            'login': {},
-            'create': {},
-            'error': {},
-            'user': {
-                'profile-nav': null
-            },
-            'command': {
-                'profile-nav': null
-            },
-            'cart': {
-                'profile-nav': null
-            },
-            favorites:{
-                'profile-nav': null
-            },
-            visited:{
-                'profile-nav': null
-            },
-            about: {
-                'profile-nav': null
-            },
-            blog: {
-                'profile-nav': null
-            },
+            login: {},
+            create: {},
+            error: {},
+            user: {},
+            command: {},
+            cart: {},
+            favorites:{},
+            visited:{},
+            about: {},
+            blog: {},
             service: {
-                'profile-nav': null
             },
-            'top-bar': null,
+            profile_nav: null,
+            top_bar: null,
         },
     }
 } satisfies PageType;
@@ -105,7 +91,7 @@ interface AppState {
     init(): void;
 }
 
-const DEFAULT_PAGE = ['/','profile','about'];
+const DEFAULT_PAGE = ['/','profile','login'];
 
 let isInitialized = false;
 let getListener = (set: (cb: (data: Partial<AppState>) => Partial<AppState>) => any) => {

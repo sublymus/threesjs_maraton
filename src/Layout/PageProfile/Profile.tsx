@@ -15,7 +15,7 @@ import { PageCart } from "../../Layout/PageCart/PageCart";
 
 let bubbleDiv: any = null;
 export function Profile() {
-    const { setPath, check, navBack } = useAppStore();
+    const { setPath, check, navBack} = useAppStore();
     const { openPhoto, photo: bigPhoto } = useProfileStore();
     const bubbleCtnRef = useRef<HTMLDivElement | null>(null);
     const [isMin, setIsMin] = useState(false);
@@ -23,7 +23,7 @@ export function Profile() {
 
     }
 
-    const isNavUsed = check('profile-nav');
+    const isNavUsed = check('profile_nav');
     useEffect(() => {
         if (!bubbleCtnRef.current || bubbleDiv === bubbleCtnRef.current) {
             return;
@@ -113,12 +113,12 @@ export function Profile() {
                     }}></div>
                     <div ref={bubbleCtnRef} className='back-profile-nav'></div>
                     <div className='profile-nav'>
-                        <ProfilePhoto init={user?.photos[0] || DefaultImage} canEdit canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
+                        <ProfilePhoto init={user?.photos[0] || DefaultImage} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
                         <div className="info">
                             Naila Stefenson
                         </div>
                         <ul>
-                            <li className={check('user') && 'active'} onClick={() => {
+                            <li className={(check('user') || check('login') || check('create')) && 'active'} onClick={() => {
                                 setPath('user')
                             }}>Profile</li>
                             <li className={check('command') && 'active'} onClick={() => {
@@ -127,9 +127,6 @@ export function Profile() {
                             <li className={check('cart') && 'active'} onClick={() => {
                                 setPath('cart')
                             }}>Cart</li>
-                            <li className={check('visited') && 'active'} onClick={() => {
-                                setPath('visited')
-                            }}>Visited</li>
                             <li className={check('service') && 'active'} onClick={() => {
                                 setPath('service')
                             }}>Customer service</li>
@@ -142,8 +139,9 @@ export function Profile() {
                         </ul>
                     </div>
                 </div>}
-                <PageRegister />
                 <div className="ctn-pages">
+                    {(check('user')&&!user)? setPath('login'):null}
+                    <PageRegister />
                     <PageUser />
                     <PageAbout />
                     <PageBlog />

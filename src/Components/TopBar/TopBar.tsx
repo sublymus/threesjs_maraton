@@ -2,7 +2,7 @@ import './TopBar.css'
 import { useAppStore } from "../../AppStore"; 
 export function TopBar() {
     const {  setAbsPath ,check } = useAppStore();
-    return check('top-bar')&&(
+    return check('top_bar')&&(
         <div className="top-bar">
             <div className="top-bar-ctn">
                 <div className="logo" onClick={() => {

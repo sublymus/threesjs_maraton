@@ -1,5 +1,286 @@
-.user-page{
-    background: rgba(179, 196, 145, 0.281);
+.user-page {
+    background: rgba(255, 255, 255, 0.281);
     width: 100%;
     height: 100%;
 }
+
+.user-page .user-top {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.user-page .user-top .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 3%;
+}
+
+.user-page .user-info>div:hover {
+    background: rgba(51, 68, 85, 0.315);
+    transition: 200ms;
+}
+
+.user-page .user-info>div {
+    display: flex;
+    width: 350px;
+    margin: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10%;
+    transition: 200ms;
+    border: 1px solid rgba(51, 68, 85, 0.582);
+    border-radius: 5px;
+}
+
+.user-page .user-info>div .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 60%;
+}
+
+.user-page .user-info>div.full-name .icon {
+    background-image: url(/src/res/book-user.png);
+}
+.user-page .user-info>div.compte .icon {
+    background-image: url(/src/res/credit-card.png);
+}
+
+.user-page .user-info>div.address .icon {
+    background-image: url(/src/res/map-pin.png);
+}
+
+.user-page .user-info>div.phone .icon {
+    background-image: url(/src/res/phone.png);
+}
+
+.user-page .user-info>div.password .icon {
+    background-image: url(/src/res/lock-keyhole.png);
+}
+
+.user-page .user-info>div.logout .icon {
+    background-image: url(/src/res/log-out.png);
+}
+.user-page .user-info>div.logout {
+    justify-content: flex-start;
+}
+
+.user-page .user-info>div .label {
+    width: 100px;
+}
+.user-page .user-info>div .val {
+    width: 130px;
+    color: rgb(84, 101, 121);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+}
+
+.user-page .user-info>div:hover .edit {
+    opacity: 1;
+    transition: 200ms;
+}
+
+.user-page .user-info>div .edit {
+    margin-left: 10px ;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: 200ms;
+    background: no-repeat center/60% url(/src/res/pencil.png), #ffffff31;
+}
+
+.user-page .ctn-list{
+   margin-left: 50px;
+  }
+
+  .user-page .ctn-list h1{
+    text-decoration: underline;
+    font-weight: 500;
+    
+
+  }
+
+  .user-page .list{
+    position: absolute;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    /* background: #345; */
+    transition: 1000ms;
+    width: 100%;
+    height: 300px;
+    white-space: nowrap;
+  }
+    
+.user-page  .profile-btm-product{
+    margin: 0 10px;
+    display: inline-flex;
+    border-radius: 10px;
+    width: 200px;
+    height: 200px;
+    background: #345;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.user-page  .profile-btm-product .min-info{
+    background: #0008;
+    width: 100%;
+    color:  #fff;
+}
+
+/*******************   Edit Page    *************************/
+
+.user-page .edit-page{
+    top:0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #3457;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-page .edit-page .ctn{
+    overflow: hidden;
+    top:0;
+    width: 430px;
+    height: 450px;
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-page .edit-page .left{
+    width: 35px;
+    height: 100%;
+    background: no-repeat center/80% url(/src/res/arrow-left.png)
+ }
+ .user-page .edit-page .right{
+    width: 35px;
+    height: 100%;
+    transform: rotate(180deg);
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+    transition: 200ms;
+ }
+
+ .user-page .edit-page .left:hover ,.user-page .edit-page .right:hover{
+    background: no-repeat center/80% url(/src/res/arrow-left.png),#00000011;
+    transition: 200ms;
+ }
+ .user-page .edit-page .left:active ,.user-page .edit-page .right:active{
+    background: no-repeat center/80% url(/src/res/arrow-left.png),#02020256;
+    transition: 200ms;
+ }
+
+ .user-page .edit-page .center{
+    width: calc( 100% - 70px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .user-page .edit-page .card{
+    width: 100%;
+    background: rgb(101, 146, 192);
+    height: 200px;
+ }
+ .user-page .edit-page .card .space{
+    display: none;
+    
+ }
+
+ .user-page .edit-page .card .space.active{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+ }
+
+ .user-page .edit-page .index{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ } 
+
+
+ .user-page .edit-page .index li:hover{
+    background: #345;
+ }
+
+ .user-page .edit-page .index li.active{
+    background: rgb(81, 109, 136);
+    transform: scale(1.5);
+    border:1px solid #333
+ }
+ .user-page .edit-page .index li:active{
+    background: rgb(31, 100, 156);
+ }
+ 
+ .user-page .edit-page .index li{
+     all:unset;
+     cursor: pointer;
+   width: 15px;
+   height: 15px;
+   background: #345;
+   border-radius: 50%;
+   margin: 10px;
+ }
+
+ .user-page .edit-page .save{
+    padding: 10px 40px;
+    border-radius: 10px;
+    background: rgb(142, 192, 101);
+ }
+ .user-page .edit-page .save:hover{
+    background: rgb(153, 230, 90);
+ }
+
+ /*******************    Card   ***********************/
+
+ .user-page .edit-page .card .pass-ctn{
+    display: flex;
+    background: #fff;
+    border-radius: 5px;
+ }
+
+ .user-page .edit-page .card  input{
+    all:unset;
+    background: #fff;
+    border-radius: 5px;
+ }
+
+ .user-page .edit-page .card .icon{
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/cover url(/src/res//eye.png);
+ }
+
+ .user-page .edit-page .card .icon.off{
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/cover url(/src/res//eye-off.png);
+ }
+
+.user-page .edit-page .card input{
+    all:unset;
+    font-family: 'Courier New', Courier, monospace;
+    width: 150px;
+    padding: 5px;
+    background: #fff;
+    border-radius: 5px;
+ }
