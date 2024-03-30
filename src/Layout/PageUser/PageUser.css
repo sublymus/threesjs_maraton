@@ -1,35 +1,33 @@
 .user-page {
-    background: rgba(255, 255, 255, 0.281);
+    /* background: rgba(255, 255, 255, 0.39); */
     width: 100%;
     height: 100%;
 }
 
-.user-page .user-top {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.user-page .user-top .info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 3%;
+.user-page .user-top{
+    font-size: 40px;
 }
 
 .user-page .user-info>div:hover {
-    background: rgba(51, 68, 85, 0.315);
+    background: rgba(207, 207, 207, 0.589);
+    transition: 200ms;
+}
+.user-page .user-info>div:hover {
+    background: rgba(207, 207, 207, 0.589);
     transition: 200ms;
 }
 
 .user-page .user-info>div {
     display: flex;
-    width: 350px;
+    width: 80%;
+    max-width: 500px;
     margin: 10px;
     align-items: center;
     justify-content: space-between;
     margin-left: 10%;
     transition: 200ms;
-    border: 1px solid rgba(51, 68, 85, 0.582);
+    background: #ffffffde;
+    border: 1px solid rgb(0, 93, 187);
     border-radius: 5px;
 }
 
@@ -69,7 +67,8 @@
 }
 
 .user-page .user-info>div .label {
-    width: 100px;
+    width: 180px;
+    
 }
 .user-page .user-info>div .val {
     width: 130px;
@@ -141,7 +140,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background: #3457;
+    /* background: rgb(255, 255, 255); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,36 +149,16 @@
 .user-page .edit-page .ctn{
     overflow: hidden;
     top:0;
-    width: 430px;
-    height: 450px;
-    background: rgb(255, 255, 255);
+    width: 450px;
+    height: 350px;
+    background: rgba(255, 255, 255, 0);
     border-radius: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    background: #fffe;
 }
 
-.user-page .edit-page .left{
-    width: 35px;
-    height: 100%;
-    background: no-repeat center/80% url(/src/res/arrow-left.png)
- }
- .user-page .edit-page .right{
-    width: 35px;
-    height: 100%;
-    transform: rotate(180deg);
-    background: no-repeat center/80% url(/src/res/arrow-left.png);
-    transition: 200ms;
- }
-
- .user-page .edit-page .left:hover ,.user-page .edit-page .right:hover{
-    background: no-repeat center/80% url(/src/res/arrow-left.png),#00000011;
-    transition: 200ms;
- }
- .user-page .edit-page .left:active ,.user-page .edit-page .right:active{
-    background: no-repeat center/80% url(/src/res/arrow-left.png),#02020256;
-    transition: 200ms;
- }
 
  .user-page .edit-page .center{
     width: calc( 100% - 70px);
@@ -188,19 +167,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
- }
+}
 
- .user-page .edit-page .card{
+.user-page .edit-page .card{
     width: 100%;
-    background: rgb(101, 146, 192);
+    background: rgba(255, 255, 255, 0.979);
     height: 200px;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px #33333373;
  }
- .user-page .edit-page .card .space{
+ .user-page .space{
     display: none;
     
  }
 
- .user-page .edit-page .card .space.active{
+ .user-page .space.active{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -226,7 +208,7 @@
     background: rgb(81, 109, 136);
     transform: scale(1.5);
     border:1px solid #333
- }
+ }start
  .user-page .edit-page .index li:active{
     background: rgb(31, 100, 156);
  }
@@ -241,28 +223,44 @@
    margin: 10px;
  }
 
+ .user-page .edit-page .end{
+   width: 100%;
+   display: flex;
+   justify-content: flex-end;
+   color :#fff;
+ }
  .user-page .edit-page .save{
     padding: 10px 40px;
     border-radius: 10px;
-    background: rgb(142, 192, 101);
+    background: rgb(0, 114, 190);
+    margin-left: 20px;
+    
  }
  .user-page .edit-page .save:hover{
-    background: rgb(153, 230, 90);
+    background: rgb(0, 94, 156);
+ }
+ 
+ .user-page .edit-page .cancel{
+    padding: 10px 40px;
+    border-radius: 10px;
+    background: rgb(148, 148, 148);
+    
+ }
+ .user-page .edit-page .cancel:hover{
+    background:  rgb(116, 116, 116);
  }
 
  /*******************    Card   ***********************/
 
  .user-page .edit-page .card .pass-ctn{
     display: flex;
-    background: #fff;
+    background: #cc3d3d00;
     border-radius: 5px;
+    margin-top: 30px;
  }
-
- .user-page .edit-page .card  input{
-    all:unset;
-    background: #fff;
-    border-radius: 5px;
- }
+ .user-page .edit-page .card .pass-ctn input{
+    margin-top: 0px;
+}
 
  .user-page .edit-page .card .icon{
     width: 30px;
@@ -279,8 +277,106 @@
 .user-page .edit-page .card input{
     all:unset;
     font-family: 'Courier New', Courier, monospace;
-    width: 150px;
+    font-size: 18px;
+    width: 250px;
     padding: 5px;
     background: #fff;
+    border: #37a 1px solid;
     border-radius: 5px;
+    margin-top: 30px;
+    color: rgb(0, 38, 77);
  }
+
+ .user-page p.count {
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.user-page p.error {
+    font-size: 14px;
+    margin: 0 5px;
+    color: brown;
+}
+
+.user-page .promt {
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    color: #345;
+}
+
+.user-page h3 {
+    font-weight: normal;
+    color: #345;
+}
+
+.user-page .space.s2 input{
+    background: #0004;
+    color: #fff;
+    border: 1px solid #ffffffd5;
+}
+.user-page .space.s2{
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 100%;
+    background: no-repeat 95% 95% /30% url(/src/res/visa.png) , no-repeat center/200% url(/src/res/ert.avif);
+}
+
+.user-page .phone-ctn{
+    background: #fff;
+    border: 1px #37a solid;
+    border-radius: 10px;
+    overflow:hidden;
+    margin-top: 30px;
+}
+.user-page .edit-page .card .phone-ctn input{
+   margin-top: 0px;
+   border: none;
+}
+.user-page .phone-ctn select{
+    margin-top: 0px;
+    background: #fff;
+    border: 1px rgba(114, 114, 114, 0.479) solid;
+    height: 100%;
+    border-radius: 0px;
+    overflow:hidden;
+}
+
+
+.user-page .space.s2 .carte-nbm{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.user-page .space.s2 .label{
+   color: #fff;
+   font-weight: bold;
+   margin-left: 40px;
+}
+.user-page .space.s2 .carte-nbm > input{
+    width: 50px;
+    margin: 5px;
+    border-radius: 10px;
+}
+.user-page .space.s2 .carte-name{
+    display: flex;
+}
+.user-page .space.s2 .carte-name > input{
+    width: 200px;
+    margin: 5px  40px;
+
+}
+.user-page .space.s2 .carte-btm{
+    display: flex;
+    margin-top: 10px ;
+    width: 250px;
+    margin-left: 40px;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+.user-page .space.s2 .carte-btm > input{
+    width: 80px;
+}

@@ -3,21 +3,20 @@ import './PageUser.css'
 import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { useProfileStore } from "../PageProfile/ProfileStore";
 import { ProfilePhoto } from "../../Components/ProfilePhoto/ProfilePhoto";
-import { ProductInterface } from "../../DataBase";
 import { useProductStore } from "../../Components/Products/ProductStore";
 import { useEffect, useRef, useState } from "react";
 
-['33+','33+_2','33+_22','3_+22','+22']
+['33+', '33+_2', '33+_22', '3_+22', '+22']
 const identifierList: string[] = [];
 for (let i = 0; i < 12; i++) {
-    identifierList.push('+'+i+':'+i+':1');
+    identifierList.push('+' + i + ':' + i + ':1');
 }
-const list:string[] =[];
+const list: string[] = [];
 for (let i = 0; i < 10; i++) {
-   list.push(i.toString())
+    list.push(i.toString())
 }
-const isNumber =(s:string , i?:number)=>{
-    return  list.includes(s.charAt(i||0));
+const isNumber = (s: string, i?: number) => {
+    return list.includes(s.charAt(i || 0));
 }
 
 function doGetCaretPosition(ctrl: HTMLInputElement) {
@@ -36,24 +35,7 @@ function doGetCaretPosition(ctrl: HTMLInputElement) {
     return (CaretPos);
 }
 
-
-// function setCaretPosition(ctrl:HTMLInputElement,pos:number)
-// {
-//  if (ctrl.setSelectionRange)
-//  {
-//   ctrl.focus();
-//   ctrl.setSelectionRange(pos,pos);
-//  }
-//  else if (ctrl.createTextRange)
-//  {
-//   var range = ctrl.createTextRange();
-//   range.collapse(true);
-//   range.moveEnd('character', pos);
-//   range.moveStart('character', pos);
-//   range.select();
-//  }
-// }
-let ctn :number[] = []
+let ctn: number[] = []
 
 export function PageUser() {
     const { check } = useAppStore();
@@ -71,8 +53,9 @@ export function PageUser() {
     const [method, setMethod] = useState('');
     const [methodError, setMethodError] = useState('');
     const [identifier, setIdentifier] = useState('');
-    const [counter, setICounter] = useState<number[]>([]);
-    const [phone, setPhone] = useState('');
+    const [phonePlaceholder, setPhonePlaceholder] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [phone, setPhone] = useState('999-862-74-41');
     const phoneRef = useRef<HTMLInputElement>(null)
     const updateProfilePhoto = () => {
     }
@@ -101,69 +84,68 @@ export function PageUser() {
         setFullName(e.target.value);
     }
     const onPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        
-        let  t = e.target.value;
+
+        let t = e.target.value;
         while (t.includes('-')) {
-            t = t.replace('-','')
+            t = t.replace('-', '')
         }
         let count = 0;
-        t = ctn.map((c,e) => {
+        t = ctn.map((c, e) => {
             console.log(c, e);
-            
+
             let s = '';
             for (let i = 0; i < c; i++) {
-                s += isNumber(t,count+i)?t[count+i]:'';
+                s += isNumber(t, count + i) ? t[count + i] : '';
             }
-            count +=c;
-            return s+'-'
+            count += c;
+            return s + '-'
         }).join('');
         while (t.endsWith('-')) {
-            t = t.endsWith('-')? t.slice(0, t.length-1):t
+            t = t.endsWith('-') ? t.slice(0, t.length - 1) : t
         }
-        
         setPhone(t)
     }
     const onIdentifierChange = (e?: React.ChangeEvent<HTMLSelectElement>) => {
         const parts = e?.target.value.split(':') || identifierList[10];
         let l = Number(parts[1]);
-        console.log({l});
+        console.log({ l });
         ctn = [];
         while (l > 0) {
             // let t = (l - 3) >= 3 ? 3 : (l-3)<0?2:3; // 33+_2
-            let t = (l - 3) >= 2 ? 3:2;   // 33+_22
+            let t = (l - 3) >= 2 ? 3 : 2;   // 33+_22
             // let t = 2;   // +22
             // let t = 3;   // +33
             ctn.push(t);
             l -= t;
-        }        
-        setICounter(ctn)
-        setPhone(ctn.map(c => {
+        }
+        setPhonePlaceholder(ctn.map(c => {
             let s = '';
             for (let i = 0; i < c; i++) {
                 s += '_';
             }
             return s
-        }).join('-'));
+        }).join('-'))
+    }
+    const onAddressChange = ({ currentTarget }: React.ChangeEvent<HTMLInputElement>) => {
+        if (currentTarget.value.length > 250) {
+            currentTarget.value = currentTarget.value.slice(0, 250)
+            return setFullNameError('Max length is 250');
+        }
+        setAddressError('');
+        setAddress(currentTarget.value)
     }
     useEffect(() => {
         onIdentifierChange();
-    },[])
+    }, [])
 
     console.log('etet');
-    
+
     if (phoneRef.current) {
     }
     return (check('user') &&
         <div className="user-page">
             <div className="user-top">
-                <div className="info">
-                    <h1 className="full_name">{user?.full_name}</h1>
-                    <h2 className="email">{user?.email}</h2>
-                    <h1 className="created_at">{user?.createdAt}</h1>
-                </div>
-                <div className="user-photo">
-                    <ProfilePhoto init={url} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
-                </div>
+                My Profile
             </div>
             <div className="user-info">
                 <div className="full-name" onClick={() => {
@@ -171,7 +153,7 @@ export function PageUser() {
                 }}>
                     <div className="icon"></div>
                     <div className="label">Full Name</div>
-                    <div className="val">Visa ***4559</div>
+                    <div className="val">{user?.full_name}</div>
                     <div className="edit"></div>
                 </div>
                 <div className="compte" onClick={() => {
@@ -195,7 +177,7 @@ export function PageUser() {
                 }}>
                     <div className="icon"></div>
                     <div className="label">Phone</div>
-                    <div className="val">+7(999)862-74-41</div>
+                    <div className="val">{phone}</div>
                     <div className="edit"></div>
                 </div>
                 <div className="password" onClick={() => {
@@ -229,23 +211,20 @@ export function PageUser() {
                 if (e.target === e.currentTarget) setIndex(0);
             }}>
                 <div className="ctn">
-                    <div className="left" onClick={() => {
-                        setIndex(index - 1 < 1 ? 1 : index - 1)
-                    }}></div>
                     <div className="center">
                         <div className="card">
-                            <div className={"space 1 " + (index == 1 ? 'active' : '')}>
+                            <div key={1} className={"space s1 " + (index == 1 ? 'active' : '')}>
                                 <div className="label"> Change you Name </div>
-                                <input type="text" name="name" onChange={onNameChange} />
+                                <input type="text" placeholder="name" name="name" onChange={onNameChange} />
                                 <div className="promt">
-                                    <p className='error'>{passwordError}</p>
-                                    <p className='count'>{password.length}/50</p>
+                                    <p className='error'>{fullNameError}</p>
+                                    <p className='count'>{fullName.length}/50</p>
                                 </div>
                             </div>
-                            <div className={"space 5 " + (index == 5 ? 'active' : '')}>
+                            <div key={2} className={"space s5 " + (index == 5 ? 'active' : '')}>
                                 <div className="label"> Change you password </div>
                                 <div className="pass-ctn" >
-                                    <input type={(canSee ? "text" : "password")} name="pass" onChange={onPassChange} />
+                                    <input type={(canSee ? "text" : "password")} placeholder="password" name="pass" onChange={onPassChange} />
                                     <div className={"icon " + (canSee ? '' : 'off')} onClick={() => {
                                         setCanSee(!canSee);
                                     }}></div>
@@ -255,58 +234,52 @@ export function PageUser() {
                                     <p className='count'>{password.length}/50</p>
                                 </div>
                             </div>
-                            <div className={"space 4 " + (index == 4 ? 'active' : '')}>
+                            <div key={3} className={"space s4 " + (index == 4 ? 'active' : '')}>
                                 <div className="label"> change your phone number </div>
                                 <div className="phone-ctn">
                                     <select name="identifier" onChange={onIdentifierChange}>
                                         {identifierList.map(i => (<option key={i} value={i}>{i.split(':')[0]}</option>))}
                                     </select>
-                                    <input type="text" value={phone} ref={phoneRef} name="phone" onChange={onPhoneChange} />
-
+                                    <input type="text" placeholder="phone number" value={phone} ref={phoneRef} name="phone" onChange={onPhoneChange} />
+                                    <div className="promt">
+                                        <p className='error'>{phoneError}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div className={"space 2 " + (index == 2 ? 'active' : '')}>
-
-                                <div className="label"> Change Payement Method </div>
-                                <div className="pass-ctn" onClick={() => {
-                                    setCanSee(!canSee);
-                                }}>
-                                    <input type={(canSee ? "text" : "password")} name="pass" />
-                                    <div className={"icon " + (canSee ? '' : 'off')}></div>
+                            <div key={4} className={"space s2 " + (index == 2 ? 'active' : '')}>
+                                <div className="label">Current Carte **59</div>
+                                <div className="carte-nbm">
+                                    <input type="text" placeholder="_ _ _" />
+                                    <input type="text" placeholder="_ _ _" />
+                                    <input type="text" placeholder="_ _ _" />
+                                    <input type="text" placeholder="_ _ _" />
                                 </div>
-                                <div className="promt">
-                                    <p className='error'>{fullNameError}</p>
-                                    <p className='count'>{fullName.length}/20</p>
+                                <div className="carte-name">
+                                    <input type="text" placeholder="Card User Name" />
+                                </div>
+                                <div className="carte-btm">
+                                    <input type="text" placeholder="__/__" />
+                                    <input type="text" placeholder="_ _ _" />
                                 </div>
                             </div>
-                            <div className={"space 3 " + (index == 3 ? 'active' : '')}>
+                            <div key={5} className={"space s3 " + (index == 3 ? 'active' : '')}>
                                 <div className="label"> Change your address </div>
-                                <div className="pass-ctn" onClick={() => {
-                                    setCanSee(!canSee);
-                                }}>
-                                    <input type={(canSee ? "text" : "password")} name="address" />
-                                    <div className={"icon " + (canSee ? '' : 'off')}></div>
-                                </div>
+                                <input type="text" placeholder="address" onChange={onAddressChange} />
                                 <div className="promt">
-                                    <p className='error'>{fullNameError}</p>
-                                    <p className='count'>{fullName.length}/20</p>
+                                    <p className='error'>{addressError}</p>
+                                    <p className='count'>{address.length}/250</p>
                                 </div>
                             </div>
                         </div>
-                        <ul className="index">
-                            {[1, 2, 3, 4, 5].map(n => (
-                                <li key={n} className={n + " " + (index == n ? 'active' : '')} onClick={() => {
-                                    setIndex(n)
-                                }}></li>
-                            ))}
-                        </ul>
-                        <div className="save" onClick={() => {
-                            setIndex(0)
-                        }}>Save</div>
+                        <div className="end">
+                            <div className="cancel" onClick={() => {
+                                setIndex(0)
+                            }}>Cancel</div>
+                            <div className="save" onClick={() => {
+                                setIndex(0)
+                            }}>Save</div>
+                        </div>
                     </div>
-                    <div className="right" onClick={() => {
-                        setIndex(index + 1 > 5 ? 5 : index + 1)
-                    }}></div>
                 </div>
             </div>
         </div>

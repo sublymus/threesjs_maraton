@@ -12,11 +12,11 @@ export function PageRegister() {
     const { check, setPath } = useAppStore();
     const [] = useState(false);
     const [photoFile, setPhotoFile] = useState<HTMLInputElement['files']>(null);
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('b@b.bb');
     const [emailError, setEmailError] = useState('');
     const [fullName, setFullName] = useState('');
     const [fullNameError, setFullNameError] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('bbbbbbbb');
     const [passwordError, setPasswordError] = useState('');
     const [canSee, setCanSee] = useState(false);
 

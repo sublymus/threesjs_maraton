@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 
+
 export const Host = 'http://localhost:3333';
 export const DefaultImage = '/src/res//photo2.png';
 
@@ -138,7 +139,7 @@ export const useAppStore = create<AppState>((set) => ({
     init() {
         if (isInitialized) return;
         listener = getListener(set);
-        navHistoryUpdate( useAppStore.getInitialState().pathList);
+        //navHistoryUpdate( useAppStore.getInitialState().pathList);
         window.addEventListener('hashchange', listener);
         isInitialized = true;
     },

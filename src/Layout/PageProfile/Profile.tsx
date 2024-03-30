@@ -16,11 +16,14 @@ import { PageCart } from "../../Layout/PageCart/PageCart";
 let bubbleDiv: any = null;
 export function Profile() {
     const { setPath, check, navBack} = useAppStore();
-    const { openPhoto, photo: bigPhoto } = useProfileStore();
+    const { openPhoto, photo: bigPhoto  } = useProfileStore();
     const bubbleCtnRef = useRef<HTMLDivElement | null>(null);
     const [isMin, setIsMin] = useState(false);
-    const updateProfilePhoto = () => {
+    const {user} = useRegisterStore();
 
+    const {updateUser} = useRegisterStore()
+    const updateProfilePhoto = (photos:FileList|null) => {
+        if(user&&photos)updateUser({id:user.id,photos})
     }
 
     const isNavUsed = check('profile_nav');
@@ -47,11 +50,12 @@ export function Profile() {
         const wMax = w + size;
         const wMin = -size;
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 20; i++) {
+            const s =(size*0.3)+(size*0.7)* Math.random()
             const div = document.createElement('div');
-            div.style.width = `${size}px`
-            div.style.height = `${size}px`
-            div.style.background = `rgba(${58 + Math.round(Math.random() * 100) - 40} , ${19 + Math.round(Math.random() * 50) - 10}, ${163 + Math.round(Math.random() * 50) - 20},0.1)`
+            div.style.width = `${s}px`
+            div.style.height = `${s}px`
+            div.style.background = `rgba(${36+Math.round(Math.random() * 220)} , ${19 + Math.round(Math.random() * 50) - 10}, ${36+Math.round(Math.random() * 220)},0.4)`
             div.className = 'bubble';
             const x = w * Math.random();
             const y = h * Math.random();
@@ -64,7 +68,7 @@ export function Profile() {
                 h0: (h * 0.7) * Math.random(),
                 a: (h / 4) * Math.random(),
                 v: 0.3 * (Math.random() - 0.5),
-                f: 0.001 * (Math.random() - 0.5),
+                f: 0.0003 * (Math.random() - 0.5),
                 r: Math.PI * Math.random(),
             })
             bubbleCtnRef.current.append(div)
@@ -88,7 +92,6 @@ export function Profile() {
         }
     }, [bubbleCtnRef])
 
-    const { user } = useRegisterStore();
     return check('profile') && (
         <div className="page-profile">
             <div className="profile-background" onClick={() => {

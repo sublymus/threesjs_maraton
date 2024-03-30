@@ -1,6 +1,6 @@
 
 import { create } from 'zustand'
-import { Feature, ProductInterface, VALUES } from '../../DataBase'
+import { features, Feature, ProductInterface, VALUES } from '../../DataBase'
 import { AbstractWorld, WorldManager } from '../../World/WorldManager'
 import { Host } from '../../AppStore';
 
@@ -88,6 +88,7 @@ async function showProductWorld(product:ProductScenus) {
     const collector: CollectedFeatures = {}
     productCache = {
         ...product,
+        features:features,
         scene: world,
         featuresCollector: {
             collectFeature(feature, value) {

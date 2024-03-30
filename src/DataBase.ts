@@ -259,7 +259,7 @@ const metalFeature: Feature = {
     },]
 }
 
-const features: Feature[] = [metalFeature,gemFeature]
+export const features: Feature[] = [metalFeature,gemFeature]
    
 
 
