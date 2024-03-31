@@ -1,5 +1,121 @@
-.page-cart{
-    background: rgba(179, 196, 145, 0.281);
+.page-cart {
     width: 100%;
     height: 100%;
+}
+
+.page-cart .products {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+.page-cart .product .img {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.page-cart .product {
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    display: flex;
+    width: 95%;
+    max-width: 600px;
+    height: 100px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.315);
+    box-shadow: 0px 1px 3px rgba(51, 68, 85, 0.247);
+}
+
+
+.page-cart .product .title {
+    width: 150px;
+}
+.page-cart .product .quanty {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    /* width: 90px; */
+    /* max-width: 90px; */
+    /* min-width: 90px; */
+}
+
+.page-cart .product .quanty>div {
+    display: inline-block;
+}
+
+
+.page-cart .product .min:hover {
+    background: no-repeat center/70% url(/src/res/minus.png), #ffffffd2;
+    transition: 200ms;
+}
+
+.page-cart .product .max:hover {
+    transition: 200ms;
+    background: no-repeat center/70% url(/src/res/plus.png), #ffffffd2;
+}
+
+.page-cart .product .min {
+    transition: 200ms;
+    background: no-repeat center/70% url(/src/res/minus.png), #ffffff79;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.page-cart .product .max {
+    transition: 200ms;
+    border-radius: 50%;
+    width: 30px;
+    margin: 5px;
+    height: 30px;
+    background: no-repeat center/70% url(/src/res/plus.png), #ffffff79;
+}
+
+.page-cart .product .price {
+    text-align: right;
+}
+
+.page-cart .product .number {
+    width: 30px;
+    text-align: center;
+}
+
+.page-cart .products .product .remove {
+    width: 30px;
+    height: 30px;
+    filter: invert(30%);
+    background: no-repeat center/70% url(/src//res/x.png);
+    transition: 200ms;
+}
+
+.page-cart .products .product .remove:hover {
+    filter: invert(0%);
+    background: no-repeat center/80% url(/src//res/x.png);
+    transition: 200ms;
+}
+
+.page-cart .products .product .status {
+    background: rgba(8, 94, 180, 0.452);
+    border-radius: 10px;
+    padding: 2px 5px;
+    width: 100px;
+    text-align: center;
+}
+
+.page-cart .products .product.pause .status {
+    background: rgba(129, 130, 131, 0.452);
+}
+
+.page-cart .products .product.revoke .status {
+    background: rgba(59, 59, 59, 0.452);
+}
+.page-cart .products .product.revoke {
+    background: rgba(151, 151, 151, 0.685);
 }

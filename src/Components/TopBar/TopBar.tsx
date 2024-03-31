@@ -7,7 +7,7 @@ export function TopBar() {
             <div className="top-bar-ctn">
                 <div className="logo" onClick={() => {
                     setAbsPath(['catalogue'])
-                }}>SUBLYMUS</div>
+                }}> <span>By</span> Sublymus</div>
                 
                 <div className="research">
                     <input type="text" />

@@ -17,7 +17,7 @@ interface RegisterStore {
     google_connexion(): Promise<void>,
     create_user(data: { full_name: string, email: string, password: string, photos: HTMLInputElement['files'] }): Promise<void>,
     tryToken(): Promise<void>,
-    updateUser(user: {id:string, full_name?: string, photos?: FileList }): Promise<void>,
+    updateUser(user: { id: string, full_name?: string, photos?: FileList }): Promise<void>,
     disconnection(): Promise<void>,
     me(): Promise<void>,
 }
@@ -27,14 +27,19 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
         const response = await fetch(`${Host}/connexion?email=${email}&password=${password}`);
         const user = await response.json();
         if (!user.id) return
-        set(() => ({ user }));
+        set(() => ({
+            user: {
+                ...user,
+                photos: user.photos.map((p: string) => `${Host}${p}`)
+            }
+        }));
         localStorage.setItem('user', JSON.stringify(user));
         useAppStore.getState().setAbsPath(['profile', 'user']);
     },
-    async updateUser({ full_name, photos , id }) {
+    async updateUser({ full_name, photos, id }) {
 
-        console.log({photos});
-        
+        console.log({ photos });
+
         const fromData = new FormData();
         if (full_name) fromData.append('full_name', full_name);
         if (photos?.[0]) {
@@ -42,17 +47,22 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
         } else {
             return
         }
-        fromData.append('id',id);
-        fromData.append('photos','["photos_0"]');
+        fromData.append('id', id);
+        fromData.append('photos', '["photos_0"]');
         const response = await fetch(`${Host}/edit_me`, {
             method: 'POST',
             body: fromData,
         });
         const user = await response.json();
-        console.log({user});
-        
+        console.log({ user });
+
         if (!user.id) return
-        set(() => ({ user }));
+        set(() => ({
+            user: {
+                ...user,
+                photos: user.photos.map((p: string) => `${Host}${p}`)
+            }
+        }));
         localStorage.setItem('user', JSON.stringify(user));
     },
     async google_connexion() {
@@ -67,7 +77,12 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
 
 
         const user = await response.json();
-        set(() => ({ user, RegisterPage: 'Register' }));
+        set(() => ({
+            user: {
+                ...user,
+                photos: user.photos.map((p: string) => `${Host}${p}`)
+            }
+        }));
         localStorage.setItem('user', JSON.stringify(user));
     },
     async create_user({ email, full_name, password, photos }) {
@@ -89,7 +104,12 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
         });
 
         const user = await response.json();
-        set(() => ({ user}));
+        set(() => ({
+            user: {
+                ...user,
+                photos: user.photos.map((p: string) => `${Host}${p}`)
+            }
+        }));
         useAppStore.getState().setAbsPath(['profile', 'user']);
         localStorage.setItem('user', JSON.stringify(user));
     },

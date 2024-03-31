@@ -15,15 +15,15 @@ import { PageCart } from "../../Layout/PageCart/PageCart";
 
 let bubbleDiv: any = null;
 export function Profile() {
-    const { setPath, check, navBack} = useAppStore();
-    const { openPhoto, photo: bigPhoto  } = useProfileStore();
+    const { setPath, check, navBack } = useAppStore();
+    const { openPhoto, photo: bigPhoto } = useProfileStore();
     const bubbleCtnRef = useRef<HTMLDivElement | null>(null);
     const [isMin, setIsMin] = useState(false);
-    const {user} = useRegisterStore();
+    const { user } = useRegisterStore();
 
-    const {updateUser} = useRegisterStore()
-    const updateProfilePhoto = (photos:FileList|null) => {
-        if(user&&photos)updateUser({id:user.id,photos})
+    const { updateUser } = useRegisterStore()
+    const updateProfilePhoto = (photos: FileList | null) => {
+        if (user && photos) updateUser({ id: user.id, photos })
     }
 
     const isNavUsed = check('profile_nav');
@@ -51,11 +51,11 @@ export function Profile() {
         const wMin = -size;
 
         for (let i = 0; i < 20; i++) {
-            const s =(size*0.3)+(size*0.7)* Math.random()
+            const s = (size * 0.3) + (size * 0.7) * Math.random()
             const div = document.createElement('div');
             div.style.width = `${s}px`
             div.style.height = `${s}px`
-            div.style.background = `rgba(${36+Math.round(Math.random() * 220)} , ${19 + Math.round(Math.random() * 50) - 10}, ${36+Math.round(Math.random() * 220)},0.4)`
+            div.style.background = `rgba(${36 + Math.round(Math.random() * 220)} , ${19 + Math.round(Math.random() * 50) - 10}, ${36 + Math.round(Math.random() * 220)},0.4)`
             div.className = 'bubble';
             const x = w * Math.random();
             const y = h * Math.random();
@@ -92,6 +92,9 @@ export function Profile() {
         }
     }, [bubbleCtnRef])
 
+    const photo = user?.photos[0] || DefaultImage;
+    console.log({photo});
+    
     return check('profile') && (
         <div className="page-profile">
             <div className="profile-background" onClick={() => {
@@ -116,7 +119,7 @@ export function Profile() {
                     }}></div>
                     <div ref={bubbleCtnRef} className='back-profile-nav'></div>
                     <div className='profile-nav'>
-                        <ProfilePhoto init={user?.photos[0] || DefaultImage} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
+                        <ProfilePhoto photo={photo} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
                         <div className="info">
                             Naila Stefenson
                         </div>
@@ -143,7 +146,7 @@ export function Profile() {
                     </div>
                 </div>}
                 <div className="ctn-pages">
-                    {(check('user')&&!user)? setPath('login'):null}
+                    {(check('user') && !user) ? setPath('login') : null}
                     <PageRegister />
                     <PageUser />
                     <PageAbout />

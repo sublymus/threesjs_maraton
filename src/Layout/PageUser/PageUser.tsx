@@ -2,7 +2,6 @@ import { DefaultImage, Host, useAppStore } from "../../AppStore"
 import './PageUser.css'
 import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { useProfileStore } from "../PageProfile/ProfileStore";
-import { ProfilePhoto } from "../../Components/ProfilePhoto/ProfilePhoto";
 import { useProductStore } from "../../Components/Products/ProductStore";
 import { useEffect, useRef, useState } from "react";
 
@@ -18,29 +17,11 @@ for (let i = 0; i < 10; i++) {
 const isNumber = (s: string, i?: number) => {
     return list.includes(s.charAt(i || 0));
 }
-
-function doGetCaretPosition(ctrl: HTMLInputElement) {
-    var CaretPos = 0;
-
-    if (ctrl.selectionStart || ctrl.selectionStart == 0) {// Standard.
-        CaretPos = ctrl.selectionStart;
-    }
-    else if (document.getSelection()) {// Legacy IE
-        //   ctrl.focus ();
-        //   var Sel = new Range();
-        //   Sel.moveStart ('character', -ctrl.value.length);
-        //   CaretPos = Sel.text.length;
-    }
-
-    return (CaretPos);
-}
-
 let ctn: number[] = []
 
 export function PageUser() {
     const { check } = useAppStore();
     const { user } = useRegisterStore();
-    const { openPhoto } = useProfileStore();
     const { products } = useProductStore();
     const [index, setIndex] = useState(0)
     const [canSee, setCanSee] = useState(false);
@@ -57,8 +38,7 @@ export function PageUser() {
     const [phoneError, setPhoneError] = useState('');
     const [phone, setPhone] = useState('999-862-74-41');
     const phoneRef = useRef<HTMLInputElement>(null)
-    const updateProfilePhoto = () => {
-    }
+   
     let url = user?.photos[0];
     url = url?.startsWith('http') ? url : url ? `${Host}${url}` : DefaultImage
 
@@ -212,7 +192,7 @@ export function PageUser() {
             }}>
                 <div className="ctn">
                     <div className="center">
-                        <div className="card">
+                        <div className="editor">
                             <div key={1} className={"space s1 " + (index == 1 ? 'active' : '')}>
                                 <div className="label"> Change you Name </div>
                                 <input type="text" placeholder="name" name="name" onChange={onNameChange} />

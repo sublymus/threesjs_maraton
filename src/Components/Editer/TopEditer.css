@@ -1,6 +1,5 @@
 .top-ctn-edit {
     position: absolute;
-    background: #345;
     top: 50px;
     width: 70px;
     height: 70px;
@@ -10,18 +9,11 @@
     justify-content: center;
 }
 
-.top-ctn-edit  .edit-btn{
-    width: 50px;
-    height: 50px;
-    background: no-repeat center/50% url(/src/Components/Editer/arraow.png);
-}
-
-.top-ctn-edit .features{
+.top-ctn-edit .features {
     top: 100px;
-    height:800px ;
+    /* height:800px ; */
     position: absolute;
     left: 5px;
-    height: 800px;
     transition: all 0.3s ease-in-out;
     overflow: auto;
     display: flex;
@@ -29,6 +21,8 @@
     align-items: flex-start;
     align-content: flex-start;
     justify-content: center;
+    background: #0003;
+    border-radius: 10px;
 }
 
 .top-ctn-edit .feature {
@@ -36,15 +30,16 @@
     background-position: center;
     background-size: 60%;
     background-repeat: no-repeat;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     transition: all 0.3s ease-in-out;
     /* background: #e42525; */
     border-width: 1px;
     border-style: solid;
     border-color: #ffffff00;
-    border-radius: 50%;      
-    filter: invert(88%); /************  TODO ****************/
+    border-radius: 50%;
+    filter: invert(88%);
+    /************  TODO ****************/
 }
 
 .top-ctn-edit .feature:hover {
@@ -56,13 +51,13 @@
 .top-ctn-edit .feature.active {
     transition: 200ms;
     background: #a5a5a577;
-    border-color:#33333385;
+    border-color: #33333385;
     background-position: center;
     background-size: 80%;
     background-repeat: no-repeat;
 }
 
-.top-ctn-edit  .features-values{
+.top-ctn-edit .features-values {
     position: absolute;
     padding-left: 10px;
     top: 100px;
@@ -78,37 +73,42 @@
     border: 3px solid #00000059;
 }
 
-.top-ctn-edit .features-value:hover{
-    background-size: 80%;
+.top-ctn-edit .features-value:hover {
+    background-size: 100%;
 }
 
-.top-ctn-edit .features-value{
+.top-ctn-edit .features-value {
     cursor: pointer;
     position: relative;
     display: inline-block;
-    height: 70px;
-    width: 70px;
-    background-size: 40px;
+    height: 50px;
+    width: 50px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 70%;
     /* margin: px 0px; */
     transition: 200ms;
     border-width: 1px;
     border-style: solid;
     border-color: #e1c1c100;
-    border-radius: 50%;      
-  }
-  .features-value.active{
+    border-radius: 50%;
+}
+
+.top-ctn-edit .features-value.active {
     transition: 200ms;
     background: #a5a5a577;
-    border-color:#d0d0d085;
+    border-color: #d0d0d085;
     background-position: center;
-    background-size: 80%;
     background-repeat: no-repeat;
+    background-size: 70%;
     transition: 200ms;
+}
 
-    }
+.top-ctn-edit .features-value.active:hover {
+    background-size: 100%;
+    transition: 200ms;
+}
 
-    .features-value .label{
-        position: absolute;
-      }
+.features-value .label {
+    position: absolute;
+}

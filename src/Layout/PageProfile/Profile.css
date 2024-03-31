@@ -149,8 +149,6 @@
     align-items: center;
     align-content: center;
    width: 100%;
-
-    overflow: auto;
 }
 
 .page-profile .profile-nav .profile-photo {

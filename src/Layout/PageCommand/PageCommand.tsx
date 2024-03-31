@@ -12,35 +12,33 @@ export function PageCommand() {
     return (check('command') && <div className="page-command">
         <div className="products">
             {
-                products.map((p , i) => <Card  product={p} collectedFeatures={{}} id={p.id} quanty={i} key={p.id}  />)
+                [...products, ...products, ...products].map((p, i) => <Card status={['pause', 'running', 'revoke', 'delivery'][(i++) % 4]} product={{ ...p, stock: 20 }} collectedFeatures={{}} id={p.id} quanty={i} key={p.id} />)
             }
         </div>
     </div>
     )
-} 
+}
 
-function Card(cartProduct:{
-    product:ProductInterface,
-    quanty:number,
-    id:string,
-    collectedFeatures:Record<string, string|number|boolean>
+function Card(cartProduct: {
+    product: ProductInterface,
+    quanty: number,
+    id: string,
+    status: string,
+    collectedFeatures: Record<string, string | number | boolean>
 }) {
-    const { product , quanty } = cartProduct
-    const [_quanty ,  setQuanty] = useState(quanty);
+    const { product, quanty, status } = cartProduct
+    
     return (
-        <div className="product">
-                        <div className="img" style={{backgroundImage:`url(${Host}${product.images[0]})`}}></div>
-                        <div className="title">{product.title}</div>
-                            <div className="quanty">
-                                <div className="min" onClick={()=>{
-                                    setQuanty(quanty-1 < 0? 0:quanty-1)
-                                }}></div>
-                                <div className="number">{_quanty}</div>
-                                <div className="plus"  onClick={()=>{
-                                    setQuanty(quanty+1 > product.stock? product.stock:quanty+1)
-                                }}></div>
-                            </div>
-                            <div className="price">{product.price*(quanty+1)} ₽</div>
-                    </div>
+        <div className={"product " + status}>
+            <div className="img" style={{ backgroundImage: `url(${Host}${product.images[0]})` }}></div>
+            <div className="ref">
+                <div className="title">{product.title}</div>
+                <div className="id">{product.id.slice(0,13)}</div>
+            </div>
+            <div className="number">{quanty}</div>
+            <div className="price">{product.price * (quanty)} ₽</div>
+            <div className="status">{status}</div>
+            <div className="remove"></div>
+        </div>
     )
 }

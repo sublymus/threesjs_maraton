@@ -7,7 +7,7 @@ import { useProfileStore } from "../PageProfile/ProfileStore";
 import React from "react";
 
 export function PageRegister() {
-    const {user, create_user, connexion, google_connexion} = useRegisterStore();
+    const { create_user, connexion, google_connexion} = useRegisterStore();
     const { openPhoto}= useProfileStore();
     const { check, setPath } = useAppStore();
     const [] = useState(false);
@@ -87,7 +87,7 @@ export function PageRegister() {
 
         <div className="page-register">
             
-            <ProfilePhoto init={DefaultImage} canEdit={!!canCreate} canOpen onOpen={(photo)=> openPhoto(photo)} onChange={setPhotoFile} />
+            <ProfilePhoto photo={photoFile?URL.createObjectURL(photoFile[0]):DefaultImage} canEdit={!!canCreate} canOpen onOpen={(photo)=> openPhoto(photo)} onChange={setPhotoFile} />
             <div className="ctn-name" style={{ display: canLogin ? 'none' : 'initial' }}>
                 <h3>Full Name</h3>
                 <input type="text" onChange={onNameChange} />

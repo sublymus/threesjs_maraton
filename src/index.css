@@ -7,9 +7,9 @@
   font-family:  "Akaya Telivigala", system-ui; */
   
   font-optical-sizing: auto;
-  font-weight: 400;
+  font-weight: 100;
   font-style: normal;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 #root {
@@ -20,6 +20,7 @@
 
 body{
   font-family: "Edu NSW ACT Foundation", cursive;
+  /* font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif; */
 }
 
 #world{

@@ -1,4 +1,91 @@
-.page-command{
+.page-command {
     width: 100%;
     height: 100%;
-} 
+}
+
+.page-command .products {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+.page-command .product .img {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.page-command .product {
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    display: flex;
+    width: 95%;
+    max-width: 600px;
+    height: 100px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.315);
+    box-shadow: 0px 1px 3px rgba(51, 68, 85, 0.247);
+}
+
+
+.page-command .product .ref {
+    width: 150px;
+    padding-left: 3%;
+}
+.page-command .product .title {
+    /* width: 150px; */
+}
+.page-command .product .id {
+    width: 150px;
+    color: #345b;
+    margin-top: 10px;
+    font-size: 14px;
+    font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.page-command .product .price {
+    text-align: right;
+}
+
+.page-command .product .number {
+    width: 30px;
+    text-align: center;
+}
+
+.page-command .products .product .remove {
+    width: 30px;
+    height: 30px;
+    filter: invert(30%);
+    background: no-repeat center/70% url(/src//res/x.png);
+    transition: 200ms;
+}
+
+.page-command .products .product .remove:hover {
+    filter: invert(0%);
+    background: no-repeat center/80% url(/src//res/x.png);
+    transition: 200ms;
+}
+
+.page-command .products .product .status {
+    background: rgba(8, 94, 180, 0.452);
+    border-radius: 10px;
+    padding: 2px 5px;
+    width: 100px;
+    text-align: center;
+}
+
+.page-command .products .product.pause .status {
+    background: rgba(129, 130, 131, 0.452);
+}
+
+.page-command .products .product.revoke .status {
+    background: rgba(59, 59, 59, 0.452);
+}
+.page-command .products .product.revoke {
+    background: rgba(151, 151, 151, 0.685);
+}

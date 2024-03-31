@@ -1,26 +1,27 @@
 .bot-ctn-edit {
     position: absolute;
     /* background: #345; */
-    left: calc(50% - calc(var(--editer-width) /2) + var(--products-width) /2);
-    width: var(--editer-width);
-    bottom: 50px;
+    left: calc(25%);
+    width: calc(100% - 250px);
+    bottom: calc(0vh);
     transition: all 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.bot-ctn-edit .ctn-features{
+.bot-ctn-edit .ctn-features {
     position: relative;
     width: 100%;
     height: 100%;
     /* background: #358; */
 }
 
-.bot-ctn-edit .features{
+.bot-ctn-edit .features {
+    
     position: absolute;
     left: 0;
-    width: 800px;
+    width: 100%;
     transition: all 0.3s ease-in-out;
     overflow: auto;
     display: flex;
@@ -30,60 +31,69 @@
     justify-content: center;
 }
 
-.bot-ctn-edit .features.low{
+.bot-ctn-edit .features.low {
     display: block;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .bot-ctn-edit .feature {
     display: inline-block;
     background-position: center;
-    background-size: 60%;
+    background-size: 80%;
     background-repeat: no-repeat;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     transition: all 0.3s ease-in-out;
     /* background: #e42525; */
     border-width: 1px;
     border-style: solid;
     border-color: #ffffff00;
-    border-radius: 50%;      
-    filter: invert(88%); /************  TODO ****************/
+    border-radius: 50%;
+    filter: invert(88%);
+    /************  TODO ****************/
 }
 
 .bot-ctn-edit .feature:hover {
     cursor: pointer;
-    background-size: 80%;
+    background-size: 100%;
+    transition: 200ms;
+}
+
+.bot-ctn-edit .feature.active:hover {
+    cursor: pointer;
+    background-size: 100%;
     transition: 200ms;
 }
 
 .bot-ctn-edit .feature.active {
     transition: 200ms;
     background: #a5a5a577;
-    border-color:#33333385;
+    border-color: #33333385;
     background-position: center;
     background-size: 80%;
     background-repeat: no-repeat;
 }
 
-.bot-ctn-edit .more-top{
-    top:-50px;
-    left:calc(50% - 10px);
+.bot-ctn-edit .more-top {
+    top: -50px;
+    left: calc(50% - 10px);
     transform: rotateZ(90deg);
 }
 
-.bot-ctn-edit .more-right{
-    top: calc( 50% - 40px);
-    right:-70px;
+.bot-ctn-edit .more-right {
+    top: calc(50% - 40px);
+    right: -70px;
 }
 
-.bot-ctn-edit .more-left{
-    top: calc( 50% - 40px);
+.bot-ctn-edit .more-left {
+    top: calc(50% - 40px);
     left: -70px;
     transform: rotateZ(180deg);
 }
 
-.bot-ctn-edit .more-top, .more-left, .more-right{
+.bot-ctn-edit .more-top,
+.more-left,
+.more-right {
     opacity: 0.5;
     cursor: pointer;
     position: absolute;
@@ -94,16 +104,19 @@
     background: no-repeat center/50% url(/src/Components/Editer/arraow.png);
     transition: 200ms;
 }
-.bot-ctn-edit .more-top:hover, .more-left:hover, .more-right:hover{
+
+.bot-ctn-edit .more-top:hover,
+.more-left:hover,
+.more-right:hover {
     opacity: 0.7;
     transition: 200ms;
-    background: no-repeat center/50% url(/src/Components/Editer/arraow.png),#c0c0c05c;
+    background: no-repeat center/50% url(/src/Components/Editer/arraow.png), #c0c0c05c;
 }
 
-  
 
-.bot-ctn-edit .ctn-features-values{
-    width: 800px;
+
+.bot-ctn-edit .ctn-features-values {
+    width: 100%;
     top: -150px;
     position: absolute;
     display: flex;
@@ -113,9 +126,11 @@
 
 
 
-  .features-values{
-    max-width: 800px;
+.features-values {
+    max-width: 400px;
     display: flex;
+    align-items: center;
+    align-content: center;
     flex-wrap: wrap;
     background: rgba(0, 0, 0, 0.183);
     border-radius: 40px;
@@ -133,16 +148,17 @@
     background: rgba(167, 167, 167, 0.599);
 } */
 
-.bot-ctn-edit .features-value:hover{
-    background-size: 80%;
+.bot-ctn-edit .features-value:hover {
+    background-size: 100%;
 }
-.bot-ctn-edit .features-value{
+
+.bot-ctn-edit .features-value {
     cursor: pointer;
     position: relative;
     display: inline-block;
-    height: 70px;
-    width: 70px;
-    background-size: 40px;
+    height: 50px;
+    width: 50px;
+    background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
     /* margin: px 0px; */
@@ -150,19 +166,27 @@
     border-width: 1px;
     border-style: solid;
     border-color: #e1c1c100;
-    border-radius: 50%;      
-  }
-  .features-value.active{
+    border-radius: 50%;
+}
+
+.bot-ctn-edit .features-value.active {
     transition: 200ms;
     background: #a5a5a577;
-    border-color:#d0d0d085;
+    border-color: #d0d0d085;
     background-position: center;
-    background-size: 80%;
+    background-size: 70%;
     background-repeat: no-repeat;
     transition: 200ms;
 
-    }
+}
 
-    .features-value .label{
-        position: absolute;
-      }
+.bot-ctn-edit .features-value.active:hover {
+
+    background-size: 100%;
+    transition: 200ms;
+
+}
+
+.features-value .label {
+    position: absolute;
+}

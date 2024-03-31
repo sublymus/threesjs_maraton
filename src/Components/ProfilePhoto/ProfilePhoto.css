@@ -2,7 +2,10 @@
     position: relative;
     width: 200px;
     height: 200px;
-    background: no-repeat center/cover url('/src/res/photo2.png'), rgb(255, 255, 255);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center ;
+    background-image: url(/src/res/photo2.png), rgb(255, 255, 255);
     border-radius: 50%;
 }
 

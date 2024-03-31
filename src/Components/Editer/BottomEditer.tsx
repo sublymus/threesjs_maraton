@@ -5,10 +5,10 @@ import { Feature } from '../../DataBase';
 
 const MIN_FeatureS_HEIGHT = 100;
 const MAX_FeatureS_HEIGHT = 600;
-const Feature_ZISE = 50 + 20;//width+padding
+const Feature_ZISE = 50;
 
 
-const VALUES_ICON_SIZE = 40 + 30;//width+padding
+const VALUES_ICON_SIZE = 50;
 
 
 
@@ -46,7 +46,7 @@ export function BottomEditer() {
     if (!feature) return
     const width = ctn_featuresDivRef.current?.getBoundingClientRect().width;
     if (!width) return
-    const h = VALUES_ICON_SIZE * (1 + ((feature.values?.length||0) * VALUES_ICON_SIZE) / width)
+    const h = VALUES_ICON_SIZE * Math.ceil( (1 + ((feature.values?.length||0) * VALUES_ICON_SIZE) / width))
     setValuesHeight(h);
 
   }, [feature])

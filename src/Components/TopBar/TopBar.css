@@ -19,10 +19,15 @@
 .top-bar .logo {
     top: 30px;
     left: 20px;
-    font-size: 4em;
+    font-size: 3em;
+    margin-right: 30px;
+    min-width: 230px;
     font-family: "Caveat", cursive;
     color: #fff;
-    height: 80px;
+}
+.top-bar .logo span{
+    font-size: 1em;
+    color: #fff; 
 }
 
 .top-bar .research {
@@ -33,7 +38,7 @@
     height: 50px;
     width: 100%;
     max-width: 400px;
-    background: #fff;
+    background: #fffa;
     border-radius: 20px;
 }
 
@@ -68,7 +73,7 @@
 }
 
 .top-bar .myprofile {
-    background: no-repeat center/70% url(../../res/circle-user-round.png), #ffffffa0;
+    background: no-repeat center/70% url(../../res/circle-user-round.png), #ffffff5d;
     /* filter: invert(30%); */
     border-radius: 15px;
     min-width: 50px;

@@ -120,9 +120,8 @@ const gemFeature: Feature = {
         id: 'blue_garnet',
         label: 'Grenat bleu',
         feature_id:'gem_id',
-
-        // url: '/src/World/images/gem/blue_garnet.png',
-        // value: '2d3563'
+        url: '/src/World/images/gem/blue_garnet.png',
+        value: '2d3563'
     }, {
         label: 'Taaffeite',
         id: 'taaffeite',

@@ -17,16 +17,15 @@ export function TopEditer() {
   }
   const size = useWindowSize();
   const s = size.width - 80;
-  const r = 400;
-  const w = s < r ? s : r
+  const maxSize = 400;
+  const w = s < maxSize ? s : maxSize
   dim.width = w; 
-  const v = 70;
-  const n = Math.floor((w - 20) / v);
-  const l = Math.ceil((feature?.values?.length || 0) / n);
-  dim.height = Math.min(l,6) * v;
+  const v = 50;
+  const column = Math.floor((w - 20) / v); // nbr of valu per row
+  const row = Math.ceil((feature?.values?.length || 0) / column);
+  dim.height = Math.min(row,6) * v;
   return product && (
     <div className='top-ctn-edit' >
-      <div className='edit-btn'></div>
       <div className="features" ref={featuresDivRef}>
         {
           product.features&&Object.values(product.features).map((_feature) => (
@@ -41,7 +40,7 @@ export function TopEditer() {
           ))
         }
       </div>
-      <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:l>6?'scroll':'inherit'}}>
+      <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:row>6?'scroll':'inherit'}}>
         {feature && (
           feature.values?.map((_value) => (
             <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${(_value as any).url})` }} onClick={() => {

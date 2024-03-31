@@ -1,7 +1,7 @@
 /* 300 cadreW-max  */
 .hori-ctn-products{
   position: absolute;
-  height: 320px;
+  height: 220px;
   width: 100%; 
   bottom: 0;
   
@@ -15,8 +15,9 @@
   /* background: #345; */
   transition: 1000ms;
   width: 100%;
-  height: 300px;
+  height: 250px;
   white-space: nowrap;
+  bottom: 0;
 }
 
 .hori-ctn-products .product {
@@ -25,8 +26,8 @@
   cursor: pointer;
   filter: none;
   margin: 0 30px;
-  width: 250px;
-  height: 100%;
+  width: 150px;
+  height: 150px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
