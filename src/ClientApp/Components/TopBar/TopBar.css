@@ -1,0 +1,87 @@
+.top-bar {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100px;
+}
+
+.top-bar-ctn {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-width: 420px;
+    max-width: 1200px;
+    margin: 20px 0;
+}
+
+.top-bar .logo {
+    top: 30px;
+    left: 20px;
+    font-size: 3em;
+    margin-right: 30px;
+    min-width: 230px;
+    font-family: "Caveat", cursive;
+    color: #fff;
+}
+.top-bar .logo span{
+    font-size: 1em;
+    color: #fff; 
+}
+
+.top-bar .research {
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    transition: 200ms;
+    height: 50px;
+    width: 100%;
+    max-width: 400px;
+    background: #fffa;
+    border-radius: 20px;
+}
+
+.top-bar input {
+    all: unset;
+    /* background: #345; */
+    width: 100%;
+    margin: 0 10px;
+    color: rgb(37, 49, 61);
+}
+
+.top-bar .icon-research {
+    background: no-repeat center/70% url(/src/res/search.png);
+    filter: invert(30%);
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+}
+.top-bar .cart:hover{
+    transition: 300ms;
+    background: no-repeat center/50% url(/src/res/shopping-cart.png), #ffffff;
+}
+
+.top-bar .cart {
+    background: no-repeat center/50% url(/src/res/shopping-cart.png), #ffffff5d;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 10px;
+    transition: 300ms;
+}
+
+.top-bar .myprofile {
+    background: no-repeat center/70% url(/src/res/circle-user-round.png), #ffffff5d;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 10px;
+    transition: 300ms;
+}
+.top-bar .myprofile:hover{
+    transition: 300ms;
+    background:no-repeat center/70% url(/src/res/circle-user-round.png), #ffffff;
+}

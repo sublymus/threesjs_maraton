@@ -1,0 +1,74 @@
+.vert-ctn-products{
+  position: absolute;
+  height: calc( 100% - 100px);
+  width: 220px;
+  bottom: 0; 
+}
+.vert-ctn-products.blur{
+  position: absolute;
+  height: 100%;
+  width: 220px; 
+}
+
+.vert-ctn-products .products:hover {
+  width: 400px;
+  transition: 0ms;
+}
+
+.vert-ctn-products .products {
+  position: absolute;
+  overflow-y: scroll;
+  overflow-x: visible;
+  transition: 1000ms;
+  width: 250px;
+  height: 100%;
+}
+
+.vert-ctn-products .product {
+  position: relative;
+  cursor: pointer;
+  filter: none;
+  margin: 5px 30px;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+}
+
+.vert-ctn-products .product .index{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: #555555;
+  top: calc( 50% - 25px);
+  right: -60px;
+  transform: rotateZ(180deg);
+  filter: invert(100%);
+  display: none;
+  border-right: 3px solid #345;
+  transition: 500ms;
+  background: no-repeat center/cover url('/src/Components/Editer/arraow.png');
+}
+.vert-ctn-products .product.selected .index{
+  display: block;
+  transition: 500ms;
+
+}
+
+.vert-ctn-products .products::-webkit-scrollbar {
+  width: 10px;
+}
+
+.vert-ctn-products .products::-webkit-scrollbar-track {
+  background: #88888800;
+}
+
+.vert-ctn-products .products::-webkit-scrollbar-thumb {
+  background: #88888800;
+}
+
+.vert-ctn-products .products::-webkit-scrollbar-thumb:hover {
+  background: #55555500;
+}

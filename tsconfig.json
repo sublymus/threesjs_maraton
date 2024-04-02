@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src//*", "src/World/WorldManager.ts", "src/Components/Cadre/Card.ts", "src/Components/Cadre/CadreManager.ts", "src/Components/Cadre/Urls.ts", "src/Components/Products/ProductStore.ts", "src/Components/Products/VerticalProducts.tsx"],
+  "include": ["src//*", "src/World/WorldManager.ts", "src/Components/Cadre/Card.ts", "src/Components/Cadre/CadreManager.ts", "src/Components/Cadre/Urls.ts", "src/Components/Products/ProductStore.ts", "src/Components/Products/VerticalProducts.tsx", "src/ClientApp/AppStore.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

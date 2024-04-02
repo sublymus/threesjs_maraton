@@ -27,7 +27,7 @@ export interface CatalogueInterface {
 
 }
 
-type F_Value = {
+export type F_Value = {
     id: string,
     label: string,
     feature_id:string

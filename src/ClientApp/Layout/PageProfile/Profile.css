@@ -1,0 +1,202 @@
+.page-profile {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+}
+
+.page-profile .profile-background {
+    position: absolute;
+    top: 0;
+    z-index: -10;
+    filter: blur(100px);
+    background: no-repeat center/cover url('/src/res/back.jpeg');
+    width: 100%;
+    height: 100%;
+}
+
+.page-profile .ctn-profile {
+    position: relative;
+    transform: translateY(15vh);
+    width: 100vw;
+    height: 80vh;
+    min-width: 600px;
+    max-width: 1000px;
+    max-height: 1000px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+}
+
+.page-profile .close {
+    position: absolute;
+    z-index: 20;
+    right: 0px;
+    margin: 0 5px;
+    background: no-repeat center/cover url(src/res/x.png), rgba(255, 255, 255, 0.37);
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    transition: 200ms;
+}
+
+.page-profile .close:hover {
+    transition: 200ms;
+    background: no-repeat center/cover url(src/res/x.png), rgb(255, 255, 255);
+}
+
+.page-profile .show-photo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.page-profile .show-photo .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(29, 29, 29, 0.767);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-profile .show-photo .photo {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #fff0;
+    background-position: center;
+}
+
+.page-profile .back-profile-nav {
+    position: absolute;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    filter: blur(10px);
+    opacity: 0.4;
+    background: no-repeat center/cover url('/src/res/back.jpeg');
+}
+
+.page-profile .ctn-profile-nav {
+    position: relative;
+    width: 40%;
+    max-width: 400px;
+    height: 100%;
+    transition: 200ms;
+}
+
+.page-profile .ctn-profile-nav {
+    position: relative;
+    width: 30%;
+    max-width: 400px;
+    height: 100%;
+    transition: 200ms;
+}
+.page-profile .ctn-pages {
+    position: relative;
+    width: 75%;
+    height: 100%;
+    transition: 200ms;
+}
+
+.page-profile .ctn-profile-nav.min-size + .ctn-pages {
+    width: 100%;
+}
+.page-profile .ctn-profile-nav.min-size{
+    width: 0%;
+    max-width: 400px;
+    height: 100%;
+    transition: 200ms;
+}
+
+
+
+
+.page-profile .ctn-profile-nav .resizer{
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background: no-repeat center/cover url('/src/res/arrow-left.png');
+    border-radius: 50%;
+}
+.page-profile .ctn-profile-nav.min-size .resizer{
+    
+    background: no-repeat center/cover url('/src/res/align-left.png');
+}
+/**/
+.page-profile .ctn-profile-nav.min-size .resizer:hover{
+    background-color: #ffffff38;
+}
+.page-profile .ctn-profile-nav .resizer:hover{
+    background-color: #ffffff38;
+}
+
+
+
+.page-profile .profile-nav {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+   width: 100%;
+}
+
+.page-profile .profile-nav .profile-photo {
+    transform: scale(.7)
+}
+
+.page-profile .profile-nav .info {
+    font-weight: 600;
+    transform: translate(0, -10px);
+}
+
+.page-profile .ctn-bubble {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    /* background: rgb(45, 19, 163); */
+}
+
+.page-profile .bubble {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.page-profile .profile-nav ul {
+    width: 100%;
+    overflow: hidden;
+}
+
+.page-profile .profile-nav li {
+    all: unset;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    padding: 7px;
+    transition: 300ms;
+    border-radius: 10px;
+    color: #444444f8;
+}
+
+.page-profile .profile-nav li:hover {
+    background: #ffffff7a;
+    transition: 300ms;
+    color: #252525f8;
+}
+
+.page-profile .profile-nav li.active {
+    background: #ffffffad;
+    color: #252525f8;
+}
