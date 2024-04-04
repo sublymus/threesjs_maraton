@@ -17,7 +17,6 @@ const app_user = {
 
 const app_provider ={
     register_login:'',
-    register_ceater:'',
     register_google:'',
     //confirm store key email // for provider
     //confirm store code email // for collaboratore
@@ -37,6 +36,6 @@ const app_provider ={
     chat_collaborator:'',
 
     page_about:'',
-    page_blog:''
+    page_blog:'',
 
 }

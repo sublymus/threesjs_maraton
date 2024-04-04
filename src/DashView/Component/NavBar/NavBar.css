@@ -1,0 +1,157 @@
+.nav-bar {
+    min-width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar .nav-logo {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar .nav-logo .logo {
+    width: 70px;
+    height: 70px;
+    background: #fff;
+    border-radius: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+
+.nav-bar .nav-logo .label {
+    font-size: large;
+    padding: 5px;
+}
+
+.nav-bar .nav-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-bar .nav-link ul {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    font-weight: bold;
+
+}
+
+.nav-bar .nav-link li:hover {
+    background: rgba(136, 136, 136, 0.185);
+    transition: 200ms;
+}
+
+.nav-bar .nav-link li {
+    all: unset;
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    color: #777789;
+    font-size: 15px;
+    transition: 200ms;
+}
+
+.nav-bar .nav-link li.no span {
+    transition: 200ms;
+    filter: invert(41%) sepia(3%) saturate(2386%) hue-rotate(201deg) brightness(89%) contrast(74%);
+}
+
+.nav-bar .nav-link li.no li:hover {
+    transition: 200ms;
+    color: #777789bb;
+    filter: invert(41%) sepia(3%) saturate(2386%) hue-rotate(201deg) brightness(89%) contrast(74%);
+}
+
+.nav-bar .nav-link li.no span,
+.nav-bar .nav-link li.active span {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    transition: 200ms;
+}
+
+.nav-bar .nav-link li.active {
+    color: #010747;
+    transition: 200ms;
+}
+
+.nav-bar .nav-link li.active span {
+    filter: invert(9%) sepia(23%) saturate(7332%) hue-rotate(225deg) brightness(101%) contrast(120%);
+}
+
+.nav-bar .nav-link li span.product {
+    background-image: url(/src/res/store.png);
+}
+
+.nav-bar .nav-link li span.users {
+    background-image: url(/src/res/users.png);
+}
+
+.nav-bar .nav-link li span.chat {
+    background-image: url(/src/res/message-circle-more.png);
+}
+
+.nav-bar .nav-link li span.interface {
+    background-image: url(/src/res/app-window.png);
+}
+
+.nav-bar .nav-link li span.state {
+    background-image: url(/src/res/line-chart.png);
+}
+
+.nav-bar .nav-profile {
+    border-radius: 20px;
+    transform: scale(0.9);
+    width: 100%;
+    min-height: 200px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.nav-bar .nav-profile .img {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url('https://lesdeuxpiedsdehors.com/wp-content/uploads/2019/05/comprendre-la-composition-photo.jpg');
+    border-radius: 50%;
+
+}
+
+.nav-bar .nav-profile .name {}
+
+.nav-bar .nav-profile .logout {
+    border-radius: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 123, 62, 0.288);
+    color: rgb(255, 123, 62);
+    border: 0px solid rgba(255, 123, 62, 0);;
+    transition: 300ms;
+}
+.nav-bar .nav-profile .logout:hover {
+    padding: 5px 20px;
+    border: 5px solid rgba(255, 123, 62, 0.123);;
+    transition: 200ms;
+}

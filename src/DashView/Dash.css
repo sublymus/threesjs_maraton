@@ -1,0 +1,98 @@
+.dash {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f2f2f3;
+    /* color: #fff; */
+    /* background: linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124)); */
+}
+
+.dash .dash-ctn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+
+.dash .center {
+    width:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dash .center-ctn {
+    width:90%;
+    max-width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dash .center-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-width: calc( var(--center-width) - 100px );
+    padding-top: 30px;
+}
+
+.dash .page-path{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.dash .page-path .path{
+    display: flex;
+    align-items: center;
+}
+
+.dash .page-path .path .label{
+    font-size: xx-large;
+    font-weight: bold;
+    
+}
+
+.dash .page-path .path .icon{
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/60% url(/src/res/chevron-right.png);
+}
+
+.dash .center-top .top-right{
+        display: flex;
+}
+.dash .center-top .search{
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/60% url(/src/res/search.png);
+}
+
+.dash .center-top .notf{
+    margin-left: 20px;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/60% url(/src/res/bell.png);
+}
+.dash .center-top .notf span{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: block;
+    width: 7px;
+    height: 7px;
+    background:#f00;
+    border-radius: 50%;
+}
+
+
+
+
+.dash .detail {
+    background: rgb(18, 156, 211);
+    min-width: 600px;
+    height: 100%;
+}

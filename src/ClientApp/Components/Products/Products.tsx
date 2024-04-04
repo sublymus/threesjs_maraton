@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { VerticalProducts } from "./VerticalProducts";
 import { HorizontalProducts } from "./HorizontalProducts";
-import { useWindowSize } from "../Hooks";
+import { useWindowSize } from "../../../Hooks";
 import { useAppRouter  } from "../../AppStore";
 
 export function Products() {

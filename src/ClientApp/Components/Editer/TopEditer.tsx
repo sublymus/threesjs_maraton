@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import './TopEditer.css'
 import { useProductStore } from '../Products/ProductStore';
-import { useWindowSize } from '../Hooks';
+import { useWindowSize } from '../../../Hooks';
 import { Feature } from '../../../DataBase';
 ;
 

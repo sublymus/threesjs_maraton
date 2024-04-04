@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TopEditer } from "./TopEditer";
 import { BottomEditer } from "./BottomEditer";
-import { useWindowSize } from "../Hooks";
+import { useWindowSize } from "../../../Hooks";
 import { useAppRouter  } from "../../AppStore";
 import { useProductStore } from '../Products/ProductStore';
 

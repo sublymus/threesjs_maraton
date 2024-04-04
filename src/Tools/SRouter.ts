@@ -159,6 +159,7 @@ export class SRouter<T extends PageType = PageType>{
         return this.pages
     }
     getStore() {
+        this.store.getState().init();
         return this.store
     }
 

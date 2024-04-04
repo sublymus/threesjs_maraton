@@ -7,6 +7,8 @@ const root = document.getElementById('root')!;
   const view_path=window.location.pathname.split('/')[1]
   let view;
   if(view_path === 'dash'){
+    console.log('dash');
+    
     const {DashView} = await import('./DashView/dash_view') ;
     view = DashView
   }

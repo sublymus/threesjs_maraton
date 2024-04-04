@@ -39,13 +39,8 @@ export const ClientView = getClientView(
 
 function App() {
     const {autentificate} = useRegisterStore();
-    const { init  } = useAppRouter();
     useEffect(() => {
-        // let  list  = pathList.filter(f => f!=='/')
-        // if(list.length <= 0) list = ['catalogue']
-        init();
         autentificate();
-        // window.location.hash = list.join('/');
     }, []);
     return (<></>)
 }

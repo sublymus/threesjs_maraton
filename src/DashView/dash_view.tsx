@@ -1,9 +1,7 @@
 
-
-import React, { useEffect } from 'react'
-import { useDashStore } from './dashStore';
-
-// const _root = document.getElementById('root')!;
+import './index.css'
+import React from 'react'
+import { Dash } from './dash'
 
  const getClientView = (children: React.ReactNode) => {
     return children
@@ -15,14 +13,3 @@ export const DashView = getClientView(
     </React.StrictMode>,
 )
 
-
-function Dash() {
-    const {  } = useDashStore();
-    useEffect(() => {
-        // let  list  = pathList.filter(f => f!=='/')
-        // if(list.length <= 0) list = ['catalogue']
-        // init()
-        // window.location.hash = list.join('/');
-    }, []);
-    return (<></>)
-}
