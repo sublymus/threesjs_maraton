@@ -1,150 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
 import './GenericList.css'
-import './Elements.css'
 import { EventEmiter } from '../../../Tools/eventEmiter'
 import { ListSearchBar } from "./ListSearchBar/ListSearchBar";
 import { ListPaging } from "./ListPaging/ListPaging";
 import { Selector } from "../../Component/Selector/Selector";
-
-
-/*
- overflowY, 'hidden'|scroll
-
-
- itemSelection 
- onItemsSelected, 
-  multiple
-
-*/
-
-
-
-
-
-export type MapperOption = {
-    size: number,
-    size_interval: [number, number]
-    resizable: boolean,
-    editable: boolean,
-}
-export type Mapper = {
-    getView: (label: string, value: any, e: {
-        onResize: (columnName: string, callBack: (d: {
-            width: number,
-            height: number
-        }) => any) => any,
-        id: string
-    }) => HTMLElement,
-    option?: Partial<MapperOption>
-}
-export type MapperJSX = {
-    getView: (label: string, value: any, e: {
-        onResize: (columnName: string, callBack: (d: {
-            width: number,
-            height: number
-        }) => any) => any,
-        id: string,
-        onMyItemSelected: (columnName: string, callBack: (item:Record<string,any>) => any) => any,
-        onAnyItemSelected: (columnName: string, callBack: (item:Record<string,any>) => any) => any,
-        onMyCellSelected: (columnName: string, callBack: (value:any) => any) => any,
-        onAnyCellSelected: (columnName: string, callBack: (value:any) => any) => any,
-    }, setRef: (ref: HTMLElement | null) => any) => JSX.Element,
-    option?: Partial<MapperOption>
-}
-
-export type ItemsMapper = {
-    [key: string]: Mapper
-}
-export type ItemsMapperJSX = {
-    [key: string]: MapperJSX
-}
-
-export type MapperBuilder<T extends Record<string, any> = {}> = (option?: Partial<MapperOption> & T) => Mapper
-
-export type MapperBuilderJSX<T extends Record<string, any> = {}> = (option?: Partial<MapperOption> & T) => MapperJSX
+import { ImageElementJSX, StringElementJSX } from "./ListSearchBar/Element/Element";
+// import {  } from "./ListSearchBar/Filter/Filter";
+import type { FilterQuery, ItemsMapperJSX, Mapper, filterType } from "./type";
+import { FilterInterval } from './ListSearchBar/Filter/FilterInterval/FilterInterval';
+import { FilterLevel } from './ListSearchBar/Filter/FilterLevel/FilterLevel';
 
 const DEFAULT_ITEM_HEIGHT = 80;
-// const DEFAULT_OVERFLOW = 'hidden';
 const DEFAULT_TOP_HEIGHT = 40;
-// const DEFAULT_TOP_FIXED = true;
 
+const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple }: { onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
-const StringElementJSX: MapperBuilderJSX = (option) => {
-    return {
-        getView(colunm, value, e, setRef) {
-            return <div key={e.id + colunm} ref={setRef}>{value?.toString()}</div>
-        },
-        option
-    }
-};
-
-const ImageElementJSX: MapperBuilderJSX<{ schadow: string }> = (option) => {
-    return {
-        getView(colunm, value, e, setRef) {
-            let img: HTMLElement | null = null
-            e.onResize(colunm, (d) => {
-                if (!img) return
-                img.style.width = `${Math.min(d.height, d.width) * 0.9}px`;
-                img.style.height = `${Math.min(d.height, d.width) * 0.9}px`;
-            })
-
-            return <div ref={setRef} key={colunm}>
-                <div className="image-element" ref={(ref) => img = ref} style={{ boxShadow: `1px 1px 10px ${option?.schadow}`, backgroundImage: `url(${value})` }}></div>
-            </div>
-        },
-        option
-    }
-};
-
-export type FilterInterval = [[number, number], [number, number]]
-export type FilterLevel = [[number, number], number]
-export type FilterCollector = [string[], string[]]
-export type FilterListCollector = [string[], string[]]
-export type FilterSwitch = boolean;
-type FilterOption = {
-    interval: FilterInterval,
-    level: FilterLevel,
-    collector: FilterCollector,
-    swich: FilterSwitch,
-    listCollector: FilterListCollector
-}
-type FilterValues<T extends keyof FilterOption> = {
-    type: T,
-    values: FilterOption[T],
-    name: string;
-    icon?: string
-}
-type FilterQuery = {
-    page: number,
-    sortBy: string,
-    limit: number,
-
-};
-
-type filterType = {
-    sortableColumns?: string[],
-    page?: number,
-    total?: number,
-    limit?: number,
-    sortBy: string;
-    filter?: FilterValues<keyof FilterOption>[]
-}
-const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple }: { onItemsSelected?: (selectedItems: (Record<string, any>&{$itemRef:HTMLDivElement|null})[], items: (Record<string, any>&{$itemRef:HTMLDivElement|null})[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden', id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
-    const _items_height = items_height ?? DEFAULT_ITEM_HEIGHT;
-    // const _overflow = overflow??DEFAULT_OVERFLOW;
-    const _top_height = top_height ?? DEFAULT_TOP_HEIGHT;
-    // const _to_fixed = top_fixed??DEFAULT_TOP_FIXED;
-    const sortableColumns = filter.sortableColumns ?? []
     const [selectedColumn, setSelectedColumn] = useState(Object.keys(itemsMapper));
-    const [selectedItems, setSelectedItems] = useState<Record<string,any>[]>([]);
+    const [selectedItems, setSelectedItems] = useState<Record<string, any>[]>([]);
     const [query, setQuery] = useState({
         page: filter.page || 1,
         sortBy: filter.sortBy || filter.sortableColumns?.[0] || '',
         limit: filter.limit || 25,
-        query: {} as Record<string,any>
+        query: {} as Record<string, any>
     });
-    const cursorW = 5;
     const [cache] = useState({
+        lastResized: '',
         interval_id: 0,
         emitter: new EventEmiter(),
         x: 0,
@@ -161,11 +41,23 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
         }>
     });
     const [currentResize, setCurrentResize] = useState('');
-    const ListTop = useRef<HTMLDivElement | null>(null)
+    const ListTop = useRef<HTMLDivElement | null>(null);
+
+
+    const _items_height = items_height ?? DEFAULT_ITEM_HEIGHT;
+    const _top_height = top_height ?? DEFAULT_TOP_HEIGHT;
+    const sortableColumns = filter.sortableColumns ?? []
+    const cursorW = 5;
+    const _overflow = overflow || 'scroll';
+
+    let idx: string | undefined;
+    let cdx: string | undefined;
 
     useEffect(() => {
         if (!currentResize) {
             clearInterval(cache.interval_id);
+            console.log('endResize', cache.lastResized);
+            cache.emitter.emit('endResize', cache.lastResized);
             return;
         }
         if (cache.map[currentResize].option?.resizable === false) return
@@ -181,7 +73,10 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
             if (l) l.style.width = `${w}px`;
             cache.emitter.emit(currentResize, w + cursorW);
         }, 16);
-    }, [currentResize])
+        cache.lastResized = currentResize
+        cache.emitter.emit('startResize', currentResize);
+        console.log('startResize', currentResize);
+    }, [currentResize]);
     useEffect(() => {
         window.addEventListener('mousemove', (e) => {
             cache.x = e.clientX;
@@ -196,45 +91,60 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
         })
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         onQuery?.(query)
-    },[query])
-    let idx: string | undefined;
-    let cdx: string | undefined;
+    }, [query])
+
+
     return (
         <div className="generic-list" >
             <div className="list-filter-top">
-                <ListSearchBar sortBy={sortableColumns} onInputChange={(text)=>{
-                  setQuery({
-                    ...query,
-                    query:{
-                        ...query.query,
-                        text
-                    },
-                })  
-                }}onFilterChange={(_query)=>{
-                      setQuery({
-                        ...query,
-                        query:_query,
-                    })
-                }}
-                onSortChange={(sortBy) => {
+                <ListSearchBar filter={{
+                    price:FilterInterval([0,100],[10,100]),
+                    price1:FilterInterval([0,100],[20,100]),
+                    price2:FilterInterval([0,100],[30,100]),
+                    price3:FilterInterval([0,100],[40,100]),
+                    price4:FilterInterval([0,100],[50,80]),
+                    price5:FilterInterval([0,100],[60,65]),
+                    price6:FilterInterval([0,100],[70,50]),
+                    level:FilterLevel([0,100],5)
+                }} sortBy={sortableColumns} onInputChange={(text) => {
                     setQuery({
                         ...query,
-                        sortBy
+                        query: {
+                            ...query.query,
+                            text
+                        },
                     })
-                }} />
+                }} onFilterChange={(_query) => {
+                    setQuery({
+                        ...query,
+                        query: _query,
+                    })
+                }}
+                    onSortChange={(sortBy) => {
+                        setQuery({
+                            ...query,
+                            sortBy
+                        })
+                    }} />
                 <Selector placeholder='column' multiple list={Object.keys(itemsMapper)} selected={selectedColumn} setSelectedColumns={(s) => { setSelectedColumn(s) }} />
             </div>
             <div className="list">
-                <div className="top" ref={ListTop} style={{ height: `${_top_height}px` }}>
+                <div className={'top ' + (_overflow == 'displayFlex' ? 'flex' : '')} ref={ListTop} style={{ height: `${_top_height}px` }}>
                     {
                         selectedColumn.sort((a, b) => {
                             return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
                         }).map((k, i) => {
                             const option = itemsMapper[k].option;
 
-                            cache.map[k] ? null : cache.map[k] = {
+                            cache.map[k] ? null : (cache.emitter.when('startResize', () => {
+                                const l = cache.map[k].label;
+                                if (l) l.draggable = false;
+                            }).when('endResize', () => {
+                                const l = cache.map[k].label;
+                                if (l) l.draggable = true;
+                            })) && (cache.map[k] = {
                                 option: {
                                     ...option,
                                     size: 100,
@@ -247,9 +157,9 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                 label: null,
                                 resize: false,
                                 index: i,
-                            };
+                            })
                             return <>
-                                <div draggable key={k + '_l'} ref={(ref) => cache.map[k].label = ref} className="label" style={{ width: `${(cache.map[k].w || option?.size || 100)}px` }}
+                                <div key={k + '_l'} ref={(ref) => cache.map[k].label = ref} className="label" style={{ width: `${(cache.map[k].w || option?.size || 100)}px` }}
                                     onDragStartCapture={() => {
                                         cdx = k;
                                         idx = k;
@@ -278,7 +188,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                         setSelectedColumn(list);
                                     }}
                                 >{k}</div>
-                                <div key={k + '_c'} className="cursor" style={{ width: `${cursorW}px`, cursor: option?.resizable === false ? 'initial' : 'ew-resize' }} onMouseDown={(e) => {
+                                <div key={k + '_c'} className="cursor" style={{ minWidth: `${cursorW}px`, maxWidth: `${cursorW}px`, cursor: option?.resizable === false ? 'initial' : 'ew-resize' }} onMouseDown={(e) => {
                                     cache.map[k].x0 = e.clientX;
                                     cache.map[k].w0 = cache.map[k].label?.getBoundingClientRect().width || 100;
                                     setCurrentResize(k);
@@ -287,22 +197,22 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                         })
                     }
                 </div>
-                <div className='items' style ={{ overflowY:overflow||'scroll'}}onScroll={(e) => {
+                <div className={'items ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ overflowX: _overflow === 'displayFlex' ? 'hidden' : (_overflow == 'scroll' ? 'auto' : 'hidden'), height: `calc(100% - ${_top_height}px)`, }} onScroll={(e) => {
 
-                    if (ListTop.current) ListTop.current.style.left = `${-e.currentTarget.scrollLeft}px`
+                    if (ListTop.current) ListTop.current.style.transform = `translateX(${-e.currentTarget.scrollLeft}px)`
                     console.log(ListTop.current?.style.left);
                 }} >
                     {
                         datas.map(d => {
-                             
-                            return <div ref={(ref)=> d.$itemRef = ref} key={d.id} className="item" style={{ height: `${_items_height}px`, display: 'block' }} onClick={()=>{
+
+                            return <div ref={(ref) => d.$itemRef = ref} key={d.id} className={'item ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ height: `${_items_height}px` }} onClick={() => {
                                 let is = multiple ?
-                                [...(selectedItems.includes(d) ? selectedItems.filter(a => a !== d) : [...selectedItems, d])] :
-                                [d];
-                            setSelectedItems(is);
-                            onItemsSelected?.(is as any , datas as any);
-                            console.log(d);
-                            
+                                    [...(selectedItems.includes(d) ? selectedItems.filter(a => a !== d) : [...selectedItems, d])] :
+                                    [d];
+                                setSelectedItems(is);
+                                onItemsSelected?.(is as any, datas as any);
+                                console.log(d);
+
                             }} >
                                 {
                                     selectedColumn.sort((a, b) => {
@@ -362,6 +272,9 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
 const GenericList: typeof _GenericList & {
     StringElement: typeof StringElementJSX,
     ImageElement: typeof ImageElementJSX,
+    filter: {
+        FilterInterval: typeof FilterInterval,
+    }
 } = _GenericList as any
 
 GenericList.StringElement = StringElementJSX;

@@ -12,7 +12,7 @@ export function ProductList() {
                     sortBy:'id',
                     sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
                     limit: 25,
-                    page: 1,
+                    page: 5,
                     total: 200,
                     filter:[
                         {
@@ -72,7 +72,9 @@ export function ProductList() {
                         
                     }}
                     
-                    multiple>
+                    top_height={40}
+                    
+                    >
 
                 </GenericList>
             </div>
