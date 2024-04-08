@@ -1,10 +1,9 @@
 .product-list{
     width: 100%;
     height: 100%;
-    background: rgba(51, 68, 85, 0.103);
 }
 .product-list .list-ctn{
     width: 100%;
     height: 100%;
-    background: rgba(51, 68, 85, 0.11);
+    margin-top: 20px;
 }

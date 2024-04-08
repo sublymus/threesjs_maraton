@@ -26,7 +26,7 @@ const PathMap = {
 
 export function Dash() {
     const { } = useDashStore();
-    const { pathList, check} = useDashRoute()
+    const { pathList, check, Pages} = useDashRoute()
 
     const paths: string[] = []
     pathList.forEach((p) => {
@@ -42,7 +42,7 @@ export function Dash() {
 
                     <div className="center-ctn">
                         {
-                            check('top_product') && <div className="center-top">
+                            check('center_top') && <div className="center-top">
 
                                 <div className="page-path">
                                     {paths.map((p, i) => (
@@ -65,11 +65,11 @@ export function Dash() {
 
                     </div>
                 </div>
-                <div className="detail">
+                {(!pathList.find(p=>p.includes('list')))&&(<div className="detail">
                     <DetailProduct />
                     <DetailUser />
                     <DetailChat />
-                </div>
+                </div>)}
             </div>
 
         </div>

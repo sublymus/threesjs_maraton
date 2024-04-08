@@ -11,7 +11,6 @@ import { Summary } from "./Components/Summary/Summary";
 
 
 import React, { useEffect } from 'react'
-import { useAppRouter } from './AppStore'
 import { useRegisterStore } from './Layout/PageRegister/RegisterStore'
 
 const root = document.getElementById('root')!;
@@ -26,7 +25,7 @@ export const ClientView = getClientView(
         <Products />
         <Editer />
         <Summary />
-        <WorldView root={root} />
+        <WorldView root={root}/>
         <TopBar />
         <Profile />
         <CatalogueOnglet />

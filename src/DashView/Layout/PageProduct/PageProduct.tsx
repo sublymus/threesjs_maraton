@@ -33,7 +33,7 @@ const topCard = [
 export function PageProduct() {
 
     const { check } = useDashRoute();
-    const [active, setActive] = useState('PRODUCT')
+    const [active, setActive] = useState('PRODUCTS')
     return check('product') && (
         <div className='page-product'>
             {

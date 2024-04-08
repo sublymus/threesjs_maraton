@@ -6,7 +6,7 @@ const Pages = {
     '/':{
         product:{
             list_product:{
-                // top_product:null,
+                top_product:null,
             },
             dash_product:{
                 top_product:null,
@@ -16,11 +16,12 @@ const Pages = {
             action:{},
             detail_product:null,
         },
+        center_top:null
         
     }
 }
 
-const DEFAULT_PAGE = ['/','product',''];
+const DEFAULT_PAGE = ['/','product','list_product'];
 
 
 interface DashState{

@@ -1,0 +1,42 @@
+.list-paging{
+    width: 100%;
+    height: 50px;
+    background: #4562;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-paging .page{
+    cursor: pointer;
+    background: #fff;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+}
+.list-paging .page.active{
+    background: #bafff6;
+   
+}
+
+.list-paging .page:hover{
+    background: #eeeeee;
+}
+.list-paging .change{
+    cursor: pointer;
+    background: #fff;
+    border-radius: 5px;
+    width: 70px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+}
+.list-paging .change:hover{
+    background: #eeeeee;
+}

@@ -39,12 +39,13 @@ body {
   --center-width: 800px;
   --nav-min: 1500px;
   --detail-min: 1000px;
-  --detail-width:600px
+  --detail-width:600px;
   --editer-width: 800px;
 }
 
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 *::-webkit-scrollbar-track {

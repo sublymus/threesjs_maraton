@@ -1,60 +1,106 @@
-
-.generic-list{
-    width:100%;
+.generic-list {
+    width: 100%;
     height: 100%;
-    overflow-y: scroll; 
-    overflow-x: scroll;
 }
 
-.generic-list .top{
-    width:100%;
+.list {
+    width: 100%;
+    height: calc(100% - 340px);
+    overflow: hidden;
+    position: relative;
+}
+
+.generic-list .top {
+    width: 100%;
+    height: 80px;
+    white-space: nowrap;
+    position: absolute;
+}
+
+.generic-list .top .label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100px;
+    height: 100%;
+    vertical-align: top;
+    cursor: default;
+    overflow: hidden;
+    padding-left: 5px;
+    background: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.generic-list .top .label{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.generic-list .top .cursor {
+    display: inline-flex;
+    height: 100%;
+    cursor: col-resize;
+    background: rgb(132, 136, 141)
+}
+
+.generic-list .items {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.generic-list .item {
+    display: block;
+    width: 100%;
     height: 80px;
     white-space: nowrap;
 }
 
-.generic-list .label{
+.generic-list .gl-value {
     display: inline-flex;
-    width:100px;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    vertical-align:top;
-    background: #3455;
+    vertical-align: top;
+    overflow: hidden;
+    /* border-right: 1px solid #3455; */
+    border-top: 1px solid #3455;
 }
 
-.generic-list .cursor{
-    display: inline-flex;
-    height: 100%;
-    cursor: ew-resize;
+
+/*    scrollbar **/
+
+.generic-list div::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.generic-list div::-webkit-scrollbar-track {
+    background: #b6b6b6b2;
+    border-radius: 20px;
+}
+
+.generic-list div::-webkit-scrollbar-thumb {
+    background: #696969c7;
+    border-radius: 20px;
+    transition: 200ms;
+}
+
+.generic-list div::-webkit-scrollbar-thumb:hover {
+    background: #b3893c63;
+    transition: 200ms;
+}
+
+.generic-list .list-filter-top {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    margin-bottom: 20px;
     
 }
 
-.generic-list .items{
-    width:100%;
-    max-height: 800px; 
-}
-
-.generic-list .item{
-    display: block;
-    width:100%;
-    height: 80px;
-    white-space: nowrap;
-}
-
-.generic-list .value{
-    display: inline-flex;
-    /* width:100px; */
-    height: 100%;
-    vertical-align:top;
-    overflow: hidden;
-    border-right: 1px solid #3455;
-}
-
-.image-element{
-    width: 70px ;
-    height: 70px;
-    min-width: 70px ;
-    min-height: 70px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 50%;
-}
