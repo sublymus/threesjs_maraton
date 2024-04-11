@@ -10,6 +10,15 @@ export const StringElementJSX: MapperBuilderJSX = (option) => {
     }
 };
 
+export const DateStringElementJSX: MapperBuilderJSX = (option) => {
+    return {
+        getView(colunm, value, e, setRef) {
+            return <div key={e.id + colunm} ref={setRef}>{new Date(value).toDateString()}</div>
+        },
+        option
+    }
+};
+
 export const ImageElementJSX: MapperBuilderJSX<{ schadow: string }> = (option) => {
     return {
         getView(colunm, value, e, setRef) {

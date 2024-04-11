@@ -1,11 +1,13 @@
 .filter-interval {
-    margin-top: 10px;
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px #3453;
+    background:#fff;
 }
 
 .filter-interval .interval {
@@ -13,7 +15,7 @@
     width: 300px;
 }
 
-.filter-interval .interval  {
+.filter-interval .interval * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -72,6 +74,7 @@
 }
 .filter-interval:hover .lable-ctn .label{
     opacity: 1;
+    transition: 200ms;
 }
 .filter-interval .lable-ctn .label{
     position: absolute;
@@ -79,6 +82,8 @@
     left: -10px;
     padding:0 3px;
     background: #fff;
-    opacity: 0.5;
+    opacity: 0.3;
     box-shadow: 0px 0px 3px #345;
+    border-radius: 3px;
+    transition: 200ms;
 }

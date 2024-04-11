@@ -2,15 +2,17 @@
 import { useEffect, useState } from 'react'
 import { Selector } from '../../Selector/Selector'
 import './ListSearchBar.css'
-import { type FilterMapper } from './Filter/FilterInterval/FilterInterval'
+import { type FilterMapper } from '../type'
 
-export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter }: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange: (text: string) => any, onSortChange: (sortBy: string) => any, onFilterChange: (query: Record<string, any>) => any }) {
+export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , onFilterChange, onCancel , onSearchRequired}: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange?: (text: string) => any, onSortChange?: (sortBy: string) => any, onFilterChange?: (query: Record<string, any>) => any , onCancel?: () => any, onSearchRequired?:()=>any }) {
     const [_sortBy, setSortBy] = useState(sortBy[0]);
     const [isDesc, setIsDesc] = useState(true);
     const [text, setText] = useState('');
-    const [isFilterOpen, setIsFilterOpen] = useState(true);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [query]= useState<Record<string, any>>({});
+
     useEffect(() => {
-        onSortChange(_sortBy + '_' + (isDesc ? 'desc' : 'asc'));
+        onSortChange?.(_sortBy + '_' + (isDesc ? 'desc' : 'asc'));
     }, [_sortBy, isDesc])
     return (
         <div className="list-search-bar">
@@ -19,7 +21,7 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter }: {
                     setText(e.currentTarget.value)
                 }} />
                 <div className="icon" onClick={() => {
-                    onInputChange(text)
+                    onInputChange?.(text)
                 }}></div>
             </div>
             <div className="filter-btn" onClick={() => {
@@ -37,21 +39,36 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter }: {
                     setSortBy(s[0]);
                 }} />
             </div>
-            <div className='filter-page'>
-                <div className="ctn-filters">
-                    {
-                        Object.keys(filter).map((f) => {
-                            return filter[f].getView(f, (value) => {
-                                try {
-                                    console.log(JSON.parse(value));
-                                } catch (error: any) {
-                                    console.error(error.message);
-                                }
+            {isFilterOpen && <div className='filter-page' onClick={(e) => {
+                if (e.currentTarget == e.target) setIsFilterOpen(!isFilterOpen);
+            }}>
+                <div className="ctn-filters" >
+                    <div className="ctn2-filters" >
+                        {
+                            Object.keys(filter).map((f) => {
+                                return filter[f].getView(f, (value) => {
+                                    query[f] = value;
+                                    onFilterChange?.(query)//TODO
+                                })
                             })
-                        })
-                    }
+                        }
+                    </div>
+                    <div className="filter-bottom">
+                        <div className="search-btn cancel" onClick={(e) => {
+                            if (e.currentTarget == e.target) setIsFilterOpen(!isFilterOpen);
+                            onCancel?.();
+                        }}>
+                            Cancel
+                        </div>
+                        <div className="search-btn" onClick={(e) => {
+                            if (e.currentTarget == e.target) setIsFilterOpen(!isFilterOpen);
+                            onSearchRequired?.();
+                        }}>
+                            Search
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

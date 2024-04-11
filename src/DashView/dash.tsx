@@ -11,12 +11,11 @@ import { PageUser } from './Layout/PageUser/PageUser'
 import { PageChat } from './Layout/PageChat/PageChat'
 import { PageInterface } from './Layout/PageInterface/PageInterface'
 import { useDashStore, useDashRoute } from './dashStore';
-import { useEffect } from 'react'
 // import React from 'react'
 
 const PathMap = {
-    product: 'Products',
-    list_product: 'List',
+    store: 'Store',
+    list_product: 'Products',
     dash_product: 'Dash',
     preview: 'Preview',
     stat_product: 'Statistique',
@@ -26,7 +25,7 @@ const PathMap = {
 
 export function Dash() {
     const { } = useDashStore();
-    const { pathList, check, Pages} = useDashRoute()
+    const { pathList, check, setAbsPath} = useDashRoute()
 
     const paths: string[] = []
     pathList.forEach((p) => {
@@ -43,11 +42,21 @@ export function Dash() {
                     <div className="center-ctn">
                         {
                             check('center_top') && <div className="center-top">
-
                                 <div className="page-path">
                                     {paths.map((p, i) => (
                                         <div className='path' key={i}>
-                                            <div className="label">{p}</div>
+                                            <div className="label" onClick={()=>{
+                                                if(p=='Products'){
+                                                    setAbsPath(['store'])
+                                                }
+                                                else {
+                                                    const a = pathList.slice(1,i+2);
+                                                    console.log(a);
+                                                    
+                                                    //@ts-ignore
+                                                    setAbsPath(a)
+                                                }
+                                            }}>{p}</div>
                                             {paths[i + 1] ? <div className="icon"></div> : undefined}
                                         </div>
                                     ))}
@@ -65,7 +74,7 @@ export function Dash() {
 
                     </div>
                 </div>
-                {(!pathList.find(p=>p.includes('list')))&&(<div className="detail">
+                {(pathList.find(p=>p.includes('dash')))&&(<div className="detail">
                     <DetailProduct />
                     <DetailUser />
                     <DetailChat />

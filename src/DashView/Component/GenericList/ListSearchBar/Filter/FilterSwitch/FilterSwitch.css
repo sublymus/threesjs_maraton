@@ -1,0 +1,50 @@
+.filter-switch {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #3455;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px #3453;
+    background:#fff;
+}
+
+.filter-switch .switch {
+    position: relative;
+    width: 50px;
+    height: 15px;
+    margin-right: 30px
+}
+
+.filter-switch .back-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: rgb(148, 148, 148);
+}
+
+.filter-switch .front-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 10px;
+    height: 100%;
+    background: rgb(2, 12, 153);
+    border-radius: 10px;
+    transition: 200ms;
+}
+.filter-switch .round {
+    position: absolute;
+    top: -2px;
+    width: 20px;
+    height: 20px;
+    background: rgb(70, 70, 70);
+    border: 2px solid #222;
+    border-radius: 10px;
+    transition: 200ms;
+}

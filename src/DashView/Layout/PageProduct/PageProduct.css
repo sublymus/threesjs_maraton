@@ -5,9 +5,12 @@
 
 .page-product .top-product{
    width: 100%;
+   min-width: 800px;
    white-space: nowrap;
    overflow-y: auto;
    padding: 20px;
+   display: flex;
+   justify-content: center;
 }
 .page-product .top-card:hover .icon{
    opacity: 0.6;

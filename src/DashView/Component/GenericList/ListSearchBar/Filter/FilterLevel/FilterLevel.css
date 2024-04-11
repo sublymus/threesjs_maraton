@@ -6,6 +6,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    border-radius: 10px;
+    background:#fff;
+    box-shadow: 0px 1px 5px #3453;
 }
 
 .filter-level .level {
@@ -13,7 +16,7 @@
     width: 300px;
 }
 
-.filter-level .level  {
+.filter-level .level  *{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -27,6 +30,7 @@
     width: 300px;
     height: 5px;
     background: #3452;
+    border-radius: 10px;
 }
 
 .filter-level .front-bar {
@@ -35,6 +39,7 @@
     height: 5px;
     left: 0;
     background: rgb(35, 0, 160);
+    border-radius: 10px;
 }
 
 .filter-level .round:hover {
@@ -63,7 +68,10 @@
     background: #fff;
     box-shadow: 0px 0px 3px #345;
     opacity: 0.5;
+    border-radius: 3px;
+    transition: 200ms;
 }
 .filter-level:hover .lable-ctn .label{
    opacity: 1;
+   transition: 200ms;
 }

@@ -4,7 +4,7 @@ type Theme= Record<string,{prim:string,secd:string,fird:string,canl:string,save:
 
 const Pages = {
     '/':{
-        product:{
+        store:{
             list_product:{
                 top_product:null,
             },
@@ -15,13 +15,14 @@ const Pages = {
             stat_product:{},
             action:{},
             detail_product:null,
+            
         },
         center_top:null
         
     }
 }
 
-const DEFAULT_PAGE = ['/','product','list_product'];
+const DEFAULT_PAGE = ['/','store','list_product'];
 
 
 interface DashState{

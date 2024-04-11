@@ -1,9 +1,5 @@
+import { FilterMapper } from '../../../type';
 import './FilterLevel.css'
-
-export type FilterMapper = {
-    getView(name: string, onChange: (jsonString: string) => any): JSX.Element
-}
-
 
 
 export const FilterLevel = (filterInterval: [number, number], defaultValue: number): FilterMapper => {
@@ -30,7 +26,7 @@ export const FilterLevel = (filterInterval: [number, number], defaultValue: numb
                 const setResult = (value: number, w: number) => {
                     const res = Math.round((value / w) * dI + min);
                     label.textContent = `${res}`;
-                    _onChange(JSON.stringify(res))
+                   if(res) _onChange(res)
                 }
 
                 setResult(0,0);

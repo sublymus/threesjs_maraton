@@ -1,8 +1,6 @@
+import { FilterMapper } from '../../../type';
 import './FilterInterval.css'
 
-export type FilterMapper = {
-    getView(name: string, onChange: (jsonString: string) => any): JSX.Element
-}
 
 export const FilterInterval = (filterInterval: [number, number], defaultValue: [number, number]): FilterMapper => {
 
@@ -36,10 +34,10 @@ export const FilterInterval = (filterInterval: [number, number], defaultValue: [
                     const rRes = Math.round((result[1] / w) * dI + min);
                     lLabel.textContent = `${lRes}`;
                     rLabel.textContent = `${rRes}`;
-                    _onChange(JSON.stringify([lRes, rRes]))
+                    _onChange([lRes, rRes])
                 }
-                lLabel.textContent = `${min}`;
-                rLabel.textContent = `${max}`;
+                lLabel.textContent = `${Math.min(...defaultValue)}`;
+                rLabel.textContent = `${Math.max(...defaultValue)}`;
                 window.addEventListener('mousemove', (e) => {
                     let ex = e.clientX;
                     const intervalRect = interval?.getBoundingClientRect();

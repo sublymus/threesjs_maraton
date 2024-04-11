@@ -8,42 +8,44 @@ export function NavBar (){
     const { check , setAbsPath  , setPath} = useDashRoute();
     const [active , setActive] = useState('product')
     const size = useWindowSize();
-    const width = size.width>=1500?'large':'small'
-    return check('/')&&(size.width >=1500 )&&(
+    let width = size.width>=1300?'large':'small'
+    const showText = width == 'large';
+    width += size.width<1180?' option ':''
+    return check('/')&&(
         <div className={"nav-bar "+ width}>
                 <div className="nav-logo">
                     <div className="logo" style={{backgroundImage:`url(${'/src/res/img/logo2.png'})`}}></div>
-                    <div className="label">SUBLYMUS</div>
+                    {showText&&<div className="label">SUBLYMUS</div>}
                 </div>
                 <div className="nav-link">
                     <ul>
-                        <li className={active=='product'?'active':'no'} onClick={()=>{ 
+                        <li className={width+' '+active=='product'?'active':'no'} onClick={()=>{ 
                             setActive('product')
-                            setAbsPath(['product','list_product'])
-                        }}><span className='product'></span> PRODUCT</li>
-                        <li className={active=='users'?'active':'no'} onClick={()=>{
+                            setAbsPath(['store','list_product'])
+                        }}><span className='product'></span>{ showText&&'STORE'}</li>
+                        <li className={width+' '+active=='users'?'active':'no'} onClick={()=>{
                             setActive('users')
-                            setAbsPath(['product','dash_product'])
-                        }}><span className='users'></span>USERS</li>
-                        <li className={active=='chat'?'active':'no'} onClick={()=>{
+                            setAbsPath(['store','dash_product'])
+                        }}><span className='users'></span>{showText&&'USERS'}</li>
+                        <li className={width+' '+active=='chat'?'active':'no'} onClick={()=>{
                             setActive('chat')
                             setPath('../')
-                        }}><span className='chat'></span>CHAT</li>
-                        <li className={active=='interface'?'active':'no'} onClick={()=>{
+                        }}><span className='chat'></span>{showText&&'CHAT'}</li>
+                        <li className={width+' '+active=='interface'?'active':'no'} onClick={()=>{
                             setActive('interface')
-                            setAbsPath(['product','list_product'])
-                        }}><span className='interface'></span>INTERFACE</li>
-                        <li className={active=='state'?'active':'no'} onClick={()=>{
+                            setAbsPath(['store','list_product'])
+                        }}><span className='interface'></span>{showText&&'INTERFACE'}</li>
+                        <li className={width+' '+active=='state'?'active':'no'} onClick={()=>{
                             setActive('state')
-                            setAbsPath(['product','list_product'])
-                        }}><span className='state'></span>STATISTIC</li>
+                            setAbsPath(['store','list_product'])
+                        }}><span className='state'></span>{showText&&'STATISTIC'}</li>
                     </ul>
                 </div>
-                <div className="nav-profile">
+                {showText&&<div className="nav-profile">
                     <div className="img"></div>
                     <div className="name">Kouassi Noga</div>
                     <div className="logout">logout</div>
-                </div>
+                </div>}
         </div>
     )
 }

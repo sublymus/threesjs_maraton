@@ -76,3 +76,7 @@ export type filterType = {
     sortBy: string;
     filter?: FilterValues<keyof FilterOption>[]
 }
+
+export type FilterMapper = {
+    getView(name: string, onChange: (jsonString: any) => any): JSX.Element
+}

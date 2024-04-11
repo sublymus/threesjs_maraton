@@ -4,14 +4,19 @@ import { EventEmiter } from '../../../Tools/eventEmiter'
 import { ListSearchBar } from "./ListSearchBar/ListSearchBar";
 import { ListPaging } from "./ListPaging/ListPaging";
 import { Selector } from "../../Component/Selector/Selector";
-import { ImageElementJSX, StringElementJSX } from "./ListSearchBar/Element/Element";
+import { ImageElementJSX, StringElementJSX , DateStringElementJSX} from "./ListSearchBar/Element/Element";
 // import {  } from "./ListSearchBar/Filter/Filter";
 import type { FilterQuery, ItemsMapperJSX, Mapper, filterType } from "./type";
 import { FilterInterval } from './ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterLevel } from './ListSearchBar/Filter/FilterLevel/FilterLevel';
+import { FilterSwitch } from "./ListSearchBar/Filter/FilterSwitch/FilterSwitch";
+import { FilterCollector } from "./ListSearchBar/Filter/FilterCollector/FilterCollector";
+import { FilterListCollector } from "./ListSearchBar/Filter/FilterListCollector/FilterListCollector";
 
+import *  as countries from 'countries-list'
 const DEFAULT_ITEM_HEIGHT = 80;
 const DEFAULT_TOP_HEIGHT = 40;
+
 
 const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple }: { onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
@@ -48,7 +53,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
     const _top_height = top_height ?? DEFAULT_TOP_HEIGHT;
     const sortableColumns = filter.sortableColumns ?? []
     const cursorW = 5;
-    const _overflow = overflow || 'scroll';
+    const _overflow = overflow || 'displayFlex';
 
     let idx: string | undefined;
     let cdx: string | undefined;
@@ -91,23 +96,24 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
         })
     }, [])
 
-    useEffect(() => {
-        onQuery?.(query)
-    }, [query])
-
-
     return (
         <div className="generic-list" >
             <div className="list-filter-top">
                 <ListSearchBar filter={{
-                    price:FilterInterval([0,100],[10,100]),
-                    price1:FilterInterval([0,100],[20,100]),
-                    price2:FilterInterval([0,100],[30,100]),
-                    price3:FilterInterval([0,100],[40,100]),
-                    price4:FilterInterval([0,100],[50,80]),
-                    price5:FilterInterval([0,100],[60,65]),
-                    price6:FilterInterval([0,100],[70,50]),
-                    level:FilterLevel([0,100],5)
+                    price: FilterInterval([0, 100], [10, 100]),
+                    price1: FilterInterval([0, 100], [20, 100]),
+                    price2: FilterInterval([0, 100], [30, 100]),
+                    price3: FilterInterval([0, 100], [40, 100]),
+                    price4: FilterInterval([0, 100], [50, 80]),
+                    price5: FilterInterval([0, 100], [60, 65]),
+                    price6: FilterInterval([0, 100], [70, 50]),
+                    level: FilterLevel([0, 100], 5),
+                    active: FilterSwitch(true),
+                    collection: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
+                    collection1: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
+                    collection2: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
+                    collection3: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
+                    ListCollector1: FilterListCollector(Object.values(countries.countries).map(v => v.name), [])
                 }} sortBy={sortableColumns} onInputChange={(text) => {
                     setQuery({
                         ...query,
@@ -116,7 +122,9 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                             text
                         },
                     })
+                    onQuery?.(query)
                 }} onFilterChange={(_query) => {
+
                     setQuery({
                         ...query,
                         query: _query,
@@ -127,84 +135,87 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                             ...query,
                             sortBy
                         })
+                        onQuery?.(query)
+                    }}
+                    onSearchRequired={() => {
+                        console.log('SearchRequired');
+                        onQuery?.(query)
                     }} />
                 <Selector placeholder='column' multiple list={Object.keys(itemsMapper)} selected={selectedColumn} setSelectedColumns={(s) => { setSelectedColumn(s) }} />
             </div>
             <div className="list">
-                <div className={'top ' + (_overflow == 'displayFlex' ? 'flex' : '')} ref={ListTop} style={{ height: `${_top_height}px` }}>
-                    {
-                        selectedColumn.sort((a, b) => {
-                            return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
-                        }).map((k, i) => {
-                            const option = itemsMapper[k].option;
+                <div className="top-ctn" style={{ height: `${_top_height}px` }}>
+                    <div className={'top ' + (_overflow == 'displayFlex' ? 'flex' : '')} ref={ListTop} style={{ height: `${_top_height}px` }}>
+                        {
+                            selectedColumn.sort((a, b) => {
+                                return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
+                            }).map((k, i) => {
+                                const option = itemsMapper[k].option;
+                                cache.map[k] ? null : (cache.emitter.when('startResize', () => {
+                                    const l = cache.map[k].label;
+                                    if (l) l.draggable = false;
+                                }).when('endResize', () => {
+                                    const l = cache.map[k].label;
+                                    if (l) l.draggable = true;
+                                })) && (cache.map[k] = {
+                                    option: {
+                                        ...option,
+                                        size: 100,
+                                        size_interval: [20, Number.MAX_VALUE],
+                                    },
+                                    x0: 0,
+                                    w0: 0,
+                                    w: 0,
+                                    dx: 0,
+                                    label: null,
+                                    resize: false,
+                                    index: i,
+                                })
+                                return <>
+                                    <div key={k + '_l'} ref={(ref) => cache.map[k].label = ref} className="label" style={{ width: `${(cache.map[k].w || option?.size || 100)}px` }}
+                                        onDragStartCapture={() => {
+                                            cdx = k;
+                                            idx = k;
+                                        }} onDragEnter={(e) => {
+                                            e.currentTarget.style.background = '#3455'
+                                        }}
+                                        onDragLeave={(e) => {
+                                            idx = k;
+                                            e.currentTarget.style.background = e.currentTarget.dataset.background || 'inherit';
+                                        }}
+                                        onDragEnd={() => {
+                                            if (!idx || !cdx) return;
+                                            let a = cache.map[cdx].index - cache.map[idx].index;
+                                            a = (Math.abs(a) / a) * 0.5
+                                            cache.map[cdx].index = cache.map[idx].index + 0;
+                                            cache.map[idx].index = cache.map[idx].index + a;
+                                            Object.keys(itemsMapper).sort((a, b) => {
+                                                return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
+                                            }).forEach((_k, i) => {
+                                                if (cache.map[_k]) cache.map[_k].index = i;
+                                            });
+                                            const list = [...selectedColumn.sort((a, b) => {
+                                                return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
+                                            })]
 
-                            cache.map[k] ? null : (cache.emitter.when('startResize', () => {
-                                const l = cache.map[k].label;
-                                if (l) l.draggable = false;
-                            }).when('endResize', () => {
-                                const l = cache.map[k].label;
-                                if (l) l.draggable = true;
-                            })) && (cache.map[k] = {
-                                option: {
-                                    ...option,
-                                    size: 100,
-                                    size_interval: [20, Number.MAX_VALUE],
-                                },
-                                x0: 0,
-                                w0: 0,
-                                w: 0,
-                                dx: 0,
-                                label: null,
-                                resize: false,
-                                index: i,
+                                            setSelectedColumn(list);
+                                        }}
+                                    >{k}</div>
+                                    <div key={k + '_c'} className="cursor" style={{ minWidth: `${cursorW}px`, maxWidth: `${cursorW}px`, cursor: option?.resizable === false ? 'initial' : 'ew-resize' }} onMouseDown={(e) => {
+                                        cache.map[k].x0 = e.clientX;
+                                        cache.map[k].w0 = cache.map[k].label?.getBoundingClientRect().width || 100;
+                                        setCurrentResize(k);
+                                    }}></div>
+                                </>
                             })
-                            return <>
-                                <div key={k + '_l'} ref={(ref) => cache.map[k].label = ref} className="label" style={{ width: `${(cache.map[k].w || option?.size || 100)}px` }}
-                                    onDragStartCapture={() => {
-                                        cdx = k;
-                                        idx = k;
-                                    }} onDragEnter={(e) => {
-                                        e.currentTarget.style.background = '#3455'
-                                    }}
-                                    onDragLeave={(e) => {
-                                        idx = k;
-                                        e.currentTarget.style.background = e.currentTarget.dataset.background || 'inherit';
-                                    }}
-                                    onDragEnd={() => {
-                                        if (!idx || !cdx) return;
-                                        let a = cache.map[cdx].index - cache.map[idx].index;
-                                        a = (Math.abs(a) / a) * 0.5
-                                        cache.map[cdx].index = cache.map[idx].index + 0;
-                                        cache.map[idx].index = cache.map[idx].index + a;
-                                        Object.keys(itemsMapper).sort((a, b) => {
-                                            return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
-                                        }).forEach((_k, i) => {
-                                            if (cache.map[_k]) cache.map[_k].index = i;
-                                        });
-                                        const list = [...selectedColumn.sort((a, b) => {
-                                            return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
-                                        })]
-
-                                        setSelectedColumn(list);
-                                    }}
-                                >{k}</div>
-                                <div key={k + '_c'} className="cursor" style={{ minWidth: `${cursorW}px`, maxWidth: `${cursorW}px`, cursor: option?.resizable === false ? 'initial' : 'ew-resize' }} onMouseDown={(e) => {
-                                    cache.map[k].x0 = e.clientX;
-                                    cache.map[k].w0 = cache.map[k].label?.getBoundingClientRect().width || 100;
-                                    setCurrentResize(k);
-                                }}></div>
-                            </>
-                        })
-                    }
+                        }
+                    </div>
                 </div>
                 <div className={'items ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ overflowX: _overflow === 'displayFlex' ? 'hidden' : (_overflow == 'scroll' ? 'auto' : 'hidden'), height: `calc(100% - ${_top_height}px)`, }} onScroll={(e) => {
-
                     if (ListTop.current) ListTop.current.style.transform = `translateX(${-e.currentTarget.scrollLeft}px)`
-                    console.log(ListTop.current?.style.left);
                 }} >
                     {
                         datas.map(d => {
-
                             return <div ref={(ref) => d.$itemRef = ref} key={d.id} className={'item ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ height: `${_items_height}px` }} onClick={() => {
                                 let is = multiple ?
                                     [...(selectedItems.includes(d) ? selectedItems.filter(a => a !== d) : [...selectedItems, d])] :
@@ -218,11 +229,12 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                     selectedColumn.sort((a, b) => {
                                         return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
                                     }).map(k => {
-
                                         let viewRef: HTMLElement | null = null;
                                         const val = d[k as keyof typeof d] as any;
+                                        
                                         cache.emitter.when(k, (columnSize) => {
                                             if (viewRef) viewRef.style.width = `${columnSize}px`;
+                                            if (_overflow != 'displayFlex') d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
                                         })
                                         const setRef = (ref: HTMLElement | null) => {
                                             viewRef = ref
@@ -236,6 +248,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                                 cache.emitter.when(event, (columnSize) => func({ width: columnSize, height: _items_height }))
                                             },
                                             id: val.id,
+                                            //TODO ajouter le plus d'evernement, le cellule doit pouvoir influer sur le tableau
                                             onAnyCellSelected(_columnName, _callBack) {
                                                 //TODO
                                             },
@@ -272,6 +285,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
 const GenericList: typeof _GenericList & {
     StringElement: typeof StringElementJSX,
     ImageElement: typeof ImageElementJSX,
+    DateStringElement: typeof DateStringElementJSX,
     filter: {
         FilterInterval: typeof FilterInterval,
     }
@@ -279,6 +293,7 @@ const GenericList: typeof _GenericList & {
 
 GenericList.StringElement = StringElementJSX;
 GenericList.ImageElement = ImageElementJSX;
+GenericList.DateStringElement = DateStringElementJSX
 // GenericList.SwitchElement = SwitchElement;
 // GenericList.RadioElement = RadioElement;
 // GenericList.InputTextElement = InputTextElement;

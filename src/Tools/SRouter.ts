@@ -15,6 +15,12 @@ import { create } from 'zustand'
 /******************************************************* */
 //      check('component_name')
 
+//TODO
+/**
+    ajouter un path par defaut ( facultatif ) au ca ou une page parente sans contenu es soliciter.. pour une redirection vers une page pus adequate
+
+ */
+
 type V<RK> = RK[keyof RK];
 type AllComponents<O> = {
     [key in keyof O]: key extends string ? key | V<AllComponents<O[key]>> : never
