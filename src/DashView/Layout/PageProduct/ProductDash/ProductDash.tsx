@@ -1,135 +1,75 @@
+import { DataBase } from '../../../../DataBase';
+import { useWindowSize } from '../../../../Hooks';
 import { useDashRoute } from '../../../dashStore'
+import { InputText } from '../../../Component/Form/Input'
+import { Textarea } from '../../../Component/Form/Textarea'
 import './ProductDash.css'
+import { useState } from 'react';
+import { useProductStore } from '../ProductStore';
+import { ImageViewer } from "../../../Component/ImageViewer/ImageViewer";
+
 
 enum StatusMap {
     Start, Payment, Waiting, Delivery, End, Cancel
 }
 
-const commands = [
-    {
-        id: 1234565,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 3,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-    {
-        id: 1234566,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 1,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-    {
-        id: 1234567,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 2,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-    {
-        id: 1234568,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 3,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-    {
-        id: 1234569,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 4,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-    {
-        id: 1234570,
-        client: {
-            id: 'client-12345',
-            name: 'Kouassi Noga',
-        },
-        product: {
-            id: 'product-12345',
-            title: 'Ladona'
-        },
-        status: 5,
-        ref_payement: {
-            price: 2000,
-            symbol: '₽',
-            devise: 'RUB'
-        },
-        completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
-        createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
-    },
-]
 
 
 export function ProductDash() {
 
-    const {check } = useDashRoute();
-    return check('dash_product')&&(
+    const { current } = useDashRoute();
+    const size = useWindowSize();
+    const wrap = size.width < 1200 ? 'wrap' : '';
+    const [isCheckRequired, setIsCheckRequired] = useState(false)
+    const { selectedProduct } = useProductStore();
+
+    const onImageAdded = ()=>{
+
+    }
+    return current('dash_product') && (
         <div className="product-dash">
             <h1 className="page-title">Product Information</h1>
-            <div className="dash-ctn">
+
+            <section className={"editor " + wrap}>
+                <div className="editor-left">
+                    <div className="editor-name">
+                        <div className="product-title">
+                            <InputText editable prompt='Product Title' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Title' placeholder='Product Title' value={selectedProduct?.title || ''} />
+                        </div>
+                        <div className="product-description">
+                            <Textarea editable prompt='Product Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Product Description' value={selectedProduct?.description || 'lol'} />
+                        </div>
+                    </div>
+                    <div className="editor-price">
+                        <InputText type='number' editable prompt='Product Price' isCheckRequired={isCheckRequired} min={0} check='auto'  label='Price' placeholder='Product Price' value={selectedProduct?.price || ''} />
+                    </div>
+                    <div className="editor-stock">
+                        <InputText type='number' editable prompt='Product Stock' isCheckRequired={isCheckRequired} max={10000000000}  check='auto'  label='Stock' placeholder='Product Stock' value={selectedProduct?.stock||''}/>
+                    </div>
+                    <div className="editor-category">
+                        dyj
+                    </div>
+                    <div className="editor-features">
+                        dyj
+                    </div>
+                </div>
+
+                <div className="editor-right">
+                    <div className="editor-images">
+                       <ImageViewer onImageAdded={onImageAdded} images={selectedProduct?.images?JSON.parse(selectedProduct.images.toString()):[]}/>
+                    </div>
+                    <div className="editor-mmodel-images">
+                         <ImageViewer onImageAdded={onImageAdded} images={selectedProduct?.images?JSON.parse(selectedProduct.model_images.toString()):[]}/>
+                    </div>
+                    <div className="editor-scene-file">
+                        dyj
+                    </div>
+                    
+                </div>
+
+            </section>
+            <div className="product-dash-ctn">
+
                 <div className="info">
                     <div className="action">
                         <div className="text">
@@ -162,13 +102,13 @@ export function ProductDash() {
                     <h1 className="see-all">SEE ALL</h1>
                 </div>
                 <div className="orders-ctn">
-                    {commands.map((c) => (
+                    {DataBase.commands.map((c) => (
                         <div className="order">
                             <div className="id">#{c.id}</div>
-                            <div className="client">{c.client.name }</div>
+                            <div className="client">{c.client.name}</div>
                             <div className="date">{c.completedAt}</div>
                             <div className="price">{c.ref_payement.price} {c.ref_payement.symbol}</div>
-                            <div className={"status "+StatusMap[c.status].toLocaleLowerCase()}>{StatusMap[c.status]}</div>
+                            <div className={"status " + StatusMap[c.status].toLocaleLowerCase()}>{StatusMap[c.status]}</div>
                         </div>
                     ))}
                 </div>
@@ -177,9 +117,8 @@ export function ProductDash() {
     )
 }
 
+
 function CircularLineChart() {
-
-
     return (
         <div className="circular-line-chart">
             <div className="back"></div>

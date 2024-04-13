@@ -43,23 +43,36 @@ body {
   --editer-width: 800px;
 }
 
+
+
+/*    scrollbar **/
+
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
-
-*::-webkit-scrollbar-track {
-  background: #b6b6b600;
-  border-radius: 10px;
+*::-webkit-scrollbar-track:hover {
+  background: #b6b6b630;
+  transition: 200ms;
 }
-
+*::-webkit-scrollbar-track {
+  background: #b6b6b630;
+  border-radius: 20px;
+  transition: 200ms;
+}
 *::-webkit-scrollbar-thumb {
-  background: #69696900;
-  border-radius: 10px;
+  background: #b6b6b631;
+  border-radius: 20px;
   transition: 200ms;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #b3893c00;
+  background: #15132548;
   transition: 200ms;
+}
+.generic-list .list-filter-top {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+  margin-bottom: 20px;
 }

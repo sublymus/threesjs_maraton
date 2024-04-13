@@ -1,19 +1,57 @@
 .product-dash{
     width: 100%;
-    overflow: hidden;
+    overflow-y:auto;
+    overflow-x:hidden;
+    height: 100%;
 }
 .product-dash .page-title{
     margin-top: 30px;
     font-weight: bold;
     font-size: 24px;
 }
-.product-dash .dash-ctn{
+.product-dash .editor{
+   width: calc(100% - 50px);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   background: rgba(255, 255, 255, 0.644);
+   box-shadow: 0px 0px 10px #3455;
+   border-radius: 20px;
+   margin: 20px;
+}
+.product-dash .editor.wrap{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+}
+
+.product-dash .editor > div{
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+ }
+ .product-dash .editor > div > div{
+     width: 100%;
+     margin-top: 20px;
+  }
+  .product-dash .editor > div > div > div{
+      width: calc(100% - 20px);
+      padding: 10px 10px;
+}
+/**********    product-dash   *******/
+
+.product-dash .product-dash-ctn{
     width: 100%;
     height: 400px;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
+
 .product-dash .info{
     width: 500px;
     height: 400px;
@@ -140,6 +178,7 @@
 
 .product-dash .orders-ctn{
     overflow-y: auto;
+    overflow-x: hidden;
     height: calc(100vh - 680px)  ;
 
 }

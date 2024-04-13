@@ -12,31 +12,31 @@ const topCard = [
         label: "PRODUCTS",
         value: '23',
         url: '/src/res/package.png',
-        path:['store','list_product']
+        path:['store','products']
     },
     {
         label: "CATEGORIES",
         value: '15',
         url: '/src/res/application.png',
-        path:['store','list_category']
+        path:['store','categories']
     },
     {
         label: "CATALOGS",
         value: '4',
         url: '/src/res/catalog.png',
-        path:['store','list_catalog']
+        path:['store','catalogs']
     },
     {
         label: "FEATURES",
         value: '78',
         url: '/src/res/jigsaw.png',
-        path:['store','list_feature']
+        path:['store','features']
     },
 ]
 
 export function PageProduct() {
 
-    const { check , setAbsPath } = useDashRoute();
+    const { check , setAbsPath , current } = useDashRoute();
     const [active, setActive] = useState('PRODUCTS')
     return (
         <>
@@ -44,7 +44,7 @@ export function PageProduct() {
                 check('store') && (
                     <div className='page-product'>
                         {
-                            check('top_product') && <div className="top-product">
+                            current('products') && <div className="top-product">
                                 {topCard.map((c, i) => (
                                     <div className={'top-card ' + (c.label == active ? 'active' : '')} key={i} onClick={() => {
                                         setActive(c.label);

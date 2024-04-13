@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { StoreApi, UseBoundStore, create } from 'zustand'
 
 /******************************************************* */
 //             DEFINE ROUTE PATH
@@ -37,37 +37,53 @@ function windowListenner(f: Function) {
         f();
     }
 }
-
+interface UnUseAppState<T  extends PageType> {
+    json: Record<string, any> | undefined,
+    Pages: T,
+    navHistory: string[];
+    pathList:  V<AllComponents<T>>[],
+    navNext(json?: NavJson): undefined,
+    navBack(json?: NavJson): undefined,
+    setAbsPath<
+        A extends '/',
+        B extends keyof  T[A],
+        C extends keyof T[A][B],
+        D extends keyof T[A][B][C],
+        E extends keyof T[A][B][C][D],
+        F extends keyof T[A][B][C][D][E],
+        G extends keyof T[A][B][C][D][E][F],
+        H extends keyof T[A][B][C][D][E][F][G],
+        I extends keyof T[A][B][C][D][E][F][G][H],
+        J extends keyof T[A][B][C][D][E][F][G][H][I],
+        K extends keyof T[A][B][C][D][E][F][G][H][I][J],
+        L extends keyof T[A][B][C][D][E][F][G][H][I][J][K],
+        M extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L],
+        N extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M],
+        O extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N],
+        P extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O],
+        Q extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P],
+        R extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q],
+        S extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R],
+        _T extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S],
+        U extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T],
+        V extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U],
+        W extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V],
+        X extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W],
+        Y extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X],
+        _Z extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X][Y],
+    >(page: [B, C?, D?, E?, F?, G?, H?, I?, J?]): undefined,
+    check(page: V<AllComponents<T>>): true | undefined;
+    setPath(...page: (V<AllComponents<T>> | './' | '../')[]): undefined,
+    init(): void;
+    current(...page: V<AllComponents<T>>[]): true|undefined;
+}
 export class SRouter<T extends PageType = PageType>{
     isInitialized = false;
     listener: Function | null = null;
-    store;
-    constructor(private pages: T, private defaultPath?: string[]) {
-        interface AppState {
-            json: Record<string, any> | undefined,
-            Pages: typeof pages,
-            navHistory: string[];
-            pathList: string[],
-            navNext(json?: NavJson): undefined,
-            navBack(json?: NavJson): undefined,
-            setAbsPath<
-                A extends '/',
-                B extends keyof typeof pages[A],
-                C extends keyof typeof pages[A][B],
-                D extends keyof typeof pages[A][B][C],
-                E extends keyof typeof pages[A][B][C][D],
-                F extends keyof typeof pages[A][B][C][D][E],
-                G extends keyof typeof pages[A][B][C][D][E][F],
-                H extends keyof typeof pages[A][B][C][D][E][F][G],
-                I extends keyof typeof pages[A][B][C][D][E][F][G][H],
-                J extends keyof typeof pages[A][B][C][D][E][F][G][H][I],
-            >(page: [B, C?, D?, E?, F?, G?, H?, I?, J?]): undefined,
-            check(page: V<AllComponents<typeof pages>>): true | undefined;
-            setPath(...page: (V<AllComponents<typeof pages>> | './' | '../')[]): undefined,
-            init(): void;
-        }
-
-        const urlToPath = (): Partial<AppState> => {
+    store:UseBoundStore<StoreApi<UnUseAppState<T>>>;
+    constructor(private pages: T, private defaultPath?:  V<AllComponents<T>>[]) {
+      
+        const urlToPath = (): Partial<UnUseAppState<T>> => {
             let hash = window.location.hash;
             if (!hash) return ({ pathList: this.defaultPath })
             hash = decodeURIComponent(hash.slice(1, hash.length));
@@ -87,16 +103,20 @@ export class SRouter<T extends PageType = PageType>{
             } else {
                 h = hash
             } 
-            return { pathList: ['/', ...h.split('/')], json };
+            return { pathList: ['/', ...h.split('/')] as any, json };
         }
 
 
         const self = this;
-        this.store = create<AppState>((set) => ({
+        this.store = create<UnUseAppState<T>>((set) => ({
             Pages: pages,
             json: {},
             navHistory: [],
-            pathList: this.defaultPath || ['/'],
+            pathList: this.defaultPath || ['/']  as any,
+            current(...path){
+                const l = self.store.getState().pathList;
+                return (path.includes(l[l.length-1] as any))||undefined;
+            },
             init() {
                 if (self.isInitialized) return;
                 self.listener = () => {
@@ -146,6 +166,7 @@ export class SRouter<T extends PageType = PageType>{
                     for (const path of list) {
                         //@ts-ignore
                         const c = currentPage[path];
+                        //@ts-ignore
                         if (c && (c[component] === null)) {
                             return true;
                         } else if (c === undefined) {
@@ -218,6 +239,7 @@ export class SRouter<T extends PageType = PageType>{
         const l = list.splice(0, max < 0 ? 0 : max);
         if (l[0] !== '/') return console.error('//Error  Path don\'t exist  L :', l);
 
+        //@ts-ignore
         if (l.length == 0) l.push('/');
         let _paths: string[] = [...l, ...paths];
         if (_paths.length > 0) {

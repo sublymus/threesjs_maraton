@@ -1,0 +1,96 @@
+.input {
+    width: 100%;
+}
+
+
+.input .input-top {
+    display: flex;
+    font-weight: bold;
+}
+
+.input .left-side .label{
+    font-weight: bold;
+}
+
+.input .input-top .left-side{
+    display: flex;
+}
+
+.input .input-top .input-info:hover{
+    opacity: 1;
+}
+.input .input-top .input-info{
+    width: 20px;
+    height: 20px;
+    background: #345;
+    border-radius: 50%;
+    background: no-repeat center/cover url('/src/res/circle-help2.png');
+    position: relative;
+    margin-left: 10px;
+    opacity: 0.5;
+}
+
+.input .input-top .promt{
+    left: -60px;
+    width: 150px;
+    padding: 10px;
+    position: absolute;
+    background: #fff;
+    box-shadow: 1px 1px 5px #3333;
+    opacity: 0;
+    display: none;
+    border-radius: 10px;
+    font-size: 0.9em;
+}
+
+.input .input-top .input-info:hover .promt , .input .input-top .input-info .promt:hover{
+    opacity: 1;
+}
+
+
+.input .input-top .edit:hover{
+    opacity: 1;
+}
+.input .input-top .edit {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: #345;
+    border-radius: 50%;
+    margin: 0 10px;
+    background: no-repeat center/80% url('/src/res/pencil.png');
+    opacity: 0.5;
+}
+
+
+.input .input-top .edit:hover .promt , .input .input-top .edit .promt:hover{
+    opacity: 1;
+}
+
+.input .value{
+    font-size: 0.9em;
+    opacity: 0.5;
+}
+
+.input .message{
+    font-size: 0.9em;
+    color: rgba(85, 51, 51, 0.667)
+}
+
+.input input {
+    all: unset;
+    margin: 10px 0;
+    background: #fff;
+    width: 100%;
+    border: 1px solid rgba(0, 143, 0, 0.548);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.input .count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #345a
+}

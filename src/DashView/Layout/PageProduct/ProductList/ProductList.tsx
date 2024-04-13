@@ -5,10 +5,10 @@ import {useProductStore} from '../ProductStore'
 import { Host } from '../../../../Config';
 // import React from 'react'
 export function ProductList() {
-    const { check , setAbsPath} = useDashRoute();
-    const {fetchProducts , products , selectedProduct, setSelectedProduct} = useProductStore();
+    const { current , setAbsPath} = useDashRoute();
+    const {fetchProducts , products, setSelectedProduct} = useProductStore();
     
-    return check('list_product') && (
+    return current('products') && (
         <div className="product-list">
             <div className="list-ctn">
                 <GenericList filter={{
@@ -60,7 +60,7 @@ export function ProductList() {
                             }
                         },
                         id: {
-                            getView(label, value, e, setRef) {
+                            getView(_, value, e, setRef) {
                                 return (
                                     <div ref={setRef} key={e.id}>{value.slice(0,8)}</div>
                                 )
@@ -70,7 +70,7 @@ export function ProductList() {
                         status: GenericList.StringElement({size:150}),
                         stock: GenericList.StringElement(),
                         category_id: {
-                            getView(label, value, e, setRef) {
+                            getView(_, value, e, setRef) {
                                 return (
                                     <div ref={setRef} key={e.id}>{value.slice(0,8)}</div>
                                 )
@@ -88,7 +88,7 @@ export function ProductList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedProduct(selectedItems[0] as any);
-                        setAbsPath(['store','dash_product'])
+                        setAbsPath(['store','products','dash_product'])
                     }}
                     onQuery={(query)=>{
                         fetchProducts(query)
