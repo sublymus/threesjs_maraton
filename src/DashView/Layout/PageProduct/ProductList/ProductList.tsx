@@ -53,16 +53,15 @@ export function ProductList() {
                     items_height={80} id={'product_list'} datas={products||[]} itemsMapper={{
                         images: {
                             getView(label, value, e, setRef) {
-                                
                                 return (
-                                    GenericList.ImageElement().getView(label , `${Host}${JSON.parse(value)[0]}` , e , setRef)
+                                    GenericList.ImageElement().getView(label , `${Host}${value[0]}` , e , setRef)
                                 )
                             }
                         },
                         id: {
-                            getView(_, value, e, setRef) {
+                            getView(_, value:string, e, setRef) {
                                 return (
-                                    <div ref={setRef} key={e.id}>{value.slice(0,8)}</div>
+                                    <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
                                 )
                             }
                         },
@@ -72,7 +71,7 @@ export function ProductList() {
                         category_id: {
                             getView(_, value, e, setRef) {
                                 return (
-                                    <div ref={setRef} key={e.id}>{value.slice(0,8)}</div>
+                                    <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
                                 )
                             }
                         },

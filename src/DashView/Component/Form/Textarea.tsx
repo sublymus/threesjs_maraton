@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Textarea.css'
 
-export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable }: { editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check: 'auto' | 'event', min?: number, max?: number, label?: string, placeholder?: string, value?: string }) {
+export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable , onChange }: {onChange?:(value:string|number)=>any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check: 'auto' | 'event', min?: number, max?: number, label?: string, placeholder?: string, value?: string }) {
     const [value, setValue] = useState(_v || '')
     const [count, setCount] = useState(0)
     const [message, setMessage] = useState('')
@@ -15,6 +15,7 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
         validation: (value: string) => {
             console.log(value, min && value.length < min, value.length, min);
             setMessage('');
+            value = value.toString().trim();
             if (min && value.length < min) {
                 setMessage(`Minimum length ${min}`);
                 return false;
@@ -23,6 +24,7 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
                 setMessage(`Maximum length ${max}`);
                 return false;
             }
+            if(value!==_v)onChange?.(value)
             return true;
         }
     })

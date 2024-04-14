@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './Input.css'
 
 
-export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type }: { editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
+export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type , onChange }: { onChange?:(value:string|number)=>any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
     const [value, setValue] = useState(_v || '')
     const [count, setCount] = useState(0)
     const [message, setMessage] = useState('')
@@ -32,6 +32,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                     return false;
                 }
             } else {
+                value = value.toString().trim()
                 if (min && String(value).length < min) {
                     setMessage(`Minimum length ${min}`);
                     return false;
@@ -41,6 +42,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                     return false;
                 }
             }
+            if(value!==_v) onChange?.(value);
             return true;
         }
     })
@@ -60,6 +62,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
         }
 
     }
+    const inputRef = useRef<HTMLInputElement|null>(null);
     return (
         <div className="input-text input">
             <div className="input-top">
@@ -94,6 +97,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                         if (blurActive) {
                             return setBlurActive(false);
                         }
+                        if(inputRef.current) inputRef.current.focus();
                         setCanEdit(c == false ? (!state.validation(value)) : true);
                         resizePrompt()
                     }} onMouseEnter={() => {
@@ -112,11 +116,10 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                         </div>
                     </div>}
                 </div>
-
             </div>
             {!canEdit && <div className="value">{value}</div>}
             {canEdit && <div className="input-editor">
-                <input type={_type} placeholder={placeholder} value={value} onChange={(e) => {
+                <input  ref={inputRef} type={_type} placeholder={placeholder} value={value} onChange={(e) => {
                     let v = e.currentTarget.value;
                     while (v.includes('  ')) {
                         v = v.replace('  ', ' ');

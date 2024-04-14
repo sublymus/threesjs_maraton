@@ -4,11 +4,12 @@ import { useDashRoute } from '../../../dashStore'
 import { InputText } from '../../../Component/Form/Input'
 import { Textarea } from '../../../Component/Form/Textarea'
 import './ProductDash.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useProductStore } from '../ProductStore';
 import { ImageViewer } from "../../../Component/ImageViewer/ImageViewer";
-
-
+import { FileLoader } from "../../../Component/LoaderImage/LoaderImage";
+import { ChoiseCategory } from '../../../Component/ChoiseCategory/ChoiseCategory'
+import { ChoiseFeatures } from '../../../Component/ChoiseFeatures/ChoiseFeatures'
 enum StatusMap {
     Start, Payment, Waiting, Delivery, End, Cancel
 }
@@ -18,53 +19,89 @@ enum StatusMap {
 export function ProductDash() {
 
     const { current } = useDashRoute();
+    const { selectedProduct } = useProductStore();
+    const [isCheckRequired, setIsCheckRequired] = useState(false)
+    
     const size = useWindowSize();
     const wrap = size.width < 1200 ? 'wrap' : '';
-    const [isCheckRequired, setIsCheckRequired] = useState(false)
-    const { selectedProduct } = useProductStore();
+    
+    const [collected , setCollected] = useState<Record<string,any>>({});
 
-    const onImageAdded = ()=>{
+    collected.prduct_id = selectedProduct?.id;
 
-    }
     return current('dash_product') && (
         <div className="product-dash">
-            <h1 className="page-title">Product Information</h1>
+            <div className="product-dash-top">
+                <h1 className="page-title">Product Information</h1>
+                <div className="save">
+                    <div className="icon"></div>
+                    <div className="label">SAVE</div>
+                </div>
+            </div>
 
             <section className={"editor " + wrap}>
                 <div className="editor-left">
                     <div className="editor-name">
                         <div className="product-title">
-                            <InputText editable prompt='Product Title' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Title' placeholder='Product Title' value={selectedProduct?.title || ''} />
+                            <InputText  editable prompt='Product Title' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Title' placeholder='Product Title' value={selectedProduct?.title || ''} onChange={(value)=>{
+                                collected['title'] = value;
+                                console.log(collected);
+                                
+                            }} />
                         </div>
                         <div className="product-description">
-                            <Textarea editable prompt='Product Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Product Description' value={selectedProduct?.description || 'lol'} />
+                            <Textarea editable prompt='Product Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Product Description' value={selectedProduct?.description || 'lol'}  onChange={(value)=>{
+                                collected['description'] = value;
+                                console.log(collected);
+                            }}  />
                         </div>
                     </div>
                     <div className="editor-price">
-                        <InputText type='number' editable prompt='Product Price' isCheckRequired={isCheckRequired} min={0} check='auto'  label='Price' placeholder='Product Price' value={selectedProduct?.price || ''} />
+                        <InputText type='number' editable prompt='Product Price' isCheckRequired={isCheckRequired} min={0} check='auto' label='Price' placeholder='Product Price' value={selectedProduct?.price || ''}  onChange={(value)=>{
+                                collected['price'] = value;
+                                console.log(collected);
+                            }}  />
                     </div>
                     <div className="editor-stock">
-                        <InputText type='number' editable prompt='Product Stock' isCheckRequired={isCheckRequired} max={10000000000}  check='auto'  label='Stock' placeholder='Product Stock' value={selectedProduct?.stock||''}/>
+                        <InputText type='number' editable prompt='Product Stock' isCheckRequired={isCheckRequired} max={10000000000} check='auto' label='Stock' placeholder='Product Stock' value={selectedProduct?.stock || ''}  onChange={(value)=>{
+                                collected['stock'] = value;
+                                console.log(collected);
+                            }} />
                     </div>
                     <div className="editor-category">
-                        dyj
+                        <ChoiseCategory category_id={selectedProduct?.category_id}   onChange={(id)=>{
+                            collected['category'] = id;
+                            console.log(collected);
+                        }} />
                     </div>
                     <div className="editor-features">
-                        dyj
+                        <ChoiseFeatures features={selectedProduct?.features} onChange={(ids)=>{
+                            collected['features'] = ids;
+                            console.log(collected);
+                        }} />
                     </div>
                 </div>
 
                 <div className="editor-right">
                     <div className="editor-images">
-                       <ImageViewer onImageAdded={onImageAdded} images={selectedProduct?.images?JSON.parse(selectedProduct.images.toString()):[]}/>
+                        <ImageViewer name='images'  images={selectedProduct?.images ? selectedProduct.images : []}  onSave={(imageMapper)=>{
+                            collected['images'] = imageMapper;
+                            console.log(collected);
+                        }}/>
                     </div>
                     <div className="editor-mmodel-images">
-                         <ImageViewer onImageAdded={onImageAdded} images={selectedProduct?.images?JSON.parse(selectedProduct.model_images.toString()):[]}/>
+                        <ImageViewer name='model_images' images={selectedProduct?.images ? selectedProduct.model_images : []}  onSave={(imageMapper)=>{
+                            collected['model_images'] = imageMapper;
+                            console.log(collected);
+                        }}/>
                     </div>
                     <div className="editor-scene-file">
-                        dyj
+                        <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                            collected['scene_dir'] = file;
+                            console.log(collected);
+                        }} />
                     </div>
-                    
+
                 </div>
 
             </section>
@@ -86,7 +123,7 @@ export function ProductDash() {
                                 <h2 className="description">since {(new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)).toDateString())}</h2>
                             </div>
                         </div>
-                        <BarChart />
+                        <BarChart/>
                     </div>
                 </div>
                 <div className="prev">
@@ -103,7 +140,7 @@ export function ProductDash() {
                 </div>
                 <div className="orders-ctn">
                     {DataBase.commands.map((c) => (
-                        <div className="order">
+                        <div key={c.id} className="order">
                             <div className="id">#{c.id}</div>
                             <div className="client">{c.client.name}</div>
                             <div className="date">{c.completedAt}</div>

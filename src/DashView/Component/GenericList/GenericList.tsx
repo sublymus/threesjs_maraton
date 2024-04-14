@@ -4,7 +4,7 @@ import { EventEmiter } from '../../../Tools/eventEmiter'
 import { ListSearchBar } from "./ListSearchBar/ListSearchBar";
 import { ListPaging } from "./ListPaging/ListPaging";
 import { Selector } from "../../Component/Selector/Selector";
-import { ImageElementJSX, StringElementJSX , DateStringElementJSX} from "./ListSearchBar/Element/Element";
+import { ImageElementJSX, StringElementJSX, DateStringElementJSX } from "./ListSearchBar/Element/Element";
 // import {  } from "./ListSearchBar/Filter/Filter";
 import type { FilterQuery, ItemsMapperJSX, Mapper, filterType } from "./type";
 import { FilterInterval } from './ListSearchBar/Filter/FilterInterval/FilterInterval';
@@ -17,7 +17,7 @@ import *  as countries from 'countries-list'
 const DEFAULT_ITEM_HEIGHT = 80;
 const DEFAULT_TOP_HEIGHT = 40;
 
-
+//TODO bug lor de la permutation des colonne, les deux colone consernee ne pas etre dragee imediatement
 const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple }: { onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
     const [selectedColumn, setSelectedColumn] = useState(Object.keys(itemsMapper));
@@ -61,7 +61,6 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
     useEffect(() => {
         if (!currentResize) {
             clearInterval(cache.interval_id);
-            console.log('endResize', cache.lastResized);
             cache.emitter.emit('endResize', cache.lastResized);
             return;
         }
@@ -222,8 +221,6 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                     [d];
                                 setSelectedItems(is);
                                 onItemsSelected?.(is as any, datas as any);
-                                console.log(d);
-
                             }} >
                                 {
                                     selectedColumn.sort((a, b) => {
@@ -231,7 +228,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                     }).map(k => {
                                         let viewRef: HTMLElement | null = null;
                                         const val = d[k as keyof typeof d] as any;
-                                        
+
                                         cache.emitter.when(k, (columnSize) => {
                                             if (viewRef) viewRef.style.width = `${columnSize}px`;
                                             if (_overflow != 'displayFlex') d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
@@ -247,7 +244,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                                             onResize(event: string, func: Function) {
                                                 cache.emitter.when(event, (columnSize) => func({ width: columnSize, height: _items_height }))
                                             },
-                                            id: val.id,
+                                            id: `${d.id}_${k}`,
                                             //TODO ajouter le plus d'evernement, le cellule doit pouvoir influer sur le tableau
                                             onAnyCellSelected(_columnName, _callBack) {
                                                 //TODO

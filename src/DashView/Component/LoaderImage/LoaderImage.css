@@ -1,0 +1,38 @@
+.loader-img {
+    width: 300px;
+}
+.loader-img-ctn {
+    width: 300px;
+    height: 60px;
+    background: #1482;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.loader-img .icon {
+    width: 50px;
+    height: 60px;
+    background: no-repeat center/50% url(/src/res/file-up.png);
+    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}
+
+.loader-img .back {
+    background: #6500c422;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.loader-img .prompt {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.loader-img .load-icon {
+    margin-left: auto;
+    width: 50px;
+    height: 60px;
+    background: no-repeat center/40% url(/src/res/paperclip.png);
+    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}

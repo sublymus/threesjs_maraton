@@ -2,16 +2,21 @@
     width: 100%;
 }
 
-.image-viewer .top-viewer {
-    width: 100%;
+.image-viewer .top-viewer.right{
     display: flex;
 }
+.image-viewer .top-viewer {
+    width: 100%;
+}
 
-.image-viewer .top-viewer .option {
+.image-viewer .top-viewer .option.right{
     width: 80px;
-    display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.image-viewer .top-viewer .option {
+    width: 100%;
+    display: flex;
     align-items: center;
     filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
 }
@@ -69,44 +74,9 @@
     border-radius: 10px;
     margin-right: 10px;
     display: inline-flex;
+    cursor: grab;
 }
 
-.image-viewer .loader-img {
-    width: 300px;
-    height: 60px;
-    background: #1482;
-    display: flex;
-    align-items: center;
-    border-radius: 10px;
-    overflow-x: hidden;
-}
-
-.image-viewer .loader-img .icon {
-    width: 50px;
-    height: 60px;
-    background: no-repeat center/50% url(/src/res/camera.png);
-    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
-}
-
-.image-viewer .loader-img .back {
-    background: #6500c422;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-.image-viewer .loader-img .prompt {
-    font-size: 0.9em;
-    opacity: 0.7;
-    margin-top: 5px;
-}
-
-.image-viewer .loader-img .load-icon {
-    margin-left: auto;
-    width: 50px;
-    height: 60px;
-    background: no-repeat center/50% url(/src/res/file-up.png);
-    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
-}
 
 /*****  viewer-images  ********/
 
