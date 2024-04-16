@@ -3,6 +3,10 @@ import './ProductList.css'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import {useProductStore} from '../ProductStore'
 import { Host } from '../../../../Config';
+import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
+import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
+import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
+import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 // import React from 'react'
 export function ProductList() {
     const { current , setAbsPath} = useDashRoute();
@@ -14,43 +18,18 @@ export function ProductList() {
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
-                    limit: 25,
-                    page: 1,
-                    total: 200,
-                    filter:[
-                        {
-                            name:'Price',
-                            type:'interval',
-                            values:[[0,20000],[0,20000]],
-                            icon:''
-                        },
-                        {
-                            name:'stock',
-                            type:'interval',
-                            values:[[0,20000],[0,20000]],
-                            icon:''
-                        },
-                        {
-                            name:'Catalogs',
-                            type:'collector',
-                            values:[['Jewelry','Watch','Accessory'],[]],
-                            icon:''
-                        },
-                        {
-                            name:'Categories',
-                            type:'collector',
-                            values:[['Ring','Necklace','Chain','earring'],[]],
-                            icon:''
-                        },
-                        {
-                            name:'Features',
-                            type:'listCollector',
-                            values:[['Ring','Necklace','Chain','earring'],[]],
-                            icon:''
-                        },
-                    ]
-                }}
-                    items_height={80} id={'product_list'} datas={products||[]} itemsMapper={{
+                    limit: products?.limit||1,
+                    page: products?.page,
+                    total: products?.total,
+                    filter:{
+                        price:FilterInterval([0,100000],[0,10000]),
+                        stock:FilterInterval([0,10000],[0,10000]),
+                        status: FilterCollector(['PAUSE','TRASH','NEW'], []),
+                        index: FilterLevel([0, 100], 5),
+                        is_dynamic_price:FilterSwitch(),
+                        hasScene:FilterSwitch()
+                    }}}
+                    items_height={80} id={'product_list'} datas={products?.list||[]} itemsMapper={{
                         images: {
                             getView(label, value, e, setRef) {
                                 return (
@@ -91,9 +70,13 @@ export function ProductList() {
                     }}
                     onQuery={(query)=>{
                         fetchProducts(query)
-                        
                     }}     
-                    top_height={40}>
+                    top_height={40}
+                    canAddNew
+                    onNewRequired={()=>{
+                        console.log('New');
+                        
+                    }}>
 
                 </GenericList>
             </div>

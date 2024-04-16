@@ -19,10 +19,43 @@ const Pages = {
                     action:{}
                 },
                 new_product:{
-                    // edition de product ( sans data )<CreateProduct}/>
+                    //creation de products
                     preview:{},
                 }
             },
+            categories:{
+                //list des categories
+                dash_categories:{
+                    preview:{},
+                    action:{}
+                },
+                new_category:{
+                    // creation de categories
+                    preview:{},
+                }
+            },
+            features:{
+                //list des features
+                dash_features:{
+                    preview:{},
+                    action:{}
+                },
+                new_feature:{
+                    // creation de features
+                    preview:{},
+                }
+            },
+            catalogs:{
+                //list des catalogs
+                dash_catalogs:{
+                    preview:{},
+                    action:{}
+                },
+                new_catalog:{
+                    // creation de catalogs
+                    preview:{},
+                }
+            }
         }
     }
 }

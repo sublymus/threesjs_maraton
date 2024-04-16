@@ -1,34 +1,45 @@
 import { create } from "zustand";
-import { ProductInterface } from "../../../DataBase";
-import { Host} from '../../../Config'
+import { ListType, ProductInterface } from "../../../DataBase";
+import { Host } from '../../../Config'
 
-interface ProductState{
-    products:ProductInterface[]|undefined;
-    fetchProducts(filter:any):Promise<void>;
-    selectedProduct:ProductInterface|undefined;
-    setSelectedProduct(selected:ProductInterface):Promise<void>;
+interface ProductState {
+    products: ListType<ProductInterface> | undefined;
+    fetchProducts(filter?: Record<string, any>): Promise<void>;
+    selectedProduct: ProductInterface | undefined;
+    setSelectedProduct(selected: ProductInterface): Promise<void>;
 }
 
-export const useProductStore = create<ProductState>((set)=>({
-    products:undefined,
-    selectedProduct:undefined,
+export const useProductStore = create<ProductState>((set) => ({
+    products: undefined,
+    selectedProduct: undefined,
     async fetchProducts(filter) {
-        // page, limit, category_id, catalog_id, price_min, price_max, text, order_by, stock_min, stock_max,is_features_required 
-        filter = {...filter, is_features_required:true}
+        // , category_id, catalog_id,  text, 
+        const query :any = {};
+        if(filter?.page) query.page = Number(filter.page);
+        if(filter?.limit) query.limit = Number(filter.limit);
+        if(filter?.sortBy) query.order_by = filter.sortBy;
+        if(filter?.query.text) query.text = filter.query.text;
+        if(filter?.query.price) query.price_min = filter.query.price[0];
+        if(filter?.query.price) query.price_max = filter.query.price[1];
+        if(filter?.query.stock) query.stock_min = filter.query.stock[0];
+        if(filter?.query.stock) query.stock_max = filter.query.stock[1];
+        query.is_features_required = true;
+        
+        console.log('query',query);
+        console.log('filter',filter);
+        
         const searchParams = new URLSearchParams({});
-        for (const key in filter) {
-            const value = filter[key];
+        for (const key in query) {
+            const value = query[key];
             searchParams.set(key, value);
         }
-        console.log('filter', searchParams.toString() , filter);
-        const response  = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
-        const json =await  response.json();
-        if(!Array.isArray(json)) return;
-        set(()=>({products:json}))
-    }, 
+        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
+        const json = await response.json() as ListType<ProductInterface>;
+        if (!json || !json.list) return;
+        set(() => ({ products: json }))
+        console.log(json);
+    },
     async setSelectedProduct(selected) {
-        console.log('selected', selected);
-        
-        set(()=>({selectedProduct:selected}))
-    },  
+        set(() => ({ selectedProduct: selected }))
+    },
 }));

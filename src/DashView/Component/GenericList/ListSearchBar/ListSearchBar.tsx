@@ -4,7 +4,7 @@ import { Selector } from '../../Selector/Selector'
 import './ListSearchBar.css'
 import { type FilterMapper } from '../type'
 
-export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , onFilterChange, onCancel , onSearchRequired}: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange?: (text: string) => any, onSortChange?: (sortBy: string) => any, onFilterChange?: (query: Record<string, any>) => any , onCancel?: () => any, onSearchRequired?:()=>any }) {
+export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , onFilterChange, onCancel , onSearchRequired}: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange?: (text: string) => any, onSortChange?: (sortBy: string) => any, onFilterChange?: (query: Record<string, any>) => any , onCancel?: () => any, onSearchRequired?:(query:Record<string, any>)=>any }) {
     const [_sortBy, setSortBy] = useState(sortBy[0]);
     const [isDesc, setIsDesc] = useState(true);
     const [text, setText] = useState('');
@@ -13,7 +13,7 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
 
     useEffect(() => {
         onSortChange?.(_sortBy + '_' + (isDesc ? 'desc' : 'asc'));
-    }, [_sortBy, isDesc])
+    }, [_sortBy, isDesc]);
     return (
         <div className="list-search-bar">
             <div className="search">
@@ -30,7 +30,6 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
                 <div className="icon"></div>
                 <div className="label">Filter</div>
             </div>
-
             <div className="sort-btn">
                 <div className={"icon " + (isDesc ? 'desc' : 'asc')} onClick={() => {
                     setIsDesc(!isDesc);
@@ -62,7 +61,7 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
                         </div>
                         <div className="search-btn" onClick={(e) => {
                             if (e.currentTarget == e.target) setIsFilterOpen(!isFilterOpen);
-                            onSearchRequired?.();
+                            onSearchRequired?.(query);
                         }}>
                             Search
                         </div>

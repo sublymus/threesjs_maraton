@@ -74,9 +74,9 @@ export type filterType = {
     total?: number,
     limit?: number,
     sortBy: string;
-    filter?: FilterValues<keyof FilterOption>[]
+    filter?: Record<string, FilterMapper>
 }
 
 export type FilterMapper = {
-    getView(name: string, onChange: (jsonString: any) => any): JSX.Element
+    getView(name: string, onChange: (value: any) => any): JSX.Element
 }

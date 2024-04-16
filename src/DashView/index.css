@@ -41,6 +41,16 @@ body {
   --detail-min: 1000px;
   --detail-width:600px;
   --editer-width: 800px;
+
+  --text-color: #010747;
+  --backgroung-white : #f2f2f3;
+  --box-shadow :  0 0  10px #3455;
+}
+
+.dark-mode-variable {
+  --backgroung-white : linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124));
+  --text-color: #fff;
+  --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);
 }
 
 

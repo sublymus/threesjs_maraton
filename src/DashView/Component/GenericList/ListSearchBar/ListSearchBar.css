@@ -149,6 +149,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }
 
 .list-search-bar .filter-bottom .search-btn:hover {

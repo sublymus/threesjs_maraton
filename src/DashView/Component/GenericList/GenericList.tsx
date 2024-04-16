@@ -8,24 +8,21 @@ import { ImageElementJSX, StringElementJSX, DateStringElementJSX } from "./ListS
 // import {  } from "./ListSearchBar/Filter/Filter";
 import type { FilterQuery, ItemsMapperJSX, Mapper, filterType } from "./type";
 import { FilterInterval } from './ListSearchBar/Filter/FilterInterval/FilterInterval';
-import { FilterLevel } from './ListSearchBar/Filter/FilterLevel/FilterLevel';
-import { FilterSwitch } from "./ListSearchBar/Filter/FilterSwitch/FilterSwitch";
-import { FilterCollector } from "./ListSearchBar/Filter/FilterCollector/FilterCollector";
-import { FilterListCollector } from "./ListSearchBar/Filter/FilterListCollector/FilterListCollector";
 
-import *  as countries from 'countries-list'
 const DEFAULT_ITEM_HEIGHT = 80;
 const DEFAULT_TOP_HEIGHT = 40;
+const DEFAULT_LIMIT = 25;
 
 //TODO bug lor de la permutation des colonne, les deux colone consernee ne pas etre dragee imediatement
-const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple }: { onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
+const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple, canAddNew, onNewRequired }: { canAddNew?: boolean, onNewRequired?: () => any, onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
     const [selectedColumn, setSelectedColumn] = useState(Object.keys(itemsMapper));
     const [selectedItems, setSelectedItems] = useState<Record<string, any>[]>([]);
+
     const [query, setQuery] = useState({
         page: filter.page || 1,
-        sortBy: filter.sortBy || filter.sortableColumns?.[0] || '',
-        limit: filter.limit || 25,
+        sortBy: filter.sortBy.includes('_')?filter.sortBy:filter.sortBy+'_desc' || filter.sortableColumns?.[0]+'_desc' || '',
+        limit: filter.limit || DEFAULT_LIMIT,
         query: {} as Record<string, any>
     });
     const [cache] = useState({
@@ -45,6 +42,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
             index: number,
         }>
     });
+
     const [currentResize, setCurrentResize] = useState('');
     const ListTop = useRef<HTMLDivElement | null>(null);
 
@@ -58,6 +56,9 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
     let idx: string | undefined;
     let cdx: string | undefined;
 
+    useEffect(() => {
+        onQuery?.(query);
+    }, [query])
     useEffect(() => {
         if (!currentResize) {
             clearInterval(cache.interval_id);
@@ -98,22 +99,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
     return (
         <div className="generic-list" >
             <div className="list-filter-top">
-                <ListSearchBar filter={{
-                    price: FilterInterval([0, 100], [10, 100]),
-                    price1: FilterInterval([0, 100], [20, 100]),
-                    price2: FilterInterval([0, 100], [30, 100]),
-                    price3: FilterInterval([0, 100], [40, 100]),
-                    price4: FilterInterval([0, 100], [50, 80]),
-                    price5: FilterInterval([0, 100], [60, 65]),
-                    price6: FilterInterval([0, 100], [70, 50]),
-                    level: FilterLevel([0, 100], 5),
-                    active: FilterSwitch(true),
-                    collection: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
-                    collection1: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
-                    collection2: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
-                    collection3: FilterCollector(Object.values(countries.countries).map(v => v.name), []),
-                    ListCollector1: FilterListCollector(Object.values(countries.countries).map(v => v.name), [])
-                }} sortBy={sortableColumns} onInputChange={(text) => {
+                <ListSearchBar filter={filter.filter || {}} sortBy={sortableColumns} onInputChange={(text) => {
                     setQuery({
                         ...query,
                         query: {
@@ -121,26 +107,25 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                             text
                         },
                     })
-                    onQuery?.(query)
-                }} onFilterChange={(_query) => {
-
-                    setQuery({
-                        ...query,
-                        query: _query,
-                    })
                 }}
+                    onFilterChange={(_query) => {
+                        // setQuery({
+                        //     ...query,
+                        //     query: _query,
+                        // })
+                    }}
                     onSortChange={(sortBy) => {
                         setQuery({
                             ...query,
                             sortBy
                         })
-                        onQuery?.(query)
                     }}
                     onSearchRequired={() => {
                         console.log('SearchRequired');
                         onQuery?.(query)
                     }} />
                 <Selector placeholder='column' multiple list={Object.keys(itemsMapper)} selected={selectedColumn} setSelectedColumns={(s) => { setSelectedColumn(s) }} />
+                {canAddNew && (<div className='new-btn' onClick={onNewRequired}>ADD NEW</div>)}
             </div>
             <div className="list">
                 <div className="top-ctn" style={{ height: `${_top_height}px` }}>
@@ -266,12 +251,12 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                     }
                 </div>
             </div>
-            <ListPaging page={filter.page || 1} limit={filter.limit || 25} total={filter.total || 1} setPage={(page) =>
+            <ListPaging page={filter.page || 1} limit={filter.limit || DEFAULT_LIMIT} total={filter.total || 1} setPage={(page) => {
                 setQuery({
                     ...query,
                     page
-                })
-            } />
+                });
+            }} />
         </div>
     )
 }

@@ -1,45 +1,52 @@
 
 export type Features = { [key: string]: Feature }
 
+export type ListType<T = any> = {
+    page:number,
+    limit:number,
+    total:number,
+    list: T[],
+}
+
 export interface Category {
     id: string,
     label: string,
     description: string,
-    catalog_id:string;
-    scene_dir?:string,
-    index:number,
-    status:string,
-    
-    created_at?:string;
-    updated_at?:string
+    catalog_id: string;
+    scene_dir?: string,
+    index: number,
+    status: string,
+
+    created_at?: string;
+    updated_at?: string
 }
 export interface CatalogueInterface {
     id: string,
     label: string,
-    description?:string,
-    scene_dir?:string;
-    index:number;
-    status:string,
+    description?: string,
+    scene_dir?: string;
+    index: number;
+    status: string,
     categories: Category[],
-    
-    created_at?:string;
-    updated_at?:string
+
+    created_at?: string;
+    updated_at?: string
 
 }
 
 export type F_Value = {
     id: string,
     label: string,
-    feature_id:string
+    feature_id: string
     price?: number
     url?: string,
-    file?:string,
-    icon?:string,
-    key_word?:string,
+    file?: string,
+    icon?: string,
+    key_word?: string,
     value?: string,
 
-    created_at?:string;
-    updated_at?:string
+    created_at?: string;
+    updated_at?: string
 }
 
 type CollectType =
@@ -61,7 +68,7 @@ type Views =
     'file' | //interval de values[0] -> values[1]
     'input_file'; // ->values[0]
 
-export type VALUES = F_Value|string|boolean|number;
+export type VALUES = F_Value | string | boolean | number;
 
 export interface Feature {
     id: string,
@@ -84,8 +91,8 @@ export interface Feature {
     max_size?: number;
     ext?: string
     values?: (VALUES)[];
-    created_at?:string;
-    updated_at?:string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface ProductInterface {
@@ -95,31 +102,31 @@ export interface ProductInterface {
     images: string[],
     model_images: string[],
     status: number,// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
-    stock:number,
-    category_id:string,
-    price:number,
-    is_dynamic_price?:boolean,
-    store_id:string;
+    stock: number,
+    category_id: string,
+    price: number,
+    is_dynamic_price?: boolean,
+    store_id: string;
     collaborator_id: string,
     engineer_id: string,
     scene_dir: string,
     features: Feature[],
 
-    created_at:string;
-    updated_at:string
+    created_at: string;
+    updated_at: string
 }
 
 const gemFeature: Feature = {
     id: 'gem_id',
     name: 'gem',
-    collect_type:'string',
+    collect_type: 'string',
     icon: '/src/World/images/gem/gem.png',
     view: 'icon',
     default_value: 'blue_garnet',
     values: [{
         id: 'blue_garnet',
         label: 'Grenat bleu',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
         url: '/src/World/images/gem/blue_garnet.png',
         value: '2d3563'
     }, {
@@ -127,109 +134,109 @@ const gemFeature: Feature = {
         id: 'taaffeite',
         url: '/src/World/images/gem/taaffeite.png',
         value: '9575ab',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Grandidierite',
         id: 'grandidierite',
         url: '/src/World/images/gem/grandidierite.png',
         value: '3f7269',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Serendibite',
         id: 'serendibite',
         url: '/src/World/images/gem/serendibite.png',
         value: '024a3d',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Diamant',
         id: 'diamond',
         url: '/src/World/images/gem/diamond.png',
         value: 'abdcf9',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Rubis',
         id: 'ruby',
         url: '/src/World/images/gem/ruby.png',
         value: 'c24a4a',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Alexandrite',
         id: 'alexandrite',
         url: '/src/World/images/gem/alexandrite.png',
         value: '0d5a4c',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Béryl rouge',
         id: 'red_beryl',
         url: '/src/World/images/gem/red_beryl.png',
         value: '6f4060',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Padparadscha Saphire',
         id: 'padparadscha_saphire',
         url: '/src/World/images/gem/padparadscha_saphire.png',
         value: '98485d',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Musgravite',
         id: 'musgravite',
         url: '/src/World/images/gem/musgravite.png',
         value: 'b2acad',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Saphir',
         id: 'sapphire',
         url: '/src/World/images/gem/sapphire.png',
         value: '288fc3',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Benitoite',
         id: 'benitoite',
         url: '/src/World/images/gem/benitoite.png',
         value: '286bc3',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Opale noire',
         id: 'black_opal',
         url: '/src/World/images/gem/black_opal.png',
         value: '4c415e',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Grenat démantoïde',
         id: 'demantoid_garnet',
         url: '/src/World/images/gem/demantoid_garnet.png',
         value: '5cb065',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Poudretteite',
         id: 'poudretteite',
         url: '/src/World/images/gem/poudretteite.png',
         value: 'a770b5',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Opale de feu',
         id: 'fire_opal',
         url: '/src/World/images/gem/fire_opal.png',
         value: 'b38a3c',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Jeremejevite',
         id: 'jeremejevite',
         url: '/src/World/images/gem/jeremejevite.png',
         value: '99a1ca',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }, {
         label: 'Tanzanite',
         id: 'tanzanite',
         url: '/src/World/images/gem/tanzanite.png',
         value: '46518a',
-        feature_id:'gem_id',
+        feature_id: 'gem_id',
     }]
 }
 
 const metalFeature: Feature = {
     id: 'metal_id',
-    collect_type:'string',
+    collect_type: 'string',
     name: 'metal',
     icon: '/src/World/images/metal/metal.png',
     view: 'icon',
@@ -240,26 +247,26 @@ const metalFeature: Feature = {
         url: '/src/World/images/metal/gold.png',
         value: 'bead2e',
         price: 200,
-        feature_id:'metal_id',
+        feature_id: 'metal_id',
     }, {
         label: 'Silver',
         id: 'silver',
         url: '/src/World/images/metal/silver.png',
         value: 'eeeeee',
         price: 200,
-        feature_id:'metal_id',
+        feature_id: 'metal_id',
     }, {
         label: 'Bronze',
         id: 'bronz',
         url: '/src/World/images/metal/bronz.png',
         value: 'ffaa55',
         price: 200,
-        feature_id:'metal_id',
+        feature_id: 'metal_id',
     },]
 }
 
-export const features: Feature[] = [metalFeature,gemFeature]
-   
+export const features: Feature[] = [metalFeature, gemFeature]
+
 
 
 
@@ -271,57 +278,57 @@ export const DataBase = {
             {
                 id: '12345',
                 label: 'Catalogue',
-                index:0,
-                status:'VISIBLE',
+                index: 0,
+                status: 'VISIBLE',
                 categories: this.catalogueProducts.map((p, i) => ({
                     id: '13451' + i,
                     label: 'Category_' + i,
                     scene_dir,
-                    index:0,
-                    status:'PAUSE',
-                    catalog_id:'id',
+                    index: 0,
+                    status: 'PAUSE',
+                    catalog_id: 'id',
                     description: 'Category_' + i + '  ==>  ' + p.description
                 }) satisfies Category),
             }, {
                 id: '12346',
                 label: 'Nouvaute',
-                index:0,
-                status:'VISIBLE',
+                index: 0,
+                status: 'VISIBLE',
                 categories: this.catalogueProducts.map((p, i) => ({
                     id: '1342' + i,
                     label: 'Category_' + i,
                     scene_dir,
-                    index:0,
-                    status:'PAUSE',
-                    catalog_id:'id',
+                    index: 0,
+                    status: 'PAUSE',
+                    catalog_id: 'id',
                     description: 'Category_' + i + '  ==>  ' + p.description
                 }) satisfies Category),
             }, {
                 id: '12347',
                 label: 'Populaire',
-                index:0,
-                status:'VISIBLE',
+                index: 0,
+                status: 'VISIBLE',
                 categories: this.catalogueProducts.map((p, i) => ({
                     id: '13453' + i,
                     label: 'Category_' + i,
                     scene_dir,
-                    index:0,
-                    status:'PAUSE',
-                    catalog_id:'id',
+                    index: 0,
+                    status: 'PAUSE',
+                    catalog_id: 'id',
                     description: 'Category_' + i + '  ==>  ' + p.description
                 }) satisfies Category),
             }, {
                 id: '12348',
                 label: 'Meuilleur ventes',
-                index:0,
-                status:'VISIBLE',
+                index: 0,
+                status: 'VISIBLE',
                 categories: this.catalogueProducts.map((p, i) => ({
                     id: '13454' + i,
                     label: 'Category_' + i,
                     scene_dir,
-                    index:0,
-                    status:'PAUSE',
-                    catalog_id:'id',
+                    index: 0,
+                    status: 'PAUSE',
+                    catalog_id: 'id',
                     description: 'Category_' + i + '  ==>  ' + p.description
                 }) satisfies Category),
             }
@@ -340,10 +347,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona1',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -356,10 +363,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona2',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -372,10 +379,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona3',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -388,10 +395,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona4',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -404,10 +411,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona5',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -420,10 +427,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona6',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -436,10 +443,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         name: 'Ladona7',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         colaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -452,10 +459,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona1',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -468,10 +475,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona2',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -484,10 +491,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona3',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -500,10 +507,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona4',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -516,10 +523,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona5',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -532,10 +539,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona6',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -548,10 +555,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona7',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -563,10 +570,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona8',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -579,10 +586,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona9',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -595,10 +602,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona10',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -611,10 +618,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona11',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -627,10 +634,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona12',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -643,10 +650,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona13',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -659,10 +666,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona14',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -674,10 +681,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1589674781759-c21c37956a44?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona15',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -690,10 +697,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1598560917807-1bae44bd2be8?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona16',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -706,10 +713,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1591209627710-d2427565a41f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona17',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -722,10 +729,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1567523977592-7959bc5df51e?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona18',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -738,10 +745,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1611955167811-4711904bb9f8?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona19',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -754,10 +761,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1584126321309-46d2a53adda0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona20',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -770,10 +777,10 @@ export const DataBase = {
         model_images: ['https://images.unsplash.com/photo-1607869549913-c73078fde439?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
         title: 'Ladona21',
         status: 0,
-        category_id:'lol',
-        stock:23,
-        price:2000,
-        created_at:'###',
+        category_id: 'lol',
+        stock: 23,
+        price: 2000,
+        created_at: '###',
         collaborator_id: 'noag',
         engineer_id: 'noga',
         scene_dir
@@ -893,6 +900,7 @@ export const DataBase = {
             completedAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 10)).toDateString()),
             createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
         },
-    ]
+    ],
     
+
 }

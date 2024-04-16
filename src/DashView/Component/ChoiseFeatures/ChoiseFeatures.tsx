@@ -10,9 +10,9 @@ export function ChoiseFeatures({onChange , features:_features }:{features?:Featu
 
     useEffect(()=>{
         fetchFeatures();
-    });
+    },[]);
     useEffect(()=>{
-        setSelected(_features?.filter((_f=>features?.find(f=>f.id == _f.id))));
+        setSelected(_features?.filter((_f=>features?.list.find(f=>f.id == _f.id))));
     },[features]);
     return (
         <div className="choise-features">
@@ -28,9 +28,9 @@ export function ChoiseFeatures({onChange , features:_features }:{features?:Featu
                 </div>
                 <div className="choise-icon" style={{transform:open?`rotate(180deg)`:''}}></div>
             </div>
-            <div className={"list-features "+open} style={{height:open?`${45*(features?.length||0)}px`:'0px'}}>
+            <div className={"list-features "+open} style={{height:open?`${45*(features?.list.length||0)}px`:'0px'}}>
                 {
-                    features?.map((l) => (
+                    features?.list.map((l) => (
                         <div  key={l.id}  className={"item "+ ( selected?.find(f=>f.id ==l.id) ?'selected':'')} onClick={()=>{
                             const s = selected?.find(f=>f.id ==l.id)?selected.filter(f=>f.id!==l.id):[...(selected||[]),l];
                             setSelected(s);

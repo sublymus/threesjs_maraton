@@ -128,10 +128,30 @@
     background: #15132563;
     transition: 200ms;
 }
+
 .generic-list .list-filter-top {
     display: flex;
     justify-content: space-between;
     height: 40px;
     margin-bottom: 20px;
+}
+
+.generic-list .list-filter-top .new-btn:hover{
+    background: #2fb471;
+    transition: 200ms;
+    
+}
+.generic-list .list-filter-top .new-btn {
+    background: #2e9461;
+    display: flex;
+    color:#fff;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid #3453;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: 200ms;
+
 }
 

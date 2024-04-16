@@ -8,10 +8,10 @@ export function ChoiseCategory({onChange , category_id}:{category_id?:string, on
     const [selected, setSelected] = useState<Category>();
     const [open, setOpen] = useState('');
     useEffect(()=>{
-        fetchCategories();
+        fetchCategories({limit:1});
     },[])
     useEffect(()=>{
-        setSelected(categories?.find((c)=>c.id == category_id));
+        setSelected(categories?.list.find((c)=>c.id == category_id));
     },[categories]);
     return (
         <div className="choise-category">
@@ -27,9 +27,9 @@ export function ChoiseCategory({onChange , category_id}:{category_id?:string, on
                 </div>
                 <div className="choise-icon" style={{transform:open?`rotate(180deg)`:''}}></div>
             </div>
-            <div className={"list-category "+open} style={{height:open?`${45*(categories?.length||0)}px`:'0px'}}>
+            <div className={"list-category "+open} style={{height:open?`${45*(categories?.list.length||0)}px`:'0px'}}>
                 {
-                    categories?.map((l) => (
+                    categories?.list.map((l) => (
                         <div key={l.id} className={"item "+ (selected?.id==l.id?'selected':'')} onClick={()=>{
                             setSelected(l);
                             onChange?.(l.id);

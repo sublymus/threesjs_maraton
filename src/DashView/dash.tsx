@@ -7,11 +7,18 @@ import { PageUser } from './Layout/PageUser/PageUser'
 import { PageChat } from './Layout/PageChat/PageChat'
 import { PageInterface } from './Layout/PageInterface/PageInterface'
 import { useDashStore, useDashRoute } from './dashStore';
+import { PageCategory } from "./Layout/PageCategory/PageCategory";
+import { PageFeature } from "./Layout/PageFeature/PageFeature";
+import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
+import { useState } from 'react'
 // import React from 'react'
 
 const PathMap = {
     store: 'Store',
     products: 'Products',
+    categories:'Categories',
+    features:'Features',
+    catalogs:'Catalogs',
     dash_product: 'Dashboard',
     preview: 'Preview',
     statistic: 'Statistic',
@@ -23,15 +30,14 @@ const PathMap = {
 export function Dash() {
     const { currentChild , openChild } = useDashStore();
     const { pathList, setAbsPath } = useDashRoute()
-    console.log(currentChild);
-    
+    const [active, setActive] = useState('')
     const paths: string[] = []
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p]) 
     })
     return (
-        <div className='dash'>
+        <div className={'dash ' + (active?'dark-mode-variable':'')}>
             <NavBar />
             <div className="dash-ctn">
                 <div className="center">
@@ -47,13 +53,18 @@ export function Dash() {
                                 </div>
                             ))}
                         </div>
-                        <div className="top-right">
-                            <div className="search"></div>
+                        <div className="top-right material-symbols-outlined">
+                            <div className={"dark-mode "+active} onClick={()=>{
+                                setActive(active?'':'active');
+                            }}><span className="dark-mode-btn">dark_mode</span><span className=''></span> <span className="dark-white-btn material-symbols-outlined">light_mode </span></div>
                             <div className="notf"> <span></span></div>
                         </div>
                     </div>
                     <div className="center-ctn">
                     <PageProduct />
+                    <PageCategory />
+                    <PageCatalog/>
+                    <PageFeature />
                     <PageUser />
                     <PageChat />
                     <PageInterface />

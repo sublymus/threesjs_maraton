@@ -14,6 +14,7 @@
     height: 100%;
     position: absolute;
     flex-direction: column;
+    
     justify-content: inherit;
     background:#fff;
 } 

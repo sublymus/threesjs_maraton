@@ -1,27 +1,40 @@
 import { create } from "zustand";
-import { Category } from "../../../DataBase";
+import { Category, ListType } from "../../../DataBase";
 import { Host } from "../../../Config";
 interface DashState {
-    fetchCategories(): Promise<void>,
-    categories: Category[] | undefined
+    categories: ListType<Category> | undefined,
+    selectedCategory: Category | undefined,
+    setSelectedCategories(selected: Category): any,
+    fetchCategories(query?: Record<string, any>): Promise<void>,
 }
 
-const CATEGORIES_CACHE: {
-    all?: Category[]
-} & Record<string, any> = {};
 export const useCategotyStore = create<DashState>((set) => ({
     categories: undefined,
-    async fetchCategories() {
-        if (!CATEGORIES_CACHE['all']) {
-            try {
-                const response = await fetch(`${Host}/get_categories`);
-                const json =( await response.json())as Category[];
-                if(!Array.isArray(json)) return
-                set(()=>({categories:json}));
-                CATEGORIES_CACHE['all'] = json;
-            } catch (error:any) {
-                return console.warn(error.message);
+    selectedCategory: undefined,
+    setSelectedCategories(selected) {
+        set(() => ({ selectedCategory: selected }))
+    },
+    async fetchCategories(filter) {
+        try {
+            const query :any = {};
+            if(filter?.page) query.page = Number(filter.page);
+            if(filter?.limit) query.limit = Number(filter.limit);
+            if(filter?.sortBy) query.order_by = filter.sortBy;
+            if(filter?.query.text) query.text = filter.query.text;
+            const searchParams = new URLSearchParams({});
+            for (const key in query) {
+                const value = query[key];
+                searchParams.set(key, value);
             }
+            console.log(query);
+            
+            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`);
+            const json = (await response.json()) as ListType<Category>;
+            if (!json || !json.list) return
+            set(() => ({ categories: json }));
+            console.log(json);
+        } catch (error: any) {
+            return console.warn(error.message);
         }
     },
 }));
