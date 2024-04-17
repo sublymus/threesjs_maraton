@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { CatalogueInterface, ListType } from "../../../DataBase";
+import { CatalogueInterface, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
+import { useProductStore } from "../PageProduct/ProductStore";
 interface DashState {
     catalogs: ListType<CatalogueInterface> | undefined,
     selectedCatalog: CatalogueInterface|undefined,
+    productsUseCatalog:ListType<ProductInterface>|undefined,
+    fetchProductsUseCatalog(catalog_id:string):Promise<void>
     setSelectedCatalog(selected:CatalogueInterface):any,
     fetchCatalogs(query?: Record<string, any>): Promise<void>,
 }
@@ -14,6 +17,10 @@ const CATALOG_CACHE: {
 export const useCatalogStore = create<DashState>((set) => ({
     catalogs: undefined,
     selectedCatalog:undefined,
+    productsUseCatalog:undefined,
+    async fetchProductsUseCatalog(catalog_id){
+        set(()=>({productsUseCatalog:useProductStore.getState().products}))
+    },
     setSelectedCatalog(selected) {
         set(()=>({selectedCatalog:selected}));
     },

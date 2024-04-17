@@ -54,7 +54,7 @@ export function CategoryList() {
                                 )
                             }
                         },
-                        created_at: GenericList.DateStringElement({size:200}),
+                        created_at: GenericList.DateStringElement({size:500}),
                     }}
                     onItemsSelected={(selectedItems , items)=>{
                         items.forEach((item)=>{
@@ -64,7 +64,7 @@ export function CategoryList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCategories(selectedItems[0] as any);
-                        setAbsPath(['store','products','dash_product'])
+                        setAbsPath(['store','categories','dash_categories'])
                     }}
                     onQuery={(query)=>{
                         fetchCategories(query);

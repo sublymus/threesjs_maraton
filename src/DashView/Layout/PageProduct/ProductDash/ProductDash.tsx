@@ -5,6 +5,9 @@ import { InputText } from '../../../Component/Form/Input'
 import { Textarea } from '../../../Component/Form/Textarea'
 import './ProductDash.css'
 import { useEffect, useState } from 'react';
+import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/Preview3DModelCard'
+import {ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard'
+import { StatisticCard } from "../../../Component/Chart/StatisticCard/StatisticCard";
 import { useProductStore } from '../ProductStore';
 import { ImageViewer } from "../../../Component/ImageViewer/ImageViewer";
 import { FileLoader } from "../../../Component/LoaderImage/LoaderImage";
@@ -23,7 +26,7 @@ export function ProductDash() {
     const [isCheckRequired, setIsCheckRequired] = useState(false)
     
     const size = useWindowSize();
-    const wrap = size.width < 1200 ? 'wrap' : '';
+    const wrap = size.width < 1000 ? 'wrap' : '';
     
     const [collected , setCollected] = useState<Record<string,any>>({});
 
@@ -70,7 +73,7 @@ export function ProductDash() {
                     </div>
                     <div className="editor-category">
                         <ChoiseCategory category_id={selectedProduct?.category_id}   onChange={(id)=>{
-                            collected['category'] = id;
+                            collected['category_id'] = id;
                             console.log(collected);
                         }} />
                     </div>
@@ -81,7 +84,6 @@ export function ProductDash() {
                         }} />
                     </div>
                 </div>
-
                 <div className="editor-right">
                     <div className="editor-images">
                         <ImageViewer name='images'  images={selectedProduct?.images ? selectedProduct.images : []}  onSave={(imageMapper)=>{
@@ -101,37 +103,15 @@ export function ProductDash() {
                             console.log(collected);
                         }} />
                     </div>
-
                 </div>
-
             </section>
             <div className="product-dash-ctn">
 
                 <div className="info">
-                    <div className="action">
-                        <div className="text">
-                            <h1 className="title">All Colaborator Action</h1>
-                            <h2 className="description">See all colaborators actions executed on this product like update and collaborator source </h2>
-                        </div>
-                        <CircularLineChart />
-                    </div>
-                    <div className="stat">
-                        <div className="text">
-                            <h1 className="title">Product Statistic</h1>
-                            <div>
-                                <h1 className="title">{Number(20000).toLocaleString()}  ₽ </h1>
-                                <h2 className="description">since {(new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)).toDateString())}</h2>
-                            </div>
-                        </div>
-                        <BarChart/>
-                    </div>
+                    <ActionsCard/>
+                    <StatisticCard/>
                 </div>
-                <div className="prev">
-                    <div className="top">PREVIEW 3D MODEL</div>
-                    <div className="image" style={{ backgroundImage: `url(${'/src/res/ert.avif'})` }}></div>
-                    <div className="features">{3} FEATURE{3 > 1 ? 'S' : ''}</div>
-                    <div className="prompt">{'Loader File is missing'}</div>
-                </div>
+               <Preview3DModelCard/>
             </div>
             <div className="orders">
                 <div className="top">
@@ -155,55 +135,5 @@ export function ProductDash() {
 }
 
 
-function CircularLineChart() {
-    return (
-        <div className="circular-line-chart">
-            <div className="back"></div>
-            <div className="btn"> ACTIONS </div>
-        </div>
-    )
-}
-
-const bars = {
-    with: 250,
-    height: 120,
-    bars: [
-        { value: 80 },
-        { value: 15 },
-        { value: 25 },
-        { value: 10 },
-        { value: 15 },
-        { value: 25 },
-        { value: 15 },
-        { value: 25 },
-        { value: 90 },
-        { value: 25 },
-        { value: 30 },
-        { value: 25 },
-        { value: 30 },
-        { value: 50 },
-        { value: 100 },
-        { value: 90 },
-        { value: 80 },
-        { value: 70 },
-        { value: 60 },
-        { value: 60 },
-        { value: 70 },
-        { value: 80 },
-    ]
-}
-function BarChart() {
 
 
-    return (
-        <div className="bar-chart">
-            <div className="bars">
-                {bars.bars.map((b, i) => (
-                    <div key={i} className="bar">
-                        <div className="level" style={{ height: `${(b.value / 100) * bars.height}px`, background: `linear-gradient(rgb(0, 90, 180),rgb(23, 108, 194)${((b.value < 35 ? 35 : b.value) - 25) * 0.7}% , rgb(75, 165, 255)100%)` }}></div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}

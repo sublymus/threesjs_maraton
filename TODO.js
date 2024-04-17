@@ -22,6 +22,7 @@
         optimiser PC Mobile
     }
     scroll bar a gauche
+    uniformisation des columns GenericList
 }
 
 # edit product {

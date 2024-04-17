@@ -17,6 +17,11 @@
   overflow: hidden;
 }
 
+h1 {
+  font-weight: bold;
+  font-size: 24px;
+}
+
 body {
 
   width: 100vw;
@@ -52,8 +57,11 @@ body {
   --text-color: #fff;
   --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);
 }
-
-
+.sombre-mode-variable {
+  --backgroung-white : linear-gradient(40deg ,rgb(53, 52, 58),rgb(39, 20, 124));
+  --text-color: #fff;
+  --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);
+}
 
 /*    scrollbar **/
 

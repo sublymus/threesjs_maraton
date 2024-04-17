@@ -1,13 +1,22 @@
-.products-list-accessor .top-product{
-    width: 100%;
-    min-width: 800px;
-    white-space: nowrap;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
- }
- .products-list-accessor .top-card:hover .icon{
+.products-list-accessor {
+   width: 100%;
+   min-width: 800px;
+   white-space: nowrap;
+   overflow-y: auto;
+   padding: 20px;
+   display: flex;
+   justify-content: center;
+}
+.produ.products-list-accessor .top-product{
+   width: 100%;
+   min-width: 800px;
+   white-space: nowrap;
+   overflow-y: auto;
+   padding: 20px;
+   display: flex;
+   justify-content: center;
+}
+.products-list-accessor .top-card:hover .icon{
     opacity: 0.4;
     transition: 200ms;
  }
@@ -19,6 +28,7 @@
     opacity: 0.65;
     transition: 200ms;
  }
+ 
  .products-list-accessor .top-card{
     overflow: hidden;
     position: relative;

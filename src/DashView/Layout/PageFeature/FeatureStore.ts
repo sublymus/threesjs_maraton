@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { Category, Feature, ListType } from "../../../DataBase";
+import { Category, Feature, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
+import { useProductStore } from "../PageProduct/ProductStore";
 interface DashState {
     features: ListType<Feature> | undefined,
     selectedFeature: Feature | undefined,
+    productsUseFeature:ListType<ProductInterface>|undefined,
+    fetchProductsUseFeature(feature_id:string):Promise<void>
     setSelectedFeature(selected: Feature): any,
     fetchFeatures(query?: Record<string, any>): Promise<void>,
 }
@@ -14,6 +17,10 @@ interface DashState {
 export const useFeatureStore = create<DashState>((set) => ({
     features: undefined,
     selectedFeature: undefined,
+    productsUseFeature:undefined,
+    async fetchProductsUseFeature(feature_id){
+        set(()=>({productsUseFeature:useProductStore.getState().products}))
+    },
     setSelectedFeature(selected) {
         set(()=>({selectedFeature:selected}))
     },

@@ -41,9 +41,9 @@ export function ImageViewer({ images=[], optionPosition = "bottom", onSave, name
                                         Dtarg = k;
                                     }} onDragEnter={(e) => {
                                         e.currentTarget.style.opacity = '0.5'
+                                        Dtarg = k;
                                     }}
                                     onDragLeave={(e) => {
-                                        Dtarg = k;
                                         e.currentTarget.style.opacity = '';
                                     }} onDragEnd={() => {
                                         if (!Dtarg || !Dimg) return;

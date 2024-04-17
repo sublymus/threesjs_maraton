@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { Category, ListType } from "../../../DataBase";
+import { Category, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
+import { useProductStore } from "../PageProduct/ProductStore";
 interface DashState {
     categories: ListType<Category> | undefined,
     selectedCategory: Category | undefined,
+    productsUseCategory:ListType<ProductInterface>|undefined,
+    fetchProductsUseCategory(category_id:string):Promise<void>,
     setSelectedCategories(selected: Category): any,
     fetchCategories(query?: Record<string, any>): Promise<void>,
 }
@@ -11,6 +14,10 @@ interface DashState {
 export const useCategotyStore = create<DashState>((set) => ({
     categories: undefined,
     selectedCategory: undefined,
+    productsUseCategory:undefined,
+    async fetchProductsUseCategory(category_id){
+        set(()=>({productsUseCategory:useProductStore.getState().products}))
+    },
     setSelectedCategories(selected) {
         set(() => ({ selectedCategory: selected }))
     },

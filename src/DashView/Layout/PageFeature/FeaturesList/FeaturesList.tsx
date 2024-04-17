@@ -53,7 +53,7 @@ export function FeaturesList() {
                             if (item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedFeature(selectedItems[0] as any);
-                        setAbsPath(['store', 'products', 'dash_product'])
+                        setAbsPath(['store', 'features','dash_features']);
                     }}
                     onQuery={(query) => {
                         console.log('query',query);

@@ -38,9 +38,9 @@ export function ProductsListAccessor({active, setActive}:{active:typeof topCard[
             <div className={'top-card ' + (c.label == active ? 'active' : '')} key={i} onClick={() => {
                 setActive(c);
             }} >
-                <h1 className="label">{c.label}</h1>
-                <h1 className="value">{c.value}</h1>
-                <h1 className="icon" style={{ backgroundImage: `url(${c.url})` }}></h1>
+                <h2 className="label">{c.label}</h2>
+                <h2 className="value">{c.value}</h2>
+                <h2 className="icon" style={{ backgroundImage: `url(${c.url})` }}></h2>
             </div>
         ))}
     </div>

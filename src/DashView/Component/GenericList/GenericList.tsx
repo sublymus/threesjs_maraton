@@ -14,14 +14,14 @@ const DEFAULT_TOP_HEIGHT = 40;
 const DEFAULT_LIMIT = 25;
 
 //TODO bug lor de la permutation des colonne, les deux colone consernee ne pas etre dragee imediatement
-const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple, canAddNew, onNewRequired }: { canAddNew?: boolean, onNewRequired?: () => any, onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
+const _GenericList = ({ datas, disableFilterBar, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple, canAddNew, onNewRequired }: { disableFilterBar?: boolean, canAddNew?: boolean, onNewRequired?: () => any, onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
     const [selectedColumn, setSelectedColumn] = useState(Object.keys(itemsMapper));
     const [selectedItems, setSelectedItems] = useState<Record<string, any>[]>([]);
 
     const [query, setQuery] = useState({
         page: filter.page || 1,
-        sortBy: filter.sortBy.includes('_')?filter.sortBy:filter.sortBy+'_desc' || filter.sortableColumns?.[0]+'_desc' || '',
+        sortBy: filter.sortBy.includes('_') ? filter.sortBy : filter.sortBy + '_desc' || filter.sortableColumns?.[0] + '_desc' || '',
         limit: filter.limit || DEFAULT_LIMIT,
         query: {} as Record<string, any>
     });
@@ -98,7 +98,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
 
     return (
         <div className="generic-list" >
-            <div className="list-filter-top">
+            {(!disableFilterBar) && <div className="list-filter-top">
                 <ListSearchBar filter={filter.filter || {}} sortBy={sortableColumns} onInputChange={(text) => {
                     setQuery({
                         ...query,
@@ -127,6 +127,7 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
                 <Selector placeholder='column' multiple list={Object.keys(itemsMapper)} selected={selectedColumn} setSelectedColumns={(s) => { setSelectedColumn(s) }} />
                 {canAddNew && (<div className='new-btn' onClick={onNewRequired}>ADD NEW</div>)}
             </div>
+            }
             <div className="list">
                 <div className="top-ctn" style={{ height: `${_top_height}px` }}>
                     <div className={'top ' + (_overflow == 'displayFlex' ? 'flex' : '')} ref={ListTop} style={{ height: `${_top_height}px` }}>
@@ -216,7 +217,8 @@ const _GenericList = ({ datas, itemsMapper, items_height, top_height, overflow, 
 
                                         cache.emitter.when(k, (columnSize) => {
                                             if (viewRef) viewRef.style.width = `${columnSize}px`;
-                                            if (_overflow != 'displayFlex') d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
+                                            if (_overflow != 'displayFlex' && d.$itemRef) d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
+                                            else if (d.$itemRef) d.$itemRef.style.width = `${ListTop.current?.parentElement?.getBoundingClientRect().width || 0}px`;
                                         })
                                         const setRef = (ref: HTMLElement | null) => {
                                             viewRef = ref

@@ -1,6 +1,7 @@
 import { useDashRoute } from '../../dashStore'
 import './PageCatalog.css'
 import { CatalogList } from './CatalogList/CatalogList'
+import { CatalogDash } from './CatalogDash/CatalogDash'
 // import { useState } from 'react'
 import { ProductsListAccessor } from '../../Component/ProductsListAccessor/ProductsListAccessor'
 
@@ -13,6 +14,7 @@ export function PageCatalog() {
             {
                 current('catalogs') && <ProductsListAccessor active='CATALOGS' setActive={((a)=>setAbsPath(a.path as any))}/>
             }
+            <CatalogDash/>
             <CatalogList />
         </div>)
 }

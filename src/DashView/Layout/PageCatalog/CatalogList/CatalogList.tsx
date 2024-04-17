@@ -3,8 +3,8 @@ import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList'
 import {useCatalogStore} from '../CatalogStore';
 export function CatalogList() {
-    const { current } = useDashRoute()
-    const  {  catalogs , fetchCatalogs} = useCatalogStore()
+    const { current ,  setAbsPath } = useDashRoute()
+    const  {  catalogs , fetchCatalogs , setSelectedCatalog} = useCatalogStore()
     return current('catalogs')&&(
         <div className="catalog-list">
             <div className="list-ctn">
@@ -37,15 +37,13 @@ export function CatalogList() {
                         selectedItems.forEach((item)=>{
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
-                        // setSelectedCategories(selectedItems[0] as any);
-                        // setAbsPath(['store','products','dash_product'])
+                        setSelectedCatalog(selectedItems[0] as any);
+                        setAbsPath(['store','catalogs','dash_catalogs'])
                     }}
                     onQuery={(query)=>{
-                        fetchCatalogs(query)
-                        
+                        fetchCatalogs(query);
                     }}     
                     top_height={40}>
-
                 </GenericList>
             </div>
         </div>
