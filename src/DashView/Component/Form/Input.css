@@ -43,7 +43,7 @@
     font-size: 0.9em;
 }
 
-.input .input-top .input-info:hover .promt , .input .input-top .input-info .promt:hover{
+.input .input-top .input-info:hover .promt{
     opacity: 1;
 }
 

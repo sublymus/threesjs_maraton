@@ -8,7 +8,7 @@ export function ChoiseCatalog({onChange , catalog_id}:{catalog_id?:string, onCha
     const [selected, setSelected] = useState<CatalogueInterface>();
     const [open, setOpen] = useState('');
     useEffect(()=>{
-        fetchCatalogs({limit:1});
+        fetchCatalogs();
     },[])
     useEffect(()=>{
         setSelected(catalogs?.list.find((c)=>c.id == catalog_id));

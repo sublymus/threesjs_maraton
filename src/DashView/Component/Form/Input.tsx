@@ -68,7 +68,8 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
             <div className="input-top">
                 <div className="left-side">
                     <div className="label">{label} </div>
-                    {_prompt && <div className="input-info" onMouseEnter={() => {
+                    {_prompt && <div className="input-info" onMouseEnter={(e) => {
+                        if((e.target as HTMLDivElement).className !== 'input-info') return  infoPromt.current!.style.display = 'none'
                         clearTimeout(infoPromtId);
                         if (infoPromt.current) infoPromt.current.style.display = 'block';
                         resizePrompt();
@@ -100,7 +101,8 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                         if(inputRef.current) inputRef.current.focus();
                         setCanEdit(c == false ? (!state.validation(value)) : true);
                         resizePrompt()
-                    }} onMouseEnter={() => {
+                    }} onMouseEnter={(e) => {
+                        if((e.target as HTMLDivElement).className !== 'edit') return  editPromt.current!.style.display = 'none';
                         clearTimeout(editPromtId);
                         if (editPromt.current) editPromt.current.style.display = 'block';
                         resizePrompt()

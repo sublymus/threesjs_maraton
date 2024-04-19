@@ -60,7 +60,12 @@ export function FeaturesList() {
                         fetchFeatures(query)
 
                     }}
-                    top_height={40}>
+                    top_height={40}
+                    canAddNew
+                    onNewRequired={()=>{
+                        setAbsPath(['store', 'features','dash_features']);
+                    }}
+                    >
 
                 </GenericList>
             </div>

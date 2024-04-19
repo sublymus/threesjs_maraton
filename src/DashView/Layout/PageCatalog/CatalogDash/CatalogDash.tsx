@@ -8,28 +8,28 @@ import { Textarea } from '../../../Component/Form/Textarea';
 import { FileLoader } from '../../../Component/LoaderImage/LoaderImage';
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { Host } from '../../../../Config';
-import { StatisticCard } from '../../../Component/Chart/StatisticCard/StatisticCard';
 import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
 import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/Preview3DModelCard';
+import { useProductStore } from '../../PageProduct/ProductStore';
 
 export function CatalogDash() {
-    const { current } = useDashRoute();
-    const { selectedCatalog, fetchProductsUseCatalog, productsUseCatalog } = useCatalogStore();
-    const [collected, setCollected] = useState<Record<string, any>>({});
+    const { current , setAbsPath } = useDashRoute();
+    const { setSelectedProduct} = useProductStore();
+    const { selectedCatalog, updateCatalog, catalogProducts , fetchCatalogProducts} = useCatalogStore();
+    const [collected] = useState<Record<string, any>>({});
 
-     
-     
     const [isCheckRequired, setIsCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
     collected.prduct_id = selectedCatalog?.id;
-
+    
     useEffect(() => {
         if (selectedCatalog)
-            fetchProductsUseCatalog(selectedCatalog.id)
+            fetchCatalogProducts({
+                catalog_id: selectedCatalog.id
+            })
     }, [selectedCatalog])
-console.log(selectedCatalog);
 
     return current('dash_catalogs') && (
         <div className="catalog-dash">
@@ -45,43 +45,51 @@ console.log(selectedCatalog);
                     <div className="editor-name">
                         <div className="catalog-title">
                             <InputText editable prompt='Catalog Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={selectedCatalog?.label || ' '} onChange={(value) => {
-                                collected['label'] = value;
-                                console.log(collected);
+                                console.log('selectedCatalog.id', selectedCatalog?.id);
 
+                                selectedCatalog && updateCatalog({
+                                    catalog_id: selectedCatalog.id,
+                                    label: value
+                                })
                             }} />
                         </div>
                         <div className="Catalog-description">
-                            <Textarea editable prompt='Catalog Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={selectedCatalog?.description || 'lol'} onChange={(value) => {
-                                collected['description'] = value;
-                                console.log(collected);
+                            <Textarea editable prompt='Catalog Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={selectedCatalog?.description || ''} onChange={(value) => {
+                                selectedCatalog && updateCatalog({
+                                    catalog_id: selectedCatalog.id,
+                                    description: value
+                                });
                             }} />
                         </div>
                     </div>
 
                     <div className="editor-scene-file">
                         <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
-                            collected['scene_dir'] = file;
-                            console.log(collected);
+                            selectedCatalog && updateCatalog({
+                                catalog_id: selectedCatalog.id,
+                                scene_dir: file
+                            });
                         }} />
                     </div>
                 </div>
                 <div className="right-side">
                     <ActionsCard />
-                    <Preview3DModelCard direction='horizontal'/>
+                    <Preview3DModelCard onClick={() => {
+                    }} direction='horizontal' />
                 </div>
 
             </section>
             <h1 className=''>Products That Use This Category</h1>
             <GenericList filter={{
                 sortBy: 'id',
-                limit: productsUseCatalog?.limit||25,
-                page: productsUseCatalog?.page,
-                total: productsUseCatalog?.total,
+                limit: catalogProducts?.limit || 25,
+                page: catalogProducts?.page,
+                total: catalogProducts?.total,
             }}
                 disableFilterBar
                 items_height={80}
                 id={'product-use-catalog_list'}
-                datas={productsUseCatalog?.list || []}
+                datas={catalogProducts?.list || []}
                 itemsMapper={{
                     images: {
                         getView(label, value, e, setRef) {
@@ -109,6 +117,10 @@ console.log(selectedCatalog);
                     },
                     price: GenericList.StringElement({ size: 200 }),
                     created_at: GenericList.DateStringElement({ size: 200 }),
+                }}
+                onItemsSelected={(item)=>{
+                    setSelectedProduct(item[0] as any);
+                    setAbsPath(['store','products','dash_product']);
                 }}
             >
 

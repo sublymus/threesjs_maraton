@@ -3,7 +3,7 @@ import "./ImageViewer.css";
 import { Host } from "../../../Config";
 import { useDashStore } from "../../dashStore";
 
-type ImageViewerMapper = Record<string, {
+export type ImageViewerMapper = Record<string, {
     img: string,
     index: number,
     isLocal?: boolean,
@@ -11,17 +11,17 @@ type ImageViewerMapper = Record<string, {
     name: string,
 }>
 let i = 0;
-export function ImageViewer({ images=[], optionPosition = "bottom", onSave, name,autosave  }: { name: string, images?: string[], onImageChange?: (images: string[]) => any,  onSave?: (images:ImageViewerMapper) => any, onImageAdded?: (files: FileList) => any, autosave?: boolean, optionPosition?: 'bottom' | 'right' }) {
+export function ImageViewer({ images = [], optionPosition = "bottom", onSave, name, autosave }: { name: string, images?: string[], onImageChange?: (images: string[]) => any, onSave?: (images: ImageViewerMapper) => any, onImageAdded?: (files: FileList) => any, autosave?: boolean, optionPosition?: 'bottom' | 'right' }) {
     const [LocalImage] = useState(images.map(i => i));
     const [id] = useState((Math.random() + (i++)).toString());
     const { openChild } = useDashStore();
     const [imageMapper, setImageMapper] = useState({} as ImageViewerMapper);
-    const [length, setLength] = useState(0);
+    const [localLength, setLocalLength] = useState(0);
     useEffect(() => {
         const r = {} as ImageViewerMapper
         for (let i = 0; i < LocalImage.length; i++) {
             const img = LocalImage[i];
-            r[img] = { img, index: i, name: img};
+            r[img] = { img, index: i, name: img };
         }
         setImageMapper(r);
     }, [LocalImage]);
@@ -29,23 +29,74 @@ export function ImageViewer({ images=[], optionPosition = "bottom", onSave, name
     let Dimg: string | undefined;
     let Dtarg: string | undefined;
 
+    const newFiles = (files: FileList) => {
+        const r = {} as ImageViewerMapper;
+        for (let i = files.length - 1; i >= 0; i--) {
+            const file = files[i];
+            const n = `${name}_${localLength + i}`;
+            r[n] = { img: URL.createObjectURL(files[i]), index: -(localLength + i), file, isLocal: true, name: n };
+        }
+        const p = { ...r, ...imageMapper };
+        Object.keys(p).sort((a, b) => {
+            return (p[a]?.index || 0) - (p[b]?.index || 0)
+        }).forEach((_k, i) => {
+            p[_k].index = i;
+        });
+        setImageMapper(p);
+        if (autosave) onSave?.(p)
+        setLocalLength(localLength + files.length);
+    }
+    const dragLeave = (e: any) => {
+        e.currentTarget.style.backgroundColor = '';
+        e.preventDefault();
+        e.stopPropagation()
+    }
+    const dragOver = (e: any) => {
+        e.currentTarget.style.backgroundColor = '#3454';
+        e.preventDefault();
+        e.stopPropagation()
+    }
+
     return (
         <div className='image-viewer'>
             <div className={"top-viewer " + optionPosition}>
-                <div className="image-ctn">
+                <div className="image-ctn" onDragOver={(e) => {
+                    dragOver(e);
+                }} onDragLeave={(e) => {
+                    dragLeave(e)
+                 }} onDragExit={(e) => {
+                    dragLeave(e)
+                 }} onDrop={(e) => {
+                    dragLeave(e)
+                    e.preventDefault();
+                    e.stopPropagation()
+                    console.log("File(s) dropped", e.dataTransfer.files);
+                    newFiles(e.dataTransfer.files);
+                }}>
+                    {
+                        (Object.keys(imageMapper).length == 0) && <label htmlFor={id + 'add'} className="empty-image image">
+                            <div className="label">Drag and Drop</div>
+                        </label>
+                    }
                     {
                         Object.keys(imageMapper).map((k) => {
                             return (
-                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal?'':Host}${`${imageMapper[k].img}`})` }} onDragStartCapture={() => {
-                                        Dimg = k;
-                                        Dtarg = k;
-                                    }} onDragEnter={(e) => {
-                                        e.currentTarget.style.opacity = '0.5'
-                                        Dtarg = k;
-                                    }}
-                                    onDragLeave={(e) => {
-                                        e.currentTarget.style.opacity = '';
-                                    }} onDragEnd={() => {
+                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal ? '' : Host}${`${imageMapper[k].img}`})` }} onDragStartCapture={() => {
+                                    Dimg = k;
+                                    Dtarg = k;
+                                }} onDragEnter={(e) => {
+                                    e.currentTarget.style.opacity = '0.5'
+                                    Dtarg = k;
+                                }}
+                                onDragLeave={(e) => {
+                                    e.currentTarget.style.opacity = '';
+                                }}
+                                onDragExit={(e) => {
+                                    e.currentTarget.style.opacity = '';
+                                }}
+                                onDrop={(e) => {
+                                    e.currentTarget.style.opacity = '';
+                                }} onDragEnd={() => {
                                         if (!Dtarg || !Dimg) return;
                                         let a = imageMapper[Dimg].index - imageMapper[Dtarg].index;
                                         a = (Math.abs(a) / a) * 0.5
@@ -66,11 +117,51 @@ export function ImageViewer({ images=[], optionPosition = "bottom", onSave, name
                                             r[m.name] = m;
                                         }
                                         setImageMapper(r);
-                                        if(autosave) onSave?.(r)
+                                        if (autosave) onSave?.(r)
                                     }} onClick={() => {
                                         openChild(<ImageViewerPage selectedKey={k} imagesMapper={imageMapper} />);
                                     }}>
+                                    <span className="delete-img" onClick={(e) => {
+                                        e.stopPropagation();
+                                        const confirm = e.currentTarget.parentElement?.querySelector('.confirm-delete-image') as HTMLDivElement;
+                                        if (!confirm) return;
+                                        confirm.style.display = 'flex'
+                                    }}></span>
+                                    <span className="open-img"></span>
+                                    <div className="confirm-delete-image" onClick={(e) => {
+                                        e.stopPropagation();
+                                    }}>
+                                        <div className="message">Delete this Image</div>
+                                        <div className="option">
+                                            <div className="cancel" onClick={(e) => {
+                                                e.currentTarget.parentElement!.parentElement!.style.display = 'none'
+                                            }}>Cancel</div>
+                                            <div className="delete" onClick={() => {
+                                                let localCount = 0;
+                                                console.log('avant', imageMapper);
 
+                                                const list = Object.keys(imageMapper).filter(f => f !== k).sort((a, b) => {
+                                                    return (imageMapper[a]?.index || 0) - (imageMapper[b]?.index || 0)
+                                                }).map((_k, i) => {
+                                                    imageMapper[_k].index = i;
+                                                    imageMapper[_k].name = _k.startsWith(name + '_') ? (name + '_' + (localCount++)) : _k;
+                                                    return imageMapper[_k];
+                                                });
+
+                                                setLocalLength(localCount);
+
+                                                const r = {} as ImageViewerMapper;
+                                                for (let i = 0; i < list.length; i++) {
+                                                    const m = list[i];
+                                                    r[m.name] = m;
+                                                }
+                                                setImageMapper(r);
+
+                                                console.log('apres', r, localCount);
+                                                if (autosave) onSave?.(r)
+                                            }}>Delete</div>
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         })
@@ -79,41 +170,27 @@ export function ImageViewer({ images=[], optionPosition = "bottom", onSave, name
                 <div className={"option " + optionPosition}>
                     <input type="file" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
                         if (e.target.files && e.target.files[0]) {
-                            const r = {} as ImageViewerMapper;
-                            for (let i = e.target.files.length - 1; i >= 0; i--) {
-                                const file = e.target.files[i];
-                                const n = `${name}_${length + i}`;
-                                r[n] = { img: URL.createObjectURL(e.target.files[i]), index: -(length + i), file, isLocal: true, name: n };
-                            }
-                            const p = { ...r, ...imageMapper };
-                            Object.keys(p).sort((a, b) => {
-                                return (p[a]?.index || 0) - (p[b]?.index || 0)
-                            }).forEach((_k, i) => {
-                                p[_k].index = i;
-                            });
-                            setImageMapper(p);
-                            if(autosave) onSave?.(p)
-                            setLength(length + e.target.files.length);
+                            newFiles(e.target.files);
                         }
                     }} />
                     <label htmlFor={id + 'add'} className="add">
                         <div className="icon"></div>
                         <div className="label">NEW</div>
                     </label >
-                    <div className="open" onClick={() => {
+                    {(Object.keys(imageMapper).length > 0)&&<div className="open" onClick={() => {
                         openChild((
                             <ImageViewerPage selectedKey={Object.keys(imageMapper)[0]} imagesMapper={imageMapper} />
                         ))
                     }}>
                         <div className="icon"></div>
                         <div className="label">OPEN</div>
-                    </div>
-                    <div className="save" onClick={() => {
+                    </div>}
+                    {!autosave && <div className="save" onClick={() => {
                         onSave?.(imageMapper);
                     }}>
                         <div className="icon"></div>
                         <div className="label">SAVE</div>
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -161,7 +238,7 @@ function ImageViewerPage({ imagesMapper, selectedKey }: { imagesMapper: ImageVie
             <div className="close" onClick={() => {
                 openChild(undefined);
             }}></div>
-            <div className="image-ctn" style={{ background: `no-repeat center/cover url(${imagesMapper[selected].isLocal?'':Host}${`${imagesMapper[selected].img}`})` }} onClick={(e) => {
+            <div className="image-ctn" style={{ background: `no-repeat center/cover url(${imagesMapper[selected].isLocal ? '' : Host}${`${imagesMapper[selected].img}`})` }} onClick={(e) => {
                 e.preventDefault()
             }}>
                 <div className="prev" onClick={() => {
@@ -178,7 +255,7 @@ function ImageViewerPage({ imagesMapper, selectedKey }: { imagesMapper: ImageVie
                 <div className="list-img">
                     {
                         Object.keys(imagesMapper).map((k) => (
-                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal?'':Host}${`${imagesMapper[k].img}`})` }} onClick={() => {
+                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal ? '' : Host}${`${imagesMapper[k].img}`})` }} onClick={() => {
                                 setSelected(k);
                             }}></div>
                         ))

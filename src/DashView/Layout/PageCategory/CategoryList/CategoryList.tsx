@@ -69,7 +69,11 @@ export function CategoryList() {
                     onQuery={(query)=>{
                         fetchCategories(query);
                     }}     
-                    top_height={40}>
+                    top_height={40}
+                    canAddNew
+                    onNewRequired={()=>{
+                        setAbsPath(['store','categories','dash_categories'])
+                    }}>
 
                 </GenericList>
             </div>

@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: center;
 }
-.image-viewer .top-viewer .option {
+.image-viewer .top-viewer >.option {
     width: 100%;
     display: flex;
     align-items: center;
@@ -62,21 +62,122 @@
 
 .image-viewer .image-ctn {
     width: 100%;
-    height: 170px;
+    padding: 5px;
     white-space: nowrap;
     overflow-y: hidden;
     overflow-x: auto;
+
 }
 
+.image-viewer .image-ctn .empty-image{
+    position: relative;
+    transition: 200ms;
+    background: no-repeat center/80% url(/src/res/drag_and_drop.png),#0001;
+}
+.image-viewer .image-ctn .empty-image:hover{
+    transition: 200ms;
+    background: no-repeat center/90% url(/src/res/drag_and_drop.png),#0001;
+}
+.image-viewer .image-ctn .empty-image .label{
+    position: absolute;
+    bottom: 20px;
+    color: #36aa;
+
+}
 .image-viewer .image {
+    position: relative;
     width: 150px;
     height: 150px;
     border-radius: 10px;
     margin-right: 10px;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: grab;
 }
+.image-viewer .image .delete-img{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/70% url(/src/res/trash-2.png),#fff9;
+    filter: invert(100%);
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    opacity: 0;
+    transition: 200ms;
+}
+.image-viewer .image:hover .delete-img:hover{
+    transition: 200ms;
+    opacity: 1;
+}
+.image-viewer .image:hover .delete-img{
+    opacity: 0.7;
+  transition: 200ms;
+}
+.image-viewer .image .open-img{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/70% url(/src/res/eye.png),#fff9;
+    filter: invert(100%);
+    border-radius: 5px;
+    margin-right: 10px;
+    opacity: 0;
+    transform: scale(0);
+    transition: 200ms;
+}
+.image-viewer .image:hover .open-img{
+  opacity: 1;
+  transform: scale(1.1);
+  transition: 200ms;
+}
 
+.image-viewer .image .confirm-delete-image{
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 100%;
+    background: #eee;
+    cursor: default;
+    display: none;
+  }
+    
+.image-viewer .image .confirm-delete-image .option{
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  
+  .image-viewer .image .confirm-delete-image .cancel:hover{
+    background: #40a4;
+  }
+  .image-viewer .image .confirm-delete-image .cancel{
+    color: #a0f;
+    background: #40a3;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .image-viewer .image .confirm-delete-image .delete:hover{
+    background: #f074;
+  }
+  .image-viewer .image .confirm-delete-image .delete{
+    color: #f07;
+    background: #f073;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
 
 /*****  viewer-images  ********/
 

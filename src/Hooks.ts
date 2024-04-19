@@ -6,6 +6,7 @@ export function useWindowSize() {
     const [windowSize, setWindowSize] = useState({
       width: window.innerWidth,
       height: window.innerHeight,
+      screen:'',
     });
     useEffect(() => {
       // Handler to call on window resize
@@ -14,6 +15,7 @@ export function useWindowSize() {
         setWindowSize({
           width: window.innerWidth,
           height: window.innerHeight,
+          screen: window.innerWidth < 480 ? 's-480' :window.innerWidth < 680 ? 's-680' : window.innerWidth < 920? 's-920':window.innerWidth < 1200?'s-1200':window.innerWidth < 1800?'s-1800':'s-big' 
         });
       }
     

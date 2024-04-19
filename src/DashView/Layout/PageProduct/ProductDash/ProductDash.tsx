@@ -6,7 +6,7 @@ import { Textarea } from '../../../Component/Form/Textarea'
 import './ProductDash.css'
 import { useEffect, useState } from 'react';
 import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/Preview3DModelCard'
-import {ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard'
+import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard'
 import { StatisticCard } from "../../../Component/Chart/StatisticCard/StatisticCard";
 import { useProductStore } from '../ProductStore';
 import { ImageViewer } from "../../../Component/ImageViewer/ImageViewer";
@@ -18,67 +18,94 @@ enum StatusMap {
 }
 
 
-
 export function ProductDash() {
 
-    const { current } = useDashRoute();
-    const { selectedProduct } = useProductStore();
+    const { current, setAbsPath, setPath } = useDashRoute();
+    const { selectedProduct, updateProduct, createProduct } = useProductStore();
     const [isCheckRequired, setIsCheckRequired] = useState(false)
-    
+    const [error, setError] = useState('')
+
+    useEffect(() => {
+        // error && setTimeout(() => {
+        //     setError('');
+        // }, 5000);
+    }, [error])
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-    
-    const [collected , setCollected] = useState<Record<string,any>>({});
 
-    collected.prduct_id = selectedProduct?.id;
-
-    return current('dash_product') && (
+    const [collected, setCollected] = useState<Record<string, any>>({});
+    //TODO coder un composant d'error
+    const isDash = current('dash_product');
+    const isNew = current('new_product');
+    return (isDash || isNew) && (
         <div className="product-dash">
+            {
+               <div className={"error-panel "+ (error?'open':'')}>
+                    <div className="type">ERROR <span onClick={() => {
+                        setError('');
+                    }}></span></div>
+                    <div className="message">{error}</div>
+                </div>
+            }
             <div className="product-dash-top">
                 <h1 className="page-title">Product Information</h1>
-                <div className="save">
+                {isNew && <div className="create" onClick={() => {
+                    createProduct(collected).then((error) => {
+                        if(!error) return setAbsPath(['store','products','dash_product']);
+                        if (error.length) setError(error?.toString())
+                    })
+                }}>
                     <div className="icon"></div>
-                    <div className="label">SAVE</div>
-                </div>
+                    <div className="label">Create New</div>
+                </div>}
             </div>
 
             <section className={"editor " + wrap}>
                 <div className="editor-left">
                     <div className="editor-name">
                         <div className="product-title">
-                            <InputText  editable prompt='Product Title' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Title' placeholder='Product Title' value={selectedProduct?.title || ''} onChange={(value)=>{
-                                collected['title'] = value;
-                                console.log(collected);
-                                
+                            <InputText editable prompt='Product Title' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Title' placeholder='Product Title' value={isDash && (selectedProduct?.title || '')} onChange={(value) => {
+                                isDash ? (selectedProduct && updateProduct({
+                                    product_id: selectedProduct.id,
+                                    title: value
+                                })) : collected['title'] = value
                             }} />
                         </div>
                         <div className="product-description">
-                            <Textarea editable prompt='Product Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Product Description' value={selectedProduct?.description || 'lol'}  onChange={(value)=>{
-                                collected['description'] = value;
-                                console.log(collected);
-                            }}  />
+                            <Textarea editable prompt='Product Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Product Description' value={isDash && (selectedProduct?.description || '')} onChange={(value) => {
+                                isDash ? (selectedProduct && updateProduct({
+                                    product_id: selectedProduct.id,
+                                    description: value
+                                })) : collected['description'] = value
+                            }} />
                         </div>
                     </div>
                     <div className="editor-price">
-                        <InputText type='number' editable prompt='Product Price' isCheckRequired={isCheckRequired} min={0} check='auto' label='Price' placeholder='Product Price' value={selectedProduct?.price || ''}  onChange={(value)=>{
-                                collected['price'] = value;
-                                console.log(collected);
-                            }}  />
+                        <InputText type='number' editable prompt='Product Price' isCheckRequired={isCheckRequired} min={0} check='auto' label='Price' placeholder='Product Price' value={isDash && (selectedProduct?.price || '')} onChange={(value) => {
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                price: value
+                            })) : collected['price'] = value
+                        }} />
                     </div>
                     <div className="editor-stock">
-                        <InputText type='number' editable prompt='Product Stock' isCheckRequired={isCheckRequired} max={10000000000} check='auto' label='Stock' placeholder='Product Stock' value={selectedProduct?.stock || ''}  onChange={(value)=>{
-                                collected['stock'] = value;
-                                console.log(collected);
-                            }} />
+                        <InputText type='number' editable prompt='Product Stock' isCheckRequired={isCheckRequired} max={10000000000} check='auto' label='Stock' placeholder='Product Stock' value={isDash && (selectedProduct?.stock || '')} onChange={(value) => {
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                stock: value
+                            })) : collected['stock'] = value
+                        }} />
                     </div>
                     <div className="editor-category">
-                        <ChoiseCategory category_id={selectedProduct?.category_id}   onChange={(id)=>{
-                            collected['category_id'] = id;
-                            console.log(collected);
+                        <ChoiseCategory category_id={isDash && (selectedProduct?.category_id)} onChange={(id) => {
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                category_id: id
+                            })) : collected['category_id'] = id
                         }} />
                     </div>
                     <div className="editor-features">
-                        <ChoiseFeatures features={selectedProduct?.features} onChange={(ids)=>{
+                        <ChoiseFeatures features={isDash && (selectedProduct?.features)} onChange={(ids) => {
                             collected['features'] = ids;
                             console.log(collected);
                         }} />
@@ -86,34 +113,44 @@ export function ProductDash() {
                 </div>
                 <div className="editor-right">
                     <div className="editor-images">
-                        <ImageViewer name='images'  images={selectedProduct?.images ? selectedProduct.images : []}  onSave={(imageMapper)=>{
-                            collected['images'] = imageMapper;
-                            console.log(collected);
-                        }}/>
+                        <ImageViewer name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                images: imageMapper
+                            })) : collected['images'] = imageMapper;
+                        }} />
                     </div>
                     <div className="editor-mmodel-images">
-                        <ImageViewer name='model_images' images={selectedProduct?.images ? selectedProduct.model_images : []}  onSave={(imageMapper)=>{
-                            collected['model_images'] = imageMapper;
-                            console.log(collected);
-                        }}/>
+                        <ImageViewer name='model_images' images={isDash && (selectedProduct?.images ? selectedProduct.model_images : [])} autosave={isNew} onSave={(imageMapper) => {
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                model_images: imageMapper
+                            })) : collected['model_images'] = imageMapper;
+                        }} />
                     </div>
                     <div className="editor-scene-file">
                         <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
-                            collected['scene_dir'] = file;
-                            console.log(collected);
+                            //TODO explorateur de fichier
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                scene_dir: file
+                            })) : collected['scene_dir'] = file;
                         }} />
                     </div>
                 </div>
             </section>
-            <div className="product-dash-ctn">
+            {isDash && <div className="product-dash-ctn">
 
                 <div className="info">
-                    <ActionsCard/>
-                    <StatisticCard/>
+                    <ActionsCard />
+                    <StatisticCard />
                 </div>
-               <Preview3DModelCard/>
-            </div>
-            <div className="orders">
+                <Preview3DModelCard onClick={() => {
+                    console.log('oo');
+                    setAbsPath(['store', 'products', 'dash_product', 'product_preview']);
+                }} />
+            </div>}
+            {isDash && <div className="orders">
                 <div className="top">
                     <h1 className="orders-title">Recent Orders</h1>
                     <h1 className="see-all">SEE ALL</h1>
@@ -129,7 +166,7 @@ export function ProductDash() {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

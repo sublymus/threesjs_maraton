@@ -8,7 +8,7 @@ export function ChoiseCategory({onChange , category_id}:{category_id?:string, on
     const [selected, setSelected] = useState<Category>();
     const [open, setOpen] = useState('');
     useEffect(()=>{
-        fetchCategories({limit:1});
+        fetchCategories();
     },[])
     useEffect(()=>{
         setSelected(categories?.list.find((c)=>c.id == category_id));

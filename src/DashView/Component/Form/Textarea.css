@@ -51,7 +51,7 @@
     font-size: 0.9em;
 }
 
-.textarea .textarea-top .textarea-info:hover .promt , .textarea .textarea-top .textarea-info .promt:hover{
+.textarea .textarea-top .textarea-info:hover .promt{
     opacity: 1;
 }
 

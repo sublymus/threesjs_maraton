@@ -15,7 +15,7 @@ export function NavBar (){
         <div className={"nav-bar "+ width}>
                 <div className="nav-logo">
                     <div className="logo" style={{backgroundImage:`url(${'/src/res/img/logo2.png'})`}}></div>
-                    {showText&&<div className="label">CLIENT STORE</div>}
+                    {showText&&<div className="label">z</div>}
                 </div>
                 <div className="nav-link">
                     <ul>

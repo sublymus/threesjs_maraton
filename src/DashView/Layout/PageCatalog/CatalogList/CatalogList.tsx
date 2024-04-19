@@ -24,6 +24,7 @@ export function CatalogList() {
                                 )
                             }
                         },
+                        total_product:GenericList.StringElement(),
                         label: GenericList.StringElement({ size_interval: [50, 200] }),
                         description: GenericList.StringElement({ size_interval: [50, 200] }),
                         status: GenericList.StringElement({size:150}),
@@ -43,7 +44,12 @@ export function CatalogList() {
                     onQuery={(query)=>{
                         fetchCatalogs(query);
                     }}     
-                    top_height={40}>
+                    top_height={40}
+                    canAddNew
+                    onNewRequired={()=>{
+                        setAbsPath(['store','catalogs','dash_catalogs'])
+                    }}
+                    >
                 </GenericList>
             </div>
         </div>

@@ -18,7 +18,7 @@ export function ProductList() {
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
-                    limit: products?.limit||1,
+                    limit: products?.limit,
                     page: products?.page,
                     total: products?.total,
                     filter:{
@@ -74,8 +74,7 @@ export function ProductList() {
                     top_height={40}
                     canAddNew
                     onNewRequired={()=>{
-                        console.log('New');
-                        
+                        setAbsPath(['store','products','new_product'])
                     }}>
 
                 </GenericList>

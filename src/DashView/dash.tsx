@@ -27,6 +27,7 @@ const PathMap = {
     statistic: 'Statistic',
     action: 'Action',
     new_product: 'New Product',
+    product_preview:'Product Preview'
 }
 
 export function Dash() {

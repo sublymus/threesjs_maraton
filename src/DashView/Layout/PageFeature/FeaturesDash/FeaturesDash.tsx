@@ -1,5 +1,5 @@
 import { useDashRoute } from '../../../dashStore'
-import  './FeaturesDash.css'
+import './FeaturesDash.css'
 import { useEffect, useState } from 'react';
 import { InputText } from '../../../Component/Form/Input';
 import { useWindowSize } from '../../../../Hooks';
@@ -15,7 +15,7 @@ import { useFeatureStore } from '../FeatureStore';
 
 export function FeaturesDash() {
     const { current } = useDashRoute();
-    const { selectedFeature, fetchProductsUseFeature , productsUseFeature } = useFeatureStore();
+    const { selectedFeature, fetchProductsUseFeature, productsUseFeature } = useFeatureStore();
     const [collected, setCollected] = useState<Record<string, any>>({});
     const [isCheckRequired, setIsCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -25,12 +25,12 @@ export function FeaturesDash() {
 
     useEffect(() => {
         if (selectedFeature)
-        fetchProductsUseFeature(selectedFeature.id)
+            fetchProductsUseFeature(selectedFeature.id)
     }, [selectedFeature])
-console.log(selectedFeature);
+    console.log(selectedFeature);
 
-return current('dash_features')&&(
-    <div className="dash-feature">
+    return current('dash_features') && (
+        <div className="dash-feature">
             <div className="feature-dash-top">
                 <h1>Catalog Information</h1>
                 <div className="save">
@@ -41,44 +41,27 @@ return current('dash_features')&&(
             <section className={"editor " + wrap}>
                 <div className="left-side">
                     <div className="editor-name">
-                        <div className="feature-title">
-                            <InputText editable prompt='Catalog Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={selectedFeature?.name || ' '} onChange={(value) => {
-                                collected['label'] = value;
-                                console.log(collected);
-
-                            }} />
-                        </div>
-                        <div className="feature-description">
-                            <Textarea editable prompt='Catalog Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={selectedFeature?.name || 'lol'} onChange={(value) => {
-                                collected['description'] = value;
-                                console.log(collected);
-                            }} />
-                        </div>
-                        <div className="editor-category">
-                        <ChoiseCatalog catalog_id={undefined}   onChange={(id)=>{
-                            collected['catalog_id'] = id;
-                            console.log(collected);
-                        }} />
-                    </div>
+                      
                     </div>
 
                     <div className="editor-scene-file">
                         <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
                             collected['scene_dir'] = file;
-                            console.log(collected);
                         }} />
                     </div>
                 </div>
                 <div className="right-side">
                     <ActionsCard />
-                    <Preview3DModelCard direction='horizontal'/>
+                    <Preview3DModelCard onClick={() => {
+
+                    }} direction='horizontal' />
                 </div>
 
             </section>
             <h1 className=''>Products That Use This Category</h1>
             <GenericList filter={{
                 sortBy: 'id',
-                limit: productsUseFeature?.limit||25,
+                limit: productsUseFeature?.limit || 25,
                 page: productsUseFeature?.page,
                 total: productsUseFeature?.total,
             }}

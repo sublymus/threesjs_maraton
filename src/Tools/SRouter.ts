@@ -196,6 +196,7 @@ export class SRouter<T extends PageType = PageType>{
         if (window.location.hash !== path) window.location.hash = path;
     }
 
+    //TODO ./CurrentChild  actuel ./CurrentSide
     editPath(paths: string[]) {
         if (paths[0] === '/') {
             let nav: string[] = [];

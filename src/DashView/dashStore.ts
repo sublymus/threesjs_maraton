@@ -14,7 +14,7 @@ const Pages = {
                 // list des products
                 dash_product:{
                     // edition de product (avec data) <EditProduct/>
-                    preview:{},
+                    product_preview:{},
                     statistic:{},
                     action:{}
                 },
