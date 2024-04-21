@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import './Input.css'
 
 
-export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type , onChange }: { onChange?:(value:string|number)=>any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check?: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
+export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type, onChange }: { onChange?: (value: string | number) => any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check?: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
     const [value, setValue] = useState(_v || '')
     const [count, setCount] = useState(0)
     const [message, setMessage] = useState('')
     const [canEdit, setCanEdit] = useState(openEditor || false);
-    const [blurActive, setBlurActive] = useState(openEditor || false);
     const [infoPromtId, setInfoPromtId] = useState(0);
     const [editPromtId, setEditPromtId] = useState(0);
     const editPromt = useRef<HTMLDivElement | null>(null);
     const infoPromt = useRef<HTMLDivElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const _type = type || 'text';
     const [state] = useState({
         validation: (value: string | number) => {
@@ -62,14 +62,13 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
         }
 
     }
-    const inputRef = useRef<HTMLInputElement|null>(null);
     return (
         <div className="input-text input">
             <div className="input-top">
                 <div className="left-side">
                     <div className="label">{label} </div>
                     {_prompt && <div className="input-info" onMouseEnter={(e) => {
-                        if((e.target as HTMLDivElement).className !== 'input-info') return  infoPromt.current!.style.display = 'none'
+                        if ((e.target as HTMLDivElement).className !== 'input-info') return infoPromt.current!.style.display = 'none'
                         clearTimeout(infoPromtId);
                         if (infoPromt.current) infoPromt.current.style.display = 'block';
                         resizePrompt();
@@ -95,14 +94,17 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                     </div>}
                     {editable && <div className="edit" style={{ background: `no-repeat center/80% url(${canEdit ? '/src/res/x.png' : '/src/res/pencil.png'})` }} onClick={() => {
                         const c = !canEdit;
-                        if (blurActive) {
-                            return setBlurActive(false);
+                        console.log('***********');
+                        
+                        if(c){
+                            setTimeout(() => {
+                                inputRef.current?.focus();   
+                            });
                         }
-                        if(inputRef.current) inputRef.current.focus();
                         setCanEdit(c == false ? (!state.validation(value)) : true);
                         resizePrompt()
                     }} onMouseEnter={(e) => {
-                        if((e.target as HTMLDivElement).className !== 'edit') return  editPromt.current!.style.display = 'none';
+                        if ((e.target as HTMLDivElement).className !== 'edit') return editPromt.current!.style.display = 'none';
                         clearTimeout(editPromtId);
                         if (editPromt.current) editPromt.current.style.display = 'block';
                         resizePrompt()
@@ -121,7 +123,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
             </div>
             {!canEdit && <div className="value">{value}</div>}
             {canEdit && <div className="input-editor">
-                <input  ref={inputRef} type={_type} placeholder={placeholder} value={value} onChange={(e) => {
+                <input ref={inputRef} type={_type} placeholder={placeholder} value={value} onChange={(e) => {
                     let v = e.currentTarget.value;
                     while (v.includes('  ')) {
                         v = v.replace('  ', ' ');
@@ -139,8 +141,11 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                 }} onBlur={() => {
                     if (check != 'auto') return;
                     if (state.validation(value)) {
-                        setBlurActive(true);
+                       setTimeout(() => {
+                        console.log('##############');
+                        
                         setCanEdit(false);
+                       },0);
                     }
 
                 }} />

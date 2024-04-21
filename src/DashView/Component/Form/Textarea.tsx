@@ -6,11 +6,11 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
     const [count, setCount] = useState(0)
     const [message, setMessage] = useState('')
     const [canEdit, setCanEdit] = useState(openEditor || false);
-    const [blurActive, setBlurActive] = useState(openEditor || false);
     const [infoPromtId, setInfoPromtId] = useState(0);
     const [editPromtId, setEditPromtId] = useState(0);
     const editPromt = useRef<HTMLDivElement | null>(null);
     const infoPromt = useRef<HTMLDivElement | null>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [state] = useState({
         validation: (value: string) => {
             console.log(value, min && value.length < min, value.length, min);
@@ -67,10 +67,12 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
                     </div>}
                     {editable && <div className="edit" style={{ background: `no-repeat center/80% url(${canEdit ? '/src/res/x.png' : '/src/res/pencil.png'})` }} onClick={() => {
                         const c = !canEdit;
-                        if(blurActive){
-                            return setBlurActive(false);
-                        }
                         setCanEdit(c==false?(!state.validation(value)):true);
+                        if(c){
+                            setTimeout(() => {
+                                textareaRef.current?.focus()   
+                            });
+                        }
                         resizePrompt()
                     }} onMouseEnter={(e) => {
                         if((e.target as HTMLDivElement).className !== 'edit') return  infoPromt.current!.style.display = 'none'
@@ -92,7 +94,7 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
             </div>
                 {!canEdit&&<div className="value">{value}</div>}
             {canEdit && <div className="textarea-editor">
-            <textarea spellCheck='false' rows={5}  placeholder={placeholder} value={value} onChange={(e) => {
+            <textarea ref={textareaRef} spellCheck='false' rows={5}  placeholder={placeholder} value={value} onChange={(e) => {
                     let v = e.currentTarget.value;
                     while (v.includes('  ')) {
                         v = v.replace('  ', ' ');
@@ -102,10 +104,12 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
                     setMessage('');
                     setCount(v.length);
                 }} onBlur={() => {
+                    
                     if (check != 'auto') return;
                     if(state.validation(value)){
-                        setBlurActive(true);
-                        setCanEdit(false);
+                        setTimeout(() => {
+                            setCanEdit(false);   
+                        },0);
                     }
 
                 }} />
