@@ -11,6 +11,9 @@ export type ImageViewerMapper = Record<string, {
     name: string,
 }>
 let i = 0;
+const imageMapperCache:Record<string,ImageViewerMapper> = {}
+let currentDragImage : (ImageViewerMapper[string] & {id:string , expireAt:number})|null  = null;
+const ListenerCache:Record<string, (k:string)=>any> = {} 
 export function ImageViewer({ images = [], optionPosition = "bottom", onSave, name, autosave }: { name: string, images?: string[], onImageChange?: (images: string[]) => any, onSave?: (images: ImageViewerMapper) => any, onImageAdded?: (files: FileList) => any, autosave?: boolean, optionPosition?: 'bottom' | 'right' }) {
     const [LocalImage] = useState(images.map(i => i));
     const [id] = useState((Math.random() + (i++)).toString());
@@ -29,7 +32,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     let Dimg: string | undefined;
     let Dtarg: string | undefined;
 
-    const newFiles = (files: FileList) => {
+    const newFiles = (files: FileList|File[]) => {
         if(!files || files.length==0) return
         const r = {} as ImageViewerMapper;
         for (let i = files.length - 1; i >= 0; i--) {
@@ -44,8 +47,23 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
             p[_k].index = i;
         });
         setImageMapper(p);
+        console.log(' blob', p);
         if (autosave) onSave?.(p)
         setLocalLength(localLength + files.length);
+    }
+    const receiverDropImage =(img:typeof currentDragImage)=>{
+        if(!img) return;
+        if(img.isLocal && img.file){
+            newFiles([img.file]);
+            ListenerCache[img.id](img.name);
+        }else{
+            const i:ImageViewerMapper = {[img.name]:img}
+            fetch(`${Host}${img.img}`).then(r => r.blob()).then((blob)=>{
+                newFiles([blob as File]);
+                ListenerCache[img.id](img.name);
+                return
+            });
+        }
     }
     const dragLeave = (e: any) => {
         e.currentTarget.style.backgroundColor = '';
@@ -57,7 +75,30 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
         e.preventDefault();
         e.stopPropagation()
     }
+    const deleteImage =(k:string)=>{
+        let localCount = 0;
+        const list = Object.keys(imageMapper).filter(f => f !== k).sort((a, b) => {
+            return (imageMapper[a]?.index || 0) - (imageMapper[b]?.index || 0)
+        }).map((_k, i) => {
+            imageMapper[_k].index = i;
+            imageMapper[_k].name = _k.startsWith(name + '_') ? (name + '_' + (localCount++)) : _k;
+            return imageMapper[_k];
+        });
 
+        setLocalLength(localCount);
+
+        const r = {} as ImageViewerMapper;
+        for (let i = 0; i < list.length; i++) {
+            const m = list[i];
+            r[m.name] = m;
+        }
+        setImageMapper(r);
+
+        console.log('apres', r, localCount);
+        if (autosave) onSave?.(r)
+    }
+    imageMapperCache[id] = imageMapper;
+    ListenerCache[id] = deleteImage ;
     return (
         <div className='image-viewer'>
             <div className={"top-viewer " + optionPosition}>
@@ -72,7 +113,15 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     e.preventDefault();
                     e.stopPropagation()
                     console.log("File(s) dropped", e.dataTransfer.files);
-                    newFiles(e.dataTransfer.files);
+                    const t = e.target as HTMLDivElement;
+                    // console.log(t.dataset.ctn_id , t.dataset.ctn_id !== id , t.dataset.url);
+                    const img = currentDragImage;
+                    currentDragImage = null;
+                    if(e.dataTransfer.files.length >0 ){
+                        newFiles(e.dataTransfer.files);
+                    }else if(img && Date.now() < img.expireAt && img.id !== id ){
+                        receiverDropImage(img);
+                    }
                 }}>
                     {
                         (Object.keys(imageMapper).length == 0) && <label htmlFor={id + 'add'} className="empty-image image">
@@ -82,9 +131,11 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     {
                         Object.keys(imageMapper).map((k) => {
                             return (
-                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal ? '' : Host}${`${imageMapper[k].img}`})` }} onDragStartCapture={() => {
+                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal ? '' : Host}${`${imageMapper[k].img}`})` }} onDragStartCapture={(e) => {
                                     Dimg = k;
                                     Dtarg = k;
+                                    e.currentTarget.dataset.id = id;
+                                    currentDragImage = {...imageMapper[k] , id, expireAt:Date.now()+5000};
                                 }} onDragEnter={(e) => {
                                     e.currentTarget.style.opacity = '0.5'
                                     Dtarg = k;
@@ -96,10 +147,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                     e.currentTarget.style.opacity = '';
                                 }}
                                 onDrop={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
                                     e.currentTarget.style.opacity = '';
-                                    newFiles(e.dataTransfer.files);
                                 }} onDragEnd={() => {
                                         if (!Dtarg || !Dimg) return;
                                         let a = imageMapper[Dimg].index - imageMapper[Dtarg].index;
@@ -141,28 +189,9 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                                 e.currentTarget.parentElement!.parentElement!.style.display = 'none'
                                             }}>Cancel</div>
                                             <div className="delete" onClick={() => {
-                                                let localCount = 0;
                                                 console.log('avant', imageMapper);
 
-                                                const list = Object.keys(imageMapper).filter(f => f !== k).sort((a, b) => {
-                                                    return (imageMapper[a]?.index || 0) - (imageMapper[b]?.index || 0)
-                                                }).map((_k, i) => {
-                                                    imageMapper[_k].index = i;
-                                                    imageMapper[_k].name = _k.startsWith(name + '_') ? (name + '_' + (localCount++)) : _k;
-                                                    return imageMapper[_k];
-                                                });
-
-                                                setLocalLength(localCount);
-
-                                                const r = {} as ImageViewerMapper;
-                                                for (let i = 0; i < list.length; i++) {
-                                                    const m = list[i];
-                                                    r[m.name] = m;
-                                                }
-                                                setImageMapper(r);
-
-                                                console.log('apres', r, localCount);
-                                                if (autosave) onSave?.(r)
+                                                
                                             }}>Delete</div>
                                         </div>
                                     </div>
