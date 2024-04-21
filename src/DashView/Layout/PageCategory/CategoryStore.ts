@@ -5,17 +5,27 @@ interface DashState {
     categories: ListType<Category> | undefined,
     selectedCategory: Category | undefined,
     categoryProducts:ListType<ProductInterface>|undefined,
-    setSelectedCategories(selected: Category): any,
+    setSelectedCategory(selected: Category|undefined): any,
     fetchCategories(query?: Record<string, any>): Promise<void>,
     updateCategory(category:Record<string, any>):Promise<void>,
     fetchCategoryProducts(filter:Record<string, any>):Promise<void>; 
     createCategory(category:Record<string, any>):Promise<string[]|undefined>
+    removeCategory(category_id:string|undefined):Promise<string|undefined>
 }
 
 export const useCategotyStore = create<DashState>((set) => ({
     categories: undefined,
     selectedCategory: undefined,
     categoryProducts:undefined,
+    async removeCategory(category_id) {
+        if (!category_id)return;
+        const response = await fetch(`${Host}/delete_category/${category_id}`, {
+            method: 'DELETE'
+        });
+        const json  = await  response.json();
+        console.log({json});
+        return json?.isDeleted;
+    },
     async createCategory(category) {
         category.index = category.index ||0;
         const formData = new FormData();
@@ -72,7 +82,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             return console.warn(error.message);
         }
     },
-    setSelectedCategories(selected) {
+    setSelectedCategory(selected) {
         set(() => ({ selectedCategory: selected }))
     },
     async updateCategory(category) {
@@ -81,7 +91,7 @@ export const useCategotyStore = create<DashState>((set) => ({
         
         console.log(category);
         formData.append('category_id', category.category_id);
-        ['label', 'index', 'catalog_id', 'description'].forEach(p => { 
+        ['label', 'index', 'status', 'catalog_id', 'description'].forEach(p => { 
             if (category[p]) {
                 formData.append(p, category[p]);
                 send = true

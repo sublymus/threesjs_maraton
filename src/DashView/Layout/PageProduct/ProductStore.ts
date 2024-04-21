@@ -10,7 +10,7 @@ interface ProductState {
     setSelectedProduct(selected: ProductInterface|undefined): Promise<void>;
     updateProduct(product: Record<string, any>): Promise<void>;
     createProduct(product: Record<string, any>): Promise<string[]|undefined>;
-    removeProduct(product: string):Promise<string|undefined>
+    removeProduct(product_id: string):Promise<string|undefined>
 }
 
 export const useProductStore = create<ProductState>((set) => ({
@@ -21,8 +21,6 @@ export const useProductStore = create<ProductState>((set) => ({
             method: 'DELETE'
         });
         const json  = await  response.json();
-        console.log({json});
-        
         return json?.isDeleted;
     },
     async createProduct(product) {
@@ -47,7 +45,7 @@ export const useProductStore = create<ProductState>((set) => ({
                 return error.push(p+' is not defined');
             }
         });
-        ['title', 'description', 'stock', 'category_id', 'index', 'price', 'is_dynamic_price'].forEach(p => {
+        ['title', 'description', 'stock', 'category_id','index', 'price', 'is_dynamic_price'].forEach(p => {
             if (product[p]!=undefined) {
                 formData.append(p, product[p]);
             }else{
@@ -60,8 +58,6 @@ export const useProductStore = create<ProductState>((set) => ({
                 body: formData
             });
             const json = await response.json();
-            console.log(json);
-            
             if(!json || !json.id){ 
                 error.push('Server Error, Try Later');
                 return  error
@@ -94,7 +90,7 @@ export const useProductStore = create<ProductState>((set) => ({
         });
         console.log(product);
         formData.append('product_id', product.product_id);
-        ['title', 'description', 'stock', 'category_id', 'index', 'price', 'is_dynamic_price'].forEach(p => {
+        ['title', 'description', 'stock', 'category_id',  'status' ,'index', 'price', 'is_dynamic_price'].forEach(p => {
             if (product[p]) {
                 formData.append(p, product[p]);
                 send = true
@@ -110,8 +106,6 @@ export const useProductStore = create<ProductState>((set) => ({
             const f = new FormData();
             f.append('scene_dir', product.scene_dir);
             f.append('product_id', product.product_id);
-            console.log(f);
-
             const res = await fetch(`${Host}/update_view_product`, {
                 method: 'PUT',
                 body: f

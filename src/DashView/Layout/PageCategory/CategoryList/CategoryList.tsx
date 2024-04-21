@@ -6,9 +6,10 @@ import { useCategotyStore } from '../CategoryStore'
 import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
+import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 export function CategoryList() {
     const { current , setAbsPath} = useDashRoute();
-    const {fetchCategories , categories, setSelectedCategories} = useCategotyStore();
+    const {fetchCategories , categories, setSelectedCategory} = useCategotyStore();
    
     console.log(categories?.limit);
     
@@ -36,8 +37,13 @@ export function CategoryList() {
                             }
                         },
                         label: GenericList.StringElement({ size_interval: [50, 200] }),
-                        status: GenericList.StringElement({size:150}),
-                        total_products: GenericList.StringElement({size:150}),
+                        status:StatusElement,
+                        total_products: {
+                            getView(label, value, e, setRef) {
+                                const mapper = GenericList.StringElement();
+                                return mapper.getView(label,value||0,e, setRef);
+                            },
+                        },
                         catalog_id: {
                             getView(_, value, e, setRef) {
                                 return (
@@ -54,7 +60,7 @@ export function CategoryList() {
                         selectedItems.forEach((item)=>{
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
-                        setSelectedCategories(selectedItems[0] as any);
+                        setSelectedCategory(selectedItems[0] as any);
                         setAbsPath(['store','categories','dash_categories'])
                     }}
                     onQuery={(query)=>{
@@ -62,6 +68,7 @@ export function CategoryList() {
                     }}     
                     top_height={40}
                     canAddNew
+                    canPaginate
                     onNewRequired={()=>{
                         setAbsPath(['store','categories','new_category'])
                     }}>

@@ -1,0 +1,33 @@
+.choise-status{
+ width: 100%;
+ height: 50px;   
+}
+.choise-status .ctn{
+    display: flex;
+    align-items: center;
+}
+.use-status{
+  width: 80px;
+  height: 40px;
+  background: #3452;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 7px;
+  
+}
+
+.use-status.pause.active{
+    background: #806;
+    color: #fff;
+}
+ .use-status.visible.active{
+    background: rgb(0, 136, 41);
+    color: #fff;
+}
+
+.use-status.trash.active{
+    background: rgb(45, 51, 82);
+    color: #fff;
+}

@@ -13,10 +13,12 @@ import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/
 import { ChoiseCatalog } from '../../../Component/ChoiseCatalog/ChoiseCatalog';
 import { useProductStore } from '../../PageProduct/ProductStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
+import { ChoiseStatus } from '../../../Component/ChoiseStatus/ChoiseStatus';
 
 export function CategoryDash() {
     const { current, setAbsPath } = useDashRoute();
-    const { selectedCategory, fetchCategoryProducts, categoryProducts, updateCategory, createCategory } = useCategotyStore();
+    const { selectedCategory, setSelectedCategory, fetchCategoryProducts, categoryProducts, updateCategory, createCategory, removeCategory } = useCategotyStore();
     const [collected, setCollected] = useState<Record<string, any>>({});
     const { setSelectedProduct } = useProductStore();
 
@@ -35,6 +37,13 @@ export function CategoryDash() {
     const isNew = current('new_category');
 
     const Choser = <>
+
+        {isDash && <ChoiseStatus status={selectedCategory?.status || 'PAUSE'} onChange={(value) => {
+            isDash ? (selectedCategory && updateCategory({
+                category_id: selectedCategory.id,
+                status: value
+            })) : collected['status'] = value
+        }} />}
         <div className="editor-category">
             <ChoiseCatalog catalog_id={isDash && (selectedCategory?.catalog_id)} onChange={(id) => {
                 isDash ? (selectedCategory && updateCategory({
@@ -54,40 +63,42 @@ export function CategoryDash() {
         </div>
     </>
     return (isDash || isNew) && (
-        (!selectedCategory) ? (
+        (!selectedCategory && isDash) ? (
             <div className="not-found">
                 <div className="img"></div>
             </div>
         ) : (
             <div className="category-dash" ref={bindToParentScroll}>
-                <div className="category-dash-top">
-                    <h1>Catalog Information</h1>
-                    {isNew && <div className="create" onClick={() => {
-                        console.log('send', collected);
 
-                        createCategory(collected).then((error) => {
-                            if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
-                            //  if (error.length) setError(error?.toString())
-                        })
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Create New</div>
-                    </div>}
-                </div>
+                <EditorTopBar deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
+                    createCategory(collected).then((error) => {
+                        if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
+                        // if (error.length) setError(error?.toString())
+                    })
+                }} onDelete={() => {
+                    removeCategory(selectedCategory?.id).then((res) => {
+                        if (res) {
+                            setSelectedCategory(undefined)
+                        }
+                    })
+                }} />
                 <section className={"editor " + wrap}>
                     <div className="left-side">
+                        {
+                            isDash && <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedCategory?.id || '')} />
+                        }
                         <div className="category-title">
                             <InputText editable prompt='Catalog Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={isDash && (selectedCategory?.label || '')} onChange={(value) => {
-                                isDash ? (selectedCategory && updateCategory({
-                                    category_id: selectedCategory.id,
+                                isDash ? (updateCategory({
+                                    category_id: selectedCategory?.id,
                                     label: value
                                 })) : collected['label'] = value;
                             }} />
                         </div>
                         <div className="category-description">
                             <Textarea editable prompt='Catalog Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={isDash && (selectedCategory?.description || '')} onChange={(value) => {
-                                isDash ? (selectedCategory && updateCategory({
-                                    category_id: selectedCategory.id,
+                                isDash ? (updateCategory({
+                                    category_id: selectedCategory?.id,
                                     description: value
                                 })) : collected['description'] = value;
                             }} />
@@ -110,7 +121,12 @@ export function CategoryDash() {
                 </section>
                 {
                     isDash && <>
-                        <h1 className=''>Products That Use This Category</h1>
+                        <div className="btm-list">
+                            <h1 className=''>Products That Use This Category</h1>
+                            <h2 className='see-all' onClick={() => {
+                                setAbsPath(['store', 'products']); //TODO add QS json
+                            }}>SEE ALL</h2>
+                        </div>
                         <GenericList filter={{
                             sortBy: 'id',
                             limit: categoryProducts?.limit || 25,

@@ -1,15 +1,18 @@
 import { create } from "zustand";
-import { CatalogueInterface, ListType, ProductInterface } from "../../../DataBase";
+import { CatalogueInterface, Category, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
 interface DashState {
     catalogs: ListType<CatalogueInterface> | undefined,
     selectedCatalog: CatalogueInterface|undefined,
     catalogProducts:ListType<ProductInterface>|undefined,
-    setSelectedCatalog(selected:CatalogueInterface):any,
+    catalogCategories:ListType<Category>|undefined,
+    setSelectedCatalog(selected:CatalogueInterface|undefined):any,
     fetchCatalogs(query?: Record<string, any>): Promise<void>,
     updateCatalog(catalog:Record<string, any>):Promise<void>,
-    fetchCatalogProducts(filter:Record<string, any>):Promise<void>
+    fetchCatalogProducts(filter:Record<string, any>):Promise<void>;
+    fetchCatalogCategories(filter:Record<string, any>):Promise<void>;
     createCatalog(catalog:Record<string, any>):Promise<string[]|undefined>
+    removeCatalog(catalog_id: string|undefined):Promise<string|undefined>
 }
 
 const CATALOG_CACHE: {
@@ -19,6 +22,17 @@ export const useCatalogStore = create<DashState>((set) => ({
     catalogs: undefined,
     selectedCatalog:undefined,
     catalogProducts:undefined,
+    catalogCategories:undefined,
+    async removeCatalog(catalog_id) {
+        if(!catalog_id) return;
+        const response = await fetch(`${Host}/delete_catalog/${catalog_id}`, {
+            method: 'DELETE'
+        });
+        const json  = await  response.json();
+        console.log({json});
+        
+        return json?.isDeleted;
+    },
     async createCatalog(catalog) {
         catalog.index = catalog.index ||0;
         const formData = new FormData();
@@ -40,8 +54,6 @@ export const useCatalogStore = create<DashState>((set) => ({
                 body: formData
             });
             const json = await response.json();
-            console.log(json);
-            
             if(!json || !json.id){ 
                 error.push('Server Error, Try Later');
                 return  error
@@ -49,6 +61,28 @@ export const useCatalogStore = create<DashState>((set) => ({
             set(()=>({selectedCatalog:json}));
         }else{
             return error;
+        }
+    },
+    async fetchCatalogCategories(filter) {
+        if(!filter?.catalog_id) return;
+        try {
+            const query :any = {};
+            if(filter?.page) query.page = Number(filter.page);
+            if(filter?.limit) query.limit = Number(filter.limit);
+            if(filter?.sortBy) query.order_by = filter.sortBy;
+            query.catalog_id = filter.catalog_id
+            const searchParams = new URLSearchParams({});
+            for (const key in query) {
+                const value = query[key];
+                searchParams.set(key, value);
+            }
+            
+            const response = await fetch(`${Host}/get_catalog_categories/?${searchParams.toString()}`);
+            const json = (await response.json()) as ListType<Category>;
+            if (!json || !json.list) return
+            set(() => ({ catalogCategories: json }));
+        } catch (error: any) {
+            return console.warn(error.message);
         }
     },
     async fetchCatalogProducts(filter) {
@@ -69,7 +103,6 @@ export const useCatalogStore = create<DashState>((set) => ({
             const json = (await response.json()) as ListType<ProductInterface>;
             if (!json || !json.list) return
             set(() => ({ catalogProducts: json }));
-            console.log('catalogProducts',json);
         } catch (error: any) {
             return console.warn(error.message);
         }
@@ -79,12 +112,13 @@ export const useCatalogStore = create<DashState>((set) => ({
         if(!catalog.catalog_id) return;
         let send = false;
         formData.append('catalog_id', catalog.catalog_id);
-        ['label', 'index', 'description'].forEach(p => { 
+        ['label', 'index', 'status','description'].forEach(p => { 
             if (catalog[p]) {
                 formData.append(p, catalog[p]);
                 send = true
             } 
         }); 
+        
         if (send) {
             const response = fetch(`${Host}/update_catalog`, {
                 method: 'PUT',
@@ -160,7 +194,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             return console.warn(error.message);
         }
     },
-    setSelectedCategories(selected) {
+    setSelectedCategory(selected) {
         set(() => ({ selectedcatalog: selected }))
     },
     async updatecatalog(catalog) {

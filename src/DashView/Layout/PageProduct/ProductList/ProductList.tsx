@@ -8,6 +8,7 @@ import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Fi
 import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
+import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 // import React from 'react'
 export function ProductList() {
     const { current , setAbsPath} = useDashRoute();
@@ -46,7 +47,7 @@ export function ProductList() {
                             }
                         },
                         title: GenericList.StringElement({ size_interval: [50, 200] }),
-                        status: GenericList.StringElement({size:150}),
+                        status:StatusElement,
                         stock: GenericList.StringElement(),
                         category_id: {
                             getView(_, value, e, setRef) {
@@ -74,6 +75,7 @@ export function ProductList() {
                     }}     
                     top_height={40}
                     canAddNew
+                    canPaginate
                     onNewRequired={()=>{
                         setAbsPath(['store','products','new_product'])
                     }}>

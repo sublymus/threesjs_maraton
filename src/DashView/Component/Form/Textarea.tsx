@@ -24,7 +24,7 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
                 setMessage(`Maximum length ${max}`);
                 return false;
             }
-            if(value!==_v)onChange?.(value)
+           onChange?.(value)
             return true;
         }
     })

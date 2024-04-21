@@ -12,11 +12,12 @@ import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/
 import { ChoiseCatalog } from '../../../Component/ChoiseCatalog/ChoiseCatalog';
 import { useFeatureStore } from '../FeatureStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 
 
 export function FeaturesDash() {
-    const { current } = useDashRoute();
-    const { selectedFeature, fetchProductsUseFeature, productsUseFeature } = useFeatureStore();
+    const { current, setAbsPath } = useDashRoute();
+    const { selectedFeature, createFeature , updateFeature ,  fetchProductsUseFeature, productsUseFeature, setSelectedFeature ,  removeFeature } = useFeatureStore();
     const [collected, setCollected] = useState<Record<string, any>>({});
     const [isCheckRequired, setIsCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -33,21 +34,31 @@ export function FeaturesDash() {
     const isNew = current('new_feature');
     const isDash = current('dash_features');
     return (isDash || isNew) && (
-        (!selectedFeature) ? (
+        (!selectedFeature  && isDash  ) ? (
             <div className="not-found">
                 <div className="img"></div>
             </div>
         ) : (
             <div className="dash-feature" ref={bindToParentScroll}>
-                <div className="feature-dash-top">
-                    <h1>Catalog Information</h1>
-                    <div className="save">
-                        <div className="icon"></div>
-                        <div className="label">SAVE</div>
-                    </div>
-                </div>
+
+                <EditorTopBar deteleKey={selectedFeature?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Product Information' onCreate={() => {
+                    createFeature(collected).then((error) => {
+                        if (!error) return setAbsPath(['store', 'products', 'dash_product']);
+                        // if (error.length) setError(error?.toString())
+                    })
+                }} onDelete={() => {
+                    selectedFeature && removeFeature(selectedFeature.id).then((res) => {
+                        if (res) {
+                            setSelectedFeature(undefined)
+                        }
+                    })
+                }} />
                 <section className={"editor " + wrap}>
                     <div className="left-side">
+
+                        {
+                            isDash && <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedFeature?.id || '')} />
+                        }
                         <div className="editor-name">
 
                         </div>

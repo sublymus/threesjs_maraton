@@ -7,8 +7,11 @@ interface DashState {
     selectedFeature: Feature | undefined,
     productsUseFeature:ListType<ProductInterface>|undefined,
     fetchProductsUseFeature(feature_id:string):Promise<void>
-    setSelectedFeature(selected: Feature): any,
+    setSelectedFeature(selected: Feature|undefined): any,
+    updateFeature(feature: Record<string, any>): Promise<void>;
+    createFeature(feature: Record<string, any>): Promise<string[]|undefined>;
     fetchFeatures(query?: Record<string, any>): Promise<void>,
+    removeFeature(feature_id: string):Promise<string|undefined>
 }
 
 // const FEATURES_CACHE: {
@@ -18,11 +21,26 @@ export const useFeatureStore = create<DashState>((set) => ({
     features: undefined,
     selectedFeature: undefined,
     productsUseFeature:undefined,
+    async removeFeature(feature_id) {
+        const response = await fetch(`${Host}/delete_feature/${feature_id}`, {
+            method: 'DELETE'
+        });
+        const json  = await  response.json();
+        console.log({json});
+        
+        return json?.isDeleted;
+    },
     async fetchProductsUseFeature(feature_id){
         set(()=>({productsUseFeature:useProductStore.getState().products}))
     },
     setSelectedFeature(selected) {
         set(()=>({selectedFeature:selected}))
+    },
+    async createFeature(feature) {
+        return undefined
+    },
+    async updateFeature(feature) {
+        return undefined
     },
     async fetchFeatures(filter) {
         try {

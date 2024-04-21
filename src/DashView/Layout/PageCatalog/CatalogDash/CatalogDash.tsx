@@ -12,56 +12,76 @@ import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
 import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/Preview3DModelCard';
 import { useProductStore } from '../../PageProduct/ProductStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
+import { useCategotyStore } from '../../PageCategory/CategoryStore';
+import { ChoiseStatus } from '../../../Component/ChoiseStatus/ChoiseStatus';
 
 export function CatalogDash() {
     const { current, setAbsPath } = useDashRoute();
-    const { selectedCatalog, updateCatalog, catalogProducts, fetchCatalogProducts, createCatalog } = useCatalogStore();
+    const { selectedCatalog, catalogCategories, fetchCatalogCategories, updateCatalog, catalogProducts, setSelectedCatalog, removeCatalog, fetchCatalogProducts, createCatalog } = useCatalogStore();
     const { setSelectedProduct } = useProductStore();
+    const { setSelectedCategory } = useCategotyStore();
     const [collected] = useState<Record<string, any>>({});
 
-    const [isCheckRequired, setIsCheckRequired] = useState(false);
+    const [btmList, setBtmList] = useState('products');
+    const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
     useEffect(() => {
-        if (selectedCatalog)
-            fetchCatalogProducts({
-                catalog_id: selectedCatalog.id
-            });
+        if (!selectedCatalog) return;
+        fetchCatalogProducts({
+            catalog_id: selectedCatalog.id
+        });
+        fetchCatalogCategories({
+            catalog_id: selectedCatalog.id
+        });
     }, [selectedCatalog])
 
     const isDash = current('dash_catalogs');
     const isNew = current('new_catalog');
 
-    const choiser = <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
-        isDash ? (selectedCatalog && updateCatalog({
-            catalog_id: selectedCatalog.id,
-            scene_dir: file
-        })) : collected['scene_dir'] = file;
-    }} />
+    const choiser = <>
+
+        {isDash && <ChoiseStatus status={selectedCatalog?.status || 'PAUSE'} onChange={(value) => {
+            isDash ? (selectedCatalog && updateCatalog({
+                catalog_id: selectedCatalog.id,
+                status: value
+            })) : collected['status'] = value
+        }} />}
+        <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+            isDash ? (selectedCatalog && updateCatalog({
+                catalog_id: selectedCatalog.id,
+                scene_dir: file
+            })) : collected['scene_dir'] = file;
+        }} /></>
+    console.log({ selectedCatalog });
+
     return (isDash || isNew) && (
-        (!selectedCatalog) ? (
+        (!selectedCatalog && isDash) ? (
             <div className="not-found">
                 <div className="img"></div>
             </div>
         ) : (
             <div className="catalog-dash" ref={bindToParentScroll}>
-                <div className="catalog-dash-top">
-                    <h1>Catalog Information</h1>
-                    <div className="create" onClick={() => {
-                        console.log('send', collected);
-
-                        createCatalog(collected).then((error) => {
-                            if (!error) return setAbsPath(['store', 'catalogs', 'dash_catalogs']);
-                            //  if (error.length) setError(error?.toString())
-                        })
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Create New</div>
-                    </div>
-                </div>
+                <EditorTopBar deteleKey={selectedCatalog?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
+                    createCatalog(collected).then((error) => {
+                        if (!error) return setAbsPath(['store', 'catalogs', 'dash_catalogs']);
+                        // if (error.length) setError(error?.toString())
+                    })
+                }} onDelete={() => {
+                    removeCatalog(selectedCatalog?.id).then((res) => {
+                        if (res) {
+                            setSelectedCatalog(undefined)
+                        }
+                    })
+                }} />
                 <section className={"editor " + wrap}>
                     <div className="left-side">
+
+                        {
+                            isDash && <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedCatalog?.id || '')} />
+                        }
                         <div className="editor-name">
                             <div className="catalog-title">
                                 <InputText editable prompt='Catalog Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={isDash && (selectedCatalog?.label || '')} onChange={(value) => {
@@ -96,52 +116,116 @@ export function CatalogDash() {
                 </section>
                 {
                     isDash && <>
-                        <h1 className=''>Products That Use This Category</h1>
-                        <GenericList filter={{
-                            sortBy: 'id',
-                            limit: catalogProducts?.limit || 25,
-                            page: catalogProducts?.page,
-                            total: catalogProducts?.total,
-                        }}
-                            disableFilterBar
-                            items_height={80}
-                            id={'product-use-catalog_list'}
-                            datas={catalogProducts?.list || []}
-                            itemsMapper={{
-                                images: {
-                                    getView(label, value, e, setRef) {
-                                        return (
-                                            GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
-                                        )
-                                    }
-                                },
-                                id: {
-                                    getView(_, value: string, e, setRef) {
-                                        return (
-                                            <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                        )
-                                    }
-                                },
-                                title: GenericList.StringElement({ size_interval: [50, 200] }),
-                                status: GenericList.StringElement({ size: 150 }),
-                                stock: GenericList.StringElement(),
-                                category_id: {
-                                    getView(_, value, e, setRef) {
-                                        return (
-                                            <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                        )
-                                    }
-                                },
-                                price: GenericList.StringElement({ size: 200 }),
-                                created_at: GenericList.DateStringElement({ size: 200 }),
-                            }}
-                            onItemsSelected={(item) => {
-                                setSelectedProduct(item[0] as any);
-                                setAbsPath(['store', 'products', 'dash_product']);
-                            }}
-                        >
+                        <div className="btm-list">
 
-                        </GenericList></>
+                            <h1 >Products That Use This Catalog</h1>
+                            <div className={"btn " + (btmList == 'products' ? 'active' : '')} onClick={() => {
+                                setBtmList('products');
+                            }}>
+                                <div className="icon"></div>
+                                <div className="label">Products</div>
+                            </div>
+                            <div className={"btn " + (btmList == 'categories' ? 'active' : '')} onClick={() => {
+                                setBtmList('categories');
+                            }}>
+                                <div className="icon"></div>
+                                <div className="label">Categories</div>
+                            </div>
+
+                            <h2 className='see-all' onClick={() => {
+                                btmList == 'products' ?
+                                    setAbsPath(['store', 'products']) :
+                                    setAbsPath(['store', 'categories'])
+                            }}>SEE ALL</h2>
+                        </div>
+                        {
+                            btmList == 'products' && <GenericList filter={{
+                                sortBy: 'id',
+                                limit: catalogProducts?.limit || 25,
+                                page: catalogProducts?.page,
+                                total: catalogProducts?.total,
+                            }}
+                                disableFilterBar
+                                items_height={80}
+                                id={'product-use-catalog_list'}
+                                datas={catalogProducts?.list || []}
+                                itemsMapper={{
+                                    images: {
+                                        getView(label, value, e, setRef) {
+                                            return (
+                                                GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
+                                            )
+                                        }
+                                    },
+                                    id: {
+                                        getView(_, value: string, e, setRef) {
+                                            return (
+                                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                            )
+                                        }
+                                    },
+                                    title: GenericList.StringElement({ size_interval: [50, 200] }),
+                                    status: GenericList.StringElement({ size: 150 }),
+                                    stock: GenericList.StringElement(),
+                                    category_id: {
+                                        getView(_, value, e, setRef) {
+                                            return (
+                                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                            )
+                                        }
+                                    },
+                                    price: GenericList.StringElement({ size: 200 }),
+                                    created_at: GenericList.DateStringElement({ size: 200 }),
+                                }}
+                                onItemsSelected={(item) => {
+                                    setSelectedProduct(item[0] as any);
+                                    setAbsPath(['store', 'products', 'dash_product']);
+                                }}
+                            >
+
+                            </GenericList>
+                        }{
+                            btmList == 'categories' && <GenericList
+                                disableFilterBar
+                                items_height={80}
+                                id={'product-use-catalog_list'}
+                                datas={catalogCategories?.list || []}
+                                itemsMapper={{
+                                    id: {
+                                        getView(_, value: string, e, setRef) {
+                                            return (
+                                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                            )
+                                        }
+                                    },
+                                    label: GenericList.StringElement({ size_interval: [50, 200] }),
+                                    status: GenericList.StringElement({ size: 150 }),
+                                    total_products: {
+                                        getView(label, value, e, setRef) {
+                                            const mapper = GenericList.StringElement();
+                                            return mapper.getView(label, value || 0, e, setRef);
+                                        },
+                                    },
+                                    catalog_id: {
+                                        getView(_, value, e, setRef) {
+                                            return (
+                                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                            )
+                                        }
+                                    },
+                                    created_at: GenericList.DateStringElement({ size: 500 }),
+                                }}
+                                onItemsSelected={(item) => {
+                                    console.log(item[0], '))))))))))))))');
+
+                                    setSelectedCategory(item[0] as any);
+                                    setAbsPath(['store', 'categories', 'dash_categories']);
+                                }}
+                            >
+
+                            </GenericList>
+                        }
+                    </>
                 }
             </div>
         )

@@ -15,7 +15,7 @@ export function FeaturesList() {
                 <GenericList filter={{
                     sortBy: 'id',
                     sortableColumns: ['id', 'collect_type', 'icon', 'name', 'created_at'],
-                    limit: features?.limit||1,
+                    limit: features?.limit,
                     page: features?.page,
                     total: features?.total,
                     filter:{}
@@ -63,8 +63,9 @@ export function FeaturesList() {
                     }}
                     top_height={40}
                     canAddNew
+                    canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store', 'features','dash_features']);
+                        setAbsPath(['store', 'features','new_feature']);
                     }}
                     >
 

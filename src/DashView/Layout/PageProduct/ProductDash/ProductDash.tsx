@@ -15,6 +15,7 @@ import { ChoiseCategory } from '../../../Component/ChoiseCategory/ChoiseCategory
 import { ChoiseFeatures } from '../../../Component/ChoiseFeatures/ChoiseFeatures'
 import { EditorTopBar } from "../../../Component/EditorTopBar/EditorTopBar";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { ChoiseStatus } from "../../../Component/ChoiseStatus/ChoiseStatus";
 enum StatusMap {
     Start, Payment, Waiting, Delivery, End, Cancel
 }
@@ -43,7 +44,7 @@ export function ProductDash() {
 console.log({selectedProduct});
 
     return (isDash || isNew)&&(
-        (!selectedProduct)?(
+        (!selectedProduct && isDash )?( 
             <div className="not-found">
                 <div className="img"></div>
             </div>
@@ -110,6 +111,12 @@ console.log({selectedProduct});
                                 })) : collected['stock'] = value
                             }} />
                         </div>
+                        {isDash &&  <ChoiseStatus status={selectedProduct?.status||'PAUSE'} onChange={(value)=>{
+                            isDash ? (selectedProduct && updateProduct({
+                                product_id: selectedProduct.id,
+                                status: value
+                            })) : collected['status'] = value
+                        }}/>}
                         <div className="editor-category">
                             <ChoiseCategory category_id={isDash && (selectedProduct?.category_id)} onChange={(id) => {
                                 isDash ? (selectedProduct && updateProduct({

@@ -1,4 +1,4 @@
-.catalog-dash{
+.catalog-dash {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
@@ -6,10 +6,10 @@
 }
 
 
-.catalog-dash .catalog-dash-top{
+.catalog-dash .catalog-dash-top {
     margin-top: 30px;
-   display: flex;
-   align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .catalog-dash .catalog-dash-top .create:hover {
@@ -31,42 +31,83 @@
 }
 
 
-.catalog-dash .catalog-dash-top .icon{
-   display: flex;
-   width: 30px;
-   height: 30px;
-   background: #345;
-   align-items: center;
-   margin-right: 10px;
-   background: no-repeat center/80% url(/src/res/arrow-down-to-line.png);
+.catalog-dash .catalog-dash-top .icon {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background: #345;
+    align-items: center;
+    margin-right: 10px;
+    background: no-repeat center/80% url(/src/res/arrow-down-to-line.png);
 }
 
-.catalog-dash .editor{
+.catalog-dash .editor {
     margin: 20px 0;
-   width: calc(100% - 50px);
-   display: flex;
-   justify-content: space-around;
-   background: rgba(255, 255, 255, 0.644);
-   box-shadow: 0px 0px 10px #3455;
-   border-radius: 20px;
+    width: calc(100% - 50px);
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.644);
+    box-shadow: 0px 0px 10px #3455;
+    border-radius: 20px;
 }
 
-.catalog-dash .editor.wrap{
+.catalog-dash .editor.wrap {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.catalog-dash .editor > div{
+.catalog-dash .editor>div {
     width: 100%;
     max-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 30px;
- }
- .catalog-dash .editor > div > div{
-     width: 100%;
+}
+
+.catalog-dash .editor>div>div {
+    width: 100%;
     margin-top: 10px;
-  }
+}
+
+.catalog-dash .btm-list {
+    margin: 15px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.catalog-dash .btm-list .btn.active {
+    background: linear-gradient(0.25turn , #5900ffbb, #0059ffa6);
+    transition: 1000ms;
+}
+
+.catalog-dash .btm-list .btn {
+    background: linear-gradient(0.25turn , #7e7e7ea8, #81818193);
+    transition: 400ms;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 15px;
+    color: #fff;
+    border-radius: 7px;
+}
+
+.catalog-dash .btm-list .see-all:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+.catalog-dash .btm-list .see-all {
+    color: rgb(255, 0, 234);
+    opacity: 0.8;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 15px;
+    margin-left: auto;
+}

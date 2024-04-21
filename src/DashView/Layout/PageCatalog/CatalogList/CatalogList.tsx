@@ -2,9 +2,12 @@ import './CatalogList.css'
 import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList'
 import {useCatalogStore} from '../CatalogStore';
+import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 export function CatalogList() {
     const { current ,  setAbsPath } = useDashRoute()
     const  {  catalogs , fetchCatalogs , setSelectedCatalog} = useCatalogStore()
+    console.log(catalogs);
+    
     return current('catalogs')&&(
         <div className="catalog-list" >
             <div className="list-ctn">
@@ -24,10 +27,15 @@ export function CatalogList() {
                                 )
                             }
                         },
-                        total_product:GenericList.StringElement(),
                         label: GenericList.StringElement({ size_interval: [50, 200] }),
+                        total_product:{
+                            getView(label, value, e, setRef) {
+                                const mapper = GenericList.StringElement();
+                                return mapper.getView(label,value||0,e, setRef);
+                            },
+                        },
                         description: GenericList.StringElement({ size_interval: [50, 200] }),
-                        status: GenericList.StringElement({size:150}),
+                        status:StatusElement,
                         created_at: GenericList.DateStringElement({size:200}),
                     }}
                     
@@ -46,6 +54,7 @@ export function CatalogList() {
                     }}     
                     top_height={40}
                     canAddNew
+                    canPaginate
                     onNewRequired={()=>{
                         setAbsPath(['store','catalogs','new_catalog'])
                     }}
