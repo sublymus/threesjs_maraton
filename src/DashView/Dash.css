@@ -158,3 +158,22 @@
     height: 100%;
     background: #fff;
 }
+
+
+
+
+
+.not-found{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.not-found .img{
+    margin-top: 100px;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    width: 60%;
+    height: 60%;
+    background: no-repeat center/cover url(/src/res/not_found.jpg);
+}

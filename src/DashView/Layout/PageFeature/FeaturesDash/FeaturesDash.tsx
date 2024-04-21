@@ -11,6 +11,7 @@ import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
 import { Preview3DModelCard } from '../../../Component/Chart/Preview3DModelCard/Preview3DModelCard';
 import { ChoiseCatalog } from '../../../Component/ChoiseCatalog/ChoiseCatalog';
 import { useFeatureStore } from '../FeatureStore';
+import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 
 
 export function FeaturesDash() {
@@ -29,75 +30,83 @@ export function FeaturesDash() {
     }, [selectedFeature])
     console.log(selectedFeature);
 
-    return current('dash_features') && (
-        <div className="dash-feature">
-            <div className="feature-dash-top">
-                <h1>Catalog Information</h1>
-                <div className="save">
-                    <div className="icon"></div>
-                    <div className="label">SAVE</div>
-                </div>
+    const isNew = current('new_feature');
+    const isDash = current('dash_features');
+    return (isDash || isNew) && (
+        (!selectedFeature) ? (
+            <div className="not-found">
+                <div className="img"></div>
             </div>
-            <section className={"editor " + wrap}>
-                <div className="left-side">
-                    <div className="editor-name">
-                      
-                    </div>
-
-                    <div className="editor-scene-file">
-                        <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
-                            collected['scene_dir'] = file;
-                        }} />
+        ) : (
+            <div className="dash-feature" ref={bindToParentScroll}>
+                <div className="feature-dash-top">
+                    <h1>Catalog Information</h1>
+                    <div className="save">
+                        <div className="icon"></div>
+                        <div className="label">SAVE</div>
                     </div>
                 </div>
-                <div className="right-side">
-                    <ActionsCard />
-                    <Preview3DModelCard onClick={() => {
+                <section className={"editor " + wrap}>
+                    <div className="left-side">
+                        <div className="editor-name">
 
-                    }} direction='horizontal' />
-                </div>
+                        </div>
 
-            </section>
-            <h1 className=''>Products That Use This Category</h1>
-            <GenericList filter={{
-                sortBy: 'id',
-                limit: productsUseFeature?.limit || 25,
-                page: productsUseFeature?.page,
-                total: productsUseFeature?.total,
-            }}
-                disableFilterBar
-                items_height={80}
-                id={'product-use-catalog_list'}
-                datas={productsUseFeature?.list || []}
-                itemsMapper={{
-                    images: {
-                        getView(label, value, e, setRef) {
-                            return (
-                                GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
-                            )
-                        }
-                    },
-                    id: {
-                        getView(_, value: string, e, setRef) {
-                            return (
-                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                            )
-                        }
-                    },
-                    title: GenericList.StringElement({ size_interval: [50, 200] }),
-                    status: GenericList.StringElement({ size: 150 }),
-                    stock: GenericList.StringElement(),
-                    category_id: {
-                        getView(_, value, e, setRef) {
-                            return (
-                                <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                            )
-                        }
-                    },
-                    price: GenericList.StringElement({ size: 200 }),
-                    created_at: GenericList.DateStringElement({ size: 200 }),
-                }}>
-            </GenericList>
-        </div>
+                        <div className="editor-scene-file">
+                            <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                                collected['scene_dir'] = file;
+                            }} />
+                        </div>
+                    </div>
+                    <div className="right-side">
+                        <ActionsCard />
+                        <Preview3DModelCard onClick={() => {
+
+                        }} direction='horizontal' />
+                    </div>
+
+                </section>
+                <h1 className=''>Products That Use This Category</h1>
+                <GenericList filter={{
+                    sortBy: 'id',
+                    limit: productsUseFeature?.limit || 25,
+                    page: productsUseFeature?.page,
+                    total: productsUseFeature?.total,
+                }}
+                    disableFilterBar
+                    items_height={80}
+                    id={'product-use-catalog_list'}
+                    datas={productsUseFeature?.list || []}
+                    itemsMapper={{
+                        images: {
+                            getView(label, value, e, setRef) {
+                                return (
+                                    GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
+                                )
+                            }
+                        },
+                        id: {
+                            getView(_, value: string, e, setRef) {
+                                return (
+                                    <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                )
+                            }
+                        },
+                        title: GenericList.StringElement({ size_interval: [50, 200] }),
+                        status: GenericList.StringElement({ size: 150 }),
+                        stock: GenericList.StringElement(),
+                        category_id: {
+                            getView(_, value, e, setRef) {
+                                return (
+                                    <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
+                                )
+                            }
+                        },
+                        price: GenericList.StringElement({ size: 200 }),
+                        created_at: GenericList.DateStringElement({ size: 200 }),
+                    }}>
+                </GenericList>
+            </div>
+        )
     )
 }

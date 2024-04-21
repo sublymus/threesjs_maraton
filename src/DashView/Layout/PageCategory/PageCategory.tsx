@@ -11,7 +11,7 @@ export function PageCategory() {
     return check('categories') && (
         <div className='page-categories'>
             {
-                current('categories') && <ProductsListAccessor active='CATEGORIES' setActive={((a)=>setAbsPath(a.path as any))}/>
+                (current('categories') || current('new_category')|| current('dash_categories')) && <ProductsListAccessor active='CATEGORIES' setActive={((a)=>setAbsPath(a.path as any))}/>
             }
             <CategoryList />
             <CategoryDash/>

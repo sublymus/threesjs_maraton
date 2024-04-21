@@ -3,18 +3,9 @@ import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { useCategotyStore } from '../CategoryStore'
 
-// import { FilterLevel } from './ListSearchBar/Filter/FilterLevel/FilterLevel';
-// import { FilterSwitch } from "./ListSearchBar/Filter/FilterSwitch/FilterSwitch";
-// import { FilterCollector } from "./ListSearchBar/Filter/FilterCollector/FilterCollector";
-// import { FilterListCollector } from "./ListSearchBar/Filter/FilterListCollector/FilterListCollector";
-
-import *  as countries from 'countries-list'
 import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
-import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
-import { FilterListCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterListCollector/FilterListCollector';
-
 export function CategoryList() {
     const { current , setAbsPath} = useDashRoute();
     const {fetchCategories , categories, setSelectedCategories} = useCategotyStore();
@@ -27,7 +18,7 @@ export function CategoryList() {
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'label','description', 'catalog_id' , 'index' , 'status', 'created_at', 'total_products'],
-                    limit: categories?.limit||1,
+                    limit: categories?.limit,
                     page: categories?.page,
                     total: categories?.total,
                     filter:{
@@ -72,7 +63,7 @@ export function CategoryList() {
                     top_height={40}
                     canAddNew
                     onNewRequired={()=>{
-                        setAbsPath(['store','categories','dash_categories'])
+                        setAbsPath(['store','categories','new_category'])
                     }}>
 
                 </GenericList>

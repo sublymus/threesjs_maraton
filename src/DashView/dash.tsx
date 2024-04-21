@@ -27,6 +27,7 @@ const PathMap = {
     statistic: 'Statistic',
     action: 'Action',
     new_product: 'New Product',
+    new_category:'New Category',
     product_preview:'Product Preview'
 }
 

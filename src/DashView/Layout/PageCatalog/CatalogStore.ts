@@ -9,6 +9,7 @@ interface DashState {
     fetchCatalogs(query?: Record<string, any>): Promise<void>,
     updateCatalog(catalog:Record<string, any>):Promise<void>,
     fetchCatalogProducts(filter:Record<string, any>):Promise<void>
+    createCatalog(catalog:Record<string, any>):Promise<string[]|undefined>
 }
 
 const CATALOG_CACHE: {
@@ -18,6 +19,38 @@ export const useCatalogStore = create<DashState>((set) => ({
     catalogs: undefined,
     selectedCatalog:undefined,
     catalogProducts:undefined,
+    async createCatalog(catalog) {
+        catalog.index = catalog.index ||0;
+        const formData = new FormData();
+        const error :string[]= [];
+       
+        ['label', 'description', 'index'].forEach(p => {
+            if (catalog[p]!=undefined) {
+                formData.append(p, catalog[p]);
+            }else{
+                return error.push(p+' is not defined');
+            }
+        }); 
+
+        console.log(error , catalog);
+        
+        if (error.length==0) {
+            const response =await fetch(`${Host}/create_catalog`, {
+                method: 'POST',
+                body: formData
+            });
+            const json = await response.json();
+            console.log(json);
+            
+            if(!json || !json.id){ 
+                error.push('Server Error, Try Later');
+                return  error
+            }
+            set(()=>({selectedCatalog:json}));
+        }else{
+            return error;
+        }
+    },
     async fetchCatalogProducts(filter) {
         if(!filter?.catalog_id) return;
         try {

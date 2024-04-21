@@ -7,13 +7,14 @@ import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
 import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
+import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
 // import React from 'react'
 export function ProductList() {
     const { current , setAbsPath} = useDashRoute();
     const {fetchProducts , products, setSelectedProduct} = useProductStore();
     
     return current('products') && (
-        <div className="product-list">
+        <div className="product-list" ref={bindToParentScroll}>
             <div className="list-ctn">
                 <GenericList filter={{
                     sortBy:'id',

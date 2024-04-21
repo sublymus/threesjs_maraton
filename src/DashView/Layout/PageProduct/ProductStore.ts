@@ -2,23 +2,32 @@ import { create } from "zustand";
 import { ListType, ProductInterface } from "../../../DataBase";
 import { Host } from '../../../Config'
 import type { ImageViewerMapper } from "../../Component/ImageViewer/ImageViewer";
-import { useDashRoute } from "../../dashStore";
 
 interface ProductState {
     products: ListType<ProductInterface> | undefined;
     selectedProduct: ProductInterface | undefined;
     fetchProducts(filter?: Record<string, any>): Promise<void>;
-    setSelectedProduct(selected: ProductInterface): Promise<void>;
+    setSelectedProduct(selected: ProductInterface|undefined): Promise<void>;
     updateProduct(product: Record<string, any>): Promise<void>;
     createProduct(product: Record<string, any>): Promise<string[]|undefined>;
+    removeProduct(product: string):Promise<string|undefined>
 }
 
 export const useProductStore = create<ProductState>((set) => ({
     products: undefined,
     selectedProduct: undefined,
+    async removeProduct(product_id) {
+        const response = await fetch(`${Host}/delete_product/${product_id}`, {
+            method: 'DELETE'
+        });
+        const json  = await  response.json();
+        console.log({json});
+        
+        return json?.isDeleted;
+    },
     async createProduct(product) {
         product.index = product.index ||0;
-        product.is_dynamic_price = product.is_dynamic_price||true;
+        product.is_dynamic_price = product.is_dynamic_price||true; 
         const formData = new FormData();
         const error :string[]= [];
         ['images', 'model_images'].forEach(p => {
@@ -103,7 +112,7 @@ export const useProductStore = create<ProductState>((set) => ({
             f.append('product_id', product.product_id);
             console.log(f);
 
-            const res = fetch(`${Host}/update_view_product`, {
+            const res = await fetch(`${Host}/update_view_product`, {
                 method: 'PUT',
                 body: f
             })

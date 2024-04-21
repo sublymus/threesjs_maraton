@@ -30,6 +30,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     let Dtarg: string | undefined;
 
     const newFiles = (files: FileList) => {
+        if(!files || files.length==0) return
         const r = {} as ImageViewerMapper;
         for (let i = files.length - 1; i >= 0; i--) {
             const file = files[i];
@@ -95,7 +96,10 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                     e.currentTarget.style.opacity = '';
                                 }}
                                 onDrop={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     e.currentTarget.style.opacity = '';
+                                    newFiles(e.dataTransfer.files);
                                 }} onDragEnd={() => {
                                         if (!Dtarg || !Dimg) return;
                                         let a = imageMapper[Dimg].index - imageMapper[Dtarg].index;

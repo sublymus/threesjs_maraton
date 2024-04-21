@@ -6,14 +6,14 @@ export function CatalogList() {
     const { current ,  setAbsPath } = useDashRoute()
     const  {  catalogs , fetchCatalogs , setSelectedCatalog} = useCatalogStore()
     return current('catalogs')&&(
-        <div className="catalog-list">
+        <div className="catalog-list" >
             <div className="list-ctn">
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'label','description' , 'index' , 'status', 'created_at'],
-                    limit: catalogs?.limit||1,
+                    limit: catalogs?.limit,
                     page: catalogs?.page,
-                    total: catalogs?.total,
+                    total: catalogs?.total, 
                     filter:{}
                 }}
                     items_height={80} id={'category_list'} datas={catalogs?.list||[]} itemsMapper={{
@@ -47,7 +47,7 @@ export function CatalogList() {
                     top_height={40}
                     canAddNew
                     onNewRequired={()=>{
-                        setAbsPath(['store','catalogs','dash_catalogs'])
+                        setAbsPath(['store','catalogs','new_catalog'])
                     }}
                     >
                 </GenericList>

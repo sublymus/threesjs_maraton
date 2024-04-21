@@ -12,7 +12,7 @@ export function PageFeature() {
     return check('features') && (
         <div className='page-features'>
             {
-                current('features') && <ProductsListAccessor active='FEATURES' setActive={((a)=>setAbsPath(a.path as any))}/>
+               ( current('features')|| current('dash_features') || current('new_feature') )&& <ProductsListAccessor active='FEATURES' setActive={((a)=>setAbsPath(a.path as any))}/>
             }
             <FeaturesList />
             <FeaturesDash/>

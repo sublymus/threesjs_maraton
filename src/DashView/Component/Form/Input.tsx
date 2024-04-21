@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './Input.css'
 
 
-export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type , onChange }: { onChange?:(value:string|number)=>any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
+export function InputText({ placeholder, value: _v, isCheckRequired, label, max, min, check, openEditor, prompt: _prompt, editable, type , onChange }: { onChange?:(value:string|number)=>any, editable?: boolean, prompt?: string, openEditor?: boolean, isCheckRequired?: boolean, check?: 'auto' | 'event', type?: 'number' | 'text' | 'email' | 'password', min?: number, max?: number, label?: string, placeholder?: string, value?: string | number }) {
     const [value, setValue] = useState(_v || '')
     const [count, setCount] = useState(0)
     const [message, setMessage] = useState('')

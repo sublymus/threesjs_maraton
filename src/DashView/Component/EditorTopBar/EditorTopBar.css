@@ -1,0 +1,90 @@
+.product-dash-top {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.product-dash-top > * {
+    margin: 5px;
+}
+
+.product-dash-top.column{
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.product-dash-top.row{
+    align-items: center;
+}
+
+.product-dash-top .btn-ctn > div:hover {
+    opacity: 1;
+    transition: 200ms;
+}
+
+.product-dash-top .btn-ctn >div {
+    display: flex;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    background: #0002;
+    transition: 200ms;
+    margin-left: 20px;
+    padding: 5px;
+    padding-right: 10px;
+    border-radius: 7px;
+}
+
+.product-dash-top.column .btn-ctn{
+    margin-top: 10px;
+}
+.product-dash-top .btn-ctn {
+    display: flex;
+}
+
+.product-dash-top .delete {
+    filter: invert(10%) sepia(97%) saturate(4737%) hue-rotate(327deg) brightness(85%) contrast(105%);
+}
+
+.product-dash-top .create {
+    filter: invert(17%) sepia(99%) saturate(7495%) hue-rotate(224deg) brightness(96%) contrast(102%);
+}
+
+.product-dash-top .icon.confirm {
+    background: no-repeat center/80% url(/src/res/trash-2.png);
+}
+
+.product-dash-top .icon.cancel {
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+    transform: rotate(90deg);
+}
+
+.product-dash-top .icon.delete {
+    background: no-repeat center/80% url(/src/res/x.png);
+}
+
+.product-dash-top .icon {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    margin-right: 5px;
+    background: no-repeat center/80% url(/src/res/plus.png);
+}
+
+.product-dash-top.column input{
+    margin-top: 10px;
+}
+.product-dash-top input {
+    all: unset;
+    margin-left: 20px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
+    padding-left: 10px;
+    color: rgb(161, 65, 0);
+
+}

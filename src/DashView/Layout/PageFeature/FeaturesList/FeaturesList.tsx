@@ -3,6 +3,7 @@ import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { useFeatureStore } from '../FeatureStore'
 import { Host } from '../../../../Config';
+import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 export function FeaturesList() {
 
     const { current, setAbsPath } = useDashRoute();

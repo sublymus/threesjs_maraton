@@ -1,6 +1,8 @@
 .catalog-dash{
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
@@ -10,18 +12,24 @@
    align-items: center;
 }
 
-.catalog-dash .catalog-dash-top .save:hover{
+.catalog-dash .catalog-dash-top .create:hover {
     opacity: 1;
     transition: 200ms;
 }
-.catalog-dash .catalog-dash-top .save{
+
+.catalog-dash .catalog-dash-top .create {
     display: flex;
     display: flex;
     align-items: center;
     filter: invert(17%) sepia(99%) saturate(7495%) hue-rotate(224deg) brightness(96%) contrast(102%);
-    opacity: 0.6;
+    opacity: 0.7;
+    background: #0002;
     transition: 200ms;
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 7px;
 }
+
 
 .catalog-dash .catalog-dash-top .icon{
    display: flex;
@@ -29,7 +37,6 @@
    height: 30px;
    background: #345;
    align-items: center;
-   margin-left: 20px;
    margin-right: 10px;
    background: no-repeat center/80% url(/src/res/arrow-down-to-line.png);
 }
