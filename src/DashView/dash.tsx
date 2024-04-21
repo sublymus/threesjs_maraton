@@ -10,7 +10,7 @@ import { useDashStore, useDashRoute } from './dashStore';
 import { PageCategory } from "./Layout/PageCategory/PageCategory";
 import { PageFeature } from "./Layout/PageFeature/PageFeature";
 import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import React from 'react'
 
 const PathMap = {
@@ -20,26 +20,29 @@ const PathMap = {
     features: 'Features',
     catalogs: 'Catalogs',
     dash_product: 'Editor',
-    dash_categories:'Editor',
-    dash_features:'Editor',
-    dash_catalogs:'Editor',
+    dash_categories: 'Editor',
+    dash_features: 'Editor',
+    dash_catalogs: 'Editor',
     preview: 'Preview',
     statistic: 'Statistic',
     action: 'Action',
     new_product: 'New Product',
-    new_category:'New Category',
-    product_preview:'Product Preview'
+    new_category: 'New Category',
+    product_preview: 'Product Preview'
 }
 
 export function Dash() {
-    const { currentChild, openChild } = useDashStore();
-    const { pathList, setAbsPath } = useDashRoute()
+    const { currentChild, openChild, fetchStoreVar} = useDashStore();
+    const { pathList, setAbsPath  } = useDashRoute()
     const [active, setActive] = useState('')
     const paths: string[] = []
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])
     })
+    useEffect(() => {
+        fetchStoreVar();
+    },[])
     return (
         <div className={'dash ' + (active ? 'sombre-mode-variable' : '')}>
             <NavBar />

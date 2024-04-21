@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Category, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
+import { useDashStore } from "../../dashStore";
 interface DashState {
     categories: ListType<Category> | undefined,
     selectedCategory: Category | undefined,
@@ -54,6 +55,7 @@ export const useCategotyStore = create<DashState>((set) => ({
                 return  error
             }
             set(()=>({selectedCategory:json}));
+            useDashStore.getState().fetchStoreVar();
         }else{
             return error;
         }

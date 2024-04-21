@@ -1,45 +1,46 @@
 import './ProductsListAccessor.css';
-import { useDashRoute } from "../../dashStore";
+import { useDashRoute, useDashStore } from "../../dashStore";
 
 
 const topCard=  [
     {
-        label: "PRODUCTS",
+        label: "products",
         value: '23',
         url: '/src/res/package.png',
         path: ['store', 'products']
     },
     {
-        label: "CATEGORIES",
+        label: "categories",
         value: '15',
         url: '/src/res/application.png',
         path: ['store', 'categories']
     },
     {
-        label: "CATALOGS",
+        label: "catalogs",
         value: '4',
         url: '/src/res/catalog.png',
         path: ['store', 'catalogs']
     },
     {
-        label: "FEATURES",
+        label: "features",
         value: '78',
         url: '/src/res/jigsaw.png',
         path: ['store', 'features']
     },
 ] as const 
 export function ProductsListAccessor({active, setActive}:{active:typeof topCard[number]['label'], setActive:(active:typeof topCard[number])=>any}) {
-    
-    const {setAbsPath} = useDashRoute();
-
+    const {storeVar} = useDashStore();
     return (
         <div className="products-list-accessor">
         {topCard.map((c, i) => (
             <div className={'top-card ' + (c.label == active ? 'active' : '')} key={i} onClick={() => {
                 setActive(c);
             }} >
-                <h2 className="label">{c.label}</h2>
-                <h2 className="value">{c.value}</h2>
+                <h2 className="label">{c.label.toUpperCase()}</h2>
+                
+                <h2 className="value">{
+                 storeVar?.[c.label]
+                }</h2>
                 <h2 className="icon" style={{ backgroundImage: `url(${c.url})` }}></h2>
             </div>
         ))}

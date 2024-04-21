@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { CatalogueInterface, Category, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
+import { useDashStore } from "../../dashStore";
 interface DashState {
     catalogs: ListType<CatalogueInterface> | undefined,
     selectedCatalog: CatalogueInterface|undefined,
@@ -59,6 +60,7 @@ export const useCatalogStore = create<DashState>((set) => ({
                 return  error
             }
             set(()=>({selectedCatalog:json}));
+            useDashStore.getState().fetchStoreVar();
         }else{
             return error;
         }
@@ -118,7 +120,7 @@ export const useCatalogStore = create<DashState>((set) => ({
                 send = true
             } 
         }); 
-        
+
         if (send) {
             const response = fetch(`${Host}/update_catalog`, {
                 method: 'PUT',

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Category, Feature, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useProductStore } from "../PageProduct/ProductStore";
+import { useDashStore } from "../../dashStore";
 interface DashState {
     features: ListType<Feature> | undefined,
     selectedFeature: Feature | undefined,
@@ -37,6 +38,8 @@ export const useFeatureStore = create<DashState>((set) => ({
         set(()=>({selectedFeature:selected}))
     },
     async createFeature(feature) {
+
+        useDashStore.getState().fetchStoreVar();
         return undefined
     },
     async updateFeature(feature) {

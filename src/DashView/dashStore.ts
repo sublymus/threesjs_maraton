@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
+import { Host } from "../Config";
 type Theme= Record<string,{prim:string,secd:string,fird:string,canl:string,save:string,back:string,shad:string}>;
 /*
 default path,
@@ -60,15 +61,33 @@ const Pages = {
     }
 }
 
+interface StoreVar{
+    products:number,
+    categories:number,
+    catalogs:number,
+    features:number
+}
+
 interface DashState{
     T:Theme|undefined,
     setT(T:Theme):void,
+    storeVar:StoreVar|undefined,
     currentChild:JSX.Element|undefined,
     openChild:(child:JSX.Element|undefined)=>any,
+    fetchStoreVar():Promise<void>;
 }
 
 export const useDashStore = create<DashState>((set)=>({
     T:undefined,
+    storeVar:undefined,
+    async fetchStoreVar() {
+        const response =  await  fetch(`${Host}/get_store_var`);
+        const json = await response.json();
+        if(!json) return;
+        set(()=>({storeVar:json}));
+        console.log({json});
+        
+    },
     setT(_T){
     },
     currentChild:undefined,

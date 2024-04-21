@@ -74,7 +74,7 @@ export function CategoryDash() {
                     createCategory(collected).then((error) => {
                         if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
                         // if (error.length) setError(error?.toString())
-                    })
+                    });
                 }} onDelete={() => {
                     removeCategory(selectedCategory?.id).then((res) => {
                         if (res) {

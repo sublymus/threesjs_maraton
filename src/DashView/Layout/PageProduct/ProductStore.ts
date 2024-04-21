@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { ListType, ProductInterface } from "../../../DataBase";
 import { Host } from '../../../Config'
 import type { ImageViewerMapper } from "../../Component/ImageViewer/ImageViewer";
+import { useDashStore } from "../../dashStore";
 
 interface ProductState {
     products: ListType<ProductInterface> | undefined;
@@ -63,6 +64,7 @@ export const useProductStore = create<ProductState>((set) => ({
                 return  error
             }
             set(()=>({selectedProduct:json}));
+            useDashStore.getState().fetchStoreVar();
         }else{
             return error;
         }
