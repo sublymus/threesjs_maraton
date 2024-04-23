@@ -7,14 +7,12 @@ const root = document.getElementById('root')!;
   const view_path=window.location.pathname.split('/')[1]
   let view;
   if(view_path === 'dash'){
-    console.log('dash');
-    
-    const {DashView} = await import('./DashView/dash_view') ;
-    view = DashView
+    view = (await import('./DashView/dash_view')).DashView;
   }
-  else{
-    const {ClientView} = await import('./ClientApp/client_view');
-    view = ClientView
+  else if(view_path === 'demo'){
+    view = (await import('./ClientApp/client_view')).ClientView;
+  }else{
+    view = (await import('./Web/WebView')).WebView;
   }
 
   ReactDOM.createRoot(root).render(view)

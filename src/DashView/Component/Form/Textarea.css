@@ -48,7 +48,7 @@
     opacity: 0;
     display: none;
     border-radius: 10px;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .textarea .textarea-top .textarea-info:hover .promt{
@@ -76,13 +76,13 @@
 }
 
 .textarea .value{
-    font-size: 0.9em;
+    font-size: 1em;
     opacity: 0.5;
     margin-top: 10px;
 }
 
 .textarea .message{
-    font-size: 0.9em;
+    font-size: 1em;
     color: rgba(85, 51, 51, 0.667)
 }
 
@@ -100,6 +100,6 @@
 .textarea .count {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9em;
+    font-size: 1em;
     color: #345a
 }

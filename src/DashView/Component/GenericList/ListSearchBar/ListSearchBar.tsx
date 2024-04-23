@@ -19,7 +19,11 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
             <div className="search">
                 <input type="text" placeholder='Search by Id , text' onChange={(e) => {
                     setText(e.currentTarget.value)
-                }} />
+                }} onKeyUp={(e)=>{
+                    if(e.code == 'Enter'){
+                        onInputChange?.(text)
+                    }
+                }}/>
                 <div className="icon" onClick={() => {
                     onInputChange?.(text)
                 }}></div>

@@ -79,7 +79,7 @@ export const useCatalogStore = create<DashState>((set) => ({
                 searchParams.set(key, value);
             }
             
-            const response = await fetch(`${Host}/get_catalog_categories/?${searchParams.toString()}`);
+            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`);
             const json = (await response.json()) as ListType<Category>;
             if (!json || !json.list) return
             set(() => ({ catalogCategories: json }));

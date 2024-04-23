@@ -14,7 +14,7 @@ import { useProductStore } from '../../PageProduct/ProductStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { useCategotyStore } from '../../PageCategory/CategoryStore';
-import { ChoiseStatus } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { ChoiseStatus, StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 
 export function CatalogDash() {
     const { current, setAbsPath } = useDashRoute();
@@ -165,7 +165,6 @@ export function CatalogDash() {
                                         }
                                     },
                                     title: GenericList.StringElement({ size_interval: [50, 200] }),
-                                    status: GenericList.StringElement({ size: 150 }),
                                     stock: GenericList.StringElement(),
                                     category_id: {
                                         getView(_, value, e, setRef) {
@@ -175,6 +174,7 @@ export function CatalogDash() {
                                         }
                                     },
                                     price: GenericList.StringElement({ size: 200 }),
+                                    status: StatusElement,
                                     created_at: GenericList.DateStringElement({ size: 200 }),
                                 }}
                                 onItemsSelected={(item) => {
@@ -199,7 +199,6 @@ export function CatalogDash() {
                                         }
                                     },
                                     label: GenericList.StringElement({ size_interval: [50, 200] }),
-                                    status: GenericList.StringElement({ size: 150 }),
                                     total_products: {
                                         getView(label, value, e, setRef) {
                                             const mapper = GenericList.StringElement();
@@ -213,6 +212,7 @@ export function CatalogDash() {
                                             )
                                         }
                                     },
+                                    status: StatusElement,
                                     created_at: GenericList.DateStringElement({ size: 500 }),
                                 }}
                                 onItemsSelected={(item) => {

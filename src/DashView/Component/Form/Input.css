@@ -40,7 +40,7 @@
     opacity: 0;
     display: none;
     border-radius: 10px;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .input .input-top .input-info:hover .promt{
@@ -68,12 +68,12 @@
 }
 
 .input .value{
-    font-size: 0.9em;
+    font-size: 1em;
     opacity: 0.5;
 }
 
 .input .message{
-    font-size: 0.9em;
+    font-size: 1em;
     color: rgba(85, 51, 51, 0.667)
 }
 

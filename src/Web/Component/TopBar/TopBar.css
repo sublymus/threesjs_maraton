@@ -1,0 +1,72 @@
+.top-bar {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:50px;
+}
+
+.top-bar .logo-ctn {
+    width: 150px;
+    height: 50px;
+    background: no-repeat center/contain url(/src/res//img/img3.svg);
+}
+
+.top-bar .top-bar-center {
+    display: flex;
+}
+
+.top-bar .top-bar-center li.active, .top-bar .top-bar-center li.active:hover {
+    color: #fff;
+    /* font-weight: bold; */
+}
+
+.top-bar .top-bar-center li:hover {
+    color: #dedede;
+}
+
+.top-bar .top-bar-center li {
+    all: unset;
+    letter-spacing: 3px;
+    margin: 10px 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: var( --text-color-annex );
+}
+
+.top-bar .top-bar-center li.active span ,.top-bar .top-bar-center li:hover span  {
+    display: inline-block;
+    width: 100%;
+    height: 3px;
+    background:var(--color-blue-purple);
+    transition: 200ms;
+}
+
+.top-bar .top-bar-center li span{
+    display: inline-block;
+    width: 0%;
+    height: 0px;
+    background:var(--color-blue-purple);
+    transition: 200ms;
+}
+.top-bar .login:hover {
+    transition: 100ms;
+    opacity: 0.9;
+}
+.top-bar .login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    background: var(--linear-orange); 
+    opacity: 1;
+    transition: 100ms;
+    border-radius: 50px;
+    cursor: pointer;
+}

@@ -42,7 +42,6 @@ export function Textarea({ placeholder, value: _v, isCheckRequired, label, max, 
             const t = `${-10 - rect.height}px`;
             infoPromt.current.style.top = t
         }
-       
     }
     return (
         <div className="textarea-text textarea">
