@@ -1,4 +1,4 @@
-import UidGenerator from './uidGenerator';
+import {generateUid} from './uidGenerator';
 
 type EventInfo = {
     event: string,
@@ -57,12 +57,11 @@ type T4 = {
 }
 
 
-class EventEmiter extends UidGenerator {
+class EventEmiter {
 
     private eventsManager: ManagerSchema = {};
 
     constructor(private constraints?: constraintsShema) {
-        super();
     }
 
     #avalaible(event: string): boolean {
@@ -83,7 +82,7 @@ class EventEmiter extends UidGenerator {
 
     when(events: string, listener: listenerSchema, changeRequired?: boolean): EventEmiter {
 
-        let uid = this.validatedUid(listener?.uid) ? listener.uid + '' : listener.uid = (changeRequired ? '#' : '') + this.generateUid();
+        let uid = listener?.uid ? listener.uid + '' : listener.uid = (changeRequired ? '#' : '') + generateUid();
 
         events.trim().split(' ').forEach(event => {
             if (event == '') return;

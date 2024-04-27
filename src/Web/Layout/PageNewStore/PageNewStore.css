@@ -1,0 +1,161 @@
+.page-new-store {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 2000px;
+}
+.editor-top-bar{
+    width: 100%;
+}
+
+.store-select-btn{
+    cursor: pointer;
+    padding: 20px 40px;
+    background: linear-gradient(0.25turn, #5900ff, #0059ffa6);
+    border-radius: 15px;
+}
+.page-new-store .center-content.wrap{
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.page-new-store .center-content {
+    width: 100%;
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: space-around;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.page-new-store .center-content.wrap>div{
+    max-width: 600px;
+    height: calc(100% - 50px);
+    width: 100%;
+    margin-top: 30px;
+}
+.page-new-store .center-content>div {
+    max-width: 600px;
+    height: calc(100% - 50px);
+    width: 50%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-new-store .center-content .center-left .banner.nothing {
+    border: dashed 3px #000;
+    filter: invert(100%);
+}
+
+.page-new-store .center-content .center-left .banner.nothing .img {
+    width: 100%;
+    height: 100%;
+    filter: hue-rotate(130deg);
+    background: no-repeat center/60% url(/src/res/drag_and_drop.png);
+    display: block;
+    cursor: pointer;
+}
+
+.page-new-store .center-content .center-left .banner {
+    width: 500px;
+    height: 500px;
+    border-radius: 20px;
+}
+
+.page-new-store .center-content .center-left .choose-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-new-store .center-content .center-left .choose-img .btn {
+    display: block;
+    width: 200px;
+    min-width: 200px;
+    height: 40px;
+    background: #456;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+.page-new-store .center-content .center-right span {
+    font-weight: bold;
+    font-size: 3em;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+    color: rgb(78, 104, 131);
+}
+.page-new-store .center-content .center-right .name {
+    color: #fff;
+}
+
+.page-new-store .center-content .center-right .user-name {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.page-new-store .center-content .center-right label {
+    font-weight: bold;
+}
+
+.page-new-store .center-content .center-right>div {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-new-store .center-content .center-right input {
+    all: unset;
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    padding-left: 20px;
+    background: #fff0;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.page-new-store .center-content .center-right .btn:hover {
+    opacity: 0.9;
+}
+
+.page-new-store .center-content .center-right .btm {
+ width: 100%;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-around;
+ margin-top: 50px;
+ 
+}
+.page-new-store .center-content .center-right .btn.open{
+    background: linear-gradient(0.25turn, #0090a3, #007185a6);
+}
+.page-new-store .center-content .center-right .btn {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0.25turn, #5900ff, #0059ffa6);
+    border-radius: 15px;
+    opacity: 1;
+    cursor: pointer;
+}

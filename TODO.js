@@ -45,11 +45,9 @@ Router{
 
 }
 
-
 Loading
 
 Music
-
 
 Payement
 
@@ -58,11 +56,6 @@ Theme sombre / claire
 catalogue (responsive )
 
 filter (responsive )
-
-
-
-
-
 
 # animation event
 showFeature(uuid)

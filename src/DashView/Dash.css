@@ -12,6 +12,11 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    /* filter: blur(5px); */
+}
+
+.dash .dash-ctn.blur {
+  filter: blur(20px);
 }
 
 
@@ -103,26 +108,35 @@
     padding: 7px;
     box-shadow:none;
     transition: 200ms;
+    background: no-repeat center/70% url(/src//res/moon.png), #fff;
+    width: 40px;
+    height: 40px;
 }
 .dash .center-top .dark-mode.active .dark-mode-btn {
-    background: #345;
+    background: no-repeat center/70% url(/src//res/moon.png), rgb(211, 166, 128);
     opacity: 1;
     transition: 200ms;
     box-shadow: var(--box-shadow);
+    width: 40px;
+    height: 40px;
+    filter: invert(100%);
 }
 
 .dash .center-top .dark-mode .dark-white-btn {
     font-size: 1.5em;
     opacity: 1;
     padding: 7px;
-    background: #fff;
+    background: no-repeat center/70% url(/src//res/sun.png) #fff;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
     transition: 200ms;
+    width: 40px;
+    height: 40px;
+
 }
 .dash .center-top .dark-mode.active .dark-white-btn {
     opacity: 0.5;
-    background: #3450;
+    background: no-repeat center/70% url(/src//res/sun.png) #3450;
     box-shadow:none;
     transition: 200ms;
 

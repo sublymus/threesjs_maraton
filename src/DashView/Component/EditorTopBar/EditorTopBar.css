@@ -1,33 +1,33 @@
-.product-dash-top {
+.editor-top-bar {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
-.product-dash-top > * {
+.editor-top-bar > * {
     margin: 5px;
 }
 
-.product-dash-top.column{
+.editor-top-bar.column{
     align-items: flex-start;
     flex-direction: column;
 }
 
-.product-dash-top.row{
+.editor-top-bar.row{
     align-items: center;
 }
 
-.product-dash-top .btn-ctn > div:hover {
+.editor-top-bar .btn-ctn > div:hover {
     opacity: 1;
     transition: 200ms;
 }
 
-.product-dash-top .btn-ctn >div {
+.editor-top-bar .btn-ctn >div {
     display: flex;
     display: flex;
     align-items: center;
     opacity: 0.7;
-    background: #0002;
+    background: #ccc3;
     transition: 200ms;
     margin-left: 20px;
     padding: 5px;
@@ -35,35 +35,40 @@
     border-radius: 7px;
 }
 
-.product-dash-top.column .btn-ctn{
+.editor-top-bar.column .btn-ctn{
     margin-top: 10px;
 }
-.product-dash-top .btn-ctn {
+.editor-top-bar .btn-ctn {
     display: flex;
 }
 
-.product-dash-top .delete {
+.editor-top-bar .delete.dark {
+    filter: invert(50%) sepia(97%) saturate(4737%) hue-rotate(327deg) brightness(85%) contrast(105%);
+}
+
+.editor-top-bar .delete {
     filter: invert(10%) sepia(97%) saturate(4737%) hue-rotate(327deg) brightness(85%) contrast(105%);
 }
 
-.product-dash-top .create {
+.editor-top-bar .create {
     filter: invert(17%) sepia(99%) saturate(7495%) hue-rotate(224deg) brightness(96%) contrast(102%);
 }
 
-.product-dash-top .icon.confirm {
+.editor-top-bar .icon.confirm {
     background: no-repeat center/80% url(/src/res/trash-2.png);
 }
 
-.product-dash-top .icon.cancel {
+.editor-top-bar .icon.cancel {
     background: no-repeat center/80% url(/src/res/chevron-down.png);
     transform: rotate(90deg);
+    /**/
 }
 
-.product-dash-top .icon.delete {
+.editor-top-bar .icon.delete {
     background: no-repeat center/80% url(/src/res/x.png);
 }
 
-.product-dash-top .icon {
+.editor-top-bar .icon {
     display: flex;
     width: 30px;
     height: 30px;
@@ -72,10 +77,10 @@
     background: no-repeat center/80% url(/src/res/plus.png);
 }
 
-.product-dash-top.column input{
+.editor-top-bar.column input{
     margin-top: 10px;
 }
-.product-dash-top input {
+.editor-top-bar input {
     all: unset;
     margin-left: 20px;
     font-size: 0.9em;

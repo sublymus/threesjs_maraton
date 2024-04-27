@@ -3,16 +3,18 @@ import { useState } from 'react';
 import { useWindowSize } from '../../../Hooks';
 import { useDashRoute } from '../../dashStore'
 import './NavBar.css'
+import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
 
 export function NavBar (){
     const { setAbsPath  , setPath} = useDashRoute();
-    const [active , setActive] = useState('product')
+    const [active , setActive] = useState('product');
+    const { user } = useRegisterStore();
     const size = useWindowSize();
     let width = size.width>=1300?'large':'small'
     const showText = width == 'large';
     width += size.width<1180?' option ':''
     return (
-        <div className={"nav-bar "+ width}>
+        <div className={"nav-bar "+ width +" "+(user?'':'blur')}>
                 <div className="nav-logo">
                     <div className="logo" style={{backgroundImage:`url(${'/src/res/img/logo2.png'})`}}></div>
                     {showText&&<div className="label">z</div>}

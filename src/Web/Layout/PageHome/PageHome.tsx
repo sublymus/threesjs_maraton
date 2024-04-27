@@ -1,14 +1,15 @@
 import "./PageHome.css";
-import { TopBar } from '../../Component/TopBar/TopBar'
+import { useWebRoute, useWebStore } from '../../WebStore'
+import { Local } from "../../../Config";
 
 const icons: string[] = ['img1.png', 'img2.png', 'img3.svg', 'img4.png', 'img5.svg'].map(m=> '/src/res/img/'+m);
 
 export function PageHome() {
 
-
-    return (
+    const { current, setAbsPath } = useWebRoute();
+    const {owner} = useWebStore();
+    return current('home')&&(
         <div className="page-home">
-            <TopBar page="home" />
             <div className="center-content">
                 <div className="center-left">
                     <div className="title">
@@ -23,8 +24,8 @@ export function PageHome() {
                     }    
                     </p>
                     <div className="btn-ctn">
-                        <div className="login">CREATE YOUR STORE</div>
-                        <div className="demo">LET SEE DEMO <span></span></div>
+                        <div className="login" onClick={()=>owner?setAbsPath(['store_list']):setAbsPath(['store_list'])}>MANAGE YOUR STORES</div>
+                        <a href={`${Local}/demo`} className="demo">LET SEE DEMO <span></span></a>
                     </div>
                 </div>
                 <div className="center-right"></div>

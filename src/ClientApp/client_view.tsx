@@ -25,12 +25,12 @@ export const ClientView = getClientView(
         <Products />
         <Editer />
         <Summary />
-        <WorldView root={root}/>
+        {/* <WorldView root={root}/> */}
         <TopBar />
         <Profile />
         <CatalogueOnglet />
         <CatalogueDescription />
-        <Catalogue />
+        {/* <Catalogue /> */}
 
     </React.StrictMode>,
 )

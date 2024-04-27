@@ -19,10 +19,10 @@ import { ChoiseStatus } from '../../../Component/ChoiseStatus/ChoiseStatus';
 export function CategoryDash() {
     const { current, setAbsPath } = useDashRoute();
     const { selectedCategory, setSelectedCategory, fetchCategoryProducts, categoryProducts, updateCategory, createCategory, removeCategory } = useCategotyStore();
-    const [collected, setCollected] = useState<Record<string, any>>({});
+    const [collected] = useState<Record<string, any>>({});
     const { setSelectedProduct } = useProductStore();
 
-    const [isCheckRequired, setIsCheckRequired] = useState(false);
+    const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
@@ -70,7 +70,7 @@ export function CategoryDash() {
         ) : (
             <div className="category-dash" ref={bindToParentScroll}>
 
-                <EditorTopBar deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
+                <EditorTopBar deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
                     createCategory(collected).then((error) => {
                         if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
                         // if (error.length) setError(error?.toString())

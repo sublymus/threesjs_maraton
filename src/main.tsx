@@ -1,18 +1,30 @@
 import ReactDOM from 'react-dom/client'
+import { urlToPath } from './Tools/SRouter';
 
 const root = document.getElementById('root')!;
-(async()=>{
-  console.log(window.location.pathname.split('/'));
-  
-  const view_path=window.location.pathname.split('/')[1]
+
+
+
+const reservedStoreName = ['web', 'sublymus'];
+(async () => {
+  const store = window.location.pathname.split('/')[1]
+  const dash = window.location.pathname.split('/')[2]
   let view;
-  if(view_path === 'dash'){
-    view = (await import('./DashView/dash_view')).DashView;
-  }
-  else if(view_path === 'demo'){
-    view = (await import('./ClientApp/client_view')).ClientView;
-  }else{
+  console.log({ store, dash });
+
+  if (store && reservedStoreName.includes(store)) {
     view = (await import('./Web/WebView')).WebView;
+  } else if (store == 'auth') {
+    const userJson = urlToPath().json;
+    if (userJson?.token) {
+      localStorage.setItem('user', JSON.stringify(userJson));
+      return window.close()
+    }
+
+  } if (dash == 'dash') {
+    view = (await import('./DashView/dash_view')).DashView;
+  } else {
+    view = (await import('./ClientApp/client_view')).ClientView;
   }
 
   ReactDOM.createRoot(root).render(view)

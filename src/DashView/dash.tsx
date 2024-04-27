@@ -10,7 +10,9 @@ import { useDashStore, useDashRoute } from './dashStore';
 import { PageCategory } from "./Layout/PageCategory/PageCategory";
 import { PageFeature } from "./Layout/PageFeature/PageFeature";
 import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
+import { PageAuth } from './Layout/PageAuth/PageAuth'
 import { useEffect, useState } from 'react'
+import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
 // import React from 'react'
 
 const PathMap = {
@@ -33,6 +35,7 @@ const PathMap = {
 
 export function Dash() {
     const { currentChild, openChild, fetchStoreVar} = useDashStore();
+    const  {authenticateUser, user} = useRegisterStore();
     const { pathList, setAbsPath  } = useDashRoute()
     const [active, setActive] = useState('')
     const paths: string[] = []
@@ -42,11 +45,13 @@ export function Dash() {
     })
     useEffect(() => {
         fetchStoreVar();
+        authenticateUser();
     },[])
     return (
         <div className={'dash ' + (active ? 'sombre-mode-variable' : '')}>
             <NavBar />
-            <div className="dash-ctn">
+            {(!user)&&<PageAuth/>}
+            <div className={"dash-ctn "+(user?'':'blur')}>
                 <div className="center">
                     <div className="center-top">
                         <div className="page-path">
@@ -63,7 +68,7 @@ export function Dash() {
                         <div className="top-right material-symbols-outlined">
                             <div className={"dark-mode " + active} onClick={() => {
                                 setActive(active ? '' : 'active');
-                            }}><span className="dark-mode-btn">dark_mode</span><span className=''></span> <span className="dark-white-btn material-symbols-outlined">light_mode </span></div>
+                            }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>
                             <div className="notf"> <span></span></div>
                         </div>
                     </div>

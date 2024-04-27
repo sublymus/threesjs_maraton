@@ -117,7 +117,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                 }} onDrop={(e) => {
                     dragLeave(e)
                     e.preventDefault();
-                    e.stopPropagation()
+                     e.stopPropagation()
                     console.log("File(s) dropped", e.dataTransfer.files);
                     const t = e.target as HTMLDivElement;
                     // console.log(t.dataset.ctn_id , t.dataset.ctn_id !== id , t.dataset.url);

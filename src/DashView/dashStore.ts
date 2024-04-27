@@ -1,99 +1,115 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
-type Theme= Record<string,{prim:string,secd:string,fird:string,canl:string,save:string,back:string,shad:string}>;
+type Theme = Record<string, { prim: string, secd: string, fird: string, canl: string, save: string, back: string, shad: string }>;
 /*
 default path,
 desable copmonent,
 current('page')
 */
 const Pages = {
-    '/':{
-        store:{
+    '/': {
+        user: {
+            roles: {
+                //list
+                create_role: {},
+                edit_role: {}
+            },
+            clients: {
+                //list
+                client_profile: {},
+            },
+            collaborators: {
+                //list
+                collaborator_profile: {},
+            },
+            profile: {}
+        },
+        store: {
             // le store // list products create product
-            products:{
+            products: {
                 // list des products
-                dash_product:{
+                dash_product: {
                     // edition de product (avec data) <EditProduct/>
-                    product_preview:{},
-                    statistic:{},
-                    action:{}
+                    product_preview: {},
+                    statistic: {},
+                    action: {}
                 },
-                new_product:{
+                new_product: {
                     //creation de products
-                    preview:{},
+                    preview: {},
                 }
             },
-            categories:{
+            categories: {
                 //list des categories
-                dash_categories:{
-                    preview:{},
-                    action:{}
+                dash_categories: {
+                    preview: {},
+                    action: {}
                 },
-                new_category:{
+                new_category: {
                     // creation de categories
-                    preview:{},
+                    preview: {},
                 }
             },
-            features:{
+            features: {
                 //list des features
-                dash_features:{
-                    preview:{},
-                    action:{}
+                dash_features: {
+                    preview: {},
+                    action: {}
                 },
-                new_feature:{
+                new_feature: {
                     // creation de features
-                    preview:{},
+                    preview: {},
                 }
             },
-            catalogs:{
+            catalogs: {
                 //list des catalogs
-                dash_catalogs:{
-                    preview:{},
-                    action:{}
+                dash_catalogs: {
+                    preview: {},
+                    action: {}
                 },
-                new_catalog:{
+                new_catalog: {
                     // creation de catalogs
-                    preview:{},
+                    preview: {},
                 }
             }
         }
     }
 }
 
-interface StoreVar{
-    products:number,
-    categories:number,
-    catalogs:number,
-    features:number
+interface StoreVar {
+    products: number,
+    categories: number,
+    catalogs: number,
+    features: number
 }
 
-interface DashState{
-    T:Theme|undefined,
-    setT(T:Theme):void,
-    storeVar:StoreVar|undefined,
-    currentChild:JSX.Element|undefined,
-    openChild:(child:JSX.Element|undefined)=>any,
-    fetchStoreVar():Promise<void>;
+interface DashState {
+    T: Theme | undefined,
+    setT(T: Theme): void,
+    storeVar: StoreVar | undefined,
+    currentChild: JSX.Element | undefined,
+    openChild: (child: JSX.Element | undefined) => any,
+    fetchStoreVar(): Promise<void>;
 }
 
-export const useDashStore = create<DashState>((set)=>({
-    T:undefined,
-    storeVar:undefined,
+export const useDashStore = create<DashState>((set) => ({
+    T: undefined,
+    storeVar: undefined,
     async fetchStoreVar() {
-        const response =  await  fetch(`${Host}/get_store_var`);
+        const response = await fetch(`${Host}/get_store_var`);
         const json = await response.json();
-        if(!json) return;
-        set(()=>({storeVar:json}));
-        console.log({json});
-        
+        if (!json) return;
+        set(() => ({ storeVar: json }));
+        console.log({ json });
+
     },
-    setT(_T){
+    setT(_T) {
     },
-    currentChild:undefined,
+    currentChild: undefined,
     openChild(child) {
-        set(()=>({currentChild:child}))
+        set(() => ({ currentChild: child }))
     },
 }));
 
-export const useDashRoute = (new SRouter(Pages,['/','store','products'])).getStore();
+export const useDashRoute = (new SRouter(Pages, ['/', 'store', 'products'])).getStore();

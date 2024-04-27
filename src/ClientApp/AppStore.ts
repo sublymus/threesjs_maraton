@@ -2,8 +2,6 @@ import { SRouter } from "../Tools/SRouter";
 export const Host = 'http://localhost:3333';
 export const DefaultImage = '/src/res//photo2.png';
 
-const DEFAULT_PATH = ['/', 'profile','user'];
-
 
 const Pages = {
     '/': {
@@ -47,4 +45,4 @@ export const useAppStore = create<AppState>((_set)=>({
    
 }));
 
-export const useAppRouter  = new SRouter(Pages,DEFAULT_PATH).store
+export const useAppRouter  = new SRouter(Pages,['profile','user']).store

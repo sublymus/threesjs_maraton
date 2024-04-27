@@ -31,10 +31,7 @@ export function PageUser() {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [address, setAddress] = useState('');
-    const [addressError, setAddressError] = useState('');
-    // const [method, setMethod] = useState('');
-    // const [methodError, setMethodError] = useState('');
-    // const [identifier, setIdentifier] = useState('');
+    const [addressError, setAddressError] = useState('')
     const [_phonePlaceholder, setPhonePlaceholder] = useState('');
     const [phoneError, _setPhoneError] = useState('');
     const [phone, setPhone] = useState('999-862-74-41');

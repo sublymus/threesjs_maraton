@@ -1,6 +1,36 @@
 
 export type Features = { [key: string]: Feature }
 
+export  interface AppInterface {
+
+} 
+export interface Role{
+    id:string,
+    name:string,
+    store_id:string|null,
+}    
+export interface StoreInterface{
+    id:string,
+    name:string,
+    owner_id:string,
+    description:string|undefined,
+    sotre_interface: AppInterface|undefined,
+    phone:string,
+    store_email:string;
+    banners:string[],
+    website:string
+}    
+export interface UserInterface{
+    id:string,
+    name:string,
+    email:string,
+    password:string,
+    photos:string,
+    type:string
+    roles?: Role[],
+    token:string;
+}
+
 export type ListType<T = any> = {
     page:number,
     limit:number,

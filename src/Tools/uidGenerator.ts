@@ -1,15 +1,5 @@
-let i =0;
-class UidGenerator {
+let i = 0;
 
-    generateUid(): string {
-        return Date.now() + "_" + Number((++i)+Math.trunc(Math.random() * 9e9 + 1e6)).toString(36);
-    }
-
-    validatedUid(uid?: string): boolean {
-
-        return !!uid;
-    }
-
+export function generateUid(): string {
+    return Date.now() + "_" + Number((++i) + Math.trunc(Math.random() * 9e9 + 1e6)).toString(36);
 }
-
-export default UidGenerator;

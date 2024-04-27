@@ -37,16 +37,16 @@ function windowListenner(f: Function) {
         f();
     }
 }
-interface UnUseAppState<T  extends PageType> {
+interface UnUseAppState<T extends PageType> {
     json: Record<string, any> | undefined,
     Pages: T,
     navHistory: string[];
-    pathList:  V<AllComponents<T>>[],
+    pathList: V<AllComponents<T>>[],
     navNext(json?: NavJson): undefined,
     navBack(json?: NavJson): undefined,
     setAbsPath<
         A extends '/',
-        B extends keyof  T[A],
+        B extends keyof T[A],
         C extends keyof T[A][B],
         D extends keyof T[A][B][C],
         E extends keyof T[A][B][C][D],
@@ -75,53 +75,58 @@ interface UnUseAppState<T  extends PageType> {
     check(page: V<AllComponents<T>>): true | undefined;
     setPath(...page: (V<AllComponents<T>> | './' | '../')[]): undefined,
     init(): void;
-    current(...page: V<AllComponents<T>>[]): true|undefined;
+    current(...page: V<AllComponents<T>>[]): true | undefined;
+    exist(...page: string[]): true | undefined
+}
+
+export const urlToPath = (self?:SRouter<any>): { pathList:string[], json?:Record<string,any> } => {
+    let hash = window.location.hash;
+    if (!hash) return ({ pathList: (self?.defaultPath||['/']) as string[]})
+    hash = decodeURIComponent(hash.slice(1, hash.length));
+    let h = '';
+    let h_json = ''
+    let json = undefined
+    if (hash.includes('=')) {
+        const index = hash.indexOf('=');
+        h = hash.substring(0, index);
+        h_json = hash.substring(index + 1, hash.length);
+        try {
+            json = h_json && JSON.parse(h_json);
+        } catch (error) {
+            console.warn("Url to JSON error");
+        }
+    } else {
+        h = hash
+    }
+    const pathList = ['/', ...h.split('/')] as any;
+    // const l = self.store.getState().exist(pathList);
+    // console.log('l',l);
+    
+    return { pathList, json };
 }
 export class SRouter<T extends PageType = PageType>{
     isInitialized = false;
     listener: Function | null = null;
-    store:UseBoundStore<StoreApi<UnUseAppState<T>>>;
-    constructor(private pages: T, private defaultPath?:  V<AllComponents<T>>[]) {
-      
-        const urlToPath = (): Partial<UnUseAppState<T>> => {
-            let hash = window.location.hash;
-            if (!hash) return ({ pathList: this.defaultPath })
-            hash = decodeURIComponent(hash.slice(1, hash.length));
-            let h = '';
-            let h_json = ''
-            let json = undefined
-            if (hash.includes('=')) {
-                const index = hash.indexOf('=');
-                h = hash.substring(0, index)
-                h_json = hash.substring(index + 1, hash.length);
-                try {
-                    json = h_json && JSON.parse(h_json);
-
-                } catch (error) {
-                    console.warn("Url to JSON error");
-                }
-            } else {
-                h = hash
-            } 
-            return { pathList: ['/', ...h.split('/')] as any, json };
-        }
-
+    store: UseBoundStore<StoreApi<UnUseAppState<T>>>;
+    constructor(public pages: T, public defaultPath?: V<AllComponents<T>>[]) {
 
         const self = this;
+
+        
         this.store = create<UnUseAppState<T>>((set) => ({
             Pages: pages,
             json: {},
             navHistory: [],
-            pathList: this.defaultPath || ['/']  as any,
-            current(...path){
+            pathList: self.defaultPath || ['/'] as any,
+            current(...path) {
                 const l = self.store.getState().pathList;
-                return (path.includes(l[l.length-1] as any))||undefined;
+                return (path.includes(l[l.length - 1] as any)) || undefined;
             },
             init() {
                 if (self.isInitialized) return;
                 self.listener = () => {
-                    const state = urlToPath();
-                    set(() => state)
+                    const state = urlToPath(self);
+                    set(() => state as any)
                 }
                 window.addEventListener('hashchange', windowListenner(self.listener));
                 self.listener();
@@ -136,11 +141,27 @@ export class SRouter<T extends PageType = PageType>{
                 return;
             },
             setPath(...paths) {
-                console.log('paths',paths);
-                
+                console.log('paths', paths);
+
                 self.editPath(paths)
             },
-
+            exist(...paths) {
+                let nav: string[] = ['/'];
+                let currentPage = pages['/'];
+                for (const path of paths) {
+                    // @ts-ignore
+                    const c = currentPage[path]
+                    
+                    if (!c) {
+                        console.log('not existe');
+                        return;
+                    }
+                    currentPage = c;
+                    nav.push(path as string);
+                }
+                console.log('ok existe');
+                return true
+            },
             setAbsPath(paths) {
                 let nav: string[] = ['/'];
                 let currentPage = pages['/'];
@@ -179,7 +200,7 @@ export class SRouter<T extends PageType = PageType>{
                     return
                 }
                 return
-            },
+            }
         }))
     }
     getPages() {
@@ -189,13 +210,10 @@ export class SRouter<T extends PageType = PageType>{
         this.store.getState().init();
         return this.store
     }
-
-
     navHistoryUpdate(pathList: string[]) {
         const path = pathList.join('/').replace('//', '')
         if (window.location.hash !== path) window.location.hash = path;
     }
-
     //TODO ./CurrentChild  actuel ./CurrentSide
     editPath(paths: string[]) {
         if (paths[0] === '/') {

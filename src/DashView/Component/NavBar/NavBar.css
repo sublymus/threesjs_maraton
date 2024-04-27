@@ -6,7 +6,10 @@
     align-items: center; 
     justify-content: space-between;
 }
-
+.nav-bar.blur {
+    filter: blur(20px);
+  }
+  
 .nav-bar.small {
     min-width: 80px;
     max-width: 80px;
