@@ -9,6 +9,7 @@ current('page')
 */
 const Pages = {
     '/': {
+        command:{},
         user: {
             roles: {
                 //list
@@ -22,11 +23,13 @@ const Pages = {
             collaborators: {
                 //list
                 collaborator_profile: {},
+                new_collaborator: {},
             },
             profile: {}
         },
         store: {
             // le store // list products create product
+            component:null,
             products: {
                 // list des products
                 dash_product: {
@@ -101,7 +104,6 @@ export const useDashStore = create<DashState>((set) => ({
         const json = await response.json();
         if (!json) return;
         set(() => ({ storeVar: json }));
-        console.log({ json });
 
     },
     setT(_T) {

@@ -22,6 +22,10 @@
     background: #806;
     color: #fff;
 }
+.use-status.new.active{
+    background: rgb(111, 136, 0);
+    color: #fff;
+}
  .use-status.visible.active{
     background: rgb(0, 136, 41);
     color: #fff;

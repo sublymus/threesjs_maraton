@@ -41,7 +41,6 @@ export function ProductDash() {
     //TODO coder un composant d'error
     const isDash = current('dash_product');
     const isNew = current('new_product');
-console.log({selectedProduct});
 
     return (isDash || isNew)&&(
         (!selectedProduct && isDash )?( 
@@ -59,7 +58,7 @@ console.log({selectedProduct});
                     </div>
                 }
 
-                <EditorTopBar deteleKey={selectedProduct?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Product Information' onCreate={() => {
+                <EditorTopBar terme='white' deteleKey={selectedProduct?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Product Information' onCreate={() => {
                     createProduct(collected).then((error) => {
                         if (!error) return setAbsPath(['store', 'products', 'dash_product']);
                         if (error.length) setError(error?.toString())
@@ -134,7 +133,7 @@ console.log({selectedProduct});
                     </div>
                     <div className="editor-right">
                         <div className="editor-images">
-                            <ImageViewer name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
+                            <ImageViewer  name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
                                 isDash ? (selectedProduct && updateProduct({
                                     product_id: selectedProduct.id,
                                     images: imageMapper

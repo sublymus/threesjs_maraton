@@ -70,7 +70,7 @@ export function CategoryDash() {
         ) : (
             <div className="category-dash" ref={bindToParentScroll}>
 
-                <EditorTopBar deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
+                <EditorTopBar  terme='white' deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
                     createCategory(collected).then((error) => {
                         if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
                         // if (error.length) setError(error?.toString())

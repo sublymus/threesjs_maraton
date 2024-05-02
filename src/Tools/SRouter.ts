@@ -112,7 +112,6 @@ export class SRouter<T extends PageType = PageType>{
 
         const self = this;
 
-        
         this.store = create<UnUseAppState<T>>((set) => ({
             Pages: pages,
             json: {},

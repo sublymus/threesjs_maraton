@@ -193,7 +193,7 @@ export const useWebStore = create<WebState>((set) => ({
     async createOwner() {
         window.open(
             `${Host}/google_connexion`,
-            "mozillaWindow",
+            undefined,
             "popup"
         );
         const id = setInterval(() => {

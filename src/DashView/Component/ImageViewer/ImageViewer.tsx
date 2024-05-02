@@ -14,7 +14,7 @@ let i = 0;
 const imageMapperCache: Record<string, ImageViewerMapper> = {}
 let currentDragImage: (ImageViewerMapper[string] & { id: string, expireAt: number }) | null = null;
 const ListenerCache: Record<string, (k: string) => any> = {}
-export function ImageViewer({ images = [], optionPosition = "bottom", onSave, name, autosave }: { name: string, images?: string[], onImageChange?: (images: string[]) => any, onSave?: (images: ImageViewerMapper) => any, onImageAdded?: (files: FileList) => any, autosave?: boolean, optionPosition?: 'bottom' | 'right' }) {
+export function ImageViewer({ images = [], optionPosition = "bottom", onSave, name, autosave, cannotEdit }: { cannotEdit?: boolean, name: string, images?: string[], onImageChange?: (images: string[]) => any, onSave?: (images: ImageViewerMapper) => any, onImageAdded?: (files: FileList) => any, autosave?: boolean, optionPosition?: 'bottom' | 'right' }) {
     const [LocalImage] = useState(images.map(i => i));
     const [canSave, setCanSave] = useState(false);
     const [id] = useState((Math.random() + (i++)).toString());
@@ -109,15 +109,19 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
         <div className='image-viewer'>
             <div className={"top-viewer " + optionPosition}>
                 <div className="image-ctn" onDragOver={(e) => {
+                    if (cannotEdit) return
                     dragOver(e);
                 }} onDragLeave={(e) => {
+                    if (cannotEdit) return
                     dragLeave(e)
                 }} onDragExit={(e) => {
+                    if (cannotEdit) return
                     dragLeave(e)
                 }} onDrop={(e) => {
+                    if (cannotEdit) return
                     dragLeave(e)
                     e.preventDefault();
-                     e.stopPropagation()
+                    e.stopPropagation()
                     console.log("File(s) dropped", e.dataTransfer.files);
                     const t = e.target as HTMLDivElement;
                     // console.log(t.dataset.ctn_id , t.dataset.ctn_id !== id , t.dataset.url);
@@ -137,24 +141,30 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     {
                         Object.keys(imageMapper).map((k) => {
                             return (
-                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal ? '' : Host}${`${imageMapper[k].img}`})` }} onDragStartCapture={(e) => {
+                                <div key={k} draggable className="image" style={{ background: `no-repeat center/cover url(${imageMapper[k].isLocal ? '' : (imageMapper[k].img.startsWith('/') ? Host : '')}${`${imageMapper[k].img}`})` }} onDragStartCapture={(e) => {
+                                    if (cannotEdit) return
                                     Dimg = k;
                                     Dtarg = k;
                                     e.currentTarget.dataset.id = id;
                                     currentDragImage = { ...imageMapper[k], id, expireAt: Date.now() + 5000 };
                                 }} onDragEnter={(e) => {
+                                    if (cannotEdit) return
                                     e.currentTarget.style.opacity = '0.5'
                                     Dtarg = k;
                                 }}
                                     onDragLeave={(e) => {
+                                        if (cannotEdit) return
                                         e.currentTarget.style.opacity = '';
                                     }}
                                     onDragExit={(e) => {
+                                        if (cannotEdit) return
                                         e.currentTarget.style.opacity = '';
                                     }}
                                     onDrop={(e) => {
+                                        if (cannotEdit) return
                                         e.currentTarget.style.opacity = '';
                                     }} onDragEnd={() => {
+                                        if (cannotEdit) return
                                         if (!Dtarg || !Dimg) return;
                                         let a = imageMapper[Dimg].index - imageMapper[Dtarg].index;
                                         a = (Math.abs(a) / a) * 0.5
@@ -179,12 +189,14 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                     }} onClick={() => {
                                         openChild(<ImageViewerPage selectedKey={k} imagesMapper={imageMapper} />);
                                     }}>
-                                    <span className="delete-img" onClick={(e) => {
-                                        e.stopPropagation();
-                                        const confirm = e.currentTarget.parentElement?.querySelector('.confirm-delete-image') as HTMLDivElement;
-                                        if (!confirm) return;
-                                        confirm.style.display = 'flex'
-                                    }}></span>
+                                    {
+                                        !cannotEdit && <span className="delete-img" onClick={(e) => {
+                                            e.stopPropagation();
+                                            const confirm = e.currentTarget.parentElement?.querySelector('.confirm-delete-image') as HTMLDivElement;
+                                            if (!confirm) return;
+                                            confirm.style.display = 'flex'
+                                        }}></span>
+                                    }
                                     <span className="open-img"></span>
                                     <div className="confirm-delete-image" onClick={(e) => {
                                         e.stopPropagation();
@@ -206,14 +218,17 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                 </div>
                 <div className={"option " + optionPosition}>
                     <input type="file" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
+                        if (cannotEdit) return
                         if (e.target.files && e.target.files[0]) {
                             newFiles(e.target.files);
                         }
                     }} />
-                    <label htmlFor={id + 'add'} className="add">
-                        <div className="icon"></div>
-                        <div className="label">NEW</div>
-                    </label >
+                    {
+                        !cannotEdit && <label htmlFor={id + 'add'} className="add">
+                            <div className="icon"></div>
+                            <div className="label">NEW</div>
+                        </label >
+                    }
                     {(Object.keys(imageMapper).length > 0) && <div className="open" onClick={() => {
                         openChild((
                             <ImageViewerPage selectedKey={Object.keys(imageMapper)[0]} imagesMapper={imageMapper} />
@@ -222,7 +237,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                         <div className="icon"></div>
                         <div className="label">OPEN</div>
                     </div>}
-                    {!autosave && <div className={"save " + (canSave ? 'can-save' : '')} onClick={() => {
+                    {(!autosave && !cannotEdit) && <div className={"save " + (canSave ? 'can-save' : '')} onClick={() => {
                         onSave?.(imageMapper);
                     }}>
                         <div className="icon"></div>
@@ -275,7 +290,7 @@ function ImageViewerPage({ imagesMapper, selectedKey }: { imagesMapper: ImageVie
             <div className="close" onClick={() => {
                 openChild(undefined);
             }}></div>
-            <div className="image-ctn" style={{ background: `no-repeat center/cover url(${imagesMapper[selected].isLocal ? '' : Host}${`${imagesMapper[selected].img}`})` }} onClick={(e) => {
+            <div className="image-ctn" style={{ background: `no-repeat center/cover url(${imagesMapper[selected].isLocal ? '' : (imagesMapper[selected].img.startsWith('/') ? Host : '')}${`${imagesMapper[selected].img}`})` }} onClick={(e) => {
                 e.preventDefault()
             }}>
                 <div className="prev" onClick={() => {
@@ -292,7 +307,7 @@ function ImageViewerPage({ imagesMapper, selectedKey }: { imagesMapper: ImageVie
                 <div className="list-img">
                     {
                         Object.keys(imagesMapper).map((k) => (
-                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal ? '' : Host}${`${imagesMapper[k].img}`})` }} onClick={() => {
+                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal ? '' : (imagesMapper[selected].img.startsWith('/') ? Host : '')}${`${imagesMapper[k].img}`})` }} onClick={() => {
                                 setSelected(k);
                             }}></div>
                         ))

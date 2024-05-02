@@ -1,7 +1,7 @@
 import { useDashRoute } from '../../../dashStore';
-import './ProductList.css'
+import './RoleList.css'
 import { GenericList } from '../../../Component/GenericList/GenericList';
-import {useProductStore} from '../ProductStore'
+import { useRoleStore } from '../RoleStore'
 import { Host } from '../../../../Config';
 import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
@@ -9,20 +9,25 @@ import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Fil
 import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { useEffect } from 'react';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
-export function ProductList() {
+export function RoleList() {
     const { current , setAbsPath, } = useDashRoute();
-    const {fetchProducts , products, setSelectedProduct} = useProductStore();
-    
-    return current('products') && (
-        <div className="product-list" ref={bindToParentScroll}>
+    const { roles ,  setSelectedRole ,  fetchRoles} = useRoleStore();
+    const { store } = useRegisterStore();
+    useEffect(()=>{ 
+        store&&fetchRoles();
+    },[store])
+    return current('roles') && (
+        <div className="collaborator-list" ref={bindToParentScroll}>
             <div className="list-ctn">
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
-                    limit: products?.limit,
-                    page: products?.page,
-                    total: products?.total,
+                    limit: roles?.limit,
+                    page: roles?.page,
+                    total: roles?.total,
                     filter:{
                         price:FilterInterval([0,100000],[0,10000]),
                         stock:FilterInterval([0,10000],[0,10000]),
@@ -31,14 +36,8 @@ export function ProductList() {
                         is_dynamic_price:FilterSwitch(),
                         hasScene:FilterSwitch()
                     }}}
-                    items_height={80} id={'product_list'} datas={products?.list||[]} itemsMapper={{
-                        images: {
-                            getView(label, value, e, setRef) {
-                                return (
-                                    GenericList.ImageElement().getView(label , `${Host}${value[0]}` , e , setRef)
-                                )
-                            }
-                        },
+                    items_height={80} id={'collaborator_list'} datas={roles?.list||[]} itemsMapper={{
+                       
                         id: {
                             getView(_, value:string, e, setRef) {
                                 return (
@@ -46,17 +45,8 @@ export function ProductList() {
                                 )
                             }
                         },
-                        title: GenericList.StringElement({ size_interval: [50, 200] }),
-                        status:StatusElement,
-                        stock: GenericList.StringElement(),
-                        category_id: {
-                            getView(_, value, e, setRef) {
-                                return (
-                                    <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                )
-                            }
-                        },
-                        price: GenericList.StringElement({size:200}),
+                        name: GenericList.StringElement({ size_interval: [50, 200] }),
+                       
                         created_at: GenericList.DateStringElement({size:200}),
                     }}
                     
@@ -67,18 +57,19 @@ export function ProductList() {
                         selectedItems.forEach((item)=>{
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
-                        setSelectedProduct(selectedItems[0] as any);
-                        setAbsPath(['store','products','dash_product'])
+                        setSelectedRole(selectedItems[0] as any);
+                        setAbsPath(['user','roles','edit_role'])
                     }}
                     onQuery={(query)=>{
-                        fetchProducts(query)
-                    }}     
-                    top_height={40}
+                        fetchRoles(query)
+                    }}    
                     canAddNew
-                    canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store','products','new_product'])
-                    }}>
+                        setAbsPath(['user','roles','create_role'])
+                    }} 
+                    top_height={40}
+                    canPaginate
+                    >
 
                 </GenericList>
             </div>

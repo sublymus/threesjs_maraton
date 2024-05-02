@@ -4,11 +4,12 @@ import { useWindowSize } from '../../../Hooks';
 import { useDashRoute } from '../../dashStore'
 import './NavBar.css'
 import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
+import { Host } from '../../../Config';
 
 export function NavBar (){
     const { setAbsPath  , setPath} = useDashRoute();
     const [active , setActive] = useState('product');
-    const { user } = useRegisterStore();
+    const { user , store , disconnection } = useRegisterStore();
     const size = useWindowSize();
     let width = size.width>=1300?'large':'small'
     const showText = width == 'large';
@@ -16,8 +17,8 @@ export function NavBar (){
     return (
         <div className={"nav-bar "+ width +" "+(user?'':'blur')}>
                 <div className="nav-logo">
-                    <div className="logo" style={{backgroundImage:`url(${'/src/res/img/logo2.png'})`}}></div>
-                    {showText&&<div className="label">z</div>}
+                    <div className="logo" style={{backgroundImage:`url(${`${Host}${store?.banners[0]}`})`}}></div>
+                    {showText&&<div className="label">{store?.name}</div>}
                 </div>
                 <div className="nav-link">
                     <ul>
@@ -27,7 +28,7 @@ export function NavBar (){
                         }}><span className='product'></span>{ showText&&'STORE'}</li>
                         <li className={width+' '+active=='users'?'active':'no'} onClick={()=>{
                             setActive('users')
-                            setAbsPath(['store','products'])
+                            setAbsPath(['user','clients'])
                         }}><span className='users'></span>{showText&&'USERS'}</li>
                         <li className={width+' '+active=='chat'?'active':'no'} onClick={()=>{
                             setActive('chat')
@@ -43,11 +44,16 @@ export function NavBar (){
                         }}><span className='state'></span>{showText&&'STATISTIC'}</li>
                     </ul>
                 </div>
-                {showText&&<div className="nav-profile">
-                    <div className="img"></div>
-                    <div className="name">Kouassi Noga</div>
-                    <div className="logout">logout</div>
-                </div>}
+                {showText?<div className="nav-profile">
+                    <div className="img" style={{background :`no-repeat center/cover url(${user?.photos[0].startsWith('/')?Host:''}${user?.photos[0]})`}}></div>
+                    <div className="name">{user?.name}</div>
+                    <div className="logout" onClick={()=>{
+                        disconnection()
+                    }}>logout</div>
+                </div>: <div className="logut-icon" onClick={()=>{
+                    disconnection()
+                }}></div>
+                }
         </div>
     )
 }

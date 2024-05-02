@@ -35,7 +35,7 @@
     border-radius: 20px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 80%;
+    background-size: cover;
 }
 
 .nav-bar .nav-logo .label {
@@ -175,3 +175,17 @@
     border: 5px solid rgba(255, 123, 62, 0.123);;
     transition: 200ms;
 }
+
+.nav-bar .logut-icon:hover{
+    filter: invert(30%);
+    transition: 100ms;
+}
+.nav-bar .logut-icon {
+    width: 60px;
+    height: 60px;
+    background: no-repeat center/60% url(/src/res/log-out.png);
+    filter: invert(50%);
+    transition: 100ms;
+    margin-bottom: 50px;
+}
+

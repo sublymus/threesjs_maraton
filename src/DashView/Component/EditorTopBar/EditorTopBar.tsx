@@ -1,19 +1,21 @@
 import { useRef, useState } from 'react';
 import './EditorTopBar.css'
 
-export function EditorTopBar({ mode, title, onCreate, onDelete, deteleKey , terme }: { direction?: 'column' | 'row', deteleKey: string, title: string, mode: 'create' | 'delete', terme:'dark'|'white', onCreate: () => any, onDelete: () => any }) {
+export function EditorTopBar({ mode, title, onCreate, onDelete, deteleKey , terme }: { direction?: 'column' | 'row', deteleKey?: string, title: string, mode?: 'create' | 'delete', terme?:'dark'|'white', onCreate?: () => any, onDelete?: () => any }) {
 
     const [key, setKey] = useState('');
     const [remove, setRemove] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
+    console.log(deteleKey);
+    
     return (
         <div className={"editor-top-bar"}>
             <h1 className="page-title">{title}</h1>
             {
                 (mode == 'create') && <div className='btn-ctn'>
                     <div className="create" onClick={() => {
-                    onCreate();
+                    onCreate?.();
                 }}>
                     <div className="icon"></div>
                     <div className="label">Create New</div>
@@ -31,7 +33,7 @@ export function EditorTopBar({ mode, title, onCreate, onDelete, deteleKey , term
                         </div>}
                         <div className={"delete "+ (terme||'')} onClick={() => {
                             (!remove) ? (() => { setRemove(true); inputRef.current?.focus() })() : (
-                                key.trim() == deteleKey ? onDelete() : ''
+                                key.trim() == deteleKey ? onDelete?.() : ''
                             )
                         }}>
                             <div className={"icon " + (mode == 'delete' ? (remove ? 'confirm' : 'delete') : 'lol')}></div>

@@ -18,7 +18,7 @@ export function PageProduct() {
                 check('products') && (
                     <div className='page-product'>
                         {
-                           ( current('products')|| current('dash_product') || current('new_product')) && <ProductsListAccessor active='PRODUCTS' setActive={((a)=>setAbsPath(a.path as any))}/>
+                           ( current('products','dash_product','new_product')) && <ProductsListAccessor active='products' setActive={((a)=>setAbsPath(a.path as any))}/>
                         }
                         <ProductDash  />
                         <ProductList  />

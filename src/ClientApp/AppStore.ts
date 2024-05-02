@@ -39,6 +39,7 @@ const Pages = {
 
 import { create } from "zustand";
 interface AppState{
+
 }
 
 export const useAppStore = create<AppState>((_set)=>({

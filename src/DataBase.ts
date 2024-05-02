@@ -4,10 +4,25 @@ export type Features = { [key: string]: Feature }
 export  interface AppInterface {
 
 } 
+
+type Status=  'PAUSE'|'VISIBLE'|'TRASH'|'NEW'
 export interface Role{
     id:string,
     name:string,
     store_id:string|null,
+    filter_flient: boolean,
+    ban_client: boolean,
+    filter_collaborator: boolean,
+    ban_collaborator: boolean,
+    create_delete_collaborator: boolean,
+    manage_interface: boolean,
+    filter_product: boolean,
+    edit_product: boolean,
+    create_delete_product: boolean,
+    manage_scene_product: boolean,
+    chat_client: boolean,
+    filter_command: boolean,
+    manage_command: boolean,
 }    
 export interface StoreInterface{
     id:string,
@@ -25,10 +40,21 @@ export interface UserInterface{
     name:string,
     email:string,
     password:string,
-    photos:string,
+    photos:string[],
     type:string
     roles?: Role[],
     token:string;
+    created_at:string,
+    status:Status
+}
+
+export interface UserStore{
+    id:string,
+    type:string,
+    role_id:string,
+    user_id:string,
+    store_id:string,
+    join_at:string
 }
 
 export type ListType<T = any> = {
@@ -45,7 +71,7 @@ export interface Category {
     catalog_id: string;
     scene_dir?: string,
     index: number,
-    status: 'PAUSE'|'VISIBLE'|'TRASH',
+    status: Status,
 
     created_at?: string;
     updated_at?: string
@@ -56,7 +82,7 @@ export interface CatalogueInterface {
     description?: string,
     scene_dir?: string;
     index: number;
-    status: 'PAUSE'|'VISIBLE'|'TRASH',
+    status: Status,
     categories: Category[],
 
     created_at?: string;

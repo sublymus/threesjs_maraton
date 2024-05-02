@@ -3,7 +3,7 @@ import { PageHome } from "./Layout/PageHome/PageHome";
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
 import { PageStoreList } from './Layout/PageStoreList/PageStoreList'
 import { TopBar } from './Component/TopBar/TopBar'
-import { useWebRoute, useWebStore } from './WebStore';
+import { useWebStore } from './WebStore';
 import { useEffect } from 'react';
 
 export function Web() {   

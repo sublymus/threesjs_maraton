@@ -64,7 +64,7 @@ export function CatalogDash() {
             </div>
         ) : (
             <div className="catalog-dash" ref={bindToParentScroll}>
-                <EditorTopBar deteleKey={selectedCatalog?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
+                <EditorTopBar terme='dark' deteleKey={selectedCatalog?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
                     createCatalog(collected).then((error) => {
                         if (!error) return setAbsPath(['store', 'catalogs', 'dash_catalogs']);
                         // if (error.length) setError(error?.toString())

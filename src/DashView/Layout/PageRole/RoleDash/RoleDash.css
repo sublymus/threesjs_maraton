@@ -1,0 +1,42 @@
+.role-dash{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.role-dash .editor {
+    margin: 20px 0;
+    width: calc(100% - 50px);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.644);
+    box-shadow: 0px 0px 10px #3455;
+    border-radius: 20px;
+}
+
+.role-dash .editor.wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.role-dash .editor>div {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+}
+
+.role-dash .editor>div>div {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.role-dash .editor+h1 {
+    margin: 20px 0;
+}

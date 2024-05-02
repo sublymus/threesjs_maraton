@@ -49,6 +49,9 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
     useEffect(() => {
         isCheckRequired ? state.validation(value) : 0;
     }, [isCheckRequired])
+    useEffect(() => {
+        state.validation(_v||'');
+    }, [_v])
     const resizePrompt = () => {
         if (editPromt.current) {
             const rect = editPromt.current.getBoundingClientRect();

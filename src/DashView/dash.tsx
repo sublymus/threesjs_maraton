@@ -3,7 +3,7 @@ import './index.css'
 import './Dash.css'
 import { NavBar } from './Component/NavBar/NavBar'
 import { PageProduct } from './Layout/PageProduct/PageProduct'
-import { PageUser } from './Layout/PageUser/PageUser'
+import { PageClient } from './Layout/PageClient/PageClient'
 import { PageChat } from './Layout/PageChat/PageChat'
 import { PageInterface } from './Layout/PageInterface/PageInterface'
 import { useDashStore, useDashRoute } from './dashStore';
@@ -13,6 +13,10 @@ import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
 import { PageAuth } from './Layout/PageAuth/PageAuth'
 import { useEffect, useState } from 'react'
 import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
+
+import { PageRole } from './Layout/PageRole/PageRole'
+import { PageCollaborator} from './Layout/PageCollaborator/PageCollaborator'
+import { useRoleStore } from './Layout/PageRole/RoleStore'
 // import React from 'react'
 
 const PathMap = {
@@ -21,32 +25,46 @@ const PathMap = {
     categories: 'Categories',
     features: 'Features',
     catalogs: 'Catalogs',
-    dash_product: 'Editor',
-    dash_categories: 'Editor',
-    dash_features: 'Editor',
-    dash_catalogs: 'Editor',
+    dash_product: 'Edit Product',
+    dash_categories: 'Edit Category',
+    dash_features: 'Edit Feature',
+    dash_catalogs: 'Edit Catalog',
     preview: 'Preview',
     statistic: 'Statistic',
     action: 'Action',
     new_product: 'New Product',
     new_category: 'New Category',
-    product_preview: 'Product Preview'
+    product_preview: 'Product Preview',
+    user:'Users',
+    clients:'clients',
+    collaborators:'Collaborator',
+    client_profile:'Profile',
+    collaborator_profile:'Profile',
+    roles:'Roles',
+    create_role:'New Role',
+    edit_role:'Editor',
+    new_collaborator:'New Collaborator'
 }
+
 
 export function Dash() {
     const { currentChild, openChild, fetchStoreVar} = useDashStore();
     const  {authenticateUser, user} = useRegisterStore();
     const { pathList, setAbsPath  } = useDashRoute()
-    const [active, setActive] = useState('')
+    const [active, setActive] = useState('');
+    const {fetchRolesJson} = useRoleStore()
     const paths: string[] = []
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])
     })
+
     useEffect(() => {
         fetchStoreVar();
         authenticateUser();
-    },[])
+        fetchRolesJson();
+    },[]);
+
     return (
         <div className={'dash ' + (active ? 'sombre-mode-variable' : '')}>
             <NavBar />
@@ -77,7 +95,11 @@ export function Dash() {
                         <PageCategory />
                         <PageCatalog />
                         <PageFeature />
-                        <PageUser />
+
+                        <PageClient />
+                        <PageCollaborator/>
+                        <PageRole/>
+
                         <PageChat />
                         <PageInterface />
                     </div>

@@ -1,0 +1,78 @@
+.choise-roles {
+    width: 300px;
+}
+
+.choise-roles .choise-ctn {
+    width: 300px;
+    height: 60px;
+    background: #1482;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.choise-roles .icon {
+    width: 50px;
+    height: 60px;
+    background: no-repeat center/50% url(/src/res/jigsaw.png);
+    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}
+
+.choise-roles .back {
+    background: #6500c422;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.choise-roles .name {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.choise-roles .choise-icon {
+    margin-left: auto;
+    width: 50px;
+    height: 60px;
+    background: no-repeat center/50% url(/src/res/chevron-down.png);
+    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}
+
+/***/
+.choise-roles .list-roles.open {
+    transition: 200ms;
+}
+.choise-roles .list-roles {
+    width: 300px;
+    min-height: 0px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 200ms;
+}
+
+.choise-roles .list-roles .item.selected {
+    background: rgba(17, 69, 136, 0.329);
+}
+
+.choise-roles .list-roles .item {
+    width: 100%;
+    height: 40px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: #1482;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.choise-roles .list-roles .item .id {
+    margin-right: 20px;
+}
+
+.choise-roles .list-roles .item .label {
+    margin-right: 20px;
+}
