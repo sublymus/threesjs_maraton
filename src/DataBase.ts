@@ -5,7 +5,7 @@ export  interface AppInterface {
 
 } 
 
-type Status=  'PAUSE'|'VISIBLE'|'TRASH'|'NEW'
+type Status=  'PAUSE'|'VISIBLE'|'TRASH'
 export interface Role{
     id:string,
     name:string,
@@ -23,6 +23,9 @@ export interface Role{
     chat_client: boolean,
     filter_command: boolean,
     manage_command: boolean,
+
+    created_at:string,
+    updated_at:string,
 }    
 export interface StoreInterface{
     id:string,
@@ -45,7 +48,7 @@ export interface UserInterface{
     roles?: Role[],
     token:string;
     created_at:string,
-    status:Status
+    status:Status|'NEW'
 }
 
 export interface UserStore{

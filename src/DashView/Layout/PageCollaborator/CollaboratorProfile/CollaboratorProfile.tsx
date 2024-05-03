@@ -28,7 +28,6 @@ export function CollaboratorProfile() {
         //     });
     }, []);
 
-
     return current('collaborator_profile') && (!selectedCollaborator ? (
         <div className="not-found">
             <div className="img"></div>
@@ -37,7 +36,6 @@ export function CollaboratorProfile() {
         <div className="collaborator-profile" ref={bindToParentScroll}>
             <EditorTopBar title='Collaborator Information' mode='delete' deteleKey={selectedCollaborator.id} onDelete={()=>{
               console.log(selectedCollaborator.id);
-              
               removeCollaborator(selectedCollaborator.id);
             }}/>
             <section className={"editor " + wrap}>
@@ -65,7 +63,6 @@ export function CollaboratorProfile() {
                     <ActionsCard />
                 </div>
             </section>
-
         </div>
     ))
 }

@@ -42,7 +42,7 @@ export function InputText({ placeholder, value: _v, isCheckRequired, label, max,
                     return false;
                 }
             }
-            onChange?.(value);
+            if(value !== _v)onChange?.(value);
             return true;
         }
     })
