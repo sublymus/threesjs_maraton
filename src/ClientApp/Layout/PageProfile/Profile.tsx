@@ -3,7 +3,6 @@ import { DefaultImage, useAppRouter } from '../../AppStore';
 import { PageRegister } from '../PageRegister/PageRegister';
 import { PageUser } from '../PageUser/PageUser';
 import './Profile.css';
-import { useRegisterStore } from '../PageRegister/RegisterStore';
 import { ProfilePhoto } from '../../Components/ProfilePhoto/ProfilePhoto';
 import { useProfileStore } from './ProfileStore';
 
@@ -12,6 +11,8 @@ import { PageBlog } from "../../Layout/PageBlog/PageBlog";
 import { PageService } from "../../Layout/PageService/PageService";
 import { PageCommand } from "../../Layout/PageCommand/PageCommand";
 import { PageCart } from "../../Layout/PageCart/PageCart";
+import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
+import { Host } from '../../../Config';
 ;
 
 let bubbleDiv: any = null;
@@ -20,9 +21,7 @@ export function Profile() {
     const { openPhoto, photo: bigPhoto } = useProfileStore();
     const bubbleCtnRef = useRef<HTMLDivElement | null>(null);
     const [isMin, setIsMin] = useState(false);
-    const { user , autentificate } = useRegisterStore();
-
-    const { updateUser } = useRegisterStore()
+    const { user , updateUser } = useRegisterStore()
     const updateProfilePhoto = (photos: FileList | null) => {
         if (user && photos) updateUser({ id: user.id, photos })
     }
@@ -96,7 +95,6 @@ export function Profile() {
     
     console.log('user' , user);
     
-    const photo = user?.photos[0] || DefaultImage;
     return check('profile') && (
         <div className="page-profile">
             <div className="profile-background" onClick={() => {
@@ -110,7 +108,7 @@ export function Profile() {
                     <div className="back" onClick={() => {
                         openPhoto('')
                     }}>
-                        <div className="photo" style={{ backgroundImage: `url('${bigPhoto}')` }}></div>
+                        <div className="photo" style={{ backgroundImage: `url('${bigPhoto.startsWith('/')?Host:''}${bigPhoto}')` }}></div>
                     </div>
                 </div>
                 {isNavUsed && <div className={'ctn-profile-nav ' + (isMin ? 'min-size' : '')}>
@@ -119,7 +117,7 @@ export function Profile() {
                     }}></div>
                     <div ref={bubbleCtnRef} className='back-profile-nav'></div>
                     <div className='profile-nav'>
-                        <ProfilePhoto photo={photo} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
+                        <ProfilePhoto photo={user?.photos[0]} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
                         <div className="info">
                             Naila Stefenson
                         </div>

@@ -75,14 +75,14 @@ export function CollaboratorList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCollaborator(selectedItems[0] as any);
-                        setAbsPath(['user','collaborators','collaborator_profile'])
+                        setAbsPath(['collaborators','collaborator_profile'])
                     }}
                     onQuery={(query)=>{
                         fetchCollaborators(query)
                     }}     
                     canAddNew
                     onNewRequired={()=>{
-                        setAbsPath(['user','collaborators','new_collaborator'])
+                        setAbsPath(['collaborators','new_collaborator'])
                     }} 
                     top_height={40}
                     canPaginate

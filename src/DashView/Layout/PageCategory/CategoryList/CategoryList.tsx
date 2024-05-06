@@ -61,7 +61,7 @@ export function CategoryList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCategory(selectedItems[0] as any);
-                        setAbsPath(['store','categories','dash_categories'])
+                        setAbsPath(['categories','dash_categories'])
                     }}
                     onQuery={(query)=>{
                         fetchCategories(query);
@@ -70,7 +70,7 @@ export function CategoryList() {
                     canAddNew
                     canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store','categories','new_category'])
+                        setAbsPath(['categories','new_category'])
                     }}>
 
                 </GenericList>

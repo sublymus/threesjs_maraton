@@ -43,7 +43,7 @@ export function FeaturesDash() {
 
                 <EditorTopBar deteleKey={selectedFeature?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Product Information' onCreate={() => {
                     createFeature(collected).then((error) => {
-                        if (!error) return setAbsPath(['store', 'products', 'dash_product']);
+                        if (!error) return setAbsPath([ 'products', 'dash_product']);
                         // if (error.length) setError(error?.toString())
                     })
                 }} onDelete={() => {

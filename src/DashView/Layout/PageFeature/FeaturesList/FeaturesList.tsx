@@ -54,7 +54,7 @@ export function FeaturesList() {
                             if (item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedFeature(selectedItems[0] as any);
-                        setAbsPath(['store', 'features','dash_features']);
+                        setAbsPath([ 'features','dash_features']);
                     }}
                     onQuery={(query) => {
                         console.log('query',query);
@@ -65,7 +65,7 @@ export function FeaturesList() {
                     canAddNew
                     canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store', 'features','new_feature']);
+                        setAbsPath(['features','new_feature']);
                     }}
                     >
 

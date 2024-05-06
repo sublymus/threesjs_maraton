@@ -3,7 +3,7 @@ import './VerticalProducts.css'
 import { VerticalCadre } from './VerticalCadre/VerticalCadre';
 import { VerticalCadreManager } from './VerticalCadre/VerticalCadreManager'
 import { useProductStore } from './ProductStore';
-import { Host } from '../../AppStore';
+import { Host } from '../../../Config';
 
 
 export function VerticalProducts() {
@@ -25,7 +25,7 @@ export function VerticalProducts() {
       const list: any[] = []
       let first=true;
       let i = 0;
-      for (const product of  [...products,...products,...products,...products,...products,...products,...products]) {
+      for (const product of  [...products]) {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div
@@ -64,7 +64,7 @@ export function VerticalProducts() {
 
   return (
     <div className='vert-ctn-products'>
-      <div className="products" ref={productsRef}>
+      <div className="products" style={{background:'#3450'}} ref={productsRef}>
         {productArray}
       </div>
     </div>

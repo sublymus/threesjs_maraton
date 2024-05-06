@@ -2,12 +2,14 @@ import { create } from "zustand";
 import { ListType, Role, UserInterface, UserStore } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
+import { useDashRoute } from "../../dashStore";
 
 interface CollaboratorState {
     collaborators: ListType<UserInterface& UserStore> | undefined;
     selectedCollaborator: UserInterface& UserStore | undefined;
     updateCollaborator(data:Record<string, any>):Promise<any>
     fetchCollaborators(filter?: Record<string, any>): Promise<void>;
+    change_collaborator_role(data:{new_role_id:string, collaborator_id:string , store_id?:string}):Promise<any>
     setSelectedCollaborator(selected: UserInterface& UserStore |undefined): Promise<void>;
     banCollaborator(collaborator_id: string):Promise<string|undefined>
     addCollaborator(data: Record<string,any>):Promise<string[]|undefined>,
@@ -20,6 +22,43 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
     async updateCollaborator(data) {
         console.log({data});
         
+    },
+    async change_collaborator_role(data){
+        const store = useRegisterStore.getState().store;
+        if (!store) return;
+        let user = useRegisterStore.getState().user;
+        if (!user) return
+        data.store_id = store.id 
+        const formData = new FormData();
+        const error :string[]= [];
+       
+        
+        (['store_id','new_role_id', 'collaborator_id'] as const ).forEach(p => {
+            if (data[p]!=undefined) {
+                formData.append(p,data[p]||'');
+            }else{
+                return error.push(p+' is not defined');
+            }
+        }); 
+        
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${user.token}`);
+        if (true||error.length==0) {
+            const response =await fetch(`${Host}/change_collaborator_role`, {
+                method: 'PUT',
+                body: formData,
+                headers: myHeaders,
+            });
+            const json = await response.json();
+            if(!json || !json.id){ 
+                error.push('Server Error, Try Later');
+                return  error
+            }
+            console.log(json);
+            
+        }else{
+            return error;
+        }
     },
     async addCollaborator(data){
         console.log(data);
@@ -53,6 +92,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
                 return  error
             }
             set(()=>({selectedCollaborator:json}));
+            useDashRoute.getState().setAbsPath(['collaborators','collaborator_profile'])
         }else{
             return error;
         }

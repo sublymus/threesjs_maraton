@@ -73,7 +73,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     const dragLeave = (e: any) => {
         e.currentTarget.style.backgroundColor = '';
         e.preventDefault();
-        e.stopPropagation()
+        e.stopPropagation();
     }
     const dragOver = (e: any) => {
         e.currentTarget.style.backgroundColor = '#3454';
@@ -123,8 +123,6 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     e.preventDefault();
                     e.stopPropagation()
                     console.log("File(s) dropped", e.dataTransfer.files);
-                    const t = e.target as HTMLDivElement;
-                    // console.log(t.dataset.ctn_id , t.dataset.ctn_id !== id , t.dataset.url);
                     const img = currentDragImage;
                     currentDragImage = null;
                     if (e.dataTransfer.files.length > 0) {
@@ -211,8 +209,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                             }}>Delete</div>
                                         </div>
                                     </div>
-                                </div>
-                            )
+                                </div>)
                         })
                     }
                 </div>

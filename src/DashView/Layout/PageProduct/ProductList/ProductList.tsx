@@ -68,7 +68,7 @@ export function ProductList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedProduct(selectedItems[0] as any);
-                        setAbsPath(['store','products','dash_product'])
+                        setAbsPath(['products','dash_product'])
                     }}
                     onQuery={(query)=>{
                         fetchProducts(query)
@@ -77,7 +77,7 @@ export function ProductList() {
                     canAddNew
                     canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store','products','new_product'])
+                        setAbsPath(['products','new_product'])
                     }}>
 
                 </GenericList>

@@ -49,7 +49,7 @@ export function CatalogDash() {
                 status: value
             })) : collected['status'] = value
         }} />}
-        <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+        <FileLoader file_name={selectedCatalog?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
             isDash ? (selectedCatalog && updateCatalog({
                 catalog_id: selectedCatalog.id,
                 scene_dir: file
@@ -66,7 +66,7 @@ export function CatalogDash() {
             <div className="catalog-dash" ref={bindToParentScroll}>
                 <EditorTopBar terme='dark' deteleKey={selectedCatalog?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Catalog Information' onCreate={() => {
                     createCatalog(collected).then((error) => {
-                        if (!error) return setAbsPath(['store', 'catalogs', 'dash_catalogs']);
+                        if (!error) return setAbsPath(['catalogs', 'dash_catalogs']);
                         // if (error.length) setError(error?.toString())
                     })
                 }} onDelete={() => {
@@ -134,8 +134,8 @@ export function CatalogDash() {
 
                             <h2 className='see-all' onClick={() => {
                                 btmList == 'products' ?
-                                    setAbsPath(['store', 'products']) :
-                                    setAbsPath(['store', 'categories'])
+                                    setAbsPath(['products']) :
+                                    setAbsPath(['categories'])
                             }}>SEE ALL</h2>
                         </div>
                         {
@@ -179,7 +179,7 @@ export function CatalogDash() {
                                 }}
                                 onItemsSelected={(item) => {
                                     setSelectedProduct(item[0] as any);
-                                    setAbsPath(['store', 'products', 'dash_product']);
+                                    setAbsPath(['products', 'dash_product']);
                                 }}
                             >
 
@@ -219,7 +219,7 @@ export function CatalogDash() {
                                     console.log(item[0], '))))))))))))))');
 
                                     setSelectedCategory(item[0] as any);
-                                    setAbsPath(['store', 'categories', 'dash_categories']);
+                                    setAbsPath(['categories', 'dash_categories']);
                                 }}
                             >
 

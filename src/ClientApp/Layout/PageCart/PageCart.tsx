@@ -1,15 +1,13 @@
-import { Host, useAppRouter } from "../../AppStore"
+import {useAppRouter } from "../../AppStore"
 import './PageCart.css'
-import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { useProductStore } from "../../Components/Products/ProductStore";
 import { useState } from "react";
 import { ProductInterface } from "../../../DataBase";
-;
+import { Host } from "../../../Config";
 
 export function PageCart() {
     const { check } = useAppRouter();
     const { products } = useProductStore();
-    const { } = useRegisterStore();
     const ps = [...products, ...products, ...products];
     return (check('cart') && <div className="page-cart">
         <div className="products">

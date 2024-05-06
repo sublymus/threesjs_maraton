@@ -14,6 +14,9 @@ export function NavBar (){
     let width = size.width>=1300?'large':'small'
     const showText = width == 'large';
     width += size.width<1180?' option ':''
+
+    console.log(active);
+    
     return (
         <div className={"nav-bar "+ width +" "+(user?'':'blur')}>
                 <div className="nav-logo">
@@ -22,25 +25,25 @@ export function NavBar (){
                 </div>
                 <div className="nav-link">
                     <ul>
-                        <li className={width+' '+active=='product'?'active':'no'} onClick={()=>{ 
+                        <li className={width+' '+((active=='product')?'active':'no')} onClick={()=>{ 
                             setActive('product')
-                            setAbsPath(['store','products'])
+                            setAbsPath(['products'])
                         }}><span className='product'></span>{ showText&&'STORE'}</li>
-                        <li className={width+' '+active=='users'?'active':'no'} onClick={()=>{
+                        <li className={width+' '+((active=='users')?'active':'no')} onClick={()=>{
                             setActive('users')
-                            setAbsPath(['user','clients'])
+                            setAbsPath(['clients'])
                         }}><span className='users'></span>{showText&&'USERS'}</li>
-                        <li className={width+' '+active=='chat'?'active':'no'} onClick={()=>{
+                        <li className={width+' '+((active=='chat')?'active':'no')} onClick={()=>{
                             setActive('chat')
                             setPath('../')
                         }}><span className='chat'></span>{showText&&'CHAT'}</li>
-                        <li className={width+' '+active=='interface'?'active':'no'} onClick={()=>{
+                        <li className={width+' '+((active=='interface')?'active':'no')} onClick={()=>{
                             setActive('interface')
-                            setAbsPath(['store','products'])
+                            setAbsPath(['products'])
                         }}><span className='interface'></span>{showText&&'INTERFACE'}</li>
-                        <li className={width+' '+active=='state'?'active':'no'} onClick={()=>{
+                        <li className={width+' '+((active=='state')?'active':'no')} onClick={()=>{
                             setActive('state')
-                            setAbsPath(['store','products'])
+                            setAbsPath(['products'])
                         }}><span className='state'></span>{showText&&'STATISTIC'}</li>
                     </ul>
                 </div>

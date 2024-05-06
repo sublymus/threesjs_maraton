@@ -11,13 +11,39 @@ interface RegisterState {
     disconnection():Promise<void>;
     authenticateUser(): Promise<void>;
     getAccess():Promise<void>;
+    updateUser(data:Record<string, any>):Promise<void>;
 }
-
 export const useRegisterStore = create<RegisterState>((set) => ({
     user:undefined,
     store:undefined,
     userStore:undefined,
     openAuth:false,
+    async updateUser({ name, photos, id }) {
+
+        const fromData = new FormData();
+        if (name) fromData.append('name', name);
+        if (photos?.[0]) {
+            fromData.append('photos_0', photos[0]);
+        } else {
+            return
+        }
+        fromData.append('id', id);
+        fromData.append('photos', '["photos_0"]');
+        const response = await fetch(`${Host}/edit_me`, {
+            method: 'POST',
+            body: fromData,
+        });
+        const user = await response.json();
+        
+        if (!user.id) return
+        set(() => ({
+            user: {
+                ...user,
+                photos: user.photos.map((p: string) => `${Host}${p}`)
+            }
+        }));
+        localStorage.setItem('user', JSON.stringify(user));
+    },
     async disconnection() {
         let user = useRegisterStore.getState().user;
         if (user) {
@@ -29,7 +55,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
                 headers: myHeaders,
             };
             await fetch(`${Host}/disconnection`, requestOptions)
-        }
+        } 
         localStorage.removeItem('user');
         localStorage.removeItem('store_name');
         set(() => ({ user: undefined, store: undefined, userStore: undefined , openAuth:true }));
@@ -68,12 +94,17 @@ export const useRegisterStore = create<RegisterState>((set) => ({
 
             const response = await fetch(`${Host}/can_manage_store/${store_name}`, requestOptions)
             
-            let js = await response.json();
-            if(!js?.user) {
+            let js :any
+            const clear = ()=>{
                 localStorage.removeItem('user');
                 localStorage.removeItem('store');
                 set(() => ({ user: undefined, userStore:undefined , store:undefined , openAuth:true }));
-                return
+            }
+            try {
+                js = await response.json();   
+                if(!js.user) return clear()
+            } catch (error) {
+                return clear();
             }
             const _user = {...user, ...js.user};
             set(() => ({ user: _user, userStore:js.userStore , store:js.store , openAuth:false }))

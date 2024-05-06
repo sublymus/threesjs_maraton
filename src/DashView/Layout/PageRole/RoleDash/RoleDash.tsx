@@ -26,8 +26,7 @@ export function RoleDash() {
               selectedRole && deleteRole(selectedRole.id);
             }}
             onCreate={()=>{
-                newRole(collected);
-                
+                newRole(collected); 
             }}/>
             <section className='editor'>
                 <div className="left-side">

@@ -57,7 +57,7 @@ export const useRoleStore = create<RoleState>((set) => ({
         console.log('new role', json);
         
         set(() => ({ selectedRole: json }));
-        useDashRoute.getState().setAbsPath(['user','roles','edit_role']);
+        useDashRoute.getState().setAbsPath(['roles','edit_role']);
     },
     async updateRole(data) {
         console.log('data', data);
@@ -136,7 +136,7 @@ export const useRoleStore = create<RoleState>((set) => ({
             method: "GET",
             headers: myHeaders,
         };
-        console.log('store', store);
+        console.log(store);
 
         filter.context_id = store.id;
 

@@ -142,7 +142,7 @@ export function PageNewStore() {
                         </div>
                         {
                             edit && <div className="btn open" onClick={() => {
-                                localStorage.setItem('store', JSON.stringify(selectedStore));
+                                localStorage.setItem('store',JSON.stringify(selectedStore));
                                 window.open(
                                     `${Local}/${selectedStore?.name}/dash`,
                                     "mozillaWindow",

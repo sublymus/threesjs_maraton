@@ -121,11 +121,13 @@ export const useCatalogStore = create<DashState>((set) => ({
             } 
         }); 
 
+        let newCatalog : any = null
         if (send) {
-            const response = fetch(`${Host}/update_catalog`, {
+            newCatalog = await fetch(`${Host}/update_catalog`, {
                 method: 'PUT',
                 body: formData
             });
+
         }   
         if (catalog.scene_dir) {
             console.log(catalog);
@@ -133,10 +135,14 @@ export const useCatalogStore = create<DashState>((set) => ({
             const f = new FormData();
             f.append('scene_dir', catalog.scene_dir);
             f.append('catalog_id', catalog.catalog_id)
-            const res = fetch(`${Host}/update_view_catalog`, {
+            newCatalog = await fetch(`${Host}/update_view_catalog`, {
                 method: 'PUT',
                 body: f
             });
+        }
+        if(newCatalog){
+            newCatalog  = await newCatalog.json()
+            set(() => ({ catalogProducts: newCatalog }));
         }
     },
     setSelectedCatalog(selected) {

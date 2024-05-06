@@ -3,9 +3,9 @@ import './LoaderImage.css'
 
 //TODO remplacer par un explorateur de fichier
 let i=0;
-export function FileLoader({onChange ,  icon , ext , label}:{icon?:string,label?:string, ext?:string[],onChange:(file:File)=>any}) {
+export function FileLoader({onChange ,  icon , ext , label, file_name}:{file_name?:string,icon?:string,label?:string, ext?:string[],onChange:(file:File)=>any}) {
     const [id] = useState((Math.random() + (i++)).toString());
-    const [name,setName] = useState('');
+    const [name,setName] = useState(file_name||'');
     
     return ( 
         <div className="loader-img">
@@ -26,7 +26,7 @@ export function FileLoader({onChange ,  icon , ext , label}:{icon?:string,label?
                 </div>
                 <div className="text">
                     <div className="label">{label??'Upload file'}</div>
-                    <div className="prompt">{name&&( name.length>25?(name.substring(0,10)+'...'+name.substring(name.length-10,name.length)):name)||'Add new Img'}</div>
+                    <div className="prompt">{name&&( name.length>25?(name.substring(0,10)+'...'+name.substring(name.length-10,name.length)):name)||'Add new File'}</div>
                 </div>
                 <div className="load-icon"></div>
             </label>

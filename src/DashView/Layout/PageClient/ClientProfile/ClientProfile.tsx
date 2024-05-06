@@ -63,7 +63,7 @@ export function ClientProfile() {
 
                 <h2 className='see-all' onClick={() => {
                     btmList == 'visites' ?
-                    setAbsPath(['store', 'products']):
+                    setAbsPath(['products']):
                     setAbsPath(['command'])
                 }}>SEE ALL</h2>
             </div>
@@ -141,7 +141,7 @@ export function ClientProfile() {
                         }}
                         onItemsSelected={(item) => {
                             // setSelectedCategory(item[0] as any);
-                            setAbsPath(['store', 'products', 'dash_product']);
+                            setAbsPath(['products', 'dash_product']);
                         }}
                     >
 

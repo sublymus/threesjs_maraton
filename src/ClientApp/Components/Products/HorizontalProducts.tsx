@@ -1,4 +1,5 @@
-import { Host } from '../../AppStore';
+
+import { Host } from '../../../Config';
 import './HorizontalProducts.css'
 import { useProductStore } from './ProductStore';
 import { useEffect, useState } from 'react'

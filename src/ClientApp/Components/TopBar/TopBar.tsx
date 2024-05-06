@@ -4,6 +4,7 @@ import { useAppRouter } from "../../AppStore";
 
 export function TopBar() {
     const {  setAbsPath ,check } = useAppRouter();
+    
     return check('top_bar')&&(
         <div className="top-bar">
             <div className="top-bar-ctn">

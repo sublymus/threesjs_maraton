@@ -68,7 +68,7 @@ export function ClientList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedClient(selectedItems[0] as any);
-                        setAbsPath(['user','clients','client_profile'])
+                        setAbsPath(['clients','client_profile'])
                     }}
                     onQuery={(query)=>{
                         fetchClients(query)

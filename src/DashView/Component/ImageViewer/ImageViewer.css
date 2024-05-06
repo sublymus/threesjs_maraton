@@ -57,7 +57,6 @@
     width: 30px;
     height: 30px;
     background: no-repeat center/80% url(/src/res/arrow-down-to-line.png);
-    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
 }
 
 .image-viewer .image-ctn {
@@ -82,8 +81,8 @@
     position: absolute;
     bottom: 20px;
     color: #36aa;
-
 }
+  
 .image-viewer .image {
     position: relative;
     width: 150px;

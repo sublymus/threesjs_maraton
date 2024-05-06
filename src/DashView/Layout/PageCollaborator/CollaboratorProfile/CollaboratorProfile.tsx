@@ -14,7 +14,7 @@ import { ChoiseStatusUser } from '../../../Component/ChoiseStatus/ChoiseStatusUs
 export function CollaboratorProfile() {
 
     const { current, setAbsPath, } = useDashRoute();
-    const { collaborators, selectedCollaborator,  removeCollaborator , updateCollaborator ,setSelectedCollaborator } = useCollaboratorStore();
+    const { collaborators, selectedCollaborator,  removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
 
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -58,7 +58,10 @@ export function CollaboratorProfile() {
                             })
                         }}/>
                     <ChoiseRole role_id={selectedCollaborator.role_id} onChange={(value) => {
-                        //collected['role_id'] = value
+                       change_collaborator_role({
+                        new_role_id:value,
+                        collaborator_id:selectedCollaborator.id
+                       })
                     }} />
                     <ActionsCard />
                 </div>

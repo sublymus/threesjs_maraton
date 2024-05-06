@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
 
 import { PageRole } from './Layout/PageRole/PageRole'
-import { PageCollaborator} from './Layout/PageCollaborator/PageCollaborator'
+import { PageCollaborator } from './Layout/PageCollaborator/PageCollaborator'
 import { useRoleStore } from './Layout/PageRole/RoleStore'
 // import React from 'react'
 
@@ -35,24 +35,24 @@ const PathMap = {
     new_product: 'New Product',
     new_category: 'New Category',
     product_preview: 'Product Preview',
-    user:'Users',
-    clients:'clients',
-    collaborators:'Collaborator',
-    client_profile:'Profile',
-    collaborator_profile:'Profile',
-    roles:'Roles',
-    create_role:'New Role',
-    edit_role:'Editor',
-    new_collaborator:'New Collaborator'
+    user: 'Users',
+    clients: 'clients',
+    collaborators: 'Collaborator',
+    client_profile: 'Profile',
+    collaborator_profile: 'Profile',
+    roles: 'Roles',
+    create_role: 'New Role',
+    edit_role: 'Editor',
+    new_collaborator: 'New Collaborator'
 }
 
 
 export function Dash() {
-    const { currentChild, openChild, fetchStoreVar} = useDashStore();
-    const  {authenticateUser, user} = useRegisterStore();
-    const { pathList, setAbsPath  } = useDashRoute()
+    const { currentChild, openChild, fetchUsersVar, fetchStoreVar } = useDashStore();
+    const { authenticateUser, user } = useRegisterStore();
+    const { pathList, setAbsPath } = useDashRoute()
     const [active, setActive] = useState('');
-    const {fetchRolesJson} = useRoleStore()
+    const { fetchRolesJson } = useRoleStore()
     const paths: string[] = []
     pathList.forEach((p) => {
         //@ts-ignore
@@ -60,16 +60,21 @@ export function Dash() {
     })
 
     useEffect(() => {
-        fetchStoreVar();
-        authenticateUser();
-        fetchRolesJson();
-    },[]);
+        authenticateUser().then(()=>{
+            console.log('####### after auth #########');
+            
+            fetchStoreVar();
+            fetchRolesJson();
+            fetchUsersVar();
+        });
+        
+    }, []);
 
     return (
         <div className={'dash ' + (active ? 'sombre-mode-variable' : '')}>
             <NavBar />
-            {(!user)&&<PageAuth/>}
-            <div className={"dash-ctn "+(user?'':'blur')}>
+            {(!user) && <PageAuth />}
+            <div className={"dash-ctn " + (user ? '' : 'blur')}>
                 <div className="center">
                     <div className="center-top">
                         <div className="page-path">
@@ -92,13 +97,13 @@ export function Dash() {
                     </div>
                     <div className="center-ctn">
                         <PageProduct />
-                        <PageCategory />
+                        <PageCategory /> 
                         <PageCatalog />
                         <PageFeature />
 
                         <PageClient />
-                        <PageCollaborator/>
-                        <PageRole/>
+                        <PageCollaborator />
+                        <PageRole />
 
                         <PageChat />
                         <PageInterface />

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './PageAuth.css'
 import { useRegisterStore } from './RegisterStore';
 
@@ -23,7 +22,7 @@ export function PageAuth() {
                         <div className="label">Connexion</div>
                     </div>
                     <p>Google connexion is required to get access to sublymus Dash board service.</p>
-                </div>
+                </div> 
             </div>
         </div>
     );

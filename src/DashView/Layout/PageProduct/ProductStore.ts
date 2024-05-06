@@ -98,8 +98,10 @@ export const useProductStore = create<ProductState>((set) => ({
                 send = true
             }
         });
+
+        let newProduct:any = null
         if (send) {
-            const response = fetch(`${Host}/update_product`, {
+            newProduct = await fetch(`${Host}/update_product`, {
                 method: 'PUT',
                 body: formData
             });
@@ -108,10 +110,16 @@ export const useProductStore = create<ProductState>((set) => ({
             const f = new FormData();
             f.append('scene_dir', product.scene_dir);
             f.append('product_id', product.product_id);
-            const res = await fetch(`${Host}/update_view_product`, {
+            newProduct = await fetch(`${Host}/update_view_product`, {
                 method: 'PUT',
                 body: f
             })
+        }
+        if(newProduct){
+            newProduct = await newProduct.json();
+            console.log('newProduct', newProduct);
+            
+            set(()=>({selectedProduct: newProduct}))
         }
     },
     async fetchProducts(filter) {

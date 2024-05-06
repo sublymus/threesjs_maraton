@@ -16,15 +16,14 @@ const reservedStoreName = ['web','dash','sublymus'];
     view = (await import('./Web/WebView')).WebView;
   } else if (store == 'auth') {
     const userJson = urlToPath().json;
-    if (userJson?.token) {
       localStorage.setItem('user', JSON.stringify(userJson));
+      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@',{userJson});
       return window.close()
-    }
   } if (dash == 'dash') {
     localStorage.setItem('store_name', store)
     view = (await import('./DashView/dash_view')).DashView;
   } else if(store == 'demo'){
-    localStorage.setItem('store_name', store)
+    localStorage.setItem('store_name', dash||store)
     view = (await import('./ClientApp/client_view')).ClientView;
   } else  {
     view = (await import('./Web/WebView')).WebView;

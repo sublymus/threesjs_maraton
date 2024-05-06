@@ -7,25 +7,25 @@ const topCard=  [
         label: "products",
         value: '23',
         url: '/src/res/package.png',
-        path: ['store', 'products']
+        path: ['products']
     },
     {
         label: "categories",
         value: '15',
         url: '/src/res/application.png',
-        path: ['store', 'categories']
+        path: ['categories']
     },
     {
         label: "catalogs",
         value: '4',
         url: '/src/res/catalog.png',
-        path: ['store', 'catalogs']
+        path: ['catalogs']
     },
     {
         label: "features",
         value: '78',
         url: '/src/res/jigsaw.png',
-        path: ['store', 'features']
+        path: ['features']
     },
 ] as const 
 export function ProductsListAccessor({active, setActive}:{active:typeof topCard[number]['label'], setActive:(active:typeof topCard[number])=>any}) {

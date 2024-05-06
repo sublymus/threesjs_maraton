@@ -2,7 +2,7 @@
 import { create } from 'zustand'
 import { features, Feature, ProductInterface, VALUES } from '../../../DataBase'
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
-import { Host } from '../../AppStore';
+import { Host } from '../../../Config';
 
 export type CollectedFeatures = { [key: string]: VALUES | undefined}
 
@@ -42,12 +42,16 @@ export const useProductStore = create<ProductState>((set) => ({
     products: [],
     featuresCollector:undefined,
     fetchProducts: async (_filter: Filter) => {
+        console.log('fetchProducts ', _filter);
+        
         const response = await fetch(`${Host}/get_products/?page=1&limit=25&is_features_required=true`,{
             method:'GET'
         });
-        const products = (await response.json()) as ProductScenus[]
+        const products = (await response.json()).list as ProductScenus[]
         
         const product = products[0];
+        console.log({product});
+        
         if (!product) return;
         console.log(product);
         

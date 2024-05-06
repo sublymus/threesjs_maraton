@@ -60,7 +60,7 @@ export function ProductDash() {
 
                 <EditorTopBar terme='white' deteleKey={selectedProduct?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Product Information' onCreate={() => {
                     createProduct(collected).then((error) => {
-                        if (!error) return setAbsPath(['store', 'products', 'dash_product']);
+                        if (!error) return setAbsPath(['products', 'dash_product']);
                         if (error.length) setError(error?.toString())
                     })
                 }} onDelete={() => {
@@ -149,7 +149,7 @@ export function ProductDash() {
                             }} />
                         </div>
                         <div className="editor-scene-file">
-                            <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                            <FileLoader file_name={selectedProduct?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
                                 //TODO explorateur de fichier
                                 isDash ? (selectedProduct && updateProduct({
                                     product_id: selectedProduct.id,
@@ -167,7 +167,7 @@ export function ProductDash() {
                     </div>
                     <Preview3DModelCard onClick={() => {
                         console.log('oo');
-                        setAbsPath(['store', 'products', 'dash_product', 'product_preview']);
+                        setAbsPath(['products', 'dash_product', 'product_preview']);
                     }} />
                 </div>}
                 {isDash && <div className="orders">

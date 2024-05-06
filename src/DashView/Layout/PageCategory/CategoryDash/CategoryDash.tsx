@@ -53,7 +53,7 @@ export function CategoryDash() {
             }} />
         </div>
         <div className="editor-scene-file">
-            <FileLoader ext={['zip']} label='Upload Scene File' onChange={(file) => {
+            <FileLoader file_name={selectedCategory?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
                 isDash ? (selectedCategory && updateCategory({
                     category_id: selectedCategory.id,
                     scene_dir: file
@@ -72,7 +72,7 @@ export function CategoryDash() {
 
                 <EditorTopBar  terme='white' deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
                     createCategory(collected).then((error) => {
-                        if (!error) return setAbsPath(['store', 'categories', 'dash_categories']);
+                        if (!error) return setAbsPath(['categories', 'dash_categories']);
                         // if (error.length) setError(error?.toString())
                     });
                 }} onDelete={() => {
@@ -124,7 +124,7 @@ export function CategoryDash() {
                         <div className="btm-list">
                             <h1 className=''>Products That Use This Category</h1>
                             <h2 className='see-all' onClick={() => {
-                                setAbsPath(['store', 'products']); //TODO add QS json
+                                setAbsPath(['products']); //TODO add QS json
                             }}>SEE ALL</h2>
                         </div>
                         <GenericList filter={{
@@ -167,7 +167,7 @@ export function CategoryDash() {
                             }}
                             onItemsSelected={(item) => {
                                 setSelectedProduct(item[0] as any);
-                                setAbsPath(['store', 'products', 'dash_product']);
+                                setAbsPath(['products', 'dash_product']);
                             }}
 
                         >

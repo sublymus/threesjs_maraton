@@ -85,12 +85,12 @@ export const useWebStore = create<WebState>((set) => ({
 
         const response = await fetch(`${Host}/me`, requestOptions);
         let js = await response.json();
-        if (!js?.id) return localStorage.setItem('user', '');
+        if (!js?.id) return localStorage.setItem( '');
         useWebStore.getState().owner_stores();
         js = { token: owner.token, ...js }
 
         set(() => ({ owner: js }))
-        localStorage.setItem('user', JSON.stringify(js));
+        localStorage.setItem( JSON.stringify(js));
     },
     async owner_stores() {
         const owner = useWebStore.getState().owner

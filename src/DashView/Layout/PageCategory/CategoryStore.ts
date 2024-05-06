@@ -98,9 +98,11 @@ export const useCategotyStore = create<DashState>((set) => ({
                 formData.append(p, category[p]);
                 send = true
             } 
-        }); 
+        });
+        
+        let newCategory :any = null
         if (send) {
-            const response = fetch(`${Host}/update_category`, {
+            newCategory=  await fetch(`${Host}/update_category`, {
                 method: 'PUT',
                 body: formData
             });
@@ -109,10 +111,15 @@ export const useCategotyStore = create<DashState>((set) => ({
             const f = new FormData();
             f.append('scene_dir', category.scene_dir);
             f.append('category_id', category.category_id);
-            const res = fetch(`${Host}/update_view_category`, {
+            newCategory = await fetch(`${Host}/update_view_category`, {
                 method: 'PUT',
                 body: f
             });
+        }
+
+        if(newCategory){
+            newCategory = await newCategory.json();
+            set(()=>({selectedCategory:newCategory}))
         }
     },
     async fetchCategories(filter) {

@@ -1,14 +1,13 @@
-import { Host, useAppRouter } from "../../AppStore"
+import { useAppRouter } from "../../AppStore"
 import './PageCommand.css'
-import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { useProductStore } from "../../Components/Products/ProductStore";
 import { ProductInterface } from "../../../DataBase";
+import { Host } from "../../../Config";
 ;
 
 export function PageCommand() {
     const { check } = useAppRouter();
     const { products } = useProductStore();
-    const { } = useRegisterStore();
     return (check('command') && <div className="page-command">
         <div className="products">
             {

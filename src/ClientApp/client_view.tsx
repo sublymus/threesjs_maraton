@@ -25,21 +25,20 @@ export const ClientView = getClientView(
         <Products />
         <Editer />
         <Summary />
-        {/* <WorldView root={root}/> */}
+        <WorldView root={root}/>
         <TopBar />
         <Profile />
-        <CatalogueOnglet />
+        <CatalogueOnglet /> 
         <CatalogueDescription />
-        {/* <Catalogue /> */}
-
+        <Catalogue />
     </React.StrictMode>,
 )
 
 
 function App() {
-    const {autentificate} = useRegisterStore();
+    const {authenticateUser} = useRegisterStore();
     useEffect(() => {
-        autentificate();
+        authenticateUser();
     }, []);
     return (<></>)
 }

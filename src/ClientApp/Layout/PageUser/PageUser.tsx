@@ -1,9 +1,10 @@
-import { DefaultImage, Host, useAppRouter } from "../../AppStore"
+import { DefaultImage, useAppRouter } from "../../AppStore"
 import './PageUser.css'
-import { useRegisterStore } from "../PageRegister/RegisterStore";
 // import { useProfileStore } from "../PageProfile/ProfileStore";
 import { useProductStore } from "../../Components/Products/ProductStore";
 import { useEffect, useRef, useState } from "react";
+import { Host } from "../../../Config";
+import { useRegisterStore } from "../PageRegister/RegisterStore";
 ;
 
 ['33+', '33+_2', '33+_22', '3_+22', '+22']
@@ -128,7 +129,7 @@ export function PageUser() {
                 }}>
                     <div className="icon"></div>
                     <div className="label">Full Name</div>
-                    <div className="val">{user?.full_name}</div>
+                    <div className="val">{user?.name}</div>
                     <div className="edit"></div>
                 </div>
                 <div className="compte" onClick={() => {

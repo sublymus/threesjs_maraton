@@ -58,14 +58,14 @@ export function RoleList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedRole(selectedItems[0] as any);
-                        setAbsPath(['user','roles','edit_role'])
+                        setAbsPath(['roles','edit_role'])
                     }}
                     onQuery={(query)=>{
                         fetchRoles(query)
                     }}    
                     canAddNew
                     onNewRequired={()=>{
-                        setAbsPath(['user','roles','create_role'])
+                        setAbsPath(['roles','create_role'])
                     }} 
                     top_height={40}
                     canPaginate

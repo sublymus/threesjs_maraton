@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
+import { useRegisterStore } from "./Layout/PageAuth/RegisterStore";
 type Theme = Record<string, { prim: string, secd: string, fird: string, canl: string, save: string, back: string, shad: string }>;
 /*
 default path,
@@ -9,72 +10,67 @@ current('page')
 */
 const Pages = {
     '/': {
-        command:{},
-        user: {
-            roles: {
-                //list
-                create_role: {},
-                edit_role: {}
-            },
-            clients: {
-                //list
-                client_profile: {},
-            },
-            collaborators: {
-                //list
-                collaborator_profile: {},
-                new_collaborator: {},
-            },
-            profile: {}
+        command: {},
+        roles: {
+            //list
+            create_role: {},
+            edit_role: {}
         },
-        store: {
-            // le store // list products create product
-            component:null,
-            products: {
-                // list des products
-                dash_product: {
-                    // edition de product (avec data) <EditProduct/>
-                    product_preview: {},
-                    statistic: {},
-                    action: {}
-                },
-                new_product: {
-                    //creation de products
-                    preview: {},
-                }
+        clients: {
+            //list
+            client_profile: {},
+        },
+        collaborators: {
+            //list
+            collaborator_profile: {},
+            new_collaborator: {},
+        },
+        profile: {},
+        component: null,
+        products: {
+            // list des products
+            dash_product: {
+                // edition de product (avec data) <EditProduct/>
+                product_preview: {},
+                statistic: {},
+                action: {}
             },
-            categories: {
-                //list des categories
-                dash_categories: {
-                    preview: {},
-                    action: {}
-                },
-                new_category: {
-                    // creation de categories
-                    preview: {},
-                }
+            new_product: {
+                //creation de products
+                preview: {},
+            }
+        },
+        categories: {
+            //list des categories
+            dash_categories: {
+                preview: {},
+                action: {}
             },
-            features: {
-                //list des features
-                dash_features: {
-                    preview: {},
-                    action: {}
-                },
-                new_feature: {
-                    // creation de features
-                    preview: {},
-                }
+            new_category: {
+                // creation de categories
+                preview: {},
+            }
+        },
+        features: {
+            //list des features
+            dash_features: {
+                preview: {},
+                action: {}
             },
-            catalogs: {
-                //list des catalogs
-                dash_catalogs: {
-                    preview: {},
-                    action: {}
-                },
-                new_catalog: {
-                    // creation de catalogs
-                    preview: {},
-                }
+            new_feature: {
+                // creation de features
+                preview: {},
+            }
+        },
+        catalogs: {
+            //list des catalogs
+            dash_catalogs: {
+                preview: {},
+                action: {}
+            },
+            new_catalog: {
+                // creation de catalogs
+                preview: {},
             }
         }
     }
@@ -91,19 +87,31 @@ interface DashState {
     T: Theme | undefined,
     setT(T: Theme): void,
     storeVar: StoreVar | undefined,
+    usersVar: StoreVar | undefined,
     currentChild: JSX.Element | undefined,
     openChild: (child: JSX.Element | undefined) => any,
     fetchStoreVar(): Promise<void>;
+    fetchUsersVar(): Promise<void>;
 }
 
 export const useDashStore = create<DashState>((set) => ({
     T: undefined,
     storeVar: undefined,
+    usersVar: undefined,
     async fetchStoreVar() {
         const response = await fetch(`${Host}/get_store_var`);
         const json = await response.json();
         if (!json) return;
         set(() => ({ storeVar: json }));
+
+    },
+    async fetchUsersVar() {
+        const store = useRegisterStore.getState().store;
+        if(!store) return
+        const response = await fetch(`${Host}/get_users_var?store_id=${store.id}`);
+        const json = await response.json();
+        if (!json) return;
+        set(() => ({ usersVar: json }));
 
     },
     setT(_T) {
@@ -114,4 +122,4 @@ export const useDashStore = create<DashState>((set) => ({
     },
 }));
 
-export const useDashRoute = (new SRouter(Pages, ['/', 'store', 'products'])).getStore();
+export const useDashRoute = (new SRouter(Pages, ['/','products'])).getStore();

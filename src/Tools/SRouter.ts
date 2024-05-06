@@ -72,16 +72,16 @@ interface UnUseAppState<T extends PageType> {
         Y extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X],
         _Z extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X][Y],
     >(page: [B, C?, D?, E?, F?, G?, H?, I?, J?]): undefined,
-    check(page: V<AllComponents<T>>): true | undefined;
+    check(...page: V<AllComponents<T>>[]): true | undefined;
     setPath(...page: (V<AllComponents<T>> | './' | '../')[]): undefined,
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
     exist(...page: string[]): true | undefined
 }
 
-export const urlToPath = (self?:SRouter<any>): { pathList:string[], json?:Record<string,any> } => {
+export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
-    if (!hash) return ({ pathList: (self?.defaultPath||['/']) as string[]})
+    if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
     let h = '';
     let h_json = ''
@@ -101,7 +101,7 @@ export const urlToPath = (self?:SRouter<any>): { pathList:string[], json?:Record
     const pathList = ['/', ...h.split('/')] as any;
     // const l = self.store.getState().exist(pathList);
     // console.log('l',l);
-    
+
     return { pathList, json };
 }
 export class SRouter<T extends PageType = PageType>{
@@ -140,8 +140,6 @@ export class SRouter<T extends PageType = PageType>{
                 return;
             },
             setPath(...paths) {
-                console.log('paths', paths);
-
                 self.editPath(paths)
             },
             exist(...paths) {
@@ -150,7 +148,7 @@ export class SRouter<T extends PageType = PageType>{
                 for (const path of paths) {
                     // @ts-ignore
                     const c = currentPage[path]
-                    
+
                     if (!c) {
                         console.log('not existe');
                         return;
@@ -177,26 +175,10 @@ export class SRouter<T extends PageType = PageType>{
                 self.navHistoryUpdate(nav);
                 return
             },
-            check(component) {
-                try {
-                    let currentPage = pages
-                    const list = [...self.store.getState().pathList];
-                    if (list.includes(component)) return true;
+            check(...paths) {
 
-                    for (const path of list) {
-                        //@ts-ignore
-                        const c = currentPage[path];
-                        //@ts-ignore
-                        if (c && (c[component] === null)) {
-                            return true;
-                        } else if (c === undefined) {
-                            return
-                        }
-                        //@ts-ignore
-                        currentPage = c;
-                    }
-                } catch (error) {
-                    return
+                for (const path of paths) {
+                    if (_check(path, pages, self)) return true
                 }
                 return
             }
@@ -274,6 +256,34 @@ export class SRouter<T extends PageType = PageType>{
             }
             this.navHistoryUpdate(_paths);
         }
+        return
+    }
+}
+
+function _check(_path: string, pages: any, self: SRouter<any>) {
+    try {
+        let currentPage = pages
+        const list = [...self.store.getState().pathList];
+        if (list.includes(_path)) return true;
+        const r = ()=>{
+            for (const path of list) {
+            //@ts-ignore
+
+            const c = currentPage[path];
+
+            //@ts-ignore
+            if (c && (c[_path] === null)) {
+                return true;
+            } else if (c === undefined) {
+                return
+            }
+            //@ts-ignore
+            currentPage = c;
+        }
+        }
+        let res = r();        
+        return res
+    } catch (error) {
         return
     }
 }

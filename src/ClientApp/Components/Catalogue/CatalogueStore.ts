@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import { CatalogueInterface, Category } from '../../../DataBase'
 import { AbstractLocalLoader, WorldManager } from '../../../World/WorldManager'
 import { CatalogueWorld } from '../../../World/Catalogue/Catalogue'
-import { Host } from '../../AppStore'
+import { Host } from '../../../Config'
 
 
 
@@ -31,12 +31,11 @@ export const useCatalogueStore = create<AppState>((set) => ({
     async fetchCatalogues() {
         if (CATALOGUES_CACHE) return;
 
-        const response = await fetch(`${Host}/get_catalogs/?page=1&limit=25&text=un&index=0&is_category_required=true`, {
+        const response = await fetch(`${Host}/get_catalogs/?page=1&limit=25&index=0&is_category_required=true`, {
             method: 'GET',
         });
         
-        const catalogues = await response.json() as CatalogueInterface[]
-        console.log(catalogues);
+        const catalogues = (await response.json() ).list as CatalogueInterface[]
         CATALOGUES_CACHE = catalogues;
         const catalogue = catalogues[0];
         setCatalogueCategory(catalogue);

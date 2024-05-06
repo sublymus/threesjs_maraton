@@ -47,7 +47,7 @@ export function CatalogList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCatalog(selectedItems[0] as any);
-                        setAbsPath(['store','catalogs','dash_catalogs'])
+                        setAbsPath(['catalogs','dash_catalogs'])
                     }}
                     onQuery={(query)=>{
                         fetchCatalogs(query);
@@ -56,7 +56,7 @@ export function CatalogList() {
                     canAddNew
                     canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['store','catalogs','new_catalog'])
+                        setAbsPath(['catalogs','new_catalog'])
                     }}
                     >
                 </GenericList>
