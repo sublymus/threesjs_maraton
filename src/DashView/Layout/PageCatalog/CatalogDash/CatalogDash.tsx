@@ -15,6 +15,7 @@ import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { useCategotyStore } from '../../PageCategory/CategoryStore';
 import { ChoiseStatus, StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 
 export function CatalogDash() {
     const { current, setAbsPath } = useDashRoute();
@@ -22,7 +23,7 @@ export function CatalogDash() {
     const { setSelectedProduct } = useProductStore();
     const { setSelectedCategory } = useCategotyStore();
     const [collected] = useState<Record<string, any>>({});
-
+    const {store} = useRegisterStore()
     const [btmList, setBtmList] = useState('products');
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -43,18 +44,20 @@ export function CatalogDash() {
 
     const choiser = <>
 
-        {isDash && <ChoiseStatus status={selectedCatalog?.status || 'PAUSE'} onChange={(value) => {
-            isDash ? (selectedCatalog && updateCatalog({
-                catalog_id: selectedCatalog.id,
-                status: value
-            })) : collected['status'] = value
-        }} />}
-        <FileLoader file_name={isDash? selectedCatalog?.scene_dir:undefined} ext={['zip']} label='Upload Scene File' onChange={(file) => {
-            isDash ? (selectedCatalog && updateCatalog({
-                catalog_id: selectedCatalog.id,
-                scene_dir: file
-            })) : collected['scene_dir'] = file;
-        }} /></>
+        {isDash && <>
+            <ChoiseStatus status={selectedCatalog?.status || 'PAUSE'} onChange={(value) => {
+                isDash ? (selectedCatalog && updateCatalog({
+                    catalog_id: selectedCatalog.id,
+                    status: value
+                })) : collected['status'] = value
+            }} /> <FileLoader file_name={isDash ? selectedCatalog?.scene_dir : undefined} ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                isDash ? (selectedCatalog && updateCatalog({
+                    catalog_id: selectedCatalog.id,
+                    scene_dir: file
+                })) : collected['scene_dir'] = file;
+            }} />
+        </>}
+    </>
     console.log({ selectedCatalog });
 
     return (isDash || isNew) && (
@@ -109,8 +112,12 @@ export function CatalogDash() {
                             }} direction='horizontal' />
                         </>)}
                         {
-                            isNew && choiser
+                            isNew  && <>
+                            <InputText isCheckRequired={isCheckRequired} label='Store Name' value={(store?.name || '')}/>
+                            <InputText isCheckRequired={isCheckRequired} label='Store Id' value={(store?.id || '')}/>
+                            </>
                         }
+                        
                     </div>
 
                 </section>

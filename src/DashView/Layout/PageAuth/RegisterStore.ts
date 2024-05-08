@@ -12,6 +12,7 @@ interface RegisterState {
     authenticateUser(): Promise<void>;
     getAccess():Promise<void>;
     updateUser(data:Record<string, any>):Promise<void>;
+    getHeaders():Headers|undefined
 }
 export const useRegisterStore = create<RegisterState>((set) => ({
     user:undefined,
@@ -115,5 +116,14 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             localStorage.removeItem('store');
             set(() => ({ user: undefined, userStore:undefined , store:undefined , openAuth:true }))
         }
+    },
+    getHeaders(){
+        const store = useRegisterStore.getState().store;
+        if (!store) return;
+        let user = useRegisterStore.getState().user;
+        if (!user) return
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${user.token}`);
+        return myHeaders
     }
 }));

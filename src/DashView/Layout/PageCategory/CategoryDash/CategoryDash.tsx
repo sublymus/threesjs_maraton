@@ -38,27 +38,28 @@ export function CategoryDash() {
 
     const Choser = <>
 
-        {isDash && <ChoiseStatus status={selectedCategory?.status || 'PAUSE'} onChange={(value) => {
+        {isDash && <><ChoiseStatus status={selectedCategory?.status || 'PAUSE'} onChange={(value) => {
             isDash ? (selectedCategory && updateCategory({
                 category_id: selectedCategory.id,
                 status: value
             })) : collected['status'] = value
-        }} />}
+        }} />
+            <div className="editor-scene-file">
+                <FileLoader file_name={selectedCategory?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                    isDash ? (selectedCategory && updateCategory({
+                        category_id: selectedCategory.id,
+                        scene_dir: file
+                    })) : collected['scene_dir'] = file;;
+
+                }} />
+            </div>
+        </>}
         <div className="editor-category">
             <ChoiseCatalog catalog_id={isDash && (selectedCategory?.catalog_id)} onChange={(id) => {
                 isDash ? (selectedCategory && updateCategory({
                     category_id: selectedCategory.id,
                     catalog_id: id
                 })) : collected['catalog_id'] = id;;
-            }} />
-        </div>
-        <div className="editor-scene-file">
-            <FileLoader file_name={selectedCategory?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
-                isDash ? (selectedCategory && updateCategory({
-                    category_id: selectedCategory.id,
-                    scene_dir: file
-                })) : collected['scene_dir'] = file;;
-
             }} />
         </div>
     </>
@@ -70,7 +71,7 @@ export function CategoryDash() {
         ) : (
             <div className="category-dash" ref={bindToParentScroll}>
 
-                <EditorTopBar  terme='white' deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
+                <EditorTopBar terme='white' deteleKey={selectedCategory?.id || 'noga'} mode={isNew ? 'create' : 'delete'} title='Category Information' onCreate={() => {
                     createCategory(collected).then((error) => {
                         if (!error) return setAbsPath(['categories', 'dash_categories']);
                         // if (error.length) setError(error?.toString())

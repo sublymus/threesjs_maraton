@@ -8,6 +8,7 @@ default path,
 desable copmonent,
 current('page')
 */
+
 const Pages = {
     '/': {
         command: {},
