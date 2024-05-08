@@ -10,6 +10,12 @@
     cursor: pointer;
 }
 
+.sombre-mode-variable .preview-3d-model-card {
+    color: #345;
+}
+
+
+
 .preview-3d-model-card:hover , .preview-3d-model-card.horizontal:hover{
     background: rgb(239, 244, 247);
 }

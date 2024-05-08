@@ -12,6 +12,9 @@ import { Summary } from "./Components/Summary/Summary";
 
 import React, { useEffect } from 'react'
 import { useRegisterStore } from './Layout/PageRegister/RegisterStore'
+import { useAppRouter, useAppStore } from './AppStore'
+import { useProductStore } from './Components/Products/ProductStore'
+import { useCatalogueStore } from './Components/Catalogue/CatalogueStore'
 
 const root = document.getElementById('root')!;
 

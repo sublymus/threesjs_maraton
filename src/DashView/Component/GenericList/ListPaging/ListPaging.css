@@ -5,7 +5,9 @@
     justify-content: center;
     align-items: center;
 }
-
+.sombre-mode-variable .list-paging {
+    color: #345;
+}
 .list-paging .page{
     cursor: pointer;
     background: #fff;

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { CatalogueInterface, Category, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useDashStore } from "../../dashStore";
+import { useRegisterStore } from "../PageAuth/RegisterStore";
 interface DashState {
     catalogs: ListType<CatalogueInterface> | undefined,
     selectedCatalog: CatalogueInterface|undefined,
@@ -15,6 +16,15 @@ interface DashState {
     createCatalog(catalog:Record<string, any>):Promise<string[]|undefined>
     removeCatalog(catalog_id: string|undefined):Promise<string|undefined>
 }
+const getHeaders = ()=>{
+    const store = useRegisterStore.getState().store;
+    if (!store) return;
+    let user = useRegisterStore.getState().user;
+    if (!user) return
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${user.token}`);
+    return myHeaders
+}
 
 const CATALOG_CACHE: {
     all?: CatalogueInterface[];
@@ -26,20 +36,26 @@ export const useCatalogStore = create<DashState>((set) => ({
     catalogCategories:undefined,
     async removeCatalog(catalog_id) {
         if(!catalog_id) return;
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
         const response = await fetch(`${Host}/delete_catalog/${catalog_id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers:myHeaders
         });
         const json  = await  response.json();
-        console.log({json});
-        
+        useDashStore.getState().fetchStoreVar()
         return json?.isDeleted;
     },
     async createCatalog(catalog) {
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
+
         catalog.index = catalog.index ||0;
+        catalog.store_id = useRegisterStore.getState().store?.id;
         const formData = new FormData();
         const error :string[]= [];
        
-        ['label', 'description', 'index'].forEach(p => {
+        ['label', 'description','store_id','index'].forEach(p => {
             if (catalog[p]!=undefined) {
                 formData.append(p, catalog[p]);
             }else{
@@ -52,7 +68,8 @@ export const useCatalogStore = create<DashState>((set) => ({
         if (error.length==0) {
             const response =await fetch(`${Host}/create_catalog`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers:myHeaders
             });
             const json = await response.json();
             if(!json || !json.id){ 
@@ -67,19 +84,24 @@ export const useCatalogStore = create<DashState>((set) => ({
     },
     async fetchCatalogCategories(filter) {
         if(!filter?.catalog_id) return;
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
         try {
             const query :any = {};
             if(filter?.page) query.page = Number(filter.page);
             if(filter?.limit) query.limit = Number(filter.limit);
             if(filter?.sortBy) query.order_by = filter.sortBy;
             query.catalog_id = filter.catalog_id
+            query.all_status = true
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
                 searchParams.set(key, value);
             }
             
-            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`);
+            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`,{
+                headers:myHeaders
+            });
             const json = (await response.json()) as ListType<Category>;
             if (!json || !json.list) return
             set(() => ({ catalogCategories: json }));
@@ -89,6 +111,8 @@ export const useCatalogStore = create<DashState>((set) => ({
     },
     async fetchCatalogProducts(filter) {
         if(!filter?.catalog_id) return;
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
         try {
             const query :any = {};
             if(filter?.page) query.page = Number(filter.page);
@@ -101,7 +125,7 @@ export const useCatalogStore = create<DashState>((set) => ({
                 searchParams.set(key, value);
             }
             
-            const response = await fetch(`${Host}/get_catalog_products/?${searchParams.toString()}`);
+            const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`,{headers:myHeaders});
             const json = (await response.json()) as ListType<ProductInterface>;
             if (!json || !json.list) return
             set(() => ({ catalogProducts: json }));
@@ -112,6 +136,8 @@ export const useCatalogStore = create<DashState>((set) => ({
     async updateCatalog(catalog) {
         const formData = new FormData();
         if(!catalog.catalog_id) return;
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
         let send = false;
         formData.append('catalog_id', catalog.catalog_id);
         ['label', 'index', 'status','description'].forEach(p => { 
@@ -125,7 +151,8 @@ export const useCatalogStore = create<DashState>((set) => ({
         if (send) {
             newCatalog = await fetch(`${Host}/update_catalog`, {
                 method: 'PUT',
-                body: formData
+                body: formData,
+                headers:myHeaders
             });
 
         }   
@@ -137,7 +164,8 @@ export const useCatalogStore = create<DashState>((set) => ({
             f.append('catalog_id', catalog.catalog_id)
             newCatalog = await fetch(`${Host}/update_view_catalog`, {
                 method: 'PUT',
-                body: f
+                body: f,
+                headers:myHeaders
             });
         }
         if(newCatalog){
@@ -149,18 +177,22 @@ export const useCatalogStore = create<DashState>((set) => ({
         set(()=>({selectedCatalog:selected}));
     },
     async fetchCatalogs(filter) {
+        const myHeaders = getHeaders();
+        if(!myHeaders) return
         try {
             const query :any = {};
             if(filter?.page) query.page = Number(filter.page);
             if(filter?.limit) query.limit = Number(filter.limit);
             if(filter?.sortBy) query.order_by = filter.sortBy;
             if(filter?.query.text) query.text = filter.query.text;
+            query.all_status = true
+            query.store_id = useRegisterStore.getState().store?.id
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
                 searchParams.set(key, value);
             }
-            const response = await fetch(`${Host}/get_catalogs/?${searchParams.toString()}`);
+            const response = await fetch(`${Host}/get_catalogs/?${searchParams.toString()}`,{headers:myHeaders});
             const json = (await response.json()) as ListType<CatalogueInterface>
             if (!json || !json.list) return
             set(() => ({ catalogs: json }));
@@ -170,67 +202,3 @@ export const useCatalogStore = create<DashState>((set) => ({
     },
 }));
 
-/*
- 
-}
-
-export const useCategotyStore = create<DashState>((set) => ({
-    categories: undefined,
-    selectedcatalog: undefined,
-    catalogProducts:undefined,
-    async fetchcatalogProducts(filter){
-        if(!filter?.query.catalog_id) return;
-        try {
-            const query :any = {};
-            if(filter?.page) query.page = Number(filter.page);
-            if(filter?.limit) query.limit = Number(filter.limit);
-            if(filter?.sortBy) query.order_by = filter.sortBy;
-            query.catalog_id = filter?.query.catalog_id
-            const searchParams = new URLSearchParams({});
-            for (const key in query) {
-                const value = query[key];
-                searchParams.set(key, value);
-            }
-            console.log(query);
-            
-            const response = await fetch(`${Host}/get_catalog_products/?${searchParams.toString()}`);
-            const json = (await response.json()) as ListType<ProductInterface>;
-            if (!json || !json.list) return
-            set(() => ({ catalogProducts: json }));
-            console.log(json);
-        } catch (error: any) {
-            return console.warn(error.message);
-        }
-    },
-    setSelectedCategory(selected) {
-        set(() => ({ selectedcatalog: selected }))
-    },
-    async updatecatalog(catalog) {
-        const formData = new FormData();
-        let send = false;
-        
-        console.log(catalog);
-        formData.append('catalog_id', catalog.catalog_id);
-        ['label', 'index', 'catalog_id', 'description'].forEach(p => { 
-            if (catalog[p]) {
-                formData.append(p, catalog[p]);
-                send = true
-            } 
-        }); 
-        if (send) {
-            const response = fetch(`${Host}/update_catalog`, {
-                method: 'PUT',
-                body: formData
-            });
-        }   
-        if (catalog.scene_dir) {
-            const f = new FormData();
-            f.append('scene_dir', catalog.scene_dir);
-            f.append('catalog_id', catalog.catalog_id);
-            const res = fetch(`${Host}/update_view_catalog`, {
-                method: 'PUT',
-                body: f
-            });
-        }
-    },
-*/

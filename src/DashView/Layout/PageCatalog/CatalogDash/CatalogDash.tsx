@@ -49,7 +49,7 @@ export function CatalogDash() {
                 status: value
             })) : collected['status'] = value
         }} />}
-        <FileLoader file_name={selectedCatalog?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
+        <FileLoader file_name={isDash? selectedCatalog?.scene_dir:undefined} ext={['zip']} label='Upload Scene File' onChange={(file) => {
             isDash ? (selectedCatalog && updateCatalog({
                 catalog_id: selectedCatalog.id,
                 scene_dir: file

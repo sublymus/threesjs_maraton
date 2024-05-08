@@ -17,7 +17,7 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
     return (
         <div className="list-search-bar">
             <div className="search">
-                <input type="text" placeholder='Search by Id , text' onChange={(e) => {
+                <input type="text" placeholder={'Search by Id, '+(sortBy.includes('label')?'label':'title')+' description'} onChange={(e) => {
                     setText(e.currentTarget.value)
                 }} onKeyUp={(e)=>{
                     if(e.code == 'Enter'){

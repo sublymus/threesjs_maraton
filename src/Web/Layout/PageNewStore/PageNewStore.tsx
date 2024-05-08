@@ -34,13 +34,29 @@ export function PageNewStore() {
         </div>
     ) : (current('new_store', 'edit_store')) && (
         <div className="page-new-store">
-            {selectedStore && <EditorTopBar terme="dark" deteleKey={selectedStore.id} mode={'delete'} onDelete={() => {
+            {selectedStore && <div className="editor-top">
+            <EditorTopBar terme="dark" deteleKey={selectedStore.id} mode={'delete'} onDelete={() => {
                 deleteStore(selectedStore.id).then((res => {
                     if (res) {
                         setAbsPath(['store_list'])
                     }
                 }))
-            }} onCreate={() => { }} title="Store Information" />}
+            }} onCreate={() => { }} title="Store Information" />
+            <div className="editor-nav btm">
+            {
+                            edit && <div className="btn open" onClick={() => {
+                                localStorage.setItem('store',JSON.stringify(selectedStore));
+                                window.open(
+                                    `${Local}/${selectedStore?.name}/dash`,
+                                    "mozillaWindow",
+                                );
+                            }}>
+                                Open Store
+                            </div>
+                        }
+            </div>
+            </div>
+            }
             <div className={"center-content " + wrap}>
                 <div className="center-left">
                     <input type="file" id={id} style={{ display: 'none' }} onChange={(e) => {
@@ -140,17 +156,7 @@ export function PageNewStore() {
                         }}>
                             {edit ? 'Edit' : 'Create'} Store
                         </div>
-                        {
-                            edit && <div className="btn open" onClick={() => {
-                                localStorage.setItem('store',JSON.stringify(selectedStore));
-                                window.open(
-                                    `${Local}/${selectedStore?.name}/dash`,
-                                    "mozillaWindow",
-                                );
-                            }}>
-                                Open Store
-                            </div>
-                        }
+                        
                     </div>
 
                 </div>

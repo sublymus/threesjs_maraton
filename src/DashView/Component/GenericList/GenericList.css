@@ -23,6 +23,10 @@
     overflow: hidden;
     background: rgb(255, 255, 255);
 }
+
+.sombre-mode-variable .generic-list .top {
+    color: #345;
+}
 .generic-list .top {
     position: absolute;
     height: 80px;

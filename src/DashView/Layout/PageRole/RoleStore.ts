@@ -138,7 +138,7 @@ export const useRoleStore = create<RoleState>((set) => ({
         };
         console.log(store);
 
-        filter.context_id = store.id;
+        filter.store_id = store.id;
 
         const searchParams = new URLSearchParams({});
         for (const key in filter) {

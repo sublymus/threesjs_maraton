@@ -2,6 +2,9 @@
     display: flex;
 }
 
+.sombre-mode-variable .list-search-bar {
+    color: #345;
+}
 .list-search-bar .search:hover {
     background: #f0f0f0;
 }

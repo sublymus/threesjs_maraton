@@ -136,10 +136,18 @@
 }
 .dash .center-top .dark-mode.active .dark-white-btn {
     opacity: 0.5;
-    background: no-repeat center/70% url(/src//res/sun.png) #3450;
+    background: no-repeat center/70% url(/src/res/sun.png) #3450;
     box-shadow:none;
     transition: 200ms;
 
+}
+
+
+.dash.sombre-mode-variable .center-top .notf {
+    filter: invert();
+}
+.dash.sombre-mode-variable .center-top .notf span{
+    filter: invert();
 }
 
 .dash .center-top .notf {
@@ -159,6 +167,7 @@
     height: 7px;
     background: #f00;
     border-radius: 50%;
+    
 }
 
 .dash .child-viewer{
@@ -173,6 +182,12 @@
     background: #fff;
 }
 
+
+
+
+.sombre-mode-variable .editor {
+    background: #3333 !important;
+}
 
 
 

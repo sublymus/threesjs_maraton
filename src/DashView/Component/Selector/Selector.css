@@ -10,6 +10,9 @@
     
 }
 
+.sombre-mode-variable .selector {
+    color: #345;
+}
 .selector .selector-label {
     display: inline-flex;
     width: 100%;

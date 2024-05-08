@@ -78,7 +78,7 @@ export class WorldManager {
     constructor(container: HTMLElement) {
         WorldManager.worldManager = this;
         this._renderer = new THREE.WebGLRenderer();
-        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.9));
         this._renderer.setSize(window.innerWidth, window.innerHeight);
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];

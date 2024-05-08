@@ -3,6 +3,12 @@
     background: rgb(239, 244, 247);
     transition: 200ms;
 }
+.sombre-mode-variable .actions-card {
+    color: #345;
+}
+
+
+
 .actions-card {
     background: rgb(255, 255, 255);
     width: 480px;
@@ -22,6 +28,8 @@
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+
 .actions-card .title{
     font-weight: bold;
     font-size: 18px;
@@ -33,3 +41,38 @@
     font-size: 15px;
     max-width: 300px;
 }
+
+
+.circular-line-chart {
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    position: relative;
+}
+
+.circular-line-chart .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(#ececec 45deg, #ececec 180deg, rgb(37, 128, 219) 180deg, rgb(0, 90, 180) 250deg);
+}
+
+.circular-line-chart .btn {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    background: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(0, 61, 122);
+    font-weight: bold
+}
+
+
+
