@@ -42,12 +42,12 @@ export function ProductDash() {
     const isDash = current('dash_product');
     const isNew = current('new_product');
 
-    return (isDash || isNew)&&(
-        (!selectedProduct && isDash )?( 
+    return (isDash || isNew) && (
+        (!selectedProduct && isDash) ? (
             <div className="not-found">
                 <div className="img"></div>
             </div>
-        ): (
+        ) : (
             <div className="product-dash" ref={bindToParentScroll}>
                 {
                     <div className={"error-panel " + (error ? 'open' : '')}>
@@ -64,8 +64,8 @@ export function ProductDash() {
                         if (error.length) setError(error?.toString())
                     })
                 }} onDelete={() => {
-                    selectedProduct && removeProduct(selectedProduct.id).then((res)=>{
-                        if(res){
+                    selectedProduct && removeProduct(selectedProduct.id).then((res) => {
+                        if (res) {
                             setSelectedProduct(undefined)
                         }
                     })
@@ -110,12 +110,12 @@ export function ProductDash() {
                                 })) : collected['stock'] = value
                             }} />
                         </div>
-                        {isDash &&  <ChoiseStatus status={selectedProduct?.status||'PAUSE'} onChange={(value)=>{
+                        {isDash && <ChoiseStatus status={selectedProduct?.status || 'PAUSE'} onChange={(value) => {
                             isDash ? (selectedProduct && updateProduct({
                                 product_id: selectedProduct.id,
                                 status: value
                             })) : collected['status'] = value
-                        }}/>}
+                        }} />}
                         <div className="editor-category">
                             <ChoiseCategory category_id={isDash && (selectedProduct?.category_id)} onChange={(id) => {
                                 isDash ? (selectedProduct && updateProduct({
@@ -133,7 +133,7 @@ export function ProductDash() {
                     </div>
                     <div className="editor-right">
                         <div className="editor-images">
-                            <ImageViewer  name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
+                            <ImageViewer name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
                                 isDash ? (selectedProduct && updateProduct({
                                     product_id: selectedProduct.id,
                                     images: imageMapper
@@ -148,15 +148,17 @@ export function ProductDash() {
                                 })) : collected['model_images'] = imageMapper;
                             }} />
                         </div>
-                        <div className="editor-scene-file">
-                            <FileLoader file_name={selectedProduct?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
-                                //TODO explorateur de fichier
-                                isDash ? (selectedProduct && updateProduct({
-                                    product_id: selectedProduct.id,
-                                    scene_dir: file
-                                })) : collected['scene_dir'] = file;
-                            }} />
-                        </div>
+                        {
+                            isDash && <div className="editor-scene-file">
+                                <FileLoader file_name={selectedProduct?.scene_dir} ext={['zip']} label='Upload Scene File' onChange={(file) => {
+                                    //TODO explorateur de fichier
+                                    isDash ? (selectedProduct && updateProduct({
+                                        product_id: selectedProduct.id,
+                                        scene_dir: file
+                                    })) : collected['scene_dir'] = file;
+                                }} />
+                            </div>
+                        }
                     </div>
                 </section>
                 {isDash && <div className="product-dash-ctn">

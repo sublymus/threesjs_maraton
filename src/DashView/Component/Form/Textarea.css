@@ -25,6 +25,11 @@
     font-weight: bold;
 }
 
+
+.sombre-mode-variable .textarea .textarea-top .edit , .sombre-mode-variable .textarea .textarea-top .textarea-info{
+    filter: invert();
+}
+
 .textarea .textarea-top .textarea-info:hover{
     opacity: 1;
 }
@@ -37,6 +42,10 @@
     margin-left: 10px;
     opacity: 0.5;
     font-weight: bold;
+}
+.sombre-mode-variable .textarea .textarea-top .promt{
+    filter: invert();
+    color: #345;
 }
 .textarea .textarea-top .promt{
     left: -60px;
@@ -86,6 +95,9 @@
     color: rgba(85, 51, 51, 0.667)
 }
 
+.sombre-mode-variable .textarea textarea{
+    color: #345;
+}
 .textarea textarea {
     all: unset;
     background: #fff;

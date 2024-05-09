@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWindowSize } from '../../../Hooks';
 import { useDashRoute } from '../../dashStore'
 import './NavBar.css'
@@ -7,14 +7,16 @@ import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
 import { Host } from '../../../Config';
 
 export function NavBar (){
-    const { setAbsPath  , setPath} = useDashRoute();
-    const [active , setActive] = useState('product');
+    const { setAbsPath  , setPath , pathList} = useDashRoute();
+    const [active , setActive] = useState(pathList[1]||'products');
     const { user , store , disconnection } = useRegisterStore();
     const size = useWindowSize();
     let width = size.width>=1300?'large':'small'
     const showText = width == 'large';
     width += size.width<1180?' option ':''
-
+    useEffect(()=>{
+        setActive(pathList[1]||'products')
+    },[pathList])
     console.log(active);
     
     return (
@@ -25,25 +27,25 @@ export function NavBar (){
                 </div>
                 <div className="nav-link">
                     <ul>
-                        <li className={width+' '+((active=='product')?'active':'no')} onClick={()=>{ 
-                            setActive('product')
+                        <li className={width+' '+((active=='products'||active=='features'||active=='categories'||active=='catalogs')?'active':'no')} onClick={()=>{ 
+                            setActive('products')
                             setAbsPath(['products'])
                         }}><span className='product'></span>{ showText&&'STORE'}</li>
-                        <li className={width+' '+((active=='users')?'active':'no')} onClick={()=>{
-                            setActive('users')
+                        <li className={width+' '+((active=='clients'||active=='collaborators'||active=='roles')?'active':'no')} onClick={()=>{
+                            setActive('clients')
                             setAbsPath(['clients'])
                         }}><span className='users'></span>{showText&&'USERS'}</li>
                         <li className={width+' '+((active=='chat')?'active':'no')} onClick={()=>{
                             setActive('chat')
-                            setPath('../')
+                            setAbsPath(['chat'])
                         }}><span className='chat'></span>{showText&&'CHAT'}</li>
                         <li className={width+' '+((active=='interface')?'active':'no')} onClick={()=>{
                             setActive('interface')
-                            setAbsPath(['products'])
+                            setAbsPath(['interface'])
                         }}><span className='interface'></span>{showText&&'INTERFACE'}</li>
-                        <li className={width+' '+((active=='state')?'active':'no')} onClick={()=>{
-                            setActive('state')
-                            setAbsPath(['products'])
+                        <li className={width+' '+((active=='statistic')?'active':'no')} onClick={()=>{
+                            setActive('statistic')
+                            setAbsPath(['statistic'])
                         }}><span className='state'></span>{showText&&'STATISTIC'}</li>
                     </ul>
                 </div>

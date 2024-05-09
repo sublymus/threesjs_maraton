@@ -40,6 +40,10 @@
 .image-viewer .top-viewer .option *{
     font-size: 0.9em;
 }
+
+.sombre-mode-variable .image-viewer .top-viewer .option .icon {
+    filter: invert();  
+}
 .image-viewer .top-viewer .option .add .icon {
     width: 30px;
     height: 30px;
@@ -50,7 +54,7 @@
     width: 30px;
     height: 30px;
     background: no-repeat center/80% url(/src/res/eye.png);
-    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+    /* filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%); */
 }
 
 .image-viewer .top-viewer .option .save .icon {
@@ -65,7 +69,6 @@
     white-space: nowrap;
     overflow-y: hidden;
     overflow-x: auto;
-
 }
 
 .image-viewer .image-ctn .empty-image{

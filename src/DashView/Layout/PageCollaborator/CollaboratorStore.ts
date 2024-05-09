@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ListType, Role, UserInterface, UserStore } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
-import { useDashRoute } from "../../dashStore";
+import { useDashRoute, useDashStore } from "../../dashStore";
 
 interface CollaboratorState {
     collaborators: ListType<UserInterface& UserStore> | undefined;
@@ -20,7 +20,6 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
     collaborators:undefined,
     selectedCollaborator:undefined,
     async updateCollaborator(data) {
-        console.log({data});
         
     },
     async change_collaborator_role(data){
@@ -54,7 +53,6 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
                 error.push('Server Error, Try Later');
                 return  error
             }
-            console.log(json);
             
         }else{
             return error;
@@ -92,6 +90,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
                 return  error
             }
             set(()=>({selectedCollaborator:json}));
+            useDashStore.getState().fetchUsersVar();
             useDashRoute.getState().setAbsPath(['collaborators','collaborator_profile'])
         }else{
             return error;
@@ -119,13 +118,10 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
             headers: myHeaders,
             body:formData
         };
-        console.log({
-          s:store.id,
-          collaborator_id  
-        });
         
         const response = await fetch(`${Host}/remove_collaborator`,requestOptions);
-        const json = await response.json() 
+        const json = await response.json() ;
+        useDashStore.getState().fetchUsersVar();
         if(json.deleted) set(()=>({selectedCollaborator:undefined}));
     },
     async fetchCollaborators(filter) {
@@ -138,17 +134,15 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         if (filter?.query.phone) query.phone = filter.query.phone;
         query.store_id = useRegisterStore.getState().store?.id
         if(!query.store_id) return
-        console.log('lol');
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
             searchParams.set(key, value);
         }
         
-        const response = await fetch(`${Host}/get_store_collaborators/?${searchParams.toString()}`);
+         const response = await fetch(`${Host}/get_store_collaborators/?${searchParams.toString()}`);
         const json = await response.json() as ListType<UserInterface & UserStore>;
         
-        console.log('collaborators', json);
         if (!json || !json.list) return;
         set(() => ({ collaborators: json }))
     },

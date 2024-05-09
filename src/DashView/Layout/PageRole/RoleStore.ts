@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ListType, Role, UserInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
-import { useDashRoute } from "../../dashStore";
+import { useDashRoute, useDashStore } from "../../dashStore";
 
 interface RoleState {
     json_roles: Record<string, boolean> | undefined;
@@ -57,6 +57,7 @@ export const useRoleStore = create<RoleState>((set) => ({
         console.log('new role', json);
         
         set(() => ({ selectedRole: json }));
+        useDashStore.getState().fetchUsersVar();
         useDashRoute.getState().setAbsPath(['roles','edit_role']);
     },
     async updateRole(data) {
@@ -116,6 +117,7 @@ export const useRoleStore = create<RoleState>((set) => ({
         const response = await fetch(`${Host}/delete_role`,requestOptions);
         const json = await response.json() 
         if(json.deleted) set(()=>({selectedRole:undefined}));
+        useDashStore.getState().fetchUsersVar();
     },
     async fetchRolesJson() {
         const response = await fetch(`${Host}/get_roles_json`);
@@ -151,8 +153,6 @@ export const useRoleStore = create<RoleState>((set) => ({
 
         if (!json || !json.list) return;
         set(() => ({ roles: json }))
-        console.log('roles', json);
-
     },
     async banRole(role_id) {
         return undefined

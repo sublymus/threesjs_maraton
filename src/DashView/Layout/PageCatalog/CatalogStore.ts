@@ -14,7 +14,7 @@ interface DashState {
     fetchCatalogProducts(filter: Record<string, any>): Promise<void>;
     fetchCatalogCategories(filter: Record<string, any>): Promise<void>;
     createCatalog(catalog: Record<string, any>): Promise<string[] | undefined>
-    removeCatalog(catalog_id: string | undefined): Promise<string | undefined>
+    removeCatalog(catalog_id: string): Promise<string | undefined>
 }
 
 
@@ -27,7 +27,6 @@ export const useCatalogStore = create<DashState>((set) => ({
     catalogProducts: undefined,
     catalogCategories: undefined,
     async removeCatalog(catalog_id) {
-        if (!catalog_id) return;
         const myHeaders = useRegisterStore.getState().getHeaders();
         if (!myHeaders) return
         const response = await fetch(`${Host}/delete_catalog/${catalog_id}`, {
@@ -112,6 +111,7 @@ export const useCatalogStore = create<DashState>((set) => ({
             if (filter?.limit) query.limit = Number(filter.limit);
             if (filter?.sortBy) query.order_by = filter.sortBy;
             query.catalog_id = filter.catalog_id
+            query.all_status = true;  
             query.store_id = useRegisterStore.getState().store?.id
             const searchParams = new URLSearchParams({});
             for (const key in query) {

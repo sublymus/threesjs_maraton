@@ -11,6 +11,7 @@ interface RegisterState {
     disconnection():Promise<void>;
     authenticateUser(): Promise<void>;
     getAccess():Promise<void>;
+    getStore():Promise<void>
     updateUser(data:Record<string, any>):Promise<void>;
 }
 export const useRegisterStore = create<RegisterState>((set) => ({
@@ -107,8 +108,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             let js :any
             const clear = ()=>{
                 localStorage.removeItem('user');
-                localStorage.removeItem('store');
-                set(() => ({ user: undefined, userStore:undefined , store:undefined , openAuth:true }));
+                set(() => ({ user: undefined, userStore:undefined , openAuth:true }));
             }
             try {
                 js = await response.json();   
@@ -120,10 +120,25 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             set(() => ({ user: _user, userStore:js.userStore , store:js.store , openAuth:false }))
             
             localStorage.setItem('user', JSON.stringify(_user));
-        }else{
-            localStorage.removeItem('user');
-            localStorage.removeItem('store');
-            set(() => ({ user: undefined, userStore:undefined , store:undefined , openAuth:true }))
+        }
+        await useRegisterStore.getState().getStore()
+    },
+    async getStore() {
+        
+        const store_name = localStorage.getItem('store_name')|| window.location.pathname.split('/')[1];
+        
+        
+        if (store_name) {
+           
+            const response = await fetch(`${Host}/get_store_by_name/${store_name}`)
+            
+            try {
+                let js = await response.json();
+                set(() => ({ store:js }));
+                console.log(js);
+            } catch (error) {
+
+            }
         }
     }
 }));

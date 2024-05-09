@@ -73,7 +73,7 @@ export function CatalogDash() {
                         // if (error.length) setError(error?.toString())
                     })
                 }} onDelete={() => {
-                    removeCatalog(selectedCatalog?.id).then((res) => {
+                    selectedCatalog && removeCatalog(selectedCatalog.id).then((res) => {
                         if (res) {
                             setSelectedCatalog(undefined)
                         }

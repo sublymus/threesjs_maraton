@@ -49,8 +49,38 @@ body {
 
   --text-color: #010747;
   --backgroung-white : #f2f2f3;
-  --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);;
+  --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
 }
+
+.bleu{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.black{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.purple{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.yallow{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.green{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.red{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
+.marron{
+  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+}
+
 
 .dark-mode-variable {
   --backgroung-white : linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124));
@@ -58,6 +88,7 @@ body {
   --box-shadow :  0 0  10px rgba(182, 182, 182, 0.222);
 }
 .sombre-mode-variable {
+  --backgroung-white : linear-gradient(40deg ,rgb(17, 15, 15),rgb(5, 5, 7));
   --backgroung-white : linear-gradient(40deg ,rgb(53, 52, 58),rgb(39, 20, 124));
   --text-color: #fff;
   --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);

@@ -10,8 +10,7 @@ const reservedStoreName = ['web','dash','sublymus'];
   const store = window.location.pathname.split('/')[1]
   const dash = window.location.pathname.split('/')[2]
   let view;
-  console.log({ store, dash });
-
+  
   if (store && reservedStoreName.includes(store)) {
     view = (await import('./Web/WebView')).WebView;
   } else if (store == 'auth') {

@@ -51,7 +51,7 @@ export function CollaboratorProfile() {
                     
                     <InputText label='Store Id' value={store?.id} />
                     <InputText isCheckRequired={isCheckRequired} label='Collaborator Id' value={(selectedCollaborator?.id || '')} />
-                    <ChoiseStatusUser status={selectedCollaborator?.status as any||'PAUSE'} onChange={(value)=>{
+                    <ChoiseStatusUser status={selectedCollaborator?.status as any||'NEW'} onChange={(value)=>{
                             updateCollaborator({
                                 product_id: selectedCollaborator.id,
                                 status: value

@@ -1,6 +1,10 @@
 .loader-img {
     width: 300px;
 }
+
+.sombre-mode-variable .loader-img-ctn {
+    background: rgba(17, 69, 136, 0.445);
+}
 .loader-img-ctn {
     width: 300px;
     height: 60px;

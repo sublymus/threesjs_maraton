@@ -2,6 +2,9 @@
     width: 300px;
 }
 
+.sombre-mode-variable .choise-ctn {
+    background: rgba(17, 69, 136, 0.445) !important;
+}
 .choise-options .choise-ctn {
     width: 300px;
     height: 60px;

@@ -30,6 +30,14 @@
     opacity: 0.5;
 }
 
+.sombre-mode-variable .input .input-top .edit , .sombre-mode-variable .input .input-top .input-info{
+    filter: invert();
+}
+
+.sombre-mode-variable .input .input-top .promt{
+    filter: invert();
+    color: #345;
+}
 .input .input-top .promt{
     left: -60px;
     width: 150px;
@@ -75,6 +83,11 @@
 .input .message{
     font-size: 1em;
     color: rgba(85, 51, 51, 0.667)
+}
+
+
+.sombre-mode-variable .input input{
+    color: #345;
 }
 
 .input input {

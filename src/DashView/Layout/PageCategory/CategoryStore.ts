@@ -78,13 +78,15 @@ export const useCategotyStore = create<DashState>((set) => ({
             if (filter?.limit) query.limit = Number(filter.limit);
             if (filter?.sortBy) query.order_by = filter.sortBy;
             query.category_id = filter?.category_id
+            query.all_status = true;  
+            query.store_id = useRegisterStore.getState().store?.id;
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
                 searchParams.set(key, value);
             }
 
-            const response = await fetch(`${Host}/get_category_products/?${searchParams.toString()}`, {
+            const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {
                 headers: myHeaders
             });
 

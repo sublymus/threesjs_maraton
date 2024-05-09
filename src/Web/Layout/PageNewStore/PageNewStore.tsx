@@ -35,26 +35,33 @@ export function PageNewStore() {
     ) : (current('new_store', 'edit_store')) && (
         <div className="page-new-store">
             {selectedStore && <div className="editor-top">
-            <EditorTopBar terme="dark" deteleKey={selectedStore.id} mode={'delete'} onDelete={() => {
-                deleteStore(selectedStore.id).then((res => {
-                    if (res) {
-                        setAbsPath(['store_list'])
-                    }
-                }))
-            }} onCreate={() => { }} title="Store Information" />
-            <div className="editor-nav btm">
-            {
-                            edit && <div className="btn open" onClick={() => {
-                                localStorage.setItem('store',JSON.stringify(selectedStore));
-                                window.open(
-                                    `${Local}/${selectedStore?.name}/dash`,
-                                    "mozillaWindow",
-                                );
-                            }}>
-                                Open Store
-                            </div>
+                <EditorTopBar terme="dark" deteleKey={selectedStore.id} mode={'delete'} onDelete={() => {
+                    deleteStore(selectedStore.id).then((res => {
+                        if (res) {
+                            setAbsPath(['store_list'])
                         }
-            </div>
+                    }))
+                }} onCreate={() => { }} title="Store Information" />
+                {
+                    edit && <div className="open-opt">
+                        <div className="btn-dash btn demo" onClick={() => {
+                        localStorage.setItem('store', JSON.stringify(selectedStore));
+                        window.open(
+                            `${Local}/demo/${selectedStore.name}`
+                        );
+                    }}>
+                        Open Demo Store
+                    </div>
+                    <div className="btn-dash btn" onClick={() => {
+                        localStorage.setItem('store', JSON.stringify(selectedStore));
+                        window.open(
+                            `${Local}/${selectedStore?.name}/dash`,
+                        );
+                    }}>
+                        Open Dashboard
+                    </div>
+                    </div>
+                }
             </div>
             }
             <div className={"center-content " + wrap}>
@@ -156,7 +163,7 @@ export function PageNewStore() {
                         }}>
                             {edit ? 'Edit' : 'Create'} Store
                         </div>
-                        
+
                     </div>
 
                 </div>

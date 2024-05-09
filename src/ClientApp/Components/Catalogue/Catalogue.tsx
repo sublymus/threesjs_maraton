@@ -4,25 +4,30 @@ import { useEffect } from "react";
 import { useAppRouter } from "../../AppStore";
 import { useCatalogueStore } from "./CatalogueStore";
 import { useProductStore } from "../Products/ProductStore";
+import { useRegisterStore } from "../../Layout/PageRegister/RegisterStore";
 // import React from "react";
 
 export function Catalogue() {
     const { pathList, check, setAbsPath } = useAppRouter();
-    const { fetchCatalogues, initCatalogueListener, catalogues } = useCatalogueStore();
+    const { fetchCatalogues, catalogues } = useCatalogueStore();
     const { fetchProducts } = useProductStore()
+    const { store } = useRegisterStore()
     useEffect(() => {
-        if (CatalogueWorld.catalogueWorld) return
+        console.log('fetchCatalogues', { store });
+        if (store) {
+            if (CatalogueWorld.catalogueWorld) return
 
-        const catalogue = new CatalogueWorld();
-        WorldManager.worldManager?.setWorld(catalogue);
-        fetchCatalogues();
-        initCatalogueListener();
-    }, [])
+            const catalogue = new CatalogueWorld();
+            WorldManager.worldManager?.setWorld(catalogue);
+            fetchCatalogues();
+        }
+
+    }, [store])
     useEffect(() => {
         if (!CatalogueWorld.catalogueWorld) return
         if (check('catalogue')) {
             WorldManager.worldManager?.setWorld(CatalogueWorld.catalogueWorld);
-        }else if(check('product')){
+        } else if (check('product')) {
             catalogues && (fetchProducts({
                 filter: {
                     category_id: catalogues[0]?.id
@@ -32,8 +37,5 @@ export function Catalogue() {
             }))
         }
     }, [pathList])
-    useEffect(() => {
-     
-    }, [catalogues])
     return (<></>)
 }

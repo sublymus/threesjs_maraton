@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
 import { useRegisterStore } from "./Layout/PageAuth/RegisterStore";
-type Theme = Record<string, { prim: string, secd: string, fird: string, canl: string, save: string, back: string, shad: string }>;
 /*
 default path,
 desable copmonent,
@@ -11,6 +10,9 @@ current('page')
 
 const Pages = {
     '/': {
+        chat:{},
+        interface:{},
+        statistic:{},
         command: {},
         roles: {
             //list
@@ -33,7 +35,7 @@ const Pages = {
             dash_product: {
                 // edition de product (avec data) <EditProduct/>
                 product_preview: {},
-                statistic: {},
+                product_statistic: {},
                 action: {}
             },
             new_product: {
@@ -85,8 +87,8 @@ interface StoreVar {
 }
 
 interface DashState {
-    T: Theme | undefined,
-    setT(T: Theme): void,
+    T: string | undefined|null,
+    setT(T: string|undefined): void,
     storeVar: StoreVar | undefined,
     usersVar: StoreVar | undefined,
     currentChild: JSX.Element | undefined,
@@ -96,7 +98,7 @@ interface DashState {
 }
 
 export const useDashStore = create<DashState>((set) => ({
-    T: undefined,
+    T: localStorage.getItem('theme'),
     storeVar: undefined,
     usersVar: undefined,
     async fetchStoreVar() {
@@ -115,7 +117,9 @@ export const useDashStore = create<DashState>((set) => ({
         set(() => ({ usersVar: json }));
 
     },
-    setT(_T) {
+    setT(T) {
+        T && localStorage.setItem('theme',T);
+        set(()=>({T}))
     },
     currentChild: undefined,
     openChild(child) {

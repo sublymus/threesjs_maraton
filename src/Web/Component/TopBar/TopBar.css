@@ -99,6 +99,7 @@
     width: 150px;
     right: 0px;
     height: 60px;
+    z-index: 1;
     position: absolute;
     background: var(--linear-orange); 
     color:#fff;

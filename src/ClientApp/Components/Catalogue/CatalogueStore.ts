@@ -4,6 +4,7 @@ import { CatalogueInterface, Category } from '../../../DataBase'
 import { AbstractLocalLoader, WorldManager } from '../../../World/WorldManager'
 import { CatalogueWorld } from '../../../World/Catalogue/Catalogue'
 import { Host } from '../../../Config'
+import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore'
 
 
 
@@ -30,15 +31,18 @@ export const useCatalogueStore = create<AppState>((set) => ({
     },
     async fetchCatalogues() {
         if (CATALOGUES_CACHE) return;
-
-        const response = await fetch(`${Host}/get_catalogs/?page=1&limit=25&index=0&is_category_required=true`, {
+        const store = useRegisterStore.getState().store;
+        if(!store) return;
+        const response = await fetch(`${Host}/get_catalogs/?page=1&limit=25&is_category_required=true&store_id=${store.id}`, {
             method: 'GET',
         });
         
         const catalogues = (await response.json() ).list as CatalogueInterface[]
         CATALOGUES_CACHE = catalogues;
         const catalogue = catalogues[0];
-        setCatalogueCategory(catalogue);
+        console.log({catalogues});
+        
+        if(catalogue)setCatalogueCategory(catalogue);
         set(() => ({ catalogues, catalogue }));
     },
     initCatalogueListener() {

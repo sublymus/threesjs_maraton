@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { features, Feature, ProductInterface, VALUES } from '../../../DataBase'
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
+import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 
 export type CollectedFeatures = { [key: string]: VALUES | undefined}
 
@@ -42,12 +43,13 @@ export const useProductStore = create<ProductState>((set) => ({
     products: [],
     featuresCollector:undefined,
     fetchProducts: async (_filter: Filter) => {
-        console.log('fetchProducts ', _filter);
-        
-        const response = await fetch(`${Host}/get_products/?page=1&limit=25&is_features_required=true`,{
+        const store = useRegisterStore.getState().store;
+        if(!store) return;
+        const response = await fetch(`${Host}/get_products/?page=1&limit=25&is_features_required=truee&store_id=${store.id}`,{
             method:'GET'
         });
         const products = (await response.json()).list as ProductScenus[]
+        console.log({products});
         
         const product = products[0];
         console.log({product});

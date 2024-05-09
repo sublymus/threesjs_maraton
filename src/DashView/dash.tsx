@@ -11,7 +11,7 @@ import { PageCategory } from "./Layout/PageCategory/PageCategory";
 import { PageFeature } from "./Layout/PageFeature/PageFeature";
 import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
 import { PageAuth } from './Layout/PageAuth/PageAuth'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
 
 import { PageRole } from './Layout/PageRole/PageRole'
@@ -43,15 +43,16 @@ const PathMap = {
     roles: 'Roles',
     create_role: 'New Role',
     edit_role: 'Editor',
-    new_collaborator: 'New Collaborator'
+    new_collaborator: 'New Collaborator',
+    chat:'Chat'
+
 }
 
 
 export function Dash() {
-    const { currentChild, openChild, fetchUsersVar, fetchStoreVar } = useDashStore();
+    const { currentChild, openChild, fetchUsersVar, fetchStoreVar, T , setT } = useDashStore();
     const { authenticateUser, user } = useRegisterStore();
     const { pathList, setAbsPath } = useDashRoute()
-    const [active, setActive] = useState('');
     const { fetchRolesJson } = useRoleStore()
     const paths: string[] = []
     pathList.forEach((p) => {
@@ -62,7 +63,6 @@ export function Dash() {
     useEffect(() => {
         authenticateUser().then(()=>{
             console.log('####### after auth #########');
-            
             fetchStoreVar();
             fetchRolesJson();
             fetchUsersVar();
@@ -71,7 +71,7 @@ export function Dash() {
     }, []);
 
     return (
-        <div className={'dash ' + (active ? 'sombre-mode-variable' : '')}>
+        <div className={'dash ' + (T ? 'sombre-mode-variable' : '')}>
             <NavBar />
             {(!user) && <PageAuth />}
             <div className={"dash-ctn " + (user ? '' : 'blur')}>
@@ -89,8 +89,8 @@ export function Dash() {
                             ))}
                         </div>
                         <div className="top-right material-symbols-outlined">
-                            <div className={"dark-mode " + active} onClick={() => {
-                                setActive(active ? '' : 'active');
+                            <div className={"dark-mode " + T} onClick={() => {
+                                setT(T ? '' : 'active');
                             }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>
                             <div className="notf"> <span></span></div>
                         </div>
@@ -111,8 +111,7 @@ export function Dash() {
                 </div>
             </div>
             {currentChild && <div className="child-viewer" >
-                <div className="child-viewer-ctn" onClick={(e) => {
-                    // if(e.currentTarget == e.target) 
+                <div className="child-viewer-ctn" onClick={() => {
                     openChild(undefined);
                 }}>
                     {currentChild}

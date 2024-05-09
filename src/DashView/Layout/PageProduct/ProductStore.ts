@@ -3,6 +3,7 @@ import { ListType, ProductInterface } from "../../../DataBase";
 import { Host } from '../../../Config'
 import type { ImageViewerMapper } from "../../Component/ImageViewer/ImageViewer";
 import { useDashStore } from "../../dashStore";
+import { useRegisterStore } from "../PageAuth/RegisterStore";
 
 interface ProductState {
     products: ListType<ProductInterface> | undefined;
@@ -18,13 +19,20 @@ export const useProductStore = create<ProductState>((set) => ({
     products: undefined,
     selectedProduct: undefined,
     async removeProduct(product_id) {
+        const myHeaders = useRegisterStore.getState().getHeaders();
+        if (!myHeaders) return
         const response = await fetch(`${Host}/delete_product/${product_id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: myHeaders
         });
         const json  = await  response.json();
+        useDashStore.getState().fetchStoreVar();
         return json?.isDeleted;
     },
     async createProduct(product) {
+        const myHeaders = useRegisterStore.getState().getHeaders();
+        if (!myHeaders) return
+
         product.index = product.index ||0;
         product.is_dynamic_price = product.is_dynamic_price||true; 
         const formData = new FormData();
@@ -56,7 +64,8 @@ export const useProductStore = create<ProductState>((set) => ({
         if (error.length==0) {
             const response =await fetch(`${Host}/create_product`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers:myHeaders
             });
             const json = await response.json();
             if(!json || !json.id){ 
@@ -70,7 +79,11 @@ export const useProductStore = create<ProductState>((set) => ({
         }
     },
     async updateProduct(product) {
-
+        if(!product.product_id) return console.log('Product_id required');
+        
+        const myHeaders = useRegisterStore.getState().getHeaders();
+        if (!myHeaders) return
+        
         const formData = new FormData();
         let send = false;
         ['images', 'model_images'].forEach(p => {
@@ -78,10 +91,9 @@ export const useProductStore = create<ProductState>((set) => ({
             if (d && Object.keys(d)) {
                 send = true;
                 const list: string[] = [];
-                let localCount = 0;
                 Object.keys(d).sort((a, b) => {
                     return (d[a]?.index || 0) - (d[b]?.index || 0)
-                }).forEach((k, i) => {
+                }).forEach((k) => {
                     list.push(k);
                     if (d[k].isLocal) {
                         formData.append(k, d[k].file as Blob);
@@ -90,7 +102,6 @@ export const useProductStore = create<ProductState>((set) => ({
                 formData.append(p, JSON.stringify(list));
             }
         });
-        console.log(product);
         formData.append('product_id', product.product_id);
         ['title', 'description', 'stock', 'category_id',  'status' ,'index', 'price', 'is_dynamic_price'].forEach(p => {
             if (product[p]) {
@@ -103,7 +114,8 @@ export const useProductStore = create<ProductState>((set) => ({
         if (send) {
             newProduct = await fetch(`${Host}/update_product`, {
                 method: 'PUT',
-                body: formData
+                body: formData,
+                headers: myHeaders
             });
         }
         if (product.scene_dir) {
@@ -112,7 +124,8 @@ export const useProductStore = create<ProductState>((set) => ({
             f.append('product_id', product.product_id);
             newProduct = await fetch(`${Host}/update_view_product`, {
                 method: 'PUT',
-                body: f
+                body: f,
+                headers:myHeaders
             })
         }
         if(newProduct){
@@ -133,14 +146,20 @@ export const useProductStore = create<ProductState>((set) => ({
         if (filter?.query.price) query.price_max = filter.query.price[1];
         if (filter?.query.stock) query.stock_min = filter.query.stock[0];
         if (filter?.query.stock) query.stock_max = filter.query.stock[1];
-        query.is_features_required = true;
+       
+        // query.is_features_required = true;
+        query.all_status = true;  
+        query.store_id = useRegisterStore.getState().store?.id;
 
+        const myHeaders = useRegisterStore.getState().getHeaders();
+        if (!myHeaders) return
+        
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
             searchParams.set(key, value);
         }
-        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
+        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {headers:myHeaders});
         const json = await response.json() as ListType<ProductInterface>;
         if (!json || !json.list) return;
         set(() => ({ products: json }))
