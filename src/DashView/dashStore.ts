@@ -10,7 +10,12 @@ current('page')
 
 const Pages = {
     '/': {
-        chat:{},
+        chat:{
+            discussions:{},
+            groups:{},
+            sessions:{},
+            surveys:{}
+        },
         interface:{},
         statistic:{},
         command: {},
@@ -87,12 +92,13 @@ interface StoreVar {
 }
 
 interface DashState {
+    back_color:string;
     T: string | undefined|null,
     setT(T: string|undefined): void,
     storeVar: StoreVar | undefined,
     usersVar: StoreVar | undefined,
     currentChild: JSX.Element | undefined,
-    openChild: (child: JSX.Element | undefined) => any,
+    openChild: (child: JSX.Element | undefined, back_color?:string) => any,
     fetchStoreVar(): Promise<void>;
     fetchUsersVar(): Promise<void>;
 }
@@ -101,6 +107,7 @@ export const useDashStore = create<DashState>((set) => ({
     T: localStorage.getItem('theme'),
     storeVar: undefined,
     usersVar: undefined,
+    back_color:'',
     async fetchStoreVar() {
         const response = await fetch(`${Host}/get_store_var`);
         const json = await response.json();
@@ -122,8 +129,8 @@ export const useDashStore = create<DashState>((set) => ({
         set(()=>({T}))
     },
     currentChild: undefined,
-    openChild(child) {
-        set(() => ({ currentChild: child }))
+    openChild(child, back_color) {
+        set(() => ({ currentChild: child , back_color:back_color||'' }))
     },
 }));
 

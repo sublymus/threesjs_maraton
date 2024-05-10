@@ -50,7 +50,7 @@ const PathMap = {
 
 
 export function Dash() {
-    const { currentChild, openChild, fetchUsersVar, fetchStoreVar, T , setT } = useDashStore();
+    const { currentChild, openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
     const { authenticateUser, user } = useRegisterStore();
     const { pathList, setAbsPath } = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
@@ -72,9 +72,9 @@ export function Dash() {
 
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')}>
-            <NavBar />
+            <NavBar blur={!!currentChild} />
             {(!user) && <PageAuth />}
-            <div className={"dash-ctn " + (user ? '' : 'blur')}>
+            <div className={"dash-ctn " + (user ? (currentChild? 'blur':'') : 'blur')}>
                 <div className="center">
                     <div className="center-top">
                         <div className="page-path">
@@ -111,7 +111,7 @@ export function Dash() {
                 </div>
             </div>
             {currentChild && <div className="child-viewer" >
-                <div className="child-viewer-ctn" onClick={() => {
+                <div className="child-viewer-ctn"style={{background:back_color}} onClick={() => {
                     openChild(undefined);
                 }}>
                     {currentChild}

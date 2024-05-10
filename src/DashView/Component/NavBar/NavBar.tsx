@@ -6,8 +6,8 @@ import './NavBar.css'
 import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
 import { Host } from '../../../Config';
 
-export function NavBar (){
-    const { setAbsPath  , setPath , pathList} = useDashRoute();
+export function NavBar ({blur}:{blur:boolean}){
+    const { setAbsPath , pathList} = useDashRoute();
     const [active , setActive] = useState(pathList[1]||'products');
     const { user , store , disconnection } = useRegisterStore();
     const size = useWindowSize();
@@ -17,10 +17,9 @@ export function NavBar (){
     useEffect(()=>{
         setActive(pathList[1]||'products')
     },[pathList])
-    console.log(active);
     
     return (
-        <div className={"nav-bar "+ width +" "+(user?'':'blur')}>
+        <div className={"nav-bar "+ width +" "+(user?(blur?'blur':''):'blur')}>
                 <div className="nav-logo">
                     <div className="logo" style={{backgroundImage:`url(${`${Host}${store?.banners[0]}`})`}}></div>
                     {showText&&<div className="label">{store?.name}</div>}

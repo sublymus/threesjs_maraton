@@ -48,7 +48,7 @@ body {
   --editer-width: 800px;
 
   --text-color: #010747;
-  --backgroung-white : #f2f2f3;
+  --backgroung-white : #fefefe;
   --box-shadow :  0 0  10px rgba(182, 182, 182, 0.322);
   --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
 }
@@ -58,7 +58,7 @@ body {
 }
 
 .black{
-  --primary-color: linear-gradient(0.25turn , #5900ff, #0059ffa6);
+  --primary-color: linear-gradient(0.25tur n , #5900ff, #0059ffa6);
 }
 
 .purple{

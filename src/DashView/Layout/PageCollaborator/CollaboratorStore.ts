@@ -145,6 +145,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         
         if (!json || !json.list) return;
         set(() => ({ collaborators: json }))
+        
     },
     async banCollaborator(collaborator_id) {
         return undefined

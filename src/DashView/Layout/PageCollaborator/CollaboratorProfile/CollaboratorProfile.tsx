@@ -14,7 +14,7 @@ import { ChoiseStatusUser } from '../../../Component/ChoiseStatus/ChoiseStatusUs
 export function CollaboratorProfile() {
 
     const { current, setAbsPath, } = useDashRoute();
-    const { collaborators, selectedCollaborator,  removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
+    const { selectedCollaborator,  removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
 
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -50,7 +50,7 @@ export function CollaboratorProfile() {
                     <InputText label='Store Name' value={store?.name || 'pppp'} />
                     
                     <InputText label='Store Id' value={store?.id} />
-                    <InputText isCheckRequired={isCheckRequired} label='Collaborator Id' value={(selectedCollaborator?.id || '')} />
+                    <InputText isCheckRequired={isCheckRequired} label={selectedCollaborator?.s_type +' Id'} value={(selectedCollaborator?.id || '')} />
                     <ChoiseStatusUser status={selectedCollaborator?.status as any||'NEW'} onChange={(value)=>{
                             updateCollaborator({
                                 product_id: selectedCollaborator.id,

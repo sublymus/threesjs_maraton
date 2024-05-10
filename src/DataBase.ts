@@ -44,7 +44,8 @@ export interface UserInterface{
     email:string,
     password:string,
     photos:string[],
-    type:string
+    type:string;
+    s_type:string;
     roles?: Role[],
     token:string;
     created_at:string,

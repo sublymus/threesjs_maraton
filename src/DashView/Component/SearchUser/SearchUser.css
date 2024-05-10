@@ -1,0 +1,108 @@
+.search-user{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.search-user .search-ctn{
+    width: 600px;
+    height: calc(100% - 100px);
+    max-height: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #fffa;
+    margin-top: 50px;
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    position: relative;
+}
+
+.search-user .search-ctn .close:hover{
+    opacity: 0.6;
+}
+.search-user .search-ctn .close{
+    position: absolute;
+    top: 3px;
+    right: -7px;
+    min-width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/x.png), #3335;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+.search-user .search-ctn .top{
+    width: 400px;
+    min-height: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 0 10px;
+    margin: 20px 0;
+}
+.search-user .search-ctn .top .icon{
+    min-width: 40px;
+    height: 40px;
+    background: no-repeat center/80% url(/src/res/search.png);
+    margin-right: 10px;
+}
+.search-user .search-ctn .top input{
+   all: unset;
+   width: 100%;
+}
+.search-user .search-ctn .list{
+   width: 500px;
+   height: 100%;
+   padding: 0 5px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   
+}
+.search-user .search-ctn .list .collabo:hover{
+    background: #eef;
+    /* PRIMARY 'color'-withe-back-hover */
+    /* PRIMARY 'color'-black-back-hover */
+}
+.search-user .search-ctn .list .collabo{
+   width: 100%;
+   height: 70px;
+   display: flex;
+   align-items: center;
+   background: #fff;
+   margin-top: 7px;
+   border-radius: 50px;
+   border-top-right-radius: 20px;
+   border-bottom-right-radius: 20px;
+   padding: 5px;
+   cursor: pointer;
+}
+.search-user .search-ctn .list .collabo .photo{
+   width: 60px;
+   height: 60px;
+   display: flex;
+   border-radius: 100%;
+   align-items: center;
+   margin-right: 10px;
+}
+.search-user .search-ctn .list .collabo .name{
+   font-weight: bold;
+}
+.search-user .search-ctn .list .collabo .type{
+   font-weight: bold;
+   margin-left: auto;
+}
+.search-user .search-ctn .list .collabo .id{
+   margin-left: 10px;
+}
+.search-user .search-ctn .see-all:hover{
+   cursor: pointer;
+    opacity: 0.8;
+}
+.search-user .search-ctn .see-all{
+   padding: 10px 20px;
+   background: var(--primary-color);
+   border-radius: 50px;
+   color: #fff;
+}
