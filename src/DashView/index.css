@@ -1,4 +1,4 @@
-* {
+* , pre {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -10,6 +10,7 @@
   font-style: normal;
   font-size: 1.03rem;
 }
+
 
 #root {
   width: 100%;
@@ -30,6 +31,10 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   /* font-family: "Edu NSW ACT Foundation", cursive; */
   /* font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif; */
+}
+
+pre{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #world {

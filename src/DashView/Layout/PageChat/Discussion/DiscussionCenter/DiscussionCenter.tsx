@@ -5,12 +5,14 @@ import { Host } from "../../../../../Config";
 import './DiscussionCenter.css'
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "../../../../../Hooks";
+import emojis from "emoji.json";
 
 
 export function DiscussionsCenter() {
     const { discussion: d, messages: ms ,fetchSendMessage } = useDiscussionStore()
     const { user } = useRegisterStore();
     const [senderSize, setSenderSize] = useState(1)
+    const [emijiOpen, setEmijiOpen] = useState(false)
     const messagesRef = useRef<HTMLDivElement | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [scroll, setScroll] = useState({
@@ -29,19 +31,16 @@ export function DiscussionsCenter() {
         const n = d.value.split('\n').length;
         let v = Math.max(l, n, a);
         v = v > 10 ? 10 : (v - 1 >= 1 ? v - 1 : 1)
-        console.log({ l, a, n, v });
-        // console.log(v);
-
         setSenderSize(v)
     }
     useEffect(() => {
         calculTextareaSize()
     }, [size])
     useEffect(()=>{
-        textareaRef.current && textareaRef.current.scrollTo({top:textareaRef.current.scrollHeight})
+        
     },[])
     
-    const photo = d?.[d?.other]?.photos[0];
+    const photo = d?.other.photos[0];
 
     const current = (m: any, i: number) => {
         return m.list[i].user_id == user?.id ? 'right' : 'left'
@@ -52,18 +51,23 @@ export function DiscussionsCenter() {
     const next = (m: any, i: number) => {
         return m.list[i + 1] && (m.list[i + 1].user_id == user?.id ? 'right' : 'left')
     }
-    return d && user && (<div className="discussion-center">
+    return !d?(<div className="no-discussion">
+        <div className="label">Select a chat to start messaging</div>
+    </div>) : (user && (<div className="discussion-center">
         <div className="top">
             <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }}></div>
             <div className="ctn-name">
-                <div className="name">{limit(d['receiver'].name, 50)}</div>
-                <div className="last-time">Last seen {toDate(d['creator_opened_at'])}</div>
+                <div className="name">{limit(d.other.name, 50)}</div>
+                <div className="last-time">Last seen {toDate(d[`${d.other_att}_opened_at`])}</div>
             </div>
             <div className="option">
                 <div className="more" onClick={Click()}></div>
             </div>
         </div>
-        <div className="messages" ref={messagesRef} onScroll={(e) => {
+        <div className="messages" ref={(ref)=>{
+                    messagesRef.current = ref
+                    messagesRef.current && messagesRef.current.scrollTo({top:messagesRef.current.scrollHeight});
+                }} onScroll={(e) => {
 
             const div = e.currentTarget
             clearInterval(scroll.lastid)
@@ -100,7 +104,7 @@ export function DiscussionsCenter() {
                     return (
                         <div key={m.id} className="message">
                             <div className={"ctn " + side + ' ' + rang}>
-                                <div className="text">{m.text}</div>
+                                <div className="text">{m.text.split('').map((m,i)=><span key={i}>{m}</span>)}</div>
                                 <div className="file"></div>
                                 <div className="date">{toDate(m.created_at)}</div>
                             </div>
@@ -120,6 +124,21 @@ export function DiscussionsCenter() {
                         top: scroll.height
                     }))
                 }}></div>
+            }{
+                emijiOpen && <div className="emoji-list">
+                    {
+                        emojis.map((e)=>(
+                            <span onClick={(_e)=>{
+                                _e.preventDefault();
+                                _e.stopPropagation();
+                                // setEmijiOpen(false)
+                                if(textareaRef.current){
+                                    textareaRef.current.value += e.char
+                                }
+                            }}>{e.char}</span>
+                        ))
+                    }
+                </div>
             }
             <div className="ctn">
                 <div className="left">
@@ -127,21 +146,27 @@ export function DiscussionsCenter() {
                 </div>
                 <textarea ref={textareaRef} name="discussion_sender" placeholder="Type a message here.." id="discussion_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
                     calculTextareaSize()
+                }} onKeyDown={()=>{
+                    setEmijiOpen(false);
                 }}></textarea>
                 <div className="right">
-                    <div className="emoji" onClick={Click()}></div>
+                    <div className="emoji" onClick={(e)=>{
+                        Click()(e)
+                        setEmijiOpen(!emijiOpen)
+                    }}></div>
                     <div className='audio' onClick={Click()}></div>
                     <div className="send" onClick={(e) => {
                         Click()(e);
                         fetchSendMessage({
-                            discussion_id:d.id,
+                            discussion:d,
                             text:textareaRef.current?.value
-                        })
+                        });
+                        textareaRef.current && (textareaRef.current.value = '')
                     }}>
                         <div className="icon"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>)
+    </div>))
 }

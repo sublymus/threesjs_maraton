@@ -1,14 +1,24 @@
+import { useEffect } from 'react';
 import { UserInterface } from '../../../DataBase';
 import { getImg, limit } from '../../../Tools/StringFormater';
 import { useCollaboratorStore } from '../../Layout/PageCollaborator/CollaboratorStore';
-import { useDashStore } from '../../dashStore';
+import { useDashRoute, useDashStore } from '../../dashStore';
 import './SearchUser.css'
+import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
 
 
 export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
 
     const { fetchCollaborators, collaborators } = useCollaboratorStore()
+    const {user}=useRegisterStore()
     const {openChild} = useDashStore()
+    const { setAbsPath } = useDashRoute()
+    const e= collaborators?.list.filter(f=>f.id != user?.id)
+    
+    useEffect(()=>{
+        fetchCollaborators();
+    },[])
+
     return (
         <div className='search-user'>
 
@@ -32,9 +42,9 @@ export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
                 </div>
                 <div className="list">
                     {
-                       collaborators?.list?.map(((c,i) => {
+                       e?.map(((c,i) => {
                             return (
-                                <div key={c.id} className="collabo"  onClick={()=>{
+                                <div key={c.id+i} className="collabo"  onClick={()=>{
                                     openChild(undefined);
                                     setUser(c);
                                 }}>
@@ -43,14 +53,16 @@ export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
                                         <div className="name">{limit(c.name,20)}</div>
                                         <div className="email">{c.email}</div>
                                     </div>
-                                    <div className="type">{c.s_type}</div>
                                     <div className="id">#{c.id.split('-')[0]}</div>
                                 </div>
                             )
                         }))
                     }
                 </div>
-                {collaborators?.list && (collaborators.list.length>7)&&(<div className="see-all">
+                {e && (e.length>7)&&(<div className="see-all" onClick={()=>{
+                    setAbsPath(['collaborators']);
+                    openChild(undefined)
+                }}>
                     SEE ALL
                 </div>)}
             </div>

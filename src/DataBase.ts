@@ -45,11 +45,12 @@ export interface UserInterface{
     password:string,
     photos:string[],
     type:string;
-    s_type:string;
     roles?: Role[],
     token:string;
     created_at:string,
     status:Status|'NEW'
+    s_type?:string;
+    user_store_id?:string;
 }
 
 export interface UserStore{

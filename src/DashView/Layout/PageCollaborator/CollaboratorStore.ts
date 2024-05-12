@@ -23,11 +23,10 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         
     },
     async change_collaborator_role(data){
-        const store = useRegisterStore.getState().store;
-        if (!store) return;
-        let user = useRegisterStore.getState().user;
-        if (!user) return
-        data.store_id = store.id 
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        
+        data.store_id = useRegisterStore.getState().store?.id 
         const formData = new FormData();
         const error :string[]= [];
        
@@ -39,14 +38,11 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
                 return error.push(p+' is not defined');
             }
         }); 
-        
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${user.token}`);
         if (true||error.length==0) {
             const response =await fetch(`${Host}/change_collaborator_role`, {
                 method: 'PUT',
                 body: formData,
-                headers: myHeaders,
+                headers: h.headers,
             });
             const json = await response.json();
             if(!json || !json.id){ 
@@ -76,13 +72,13 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
             }
         }); 
         
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${user.token}`);
+        const h = new Headers();
+        h.append("Authorization", `Bearer ${user.token}`);
         if (true||error.length==0) {
             const response =await fetch(`${Host}/add_collaborator`, {
                 method: 'POST',
                 body: formData,
-                headers: myHeaders,
+                headers: h,
             });
             const json = await response.json();
             if(!json || !json.id){ 
@@ -106,8 +102,8 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         if (!store) return;
         let user = useRegisterStore.getState().user;
         if (!user) return
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${user.token}`);
+        const h = new Headers();
+        h.append("Authorization", `Bearer ${user.token}`);
 
         const formData = new FormData();
         formData.append('store_id',store.id);
@@ -115,7 +111,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
        
         const requestOptions = {
             method: "DELETE",
-            headers: myHeaders,
+            headers: h,
             body:formData
         };
         

@@ -10,14 +10,14 @@ current('page')
 
 const Pages = {
     '/': {
-        chat:{
-            discussions:{},
-            groups:{},
-            sessions:{},
-            surveys:{}
+        chat: {
+            discussions: {},
+            groups: {},
+            sessions: {},
+            surveys: {}
         },
-        interface:{},
-        statistic:{},
+        interface: {},
+        statistic: {},
         command: {},
         roles: {
             //list
@@ -92,13 +92,14 @@ interface StoreVar {
 }
 
 interface DashState {
-    back_color:string;
-    T: string | undefined|null,
-    setT(T: string|undefined): void,
+    back_color: string;
+    blur:boolean,
+    T: string | undefined | null,
+    setT(T: string | undefined): void,
     storeVar: StoreVar | undefined,
     usersVar: StoreVar | undefined,
     currentChild: JSX.Element | undefined,
-    openChild: (child: JSX.Element | undefined, back_color?:string) => any,
+    openChild: (child: JSX.Element | undefined, blur?:boolean,back_color?: string) => any,
     fetchStoreVar(): Promise<void>;
     fetchUsersVar(): Promise<void>;
 }
@@ -107,31 +108,35 @@ export const useDashStore = create<DashState>((set) => ({
     T: localStorage.getItem('theme'),
     storeVar: undefined,
     usersVar: undefined,
-    back_color:'',
+    back_color: '',
+    blur:false,
     async fetchStoreVar() {
-        const response = await fetch(`${Host}/get_store_var`);
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        
+        const response = await fetch(`${Host}/get_store_var?store_id=${h.store.id}`,{headers:h.headers});
         const json = await response.json();
         if (!json) return;
         set(() => ({ storeVar: json }));
 
     },
     async fetchUsersVar() {
-        const store = useRegisterStore.getState().store;
-        if(!store) return
-        const response = await fetch(`${Host}/get_users_var?store_id=${store.id}`);
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        const response = await fetch(`${Host}/get_users_var?store_id=${h.store.id}`, {headers:h.headers});
         const json = await response.json();
         if (!json) return;
         set(() => ({ usersVar: json }));
 
     },
     setT(T) {
-        T && localStorage.setItem('theme',T);
-        set(()=>({T}))
+        T && localStorage.setItem('theme', T);
+        set(() => ({ T }))
     },
     currentChild: undefined,
-    openChild(child, back_color) {
-        set(() => ({ currentChild: child , back_color:back_color||'' }))
+    openChild(child , blur,back_color) {
+        set(() => ({ currentChild: child,blur ,back_color: child ?(back_color || ''):'' }))
     },
 }));
 
-export const useDashRoute = (new SRouter(Pages, ['/','products'])).getStore();
+export const useDashRoute = (new SRouter(Pages, ['/', 'products'])).getStore();

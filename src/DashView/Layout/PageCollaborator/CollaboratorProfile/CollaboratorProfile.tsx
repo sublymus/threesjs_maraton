@@ -13,21 +13,14 @@ import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { ChoiseStatusUser } from '../../../Component/ChoiseStatus/ChoiseStatusUser';
 export function CollaboratorProfile() {
 
-    const { current, setAbsPath, } = useDashRoute();
+    const { current, } = useDashRoute();
     const { selectedCollaborator,  removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
-
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
-    const { store } = useRegisterStore()
-    useEffect(() => {
-        // if (selectedCategory)
-        //     fetchCategoryProducts({
-        //         category_id: selectedCategory.id
-        //     });
-    }, []);
-
+    const { store } = useRegisterStore() 
+    
     return current('collaborator_profile') && (!selectedCollaborator ? (
         <div className="not-found">
             <div className="img"></div>

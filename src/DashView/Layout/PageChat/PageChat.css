@@ -10,7 +10,7 @@
 .page-chat .chat-nav.min {
     width: 60px;
     min-width: 60px;
-    background: #ffffff9f;
+    background: #fbf9ff;
     top: 0;
 }
 
@@ -22,7 +22,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background: #fafafa04;
+    background: #fbf9ff;
     overflow: hidden;
 }
 
@@ -53,6 +53,7 @@
     height: 50px;
     opacity: 0.5;
     transition: 200ms;
+    cursor: pointer;
     background: no-repeat center/60% url(/src/res/arrow-left.png);
 }
 
@@ -72,22 +73,23 @@
     background: #345;
     opacity: 0.4;
     transition: 200ms;
+    cursor: pointer;
 }
 
 .page-chat .chat-nav .top .icon.discussions-icon {
-    background: no-repeat center/60% url(/src/res/message-square.png);
+    background: no-repeat center/50% url(/src/res/message-square.png);
 }
 
 .page-chat .chat-nav .top .icon.groups {
-    background: no-repeat center/60% url(/src/res/multiple-users-silhouette.png);
+    background: no-repeat center/50% url(/src/res/multiple-users-silhouette.png);
 }
 
 .page-chat .chat-nav .top .icon.sessions {
-    background: no-repeat center/60% url(/src/res/headset.png);
+    background: no-repeat center/50% url(/src/res/headset.png);
 }
 
 .page-chat .chat-nav .top .icon.surveys {
-    background: no-repeat center/60% url(/src/res/notebook-pen.png);
+    background: no-repeat center/50% url(/src/res/notebook-pen.png);
 }
 
 .page-chat .chat-nav .top .profile {
@@ -115,7 +117,7 @@
     background: #345;
 }
 
-@media (width <=1450px) {
+@media (width <=1350px) {
 
     .page-chat .chat-info {
         position: absolute;
@@ -125,13 +127,13 @@
     }
 }
 
-@media (width <=1000px) {
+@media (width <=900px) {
 
     .page-chat .chat-nav.max {
         position: absolute;
         top: 0;
         left: 0;
-        background: var(--backgroung-white);
+        background: #fbf9ff;
         z-index: 1;
     }
 }

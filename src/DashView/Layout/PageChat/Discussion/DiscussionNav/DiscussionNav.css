@@ -30,6 +30,7 @@
     height: 30px;
     background: var(--primary-color);
     border-radius: 100%;
+    cursor: pointer;
 }
 
 .discussion-nav .title .add-new span {
@@ -144,6 +145,7 @@
     box-shadow: 0px 3px 10px #3455;
     margin-bottom: 7px;
     transition: 200ms;
+    cursor: pointer;
 }
 
 .discussion-nav .discussion .photo {
@@ -208,7 +210,7 @@
 
 .discussion-nav .checked.double {
     display: block;
-    background: no-repeat center/60% url(/src/res/mark.png)
+    background: no-repeat center/60% url(/src/res/read.png)
 }
 
 .discussion-nav .discussion .right .btm .text {
@@ -235,4 +237,47 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+}
+
+/* DISCUSSION POPU */
+
+.discussion-popu {
+    width: 200px;
+    border-radius: 5px;
+    background: #fbf9ff;
+    box-shadow: var(--box-shadow);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+.discussion-popu > div:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.discussion-popu > div {
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+}
+.discussion-popu .icon {
+    width: 25px;
+    height: 25px;
+    padding: 5px 0;
+    margin-right: 10px;
+}
+
+.discussion-popu .delete{
+    color: rgba(255, 0, 0);
+}
+.discussion-popu .delete .icon{
+    filter: invert(24%) sepia(93%) saturate(7000%) hue-rotate(357deg) brightness(91%) contrast(123%);
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.discussion-popu .block .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.discussion-popu .as-read .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
 }

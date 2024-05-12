@@ -185,7 +185,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                         setImageMapper(r);
                                         if (autosave) onSave?.(r)
                                     }} onClick={() => {
-                                        openChild(<ImageViewerPage selectedKey={k} imagesMapper={imageMapper} />);
+                                        openChild(<ImageViewerPage selectedKey={k} imagesMapper={imageMapper} />, true);
                                     }}>
                                     {
                                         !cannotEdit && <span className="delete-img" onClick={(e) => {

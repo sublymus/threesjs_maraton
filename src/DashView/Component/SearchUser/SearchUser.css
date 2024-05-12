@@ -89,12 +89,10 @@
 .search-user .search-ctn .list .collabo .name{
    font-weight: bold;
 }
-.search-user .search-ctn .list .collabo .type{
-   font-weight: bold;
-   margin-left: auto;
-}
 .search-user .search-ctn .list .collabo .id{
-   margin-left: 10px;
+   margin-left:auto;
+   margin-right: 10px;
+
 }
 .search-user .search-ctn .see-all:hover{
    cursor: pointer;

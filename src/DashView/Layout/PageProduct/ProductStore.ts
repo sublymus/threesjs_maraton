@@ -19,19 +19,19 @@ export const useProductStore = create<ProductState>((set) => ({
     products: undefined,
     selectedProduct: undefined,
     async removeProduct(product_id) {
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         const response = await fetch(`${Host}/delete_product/${product_id}`, {
             method: 'DELETE',
-            headers: myHeaders
+            headers: h.headers
         });
         const json  = await  response.json();
         useDashStore.getState().fetchStoreVar();
         return json?.isDeleted;
     },
     async createProduct(product) {
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
 
         product.index = product.index ||0;
         product.is_dynamic_price = product.is_dynamic_price||true; 
@@ -65,7 +65,7 @@ export const useProductStore = create<ProductState>((set) => ({
             const response =await fetch(`${Host}/create_product`, {
                 method: 'POST',
                 body: formData,
-                headers:myHeaders
+                headers:h.headers
             });
             const json = await response.json();
             if(!json || !json.id){ 
@@ -81,8 +81,8 @@ export const useProductStore = create<ProductState>((set) => ({
     async updateProduct(product) {
         if(!product.product_id) return console.log('Product_id required');
         
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         
         const formData = new FormData();
         let send = false;
@@ -115,7 +115,7 @@ export const useProductStore = create<ProductState>((set) => ({
             newProduct = await fetch(`${Host}/update_product`, {
                 method: 'PUT',
                 body: formData,
-                headers: myHeaders
+                headers: h.headers
             });
         }
         if (product.scene_dir) {
@@ -125,7 +125,7 @@ export const useProductStore = create<ProductState>((set) => ({
             newProduct = await fetch(`${Host}/update_view_product`, {
                 method: 'PUT',
                 body: f,
-                headers:myHeaders
+                headers:h.headers
             })
         }
         if(newProduct){
@@ -151,15 +151,15 @@ export const useProductStore = create<ProductState>((set) => ({
         query.all_status = true;  
         query.store_id = useRegisterStore.getState().store?.id;
 
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
             searchParams.set(key, value);
         }
-        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {headers:myHeaders});
+        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {headers:h.headers});
         const json = await response.json() as ListType<ProductInterface>;
         if (!json || !json.list) return;
         set(() => ({ products: json }))

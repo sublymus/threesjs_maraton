@@ -79,9 +79,9 @@ export function PageChat() {
                     centers[activePage]
                 }
             </div>
-            <div className="chat-info">
+            {/* <div className="chat-info">
 
-            </div>
+            </div> */}
 
         </div>
     )

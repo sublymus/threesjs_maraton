@@ -13,7 +13,6 @@ export function Catalogue() {
     const { fetchProducts } = useProductStore()
     const { store } = useRegisterStore()
     useEffect(() => {
-        console.log('fetchCatalogues', { store });
         if (store) {
             if (CatalogueWorld.catalogueWorld) return
 

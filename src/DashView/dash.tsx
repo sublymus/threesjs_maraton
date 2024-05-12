@@ -50,7 +50,7 @@ const PathMap = {
 
 
 export function Dash() {
-    const { currentChild, openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
+    const { currentChild, blur ,openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
     const { authenticateUser, user } = useRegisterStore();
     const { pathList, setAbsPath } = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
@@ -67,14 +67,16 @@ export function Dash() {
             fetchRolesJson();
             fetchUsersVar();
         });
-        
+        window.addEventListener('blur',()=>{
+            // openChild(undefined)
+        })        
     }, []);
 
     return (
-        <div className={'dash ' + (T ? 'sombre-mode-variable' : '')}>
-            <NavBar blur={!!currentChild} />
+        <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >
+            <NavBar blur={blur} />
             {(!user) && <PageAuth />}
-            <div className={"dash-ctn " + (user ? (currentChild? 'blur':'') : 'blur')}>
+            <div className={"dash-ctn " + (user ? (blur? 'blur':'') : 'blur')}>
                 <div className="center">
                     <div className="center-top">
                         <div className="page-path">
@@ -110,9 +112,15 @@ export function Dash() {
                     </div>
                 </div>
             </div>
-            {currentChild && <div className="child-viewer" >
+            {currentChild && <div className="child-viewer"  onContextMenu={(e)=>{
+                            e.preventDefault();
+                            openChild(undefined)
+                        }} >
                 <div className="child-viewer-ctn"style={{background:back_color}} onClick={() => {
                     openChild(undefined);
+                }} onContextMenu={(e)=>{
+                    e.preventDefault();
+                    openChild(undefined)
                 }}>
                     {currentChild}
                 </div>
