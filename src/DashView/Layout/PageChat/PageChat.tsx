@@ -37,6 +37,11 @@ export function PageChat() {
     }
     return check('chat') && user && (
         <div className='page-chat'>
+            <div className="back-close nav" style={{display:(navSize =='min')?'none':''}} onClick={e=>{
+                if(e.currentTarget == e.target){
+                    setNavSize('min');
+                }
+            }}></div>
             <div className={"chat-nav " + navSize}>
                 <div className="top">
                     <div className={"nav-size " + navSize} onClick={(e) => {
@@ -48,21 +53,21 @@ export function PageChat() {
                         setAbsPath(['chat', 'discussions'])
                         setActivePage('discussions')
                     }}></div>
-                    <div className={"icon groups " + (activePage == 'groups' ? 'active' : '')} onClick={(e) => {
+                    {/* <div className={"icon groups " + (activePage == 'groups' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
                         setAbsPath(['chat', 'groups'])
                         setActivePage('groups')
-                    }}></div>
+                    }}></div> */}
                     <div className={"icon sessions " + (activePage == 'sessions' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
                         setAbsPath(['chat', 'sessions'])
                         setActivePage('sessions')
                     }}></div>
-                    <div className={"icon surveys " + (activePage == 'surveys' ? 'active' : '')} onClick={(e) => {
+                    {/* <div className={"icon surveys " + (activePage == 'surveys' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
                         setAbsPath(['chat', 'surveys'])
                         setActivePage('surveys')
-                    }}></div>
+                    }}></div> */}
                     <div className="icon profile" style={{ background: `no-repeat center/cover url(${user.photos[0].startsWith('/') ? Host : ''}${user.photos[0]})` }} onClick={() => {
                         setAbsPath(['profile'])
                         setActivePage('profile')

@@ -19,6 +19,8 @@ import { PageCollaborator } from './Layout/PageCollaborator/PageCollaborator'
 import { useRoleStore } from './Layout/PageRole/RoleStore'
 // import React from 'react'
 
+
+
 const PathMap = {
     store: 'Store',
     products: 'Products',
@@ -48,7 +50,6 @@ const PathMap = {
 
 }
 
-
 export function Dash() {
     const { currentChild, blur ,openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
     const { authenticateUser, user } = useRegisterStore();
@@ -68,8 +69,8 @@ export function Dash() {
             fetchUsersVar();
         });
         window.addEventListener('blur',()=>{
-            // openChild(undefined)
-        })        
+            openChild(undefined)
+        }) 
     }, []);
 
     return (

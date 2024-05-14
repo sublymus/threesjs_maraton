@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@adonisjs/transmit-client": "^1.0.0",
     "@types/three": "^0.161.2",
     "countries-list": "^3.1.0",
     "emoji.json": "^15.1.0",

@@ -7,7 +7,7 @@ import './DiscussionNav.css'
 import { useDashStore } from "../../../../dashStore";
 export function DiscussionsNav() {
     const [optionActive, setOptionActive] = useState('all')
-    const { 
+    const {
         discussion,
         discussions,
         setDiscussion,
@@ -24,6 +24,13 @@ export function DiscussionsNav() {
     useEffect(() => {
         fetchDiscussions()
     }, [])
+
+    useEffect(() => {
+        if(discussion?.blocked?.includes(user?.id||'')){
+            setOptionActive('blocked')
+        }
+        
+    }, [discussion])
 
     if (!user) return undefined;
     const all = discussions?.filter(d => {
@@ -105,10 +112,9 @@ export function DiscussionsNav() {
 
                         }} onContextMenu={(e) => {
                             e.preventDefault();
-                            console.log(e.clientX, e.clientY);
                             openChild(<DiscussionPopu blocked={!!blocked?.includes(d)} x={e.clientX} y={e.clientY}
                                 onBlock={(block) => {
-                                    if(block)blockDiscussion(d)
+                                    if (block) blockDiscussion(d)
                                     else unBlockDiscussion(d)
                                 }}
                                 onAsRead={() => {
@@ -140,7 +146,7 @@ export function DiscussionsNav() {
     </div>)
 }
 
-function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete , blocked}: {blocked:boolean, x: number, y: number, onDelete: () => void, onBlock: (block:boolean) => void, onAsRead: () => void }) {
+function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked }: { blocked: boolean, x: number, y: number, onDelete: () => void, onBlock: (block: boolean) => void, onAsRead: () => void }) {
 
 
     return (
@@ -149,9 +155,9 @@ function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete , blocked}: {blocked
                 <div className="icon"></div>
                 <div className="label">Mark as read</div>
             </div>
-            <div className="block" onClick={()=>onBlock(!blocked)}>
+            <div className="block" onClick={() => onBlock(!blocked)}>
                 <div className="icon"></div>
-                <div className="label">{blocked?'Unblock':'Bolck'}</div>
+                <div className="label">{blocked ? 'Unblock' : 'Bolck'}</div>
             </div>
             <div className="delete" onClick={onDelete}>
                 <div className="icon"></div>

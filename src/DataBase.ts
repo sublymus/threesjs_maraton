@@ -5,6 +5,35 @@ export  interface AppInterface {
 
 } 
 
+export interface Discussion  {
+    "id":string,
+    "creator_id": string,
+    "receiver_id": string,
+    "deleted": string,
+    "blocked": string,
+    "other_att": 'creator' | 'receiver',// calculer
+    "unchedked_count": number,// calculer
+    "last_message":Message|undefined,
+    "creator_opened_at": string,
+    "receiver_opened_at": string,
+    "created_at": string,
+    "updated_at": string,
+    "channel":string,
+    "other":UserInterface,
+};
+export  interface Message  {
+    "id": string,
+    "table_name": string,
+    "table_id": string,
+    "text": string,
+    "files": string[],
+    "rating_id": string|undefined,
+    "survey_id": string|undefined,
+    "user_id": string,
+    "created_at": string,
+    "updated_at": string
+};
+
 type Status=  'PAUSE'|'VISIBLE'|'TRASH'
 export interface Role{
     id:string,
