@@ -24,44 +24,41 @@
     height: 30px;
     background: no-repeat center /cover url(/src/res/chevron-down2.png);
 }
-.selector .select-list {
+
+
+/* SELECTOR LIST */
+.selector-list {
+    box-shadow: var(--box-shadow);
+    width: 150px;
+    display: inline-flex;
+    flex-direction: column;
     top: 40px;
     right: 0px;
     padding: 10px;
     background: #fff;
     position: absolute;
-    border-radius: 20px;
+    border-radius: 10px;
     z-index: 10;
-    display: none;
 }
 
-.selector .select-list>div:hover {
+.selector-list>div:hover {
+    background: rgba(51, 85, 82, 0.020);
+}
+
+.selector-list>div.active {
+    background: #3452;
+}
+.selector-list>div.active:hover {
     background: #3453;
 }
 
-.selector .select-list>div.active {
-    background: #3457;
-}
-
-.selector .select-list>div {
+.selector-list>div {
+    cursor: pointer;
+    display: inline-flex;
     height: 25px;
     padding: 0 10px;
-    display: flex;
     justify-content: center;
-    background: #3452;
     align-items: center;
     margin-top: 2px;
-    border-radius: 10px;
-}
-
-.selector .generic-list .select-list.open {
-    /* display: block; */
-    opacity: 1;
-    transition: 200ms;
-}
-
-.generic-list .select-list.close {
-    /* display: none; */
-    opacity: 0;
-    transition: 200ms;
+    border-radius: 5px;
 }

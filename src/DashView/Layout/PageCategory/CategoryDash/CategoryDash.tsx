@@ -17,8 +17,8 @@ import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { ChoiseStatus } from '../../../Component/ChoiseStatus/ChoiseStatus';
 
 export function CategoryDash() {
-    const { current, setAbsPath } = useDashRoute();
-    const { selectedCategory, setSelectedCategory, fetchCategoryProducts, categoryProducts, updateCategory, createCategory, removeCategory } = useCategotyStore();
+    const { current, setAbsPath , json } = useDashRoute();
+    const { selectedCategory, setSelectedCategory, setCategoryById, fetchCategoryProducts, categoryProducts, updateCategory, createCategory, removeCategory } = useCategotyStore();
     const [collected] = useState<Record<string, any>>({});
     const { setSelectedProduct } = useProductStore();
 
@@ -33,6 +33,11 @@ export function CategoryDash() {
             });
     }, [selectedCategory]);
 
+    useEffect(()=>{
+        if(json?.category_id){
+            setCategoryById(json?.category_id)
+        }
+    },[json])
     const isDash = current('dash_categories');
     const isNew = current('new_category');
 

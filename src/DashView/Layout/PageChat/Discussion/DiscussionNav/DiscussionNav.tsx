@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRegisterStore } from "../../../PageAuth/RegisterStore";
 import { useDiscussionStore } from '../DiscussionStore'
 import { getImg, limit, toDate } from "../../../../../Tools/StringFormater";
 import { SearchUser } from "../../../../Component/SearchUser/SearchUser";
 import './DiscussionNav.css'
-import { useDashStore } from "../../../../dashStore";
+import { useDashRoute, useDashStore } from "../../../../dashStore";
+import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 export function DiscussionsNav() {
     const [optionActive, setOptionActive] = useState('all')
     const {
@@ -12,24 +13,30 @@ export function DiscussionsNav() {
         discussions,
         setDiscussion,
         fetchDiscussions,
-        fetchMessages,
         addDiscussion,
         asReadDiscussion,
         blockDiscussion,
         deleteDiscussion,
-        unBlockDiscussion
-    } = useDiscussionStore()
-    const { openChild } = useDashStore()
-    const { user } = useRegisterStore();
-    useEffect(() => {
-        fetchDiscussions()
-    }, [])
+        unBlockDiscussion,
+        openDiscussionMessages,
+        setDiscussionByCollaboId
+    } = useDiscussionStore();
+    const { json} = useDashRoute();
+    const { openChild} = useDashStore()
+    const { user , store } = useRegisterStore();
+    useEffect(() => { 
+        store&&fetchDiscussions()
+    }, [store])
 
+    useEffect(()=>{
+        if(json?.collaborator_id){
+            setDiscussionByCollaboId(json?.collaborator_id)
+        }
+    },[json])
     useEffect(() => {
         if(discussion?.blocked?.includes(user?.id||'')){
             setOptionActive('blocked')
         }
-        
     }, [discussion])
 
     if (!user) return undefined;
@@ -40,7 +47,7 @@ export function DiscussionsNav() {
         return d.blocked?.includes(user.id)
     })
     const _new = all?.filter(d => {
-        return d.unchedked_count > 0
+        return d.unchecked_count > 0
     })
 
     let ds: typeof discussions = [];
@@ -54,11 +61,11 @@ export function DiscussionsNav() {
 
     let new_sum = 0;
     _new?.forEach((n) => {
-        new_sum += n.unchedked_count
+        new_sum += n.unchecked_count
     })
     let blocked_sum = 0;
     _new?.forEach((n) => {
-        blocked_sum += n.unchedked_count
+        blocked_sum += n.unchecked_count
     })
     return (<div className="discussion-nav">
         <div className="title">
@@ -103,10 +110,10 @@ export function DiscussionsNav() {
                     }
                     return (
                         <div key={d.id} className={"discussion " + (discussion?.id == d.id ? 'active' : '')} onClick={(e) => {
-                            d.unchedked_count = 0;
+                            d.unchecked_count = 0;
                             setDiscussion(d);
 
-                            fetchMessages(d.id);
+                            openDiscussionMessages(d.id);
                             const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;
                             div.style.display = 'none';
 
@@ -114,8 +121,14 @@ export function DiscussionsNav() {
                             e.preventDefault();
                             openChild(<DiscussionPopu blocked={!!blocked?.includes(d)} x={e.clientX} y={e.clientY}
                                 onBlock={(block) => {
-                                    if (block) blockDiscussion(d)
-                                    else unBlockDiscussion(d)
+                                    if (block){
+                                        blockDiscussion(d);
+                                        setOptionActive('blocked');
+                                    }
+                                    else{
+                                        unBlockDiscussion(d);
+                                        setOptionActive('all');
+                                    }
                                 }}
                                 onAsRead={() => {
                                     asReadDiscussion(d)
@@ -134,7 +147,7 @@ export function DiscussionsNav() {
                                 <div className="btm">
                                     <div className={"checked " + mark}></div>
                                     <div className="text">{d.last_message ? limit(d.last_message.text, 24) : 'New Discussion'}</div>
-                                    <div className="count" style={{ display: discussion?.id == d.id ? 'none' : d.unchedked_count > 0 ? 'flex' : 'none' }}>{d.unchedked_count}</div>
+                                    <div className="count" style={{ display: discussion?.id == d.id ? 'none' : d.unchecked_count > 0 ? 'flex' : 'none' }}>{d.unchecked_count}</div>
                                 </div>
                             </div>
                         </div>
@@ -147,10 +160,12 @@ export function DiscussionsNav() {
 }
 
 function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked }: { blocked: boolean, x: number, y: number, onDelete: () => void, onBlock: (block: boolean) => void, onAsRead: () => void }) {
-
-
+    const ref = useRef<HTMLDivElement|null>(null)
+    useEffect(()=>{
+        ref.current && limitPopupPosition(ref.current)
+    })
     return (
-        <div className="discussion-popu" style={{ top: `${y}px`, left: `${x}px` }}>
+        <div ref={ref} className="discussion-popu" style={{ top: `${y}px`, left: `${x}px` }}>
             <div className="as-read" onClick={onAsRead}>
                 <div className="icon"></div>
                 <div className="label">Mark as read</div>

@@ -18,8 +18,8 @@ import { ChoiseStatus, StatusElement } from '../../../Component/ChoiseStatus/Cho
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 
 export function CatalogDash() {
-    const { current, setAbsPath } = useDashRoute();
-    const { selectedCatalog, catalogCategories, fetchCatalogCategories, updateCatalog, catalogProducts, setSelectedCatalog, removeCatalog, fetchCatalogProducts, createCatalog } = useCatalogStore();
+    const { json, current, setAbsPath } = useDashRoute();
+    const {setCatalogById,  selectedCatalog, catalogCategories, fetchCatalogCategories, updateCatalog, catalogProducts, setSelectedCatalog, removeCatalog, fetchCatalogProducts, createCatalog } = useCatalogStore();
     const { setSelectedProduct } = useProductStore();
     const { setSelectedCategory } = useCategotyStore();
     const [collected] = useState<Record<string, any>>({});
@@ -41,6 +41,12 @@ export function CatalogDash() {
 
     const isDash = current('dash_catalogs');
     const isNew = current('new_catalog');
+
+    useEffect(()=>{
+        if(json?.catalog_id){
+            setCatalogById(json?.catalog_id)
+        }
+    },[json])
 
     const choiser = <>
 

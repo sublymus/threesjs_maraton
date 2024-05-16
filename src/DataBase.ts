@@ -12,13 +12,12 @@ export interface Discussion  {
     "deleted": string,
     "blocked": string,
     "other_att": 'creator' | 'receiver',// calculer
-    "unchedked_count": number,// calculer
+    "unchecked_count": number,// calculer
     "last_message":Message|undefined,
     "creator_opened_at": string,
     "receiver_opened_at": string,
     "created_at": string,
     "updated_at": string,
-    "channel":string,
     "other":UserInterface,
 };
 export  interface Message  {

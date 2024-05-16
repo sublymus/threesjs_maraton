@@ -23,8 +23,8 @@ enum StatusMap {
 
 export function ProductDash() {
 
-    const { current, setAbsPath, setPath } = useDashRoute();
-    const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct } = useProductStore();
+    const { current, setAbsPath, setPath, json } = useDashRoute();
+    const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct, setProductById } = useProductStore();
     const [isCheckRequired, setIsCheckRequired] = useState(false);
 
     const [error, setError] = useState('')
@@ -34,6 +34,12 @@ export function ProductDash() {
         //     setError('');
         // }, 5000); 
     }, [error])
+    useEffect(()=>{
+        if(json?.product_id){
+            setProductById(json?.product_id)
+        }
+    },[json])
+   
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 

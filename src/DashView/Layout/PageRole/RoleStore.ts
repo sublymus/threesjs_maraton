@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ListType, Role, UserInterface } from "../../../DataBase";
+import { ListType, Role } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
 import { useDashRoute, useDashStore } from "../../dashStore";
@@ -12,9 +12,10 @@ interface RoleState {
     deleteRole(role_id: string): Promise<any>,
     updateRole(data: any): Promise<void>,
     newRole(data: any): Promise<any>,
-    fetchRoles(filter?: Record<string, any>): Promise<void>;
+    fetchRoles(filter?: Record<string, any>): Promise<ListType<Role>|undefined>;
     setSelectedRole(selected: Role | undefined): Promise<void>;
     banRole(role_id: string): Promise<string | undefined>
+    setRoleById(role_id:string):void;
 }
 
 export const useRoleStore = create<RoleState>((set) => ({
@@ -23,6 +24,37 @@ export const useRoleStore = create<RoleState>((set) => ({
     selectedRole: undefined,
     async setSelectedRole(selected) {
         set(() => ({ selectedRole: selected }))
+    },
+    async setRoleById(id) {
+        const list = useRoleStore.getState().roles;
+        const c = list?.list.find((l)=>l.id == id);
+        if(c){
+            set(()=>({selectedRole:c}))
+        }else{
+            const store = useRegisterStore.getState().store;
+            if(!store){
+                const startTime = Date.now();
+                const intervalId = setInterval(async ()=>{
+                    if(Date.now() - startTime > 10 * 1000){
+                        clearInterval(intervalId);
+                    }
+                    const s = useRegisterStore.getState().store;
+                    if(s){
+                        clearInterval(intervalId);
+                        const ls = await useRoleStore.getState().fetchRoles({
+                            role_id:id
+                        })
+                        set(()=>({selectedRole: ls?.list.find((l)=>l.id == id)}))
+                    }
+                },100)
+                
+            }else{
+                const ls = await useRoleStore.getState().fetchRoles({
+                    role_id:id
+                })
+                set(()=>({selectedRole: ls?.list.find((l)=>l.id == id)}))
+            }
+        }
     },
     async newRole(data) {
         if (!data.name) return console.log('Name required');
@@ -150,6 +182,7 @@ export const useRoleStore = create<RoleState>((set) => ({
 
         if (!json || !json.list) return;
         set(() => ({ roles: json }))
+        return json
     },
     async banRole(role_id) {
         return undefined

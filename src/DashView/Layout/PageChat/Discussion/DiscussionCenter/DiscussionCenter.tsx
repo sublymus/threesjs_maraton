@@ -8,17 +8,22 @@ import { useWindowSize } from "../../../../../Hooks";
 import emojis from "emoji.json";
 import { useDashStore } from "../../../../dashStore";
 import { UserInterface } from "../../../../../DataBase";
+import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
+import { useMessageStore } from "../../MessageStore";
 
 
 export function DiscussionsCenter() {
     const {
         discussion: d,
+        discussions,
         messages: ms,
+    } = useDiscussionStore();
+    const {
         fetchSendMessage,
         fetchDeleteMessageBoth,
         fetchDeleteMessageMe,
         fetchEditMessage
-    } = useDiscussionStore()
+    }= useMessageStore()
     const { user } = useRegisterStore();
     const { openChild } = useDashStore();
     const [scrollInit, setScrollInit] = useState(false)
@@ -55,10 +60,6 @@ export function DiscussionsCenter() {
         })
     }, [])
 
-    useEffect(() => {
-
-
-    }, [d])
     const photo = d?.other.photos[0];
 
     const current = (m: any, i: number) => {
@@ -77,7 +78,7 @@ export function DiscussionsCenter() {
             <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }}></div>
             <div className="ctn-name">
                 <div className="name">{limit(d.other.name, 50)}</div>
-                <div className="last-time">Last seen {toDate(d[`${d.other_att}_opened_at`])}</div>
+                {d[`${d.other_att}_opened_at`] && <div className="last-time">Last seen {toDate(d[`${d.other_att}_opened_at`])}</div>}
             </div>
             <div className="option">
                 <div className="more" onClick={Click()}></div>
@@ -248,7 +249,8 @@ export function DiscussionsCenter() {
                     <div className="send" onClick={(e) => {
                         Click()(e);
                         fetchSendMessage({
-                            discussion: d,
+                            context: d,
+                            context_name:'discussions',
                             files: files,
                             text: textareaRef.current?.value
                         });
@@ -266,11 +268,7 @@ export function DiscussionsCenter() {
 function MessagePopu({ x, y, onEdit, onDeleteBoth, onDeleteMe, other, forMe }: { forMe: boolean, other: UserInterface, x: number, y: number, onDeleteMe: () => void, onDeleteBoth: () => void, onEdit: () => void }) {
     const ref = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
-        if (!ref.current) return;
-        const r = ref.current.getBoundingClientRect();
-        if ((r.x + r.width) > window.innerWidth) {
-            ref.current.style.left = `${window.innerWidth - r.width}px`;
-        }
+        ref.current && limitPopupPosition(ref.current)
     })
     return (
         <div ref={ref} className="message-popu" style={{ top: `${y}px`, left: `${x}px` }}>
@@ -300,11 +298,7 @@ function MessageEditPopu({ x, y, onEdit, text: _text }: { text: string, x: numbe
     const ref = useRef<HTMLDivElement | null>(null);
     const [text, setText] = useState(_text)
     useEffect(() => {
-        if (!ref.current) return;
-        const r = ref.current.getBoundingClientRect();
-        if ((r.x + r.width) > window.innerWidth) {
-            ref.current.style.left = `${window.innerWidth - r.width}px`;
-        }
+        ref.current && limitPopupPosition(ref.current)
     })
     return (
         <div ref={ref} className="message-edit-popu" style={{ top: `${y}px`, left: `${x}px` }} onClick={(e) => {

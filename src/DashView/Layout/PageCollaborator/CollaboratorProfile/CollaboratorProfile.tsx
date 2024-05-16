@@ -1,6 +1,6 @@
 import './CollaboratorProfile.css'
 import { useDashRoute } from '../../../dashStore'
-import { useEffect, useState } from 'react';
+import {useEffect, useState } from 'react';
 import { useWindowSize } from '../../../../Hooks';
 import { ImageViewer } from '../../../Component/ImageViewer/ImageViewer';
 import { InputText } from '../../../Component/Form/Input';
@@ -11,16 +11,22 @@ import { useRegisterStore } from '../../PageAuth/RegisterStore';
 import { ChoiseRole } from '../../../Component/ChoiseRole/ChoiseRole';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { ChoiseStatusUser } from '../../../Component/ChoiseStatus/ChoiseStatusUser';
+import { OpenChat } from '../../../Component/OpenChat/OpenChat';
 export function CollaboratorProfile() {
 
-    const { current, } = useDashRoute();
-    const { selectedCollaborator,  removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
+    const { current, json} = useDashRoute();
+    const { selectedCollaborator, setCollaboratorById ,removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-
     const { store } = useRegisterStore() 
     
+    useEffect(()=>{
+        if(json?.collaborator_id){
+            setCollaboratorById(json?.collaborator_id)
+        }
+    },[json])
+
     return current('collaborator_profile') && (!selectedCollaborator ? (
         <div className="not-found">
             <div className="img"></div>
@@ -44,6 +50,7 @@ export function CollaboratorProfile() {
                     
                     <InputText label='Store Id' value={store?.id} />
                     <InputText isCheckRequired={isCheckRequired} label={selectedCollaborator?.s_type +' Id'} value={(selectedCollaborator?.id || '')} />
+                    <OpenChat user={selectedCollaborator} channel='discussions'/>
                     <ChoiseStatusUser status={selectedCollaborator?.status as any||'NEW'} onChange={(value)=>{
                             updateCollaborator({
                                 product_id: selectedCollaborator.id,

@@ -8,12 +8,13 @@ interface CollaboratorState {
     collaborators: ListType<UserInterface& UserStore> | undefined;
     selectedCollaborator: UserInterface& UserStore | undefined;
     updateCollaborator(data:Record<string, any>):Promise<any>
-    fetchCollaborators(filter?: Record<string, any>): Promise<void>;
+    fetchCollaborators(filter?: Record<string, any>): Promise<ListType<UserInterface& UserStore>|undefined>;
     change_collaborator_role(data:{new_role_id:string, collaborator_id:string , store_id?:string}):Promise<any>
     setSelectedCollaborator(selected: UserInterface& UserStore |undefined): Promise<void>;
     banCollaborator(collaborator_id: string):Promise<string|undefined>
     addCollaborator(data: Record<string,any>):Promise<string[]|undefined>,
     removeCollaborator(collaborator_id:string):Promise<void>;
+    setCollaboratorById(id:string):void;
 }
 
 export const useCollaboratorStore = create<CollaboratorState>((set) => ({
@@ -93,7 +94,39 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         }
     },
     async setSelectedCollaborator(selected) {
+        
         set(()=>({selectedCollaborator:selected}))
+    },
+    async setCollaboratorById(id) {
+        const list = useCollaboratorStore.getState().collaborators;
+        const c = list?.list.find((l)=>l.id == id);
+        if(c){
+            set(()=>({selectedCollaborator:c}))
+        }else{
+            const store = useRegisterStore.getState().store;
+            if(!store){
+                const startTime = Date.now();
+                const intervalId = setInterval(async ()=>{
+                    if(Date.now() - startTime > 10 * 1000){
+                        clearInterval(intervalId);
+                    }
+                    const s = useRegisterStore.getState().store;
+                    if(s){
+                        clearInterval(intervalId);
+                        const ls = await useCollaboratorStore.getState().fetchCollaborators({
+                            query:{user_id:id}
+                        })
+                        set(()=>({selectedCollaborator: ls?.list.find((l)=>l.id == id)}))
+                    }
+                },100)
+                
+            }else{
+                const ls = await useCollaboratorStore.getState().fetchCollaborators({
+                    query:{user_id:id}
+                })
+                set(()=>({selectedCollaborator: ls?.list.find((l)=>l.id == id)}))
+            }
+        }
     },
     async removeCollaborator(collaborator_id) {
         console.log(collaborator_id);
@@ -128,7 +161,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         if (filter?.query.text) query.text = filter.query.text;
         if (filter?.query.user_id) query.user_id = filter.query.user_id;
         if (filter?.query.phone) query.phone = filter.query.phone;
-        query.store_id = useRegisterStore.getState().store?.id
+        query.store_id = useRegisterStore.getState().store?.id;
         if(!query.store_id) return
         const searchParams = new URLSearchParams({});
         for (const key in query) {
@@ -140,8 +173,8 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         const json = await response.json() as ListType<UserInterface & UserStore>;
         
         if (!json || !json.list) return;
-        set(() => ({ collaborators: json }))
-        
+        set(() => ({ collaborators: json }));
+        return json;
     },
     async banCollaborator(collaborator_id) {
         return undefined

@@ -7,12 +7,15 @@ import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Fil
 import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { useEffect } from 'react';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function CategoryList() {
-    const { current , setAbsPath} = useDashRoute();
-    const {fetchCategories , categories, setSelectedCategory} = useCategotyStore();
-   
-    console.log(categories?.limit);
-    
+    const { current , setAbsPath , qs} = useDashRoute();
+    const {fetchCategories , categories, setSelectedCategory } = useCategotyStore();
+    const {store} = useRegisterStore();
+    useEffect(()=>{ 
+        current('categories') && store && fetchCategories();
+    },[store])
     return current('categories') && (
         <div className="category-list">
             <div className="list-ctn">
@@ -61,7 +64,7 @@ export function CategoryList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCategory(selectedItems[0] as any);
-                        setAbsPath(['categories','dash_categories'])
+                        qs({category_id:selectedItems[0].id}).setAbsPath(['categories','dash_categories'])
                     }}
                     onQuery={(query)=>{
                         fetchCategories(query);

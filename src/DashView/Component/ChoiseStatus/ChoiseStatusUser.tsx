@@ -19,7 +19,7 @@ export function ChoiseStatusUser({onChange , status , canEdit}:{canEdit?:boolean
             <div className="ctn">
                 {
                     statusLsit.map((s)=>(
-                        <div className={"use-status "+ s.toLocaleLowerCase()+' '+(selected == s?'active':'')} onClick={()=>{
+                        <div key={s} className={"use-status "+ s.toLocaleLowerCase()+' '+(selected == s?'active':'')} onClick={()=>{
                             canEdit && setSelected(s);
                             canEdit && onChange?.(s)
                         }}>

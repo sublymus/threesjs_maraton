@@ -229,7 +229,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     {(Object.keys(imageMapper).length > 0) && <div className="open" onClick={() => {
                         openChild((
                             <ImageViewerPage selectedKey={Object.keys(imageMapper)[0]} imagesMapper={imageMapper} />
-                        ))
+                        ), true)
                     }}>
                         <div className="icon"></div>
                         <div className="label">OPEN</div>

@@ -9,3 +9,13 @@ export const bindToParentScroll = (ref:HTMLDivElement|null)=>{
         
     })
 }
+
+export const limitPopupPosition = (ref:HTMLDivElement)=>{
+    const r = ref.getBoundingClientRect();
+        if ((r.x + r.width) > window.innerWidth) {
+            ref.style.left = `${window.innerWidth - r.width}px`;
+        }
+        if ((r.y + r.height) > window.innerHeight) {
+            ref.style.top = `${window.innerHeight - r.height}px`;
+        }
+}

@@ -1,4 +1,4 @@
-.discussion-nav {
+.session-nav {
     width: 100%;
     height: 100%;
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: flex-start;
 }
 
-.discussion-nav .title {
+.session-nav .title {
     width: 100%;
     min-height: 40px;
     margin: 10px 0;
@@ -17,15 +17,15 @@
     margin-top: 20px;
 }
 
-.discussion-nav .title .label {
+.session-nav .title .label {
     font-size: 32px;
     font-weight: bold;
 } 
 
-.discussion-nav .title .add-new:hover{
+.session-nav .title .add-new:hover{
     opacity: 0.7;
 }
-.discussion-nav .title .add-new {
+.session-nav .title .add-new {
     width: 30px;
     height: 30px;
     background: var(--primary-color);
@@ -33,7 +33,7 @@
     cursor: pointer;
 }
 
-.discussion-nav .title .add-new span {
+.session-nav .title .add-new span {
     display: block;
     width: 30px;
     height: 30px;
@@ -41,19 +41,19 @@
     background: no-repeat center/80% url(/src/res/plus.png);
 }
 
-.discussion-nav .options {
+.session-nav .options {
     width: 100%;
     min-height: 20px;
     display: flex;
     padding: 0 20px;
 }
 
-.discussion-nav .option {
+.session-nav .option {
     width: 80px;
     cursor: pointer;
 }
 
-.discussion-nav .option div {
+.session-nav .option div {
     position: relative;
     display: inline-flex;
     opacity: 0.6;
@@ -61,17 +61,17 @@
     border-radius: 5px;
 }
 
-.discussion-nav .option:hover div {
+.session-nav .option:hover div {
     background: #3455;
 }
 
-.discussion-nav .option div.active {
+.session-nav .option div.active {
     opacity: 1;
     position: relative;
     display: inline-flex;
 }
 
-.discussion-nav .option span {
+.session-nav .option span {
     position: absolute;
     display: block;
     background: #f00;
@@ -82,7 +82,7 @@
     border-radius: 100%;
 }
 
-.discussion-nav .search {
+.session-nav .search {
     width: 100%;
     min-height: 40px;
     display: flex;
@@ -92,7 +92,7 @@
     padding: 0 10px 0 20px;
 }
 
-.discussion-nav .search .input {
+.session-nav .search .input {
     display: flex;
     align-items: center;
     background: #fff;
@@ -101,18 +101,18 @@
     box-shadow: var(--box-shadow);
 }
 
-.discussion-nav .search .input .icon {
+.session-nav .search .input .icon {
     width: 35px;
     height: 35px;
     background: no-repeat center/60% url(/src/res/search.png);
 }
 
-.discussion-nav .search .input input {
+.session-nav .search .input input {
     all: unset;
     height: 35px;
 }
 
-.discussion-nav .discussions {
+.session-nav .sessions {
     height: 100%;
     width: 100%;
     margin-bottom: 10px;
@@ -122,18 +122,18 @@
     padding-left: 5px;
 }
 
-.discussion-nav .discussion:hover {
+.session-nav .session:hover {
     background: #3455;
     transition: 200ms;
 }
 
-.discussion-nav .discussion.active {
+.session-nav .session.active {
     color: #fff;
     background: rgba(24, 46, 68, 0.842);
     transition: 200ms;
 }
 
-.discussion-nav .discussion {
+.session-nav .session {
     background: #fff;
     width: 100%;
     height: 73px;
@@ -148,19 +148,19 @@
     cursor: pointer;
 }
 
-.discussion-nav .discussion .photo {
+.session-nav .session .photo {
     min-width: 50px;
     height: 50px;
     border-radius: 100%;
 }
 
-.discussion-nav .discussion .right {
+.session-nav .session .right {
     width: 100%;
     height: 60px;
     padding-left: 7px;
 }
 
-.discussion-nav .discussion .right .top-ctn {
+.session-nav .session .right .top-ctn {
     width: 100%;
     height: 30px;
     display: flex;
@@ -169,15 +169,15 @@
 }
 
 
-.discussion-nav .discussion .right .top-ctn .name {
+.session-nav .session .right .top-ctn .name {
     /* font-size: 0.9em; */
 }
 
-.discussion-nav .discussion.active .right .top-ctn .date{
+.session-nav .session.active .right .top-ctn .date{
     color :#ffff;
     background: none;
 }
-.discussion-nav .discussion .right .top-ctn .date {
+.session-nav .session .right .top-ctn .date {
     font-size: 0.9em;
     background: var(--primary-color);
     background-clip: text;
@@ -185,7 +185,7 @@
     color: transparent;
 }
 
-.discussion-nav .discussion .right .btm {
+.session-nav .session .right .btm {
     width: 100%;
     height: 30px;
     display: flex;
@@ -193,32 +193,32 @@
     justify-content: space-between;
 }
 
-.discussion-nav .discussion.active .checked{
+.session-nav .session.active .checked{
     filter: invert();
 }
-.discussion-nav .checked {
+.session-nav .checked {
     width: 22px;
     height: 22px;
     opacity: 0.5;
     display: none;
 }
 
-.discussion-nav .checked.one {
+.session-nav .checked.one {
     display: block;
     background: no-repeat center/60% url(/src/res/mark.png)
 }
 
-.discussion-nav .checked.double {
+.session-nav .checked.double {
     display: block;
     background: no-repeat center/60% url(/src/res/read.png)
 }
 
-.discussion-nav .discussion .right .btm .text {
+.session-nav .session .right .btm .text {
     opacity: 0.6;
     font-size: 0.9em;
 }
 
-.discussion-nav .discussion .right .btm .count {
+.session-nav .session .right .btm .count {
     color: #fff;
     background: var(--primary-color);
     width: 22px;
@@ -231,7 +231,7 @@
     display: none;
 }
 
-.discussion-nav .discussion .right .btm {
+.session-nav .session .right .btm {
     width: 100%;
     height: 30px;
     display: flex;
@@ -241,7 +241,7 @@
 
 /* DISCUSSION POPU */
 
-.discussion-popu {
+.session-popu {
     z-index: 3;
     width: 200px;
     border-radius: 5px;
@@ -252,33 +252,33 @@
     flex-direction: column;
     padding: 10px 20px;
 }
-.discussion-popu > div:hover{
+.session-popu > div:hover{
     opacity: 1;
     cursor: pointer;
 }
-.discussion-popu > div {
+.session-popu > div {
     padding: 5px 0;
     display: flex;
     align-items: center;
     opacity: 0.7;
 }
-.discussion-popu .icon {
+.session-popu .icon {
     width: 25px;
     height: 25px;
     padding: 5px 0;
     margin-right: 10px;
 }
 
-.discussion-popu .delete{
+.session-popu .delete{
     color: rgba(255, 0, 0);
 }
-.discussion-popu .delete .icon{
+.session-popu .delete .icon{
     filter: invert(24%) sepia(93%) saturate(7000%) hue-rotate(357deg) brightness(91%) contrast(123%);
     background: no-repeat center/90% url(/src/res/trash-2.png);
 }
-.discussion-popu .block .icon{
+.session-popu .block .icon{
     background: no-repeat center/90% url(/src/res/trash-2.png);
 }
-.discussion-popu .as-read .icon{
+.session-popu .as-read .icon{
     background: no-repeat center/90% url(/src/res/trash-2.png);
 }

@@ -156,7 +156,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
                                     resize: false,
                                     index: i,
                                 })
-                                return <>
+                                return <div key={k}>
                                     <div key={k + '_l'} ref={(ref) => cache.map[k].label = ref} className="label" style={{ width: `${(cache.map[k].w || option?.size || 100)}px` }}
                                         onDragStartCapture={() => {
                                             cdx = k;
@@ -191,7 +191,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
                                         cache.map[k].w0 = cache.map[k].label?.getBoundingClientRect().width || 100;
                                         setCurrentResize(k);
                                     }}></div>
-                                </>
+                                </div>
                             })
                         }
                     </div>

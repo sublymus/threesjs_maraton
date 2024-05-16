@@ -8,16 +8,48 @@ import { useRegisterStore } from "../PageAuth/RegisterStore";
 interface ProductState {
     products: ListType<ProductInterface> | undefined;
     selectedProduct: ProductInterface | undefined;
-    fetchProducts(filter?: Record<string, any>): Promise<void>;
+    fetchProducts(filter?: Record<string, any>): Promise<ListType<ProductInterface>|undefined>;
     setSelectedProduct(selected: ProductInterface|undefined): Promise<void>;
     updateProduct(product: Record<string, any>): Promise<void>;
     createProduct(product: Record<string, any>): Promise<string[]|undefined>;
     removeProduct(product_id: string):Promise<string|undefined>
+    setProductById(product_id:string):void
 }
 
 export const useProductStore = create<ProductState>((set) => ({
     products: undefined,
     selectedProduct: undefined,
+    async setProductById(id) {
+        const list = useProductStore.getState().products;
+        const c = list?.list.find((l)=>l.id == id);
+        if(c){
+            set(()=>({selectedProduct:c}))
+        }else{
+            const store = useRegisterStore.getState().store;
+            if(!store){
+                const startTime = Date.now();
+                const intervalId = setInterval(async ()=>{
+                    if(Date.now() - startTime > 10 * 1000){
+                        clearInterval(intervalId);
+                    }
+                    const s = useRegisterStore.getState().store;
+                    if(s){
+                        clearInterval(intervalId);
+                        const ls = await useProductStore.getState().fetchProducts({
+                           query:{ product_id:id}
+                        })
+                        set(()=>({selectedProduct: ls?.list.find((l)=>l.id == id)}))
+                    }
+                },100)
+                
+            }else{
+                const ls = await useProductStore.getState().fetchProducts({
+                    query:{ product_id:id}
+                })
+                set(()=>({selectedProduct: ls?.list.find((l)=>l.id == id)}))
+            }
+        }
+    },
     async removeProduct(product_id) {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
@@ -146,6 +178,7 @@ export const useProductStore = create<ProductState>((set) => ({
         if (filter?.query.price) query.price_max = filter.query.price[1];
         if (filter?.query.stock) query.stock_min = filter.query.stock[0];
         if (filter?.query.stock) query.stock_max = filter.query.stock[1];
+        if (filter?.query.product_id) query.product_id = filter.query.product_id;
        
         // query.is_features_required = true;
         query.all_status = true;  
@@ -162,7 +195,8 @@ export const useProductStore = create<ProductState>((set) => ({
         const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {headers:h.headers});
         const json = await response.json() as ListType<ProductInterface>;
         if (!json || !json.list) return;
-        set(() => ({ products: json }))
+        set(() => ({ products: json }));
+        return json;
     },
     async setSelectedProduct(selected) {
         set(() => ({ selectedProduct: selected }))

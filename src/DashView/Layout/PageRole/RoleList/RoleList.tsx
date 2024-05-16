@@ -13,11 +13,11 @@ import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
 export function RoleList() {
-    const { current , setAbsPath, } = useDashRoute();
+    const { current , setAbsPath,  qs} = useDashRoute();
     const { roles ,  setSelectedRole ,  fetchRoles} = useRoleStore();
     const { store } = useRegisterStore();
     useEffect(()=>{ 
-        store&&fetchRoles();
+        current('roles') && store && fetchRoles();
     },[store])
     return current('roles') && (
         <div className="collaborator-list" ref={bindToParentScroll}>
@@ -58,7 +58,7 @@ export function RoleList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedRole(selectedItems[0] as any);
-                        setAbsPath(['roles','edit_role'])
+                        qs({role_id:selectedItems[0].id}).setAbsPath(['roles','edit_role'])
                     }}
                     onQuery={(query)=>{
                         fetchRoles(query)

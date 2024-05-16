@@ -76,7 +76,8 @@ interface UnUseAppState<T extends PageType> {
     setPath(...page: (V<AllComponents<T>> | './' | '../')[]): undefined,
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
-    exist(...page: string[]): true | undefined
+    exist(...page: string[]): true | undefined,
+    qs(json:Record<string, any>):UnUseAppState<T>
 }
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
@@ -104,6 +105,9 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
 
     return { pathList, json };
 }
+
+let _qs:any = {};
+
 export class SRouter<T extends PageType = PageType>{
     isInitialized = false;
     listener: Function | null = null;
@@ -132,15 +136,20 @@ export class SRouter<T extends PageType = PageType>{
                 self.isInitialized = true;
             },
             navNext() {
-                history.forward()
+                history.forward();
                 return;
+            },
+            qs(json){
+                _qs = json;
+                return self.store.getState()
             },
             navBack() {
                 history.back();
                 return;
             },
             setPath(...paths) {
-                self.editPath(paths)
+                self.editPath(paths);
+                _qs = undefined;
             },
             exist(...paths) {
                 let nav: string[] = ['/'];
@@ -173,6 +182,7 @@ export class SRouter<T extends PageType = PageType>{
                     nav.push(path as string);
                 }
                 self.navHistoryUpdate(nav);
+                _qs = undefined;
                 return
             },
             check(...paths) {
@@ -192,10 +202,12 @@ export class SRouter<T extends PageType = PageType>{
         return this.store
     }
     navHistoryUpdate(pathList: string[]) {
-        const path = pathList.join('/').replace('//', '')
+        let path = pathList.join('/').replace('//', '');
+        try {
+            if(_qs) path += '='+ JSON.stringify(_qs);
+        } catch (error) {}
         if (window.location.hash !== path) window.location.hash = path;
     }
-    //TODO ./CurrentChild  actuel ./CurrentSide
     editPath(paths: string[]) {
         if (paths[0] === '/') {
             let nav: string[] = [];

@@ -173,6 +173,7 @@
 }
 
 .dash .child-viewer{
+    z-index:9999;
     position: absolute;
     width: 100%;
     height: 100%;

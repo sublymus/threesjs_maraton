@@ -5,16 +5,23 @@ import { useRoleStore } from '../RoleStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { InputText } from '../../../Component/Form/Input';
 import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 export function RoleDash() {
 
-    const { selectedRole, updateRole , newRole , deleteRole } = useRoleStore();
-    const { current } = useDashRoute();
+    const { selectedRole,setRoleById, updateRole , newRole , deleteRole } = useRoleStore();
+    const { current, json } = useDashRoute();
 
     const [collected] = useState<Record<string, any>>({})
     const isDash = current('edit_role');
     const isNew = current('create_role');
+
+    useEffect(()=>{
+        if(json?.role_id){
+            setRoleById(json?.role_id)
+        }
+    },[json])
+
     return  (isDash || isNew) && (
         (!selectedRole && isDash) ? (
             <div className="not-found">

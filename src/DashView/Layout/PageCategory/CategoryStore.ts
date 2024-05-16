@@ -8,32 +8,64 @@ interface DashState {
     selectedCategory: Category | undefined,
     categoryProducts: ListType<ProductInterface> | undefined,
     setSelectedCategory(selected: Category | undefined): any,
-    fetchCategories(query?: Record<string, any>): Promise<void>,
+    fetchCategories(query?: Record<string, any>): Promise<ListType<Category>|undefined>,
     updateCategory(category: Record<string, any>): Promise<void>,
     fetchCategoryProducts(filter: Record<string, any>): Promise<void>;
     createCategory(category: Record<string, any>): Promise<string[] | undefined>
     removeCategory(category_id: string | undefined): Promise<string | undefined>
+    setCategoryById(category_id:string):void
 }
 
 export const useCategotyStore = create<DashState>((set) => ({
     categories: undefined,
     selectedCategory: undefined,
     categoryProducts: undefined,
+    async setCategoryById(id) {
+        const list = useCategotyStore.getState().categories;
+        const c = list?.list.find((l)=>l.id == id);
+        if(c){
+            set(()=>({selectedCategory:c}))
+        }else{
+            const store = useRegisterStore.getState().store;
+            if(!store){
+                const startTime = Date.now();
+                const intervalId = setInterval(async ()=>{
+                    if(Date.now() - startTime > 10 * 1000){
+                        clearInterval(intervalId);
+                    }
+                    const s = useRegisterStore.getState().store;
+                    if(s){
+                        clearInterval(intervalId);
+                        const ls = await useCategotyStore.getState().fetchCategories({
+                            query:{user_id:id}
+                        })
+                        set(()=>({selectedCategory: ls?.list.find((l)=>l.id == id)}))
+                    }
+                },100)
+                
+            }else{
+                const ls = await useCategotyStore.getState().fetchCategories({
+                    query:{user_id:id}
+                })
+                set(()=>({selectedCategory: ls?.list.find((l)=>l.id == id)}))
+            }
+        }
+    },
     async removeCategory(category_id) {
         if (!category_id) return;
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         const response = await fetch(`${Host}/delete_category/${category_id}`, {
             method: 'DELETE',
-            headers: myHeaders
+            headers: h.headers
         });
         const json = await response.json();
         useDashStore.getState().fetchStoreVar()
         return json?.isDeleted;
     },
     async createCategory(category) {
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
 
         category.index = category.index || 0;
         const formData = new FormData();
@@ -46,14 +78,11 @@ export const useCategotyStore = create<DashState>((set) => ({
                 return error.push(p + ' is not defined');
             }
         });
-
-        console.log(error, category);
-
         if (error.length == 0) {
             const response = await fetch(`${Host}/create_category`, {
                 method: 'POST',
                 body: formData,
-                headers: myHeaders
+                headers: h.headers
             });
             const json = await response.json();
             console.log(json);
@@ -70,8 +99,8 @@ export const useCategotyStore = create<DashState>((set) => ({
     },
     async fetchCategoryProducts(filter) {
         if (!filter?.category_id) return;
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         try {
             const query: any = {};
             if (filter?.page) query.page = Number(filter.page);
@@ -79,7 +108,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             if (filter?.sortBy) query.order_by = filter.sortBy;
             query.category_id = filter?.category_id
             query.all_status = true;  
-            query.store_id = useRegisterStore.getState().store?.id;
+            query.store_id = h.store.id
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
@@ -87,13 +116,12 @@ export const useCategotyStore = create<DashState>((set) => ({
             }
 
             const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, {
-                headers: myHeaders
+                headers: h.headers
             });
 
             const json = (await response.json()) as ListType<ProductInterface>;
             if (!json || !json.list) return
             set(() => ({ categoryProducts: json }));
-            console.log(json);
         } catch (error: any) {
             return console.warn(error.message);
         }
@@ -103,8 +131,8 @@ export const useCategotyStore = create<DashState>((set) => ({
     },
     async updateCategory(category) {
 
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
 
         const formData = new FormData();
         let send = false;
@@ -122,7 +150,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             newCategory = await fetch(`${Host}/update_category`, {
                 method: 'PUT',
                 body: formData,
-                headers:myHeaders
+                headers:h.headers
             });
         }
         if (category.scene_dir) {
@@ -132,7 +160,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             newCategory = await fetch(`${Host}/update_view_category`, {
                 method: 'PUT',
                 body: f,
-                headers:myHeaders
+                headers:h.headers
             });
         }
 
@@ -142,8 +170,8 @@ export const useCategotyStore = create<DashState>((set) => ({
         }
     },
     async fetchCategories(filter) {
-        const myHeaders = useRegisterStore.getState().getHeaders();
-        if (!myHeaders) return
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         try {
             const query: any = {};
             if (filter?.page) query.page = Number(filter.page);
@@ -151,7 +179,7 @@ export const useCategotyStore = create<DashState>((set) => ({
             if (filter?.sortBy) query.order_by = filter.sortBy;
             if (filter?.query.text) query.text = filter.query.text;
             query.all_status = true
-            query.store_id = useRegisterStore.getState().store?.id
+            query.store_id = h.store.id
            
             const searchParams = new URLSearchParams({});
             for (const key in query) {
@@ -159,13 +187,14 @@ export const useCategotyStore = create<DashState>((set) => ({
                 searchParams.set(key, value);
             }
 
-            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`, { headers: myHeaders });
+            const response = await fetch(`${Host}/get_categories/?${searchParams.toString()}`, { headers: h.headers });
             const json = (await response.json()) as ListType<Category>;
-            if (!json || !json.list) return
+            if (!json || !json.list) return;
             set(() => ({ categories: json }));
-            console.log(json);
+            return json;
         } catch (error: any) {
-            return console.warn(error.message);
+            console.warn(error.message);
+            return;
         }
     },
 }));

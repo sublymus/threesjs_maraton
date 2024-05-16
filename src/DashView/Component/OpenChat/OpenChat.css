@@ -1,0 +1,27 @@
+.open-chat{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.open-chat .ctn:hover{
+    opacity: 0.8;
+}
+.open-chat .ctn{
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.open-chat .ctn .icon{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    opacity: 0.8;
+    filter: invert();
+    background: no-repeat center/80% url(/src/res/message-circle-more.png);
+}.open-chat .ctn .label{
+    filter: invert();
+}

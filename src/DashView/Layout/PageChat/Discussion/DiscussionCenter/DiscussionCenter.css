@@ -165,10 +165,12 @@
     bottom: 5px;
     right: 13px;
 }
+.discussion-center .messages .ctn.right .edited{
+    filter: invert();
+}
 .discussion-center .messages .ctn .edited{
     width: 20px;
     height: 20px;
-    filter: invert();
     background:  no-repeat center/80% url(/src/res/pencil.png);
 }
 .discussion-center .messages .ctn .date {

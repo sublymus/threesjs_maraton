@@ -8,10 +8,11 @@ import { ImageViewer } from '../../../Component/ImageViewer/ImageViewer';
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { Host } from '../../../../Config';
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { OpenChat } from "../../../Component/OpenChat/OpenChat";
 export function ClientProfile() {
 
-    const { current, setAbsPath, } = useDashRoute();
-    const { clients, selectedClient , setSelectedClient ,clientCommands , clientVisites } = useClientStore();
+    const { current, setAbsPath, json } = useDashRoute();
+    const { selectedClient ,setClientById ,clientCommands , clientVisites } = useClientStore();
 
     const [btmList, setBtmList] = useState('commands');
 
@@ -19,13 +20,11 @@ export function ClientProfile() {
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
-    useEffect(() => {
-        // if (selectedCategory)
-        //     fetchCategoryProducts({
-        //         category_id: selectedCategory.id
-        //     });
-    }, []);
-
+    useEffect(()=>{
+        if(json?.client_id){
+            setClientById(json?.client_id)
+        }
+    },[json])
 
     return current('client_profile') && (!selectedClient ? (
         <div className="not-found">
@@ -39,9 +38,12 @@ export function ClientProfile() {
                     <ImageViewer name='client_profile' images={selectedClient.photos || []} cannotEdit />
                 </div>
                 <div className="left-side">
-                    <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedClient?.id || '')} />
+                    <InputText isCheckRequired={isCheckRequired} label='Client Id' value={(selectedClient?.id || '')} />
                     <InputText prompt='Client Name' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Name' placeholder='Catalog Label' value={selectedClient?.name} />
                     <InputText prompt='Client Email' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Email' placeholder='Catalog Label' value={selectedClient?.email} />
+                    <InputText label='created At' value={selectedClient?.created_at} />
+                    <InputText label='Join Store At' value={selectedClient?.join_at} />
+                    <OpenChat user={selectedClient} channel='sessions'/>
                 </div>
             </section>
             <>

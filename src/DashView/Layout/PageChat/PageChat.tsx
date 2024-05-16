@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDashRoute, useDashStore } from '../../dashStore'
 import './PageChat.css'
+import { SessionCenter } from "./Session/SessionCenter/SessionCenter";
+import { SessionNav } from "./Session/SessionNav/SessionNav";
 import { DiscussionsNav } from "./Discussion/DiscussionNav/DiscussionNav";
 import { DiscussionsCenter } from "./Discussion/DiscussionCenter/DiscussionCenter";
 import { useRegisterStore } from '../PageAuth/RegisterStore'
@@ -20,7 +22,7 @@ export function PageChat() {
     const navs: any = {
         discussions: <DiscussionsNav />,
         groups: <DiscussionsNav />,
-        sessions: <DiscussionsNav />,
+        sessions: <SessionNav />,
         surveys: <DiscussionsNav />,
     }
     const centers: any = {

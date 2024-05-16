@@ -13,11 +13,11 @@ import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
 export function ClientList() {
-    const { current , setAbsPath, } = useDashRoute();
+    const { current , setAbsPath, qs } = useDashRoute();
     const { clients , setSelectedClient , fetchClients} = useClientStore();
     const { store } = useRegisterStore();
     useEffect(()=>{ 
-        store&&fetchClients();
+        current('clients') && store&&fetchClients();
     },[store])
     return current('clients') && (
         <div className="client-list" ref={bindToParentScroll}>
@@ -68,7 +68,7 @@ export function ClientList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedClient(selectedItems[0] as any);
-                        setAbsPath(['clients','client_profile'])
+                        qs({client_id:selectedItems[0].id}).setAbsPath(['clients','client_profile'])
                     }}
                     onQuery={(query)=>{
                         fetchClients(query)

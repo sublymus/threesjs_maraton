@@ -14,12 +14,12 @@ import { useRegisterStore } from '../../PageAuth/RegisterStore';
 import { useRoleStore } from '../../PageRole/RoleStore';
 // import React from 'react'
 export function CollaboratorList() {
-    const { current , setAbsPath, } = useDashRoute();
+    const { current , setAbsPath, qs } = useDashRoute();
     const { collaborators ,  setSelectedCollaborator ,  fetchCollaborators} = useCollaboratorStore();
     const { store } = useRegisterStore();
     const {roles} = useRoleStore();
     useEffect(()=>{ 
-        store&&fetchCollaborators();
+        current('collaborators') && store&&fetchCollaborators();
     },[store])
     return current('collaborators') && (
         <div className="collaborator-list" ref={bindToParentScroll}>
@@ -75,7 +75,7 @@ export function CollaboratorList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCollaborator(selectedItems[0] as any);
-                        setAbsPath(['collaborators','collaborator_profile'])
+                        qs({collaborator_id:selectedItems[0].id}).setAbsPath(['collaborators','collaborator_profile'])
                     }}
                     onQuery={(query)=>{
                         fetchCollaborators(query)

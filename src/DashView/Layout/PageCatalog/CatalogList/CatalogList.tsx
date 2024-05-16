@@ -3,11 +3,15 @@ import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList'
 import {useCatalogStore} from '../CatalogStore';
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
+import { useEffect } from 'react';
 export function CatalogList() {
-    const { current ,  setAbsPath } = useDashRoute()
+    const { current ,  setAbsPath, qs } = useDashRoute()
     const  {  catalogs , fetchCatalogs , setSelectedCatalog} = useCatalogStore()
-    console.log(catalogs);
-    
+    const {store} = useRegisterStore();
+    useEffect(()=>{ 
+        current('catalogs') && store && fetchCatalogs();
+    },[store])
     return current('catalogs')&&(
         <div className="catalog-list" >
             <div className="list-ctn">
@@ -47,7 +51,7 @@ export function CatalogList() {
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedCatalog(selectedItems[0] as any);
-                        setAbsPath(['catalogs','dash_catalogs'])
+                        qs({catalog_id:selectedItems[0].id}).setAbsPath(['catalogs','dash_catalogs'])
                     }}
                     onQuery={(query)=>{
                         fetchCatalogs(query);

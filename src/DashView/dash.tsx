@@ -53,7 +53,7 @@ const PathMap = {
 export function Dash() {
     const { currentChild, blur ,openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
     const { authenticateUser, user } = useRegisterStore();
-    const { pathList, setAbsPath } = useDashRoute()
+    const { pathList, setAbsPath , qs,} = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
     const paths: string[] = []
     pathList.forEach((p) => {
@@ -63,7 +63,6 @@ export function Dash() {
 
     useEffect(() => {
         authenticateUser().then(()=>{
-            console.log('####### after auth #########');
             fetchStoreVar();
             fetchRolesJson();
             fetchUsersVar();
@@ -91,6 +90,7 @@ export function Dash() {
                                 </div>
                             ))}
                         </div>
+                        
                         <div className="top-right material-symbols-outlined">
                             <div className={"dark-mode " + T} onClick={() => {
                                 setT(T ? '' : 'active');
