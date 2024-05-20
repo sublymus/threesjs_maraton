@@ -20,7 +20,7 @@ useEffect(()=>{
     <div className='hori-ctn-products'>
       <div className="products">
 
-        {products.map(product=>(
+        {products.list.map(product=>(
           <div
           style={{ backgroundImage: `url(${Host}${product.images[0]})` }}
           className={'product ' + (active == product.id?'active':'')}

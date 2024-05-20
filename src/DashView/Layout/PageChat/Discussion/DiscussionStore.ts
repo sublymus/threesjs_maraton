@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
-import { useMessageStore } from "../MessageStore";
+import { useMessageStore } from "../ChatMessage/MessageStore";
 import { Host } from "../../../../Config";
 import { ListType, UserInterface } from "../../../../DataBase";
 import { transmit } from "../../../../Tools/Transmit";
@@ -41,7 +41,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
             console.log('current Discussion', currentDiscussion);
 
             if (currentDiscussion) {
-                const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id);
+                const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id,'discussions');
                 set(() => ({ discussion: currentDiscussion, messages: ms }));
             } else {
                 const h = useRegisterStore.getState().getHeaders();
@@ -53,7 +53,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
                 console.log('exist Discussion',existDiscussion);
                 
                 if (existDiscussion) {
-                    const ms = await useMessageStore.getState().fetchMessages(existDiscussion.id);
+                    const ms = await useMessageStore.getState().fetchMessages(existDiscussion.id,'discussions');
                     set(() => ({ discussion: existDiscussion, messages: ms }));
                 } else {
                     const collabo = useCollaboratorStore.getState().collaborators?.list.find((c)=>c.id ==collabo_id)|| (await useCollaboratorStore.getState().fetchCollaborators({ query: { user_id: collabo_id } }))?.list[0]
@@ -64,7 +64,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         }, 400);
     },
     async openDiscussionMessages(discussion_id) {
-        const messages = await useMessageStore.getState().fetchMessages(discussion_id);
+        const messages = await useMessageStore.getState().fetchMessages(discussion_id,'discussions');
         set(() => ({ messages }))
     },
     async unBlockDiscussion(discussion) {
@@ -85,7 +85,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
             console.log(error);
         }
     },
-    async asReadDiscussion(discussion) {
+    async asReadDiscussion(_discussion) {
 
     },
     async blockDiscussion(discussion) {
@@ -156,7 +156,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         if (exist) {
             //@ts-ignore
             set(() => ({ discussion: exist }));
-            const messages = await useMessageStore.getState().fetchMessages(exist.id);
+            const messages = await useMessageStore.getState().fetchMessages(exist.id,'discussions');
             set(() => ({ messages }))
             return
         }
@@ -229,21 +229,21 @@ export async function ListenDiscussion(d: Discussion) {
     channels.push(d.id);
     const subscription = transmit.subscription(d.id);
     await subscription.create();
-    subscription.onMessage<{ context_id: string, reloadMessage: boolean }>(async (data) => {
+    subscription.onMessage<{ reload: string, reloadMessage: boolean }>(async (data) => {
         if (!disSet) return;
         console.log('data_discussion', data);
         const currentD = useDiscussionStore.getState().discussion;
-        if (data.context_id) {
+        if (data.reload) {
             const ds = useDiscussionStore.getState().discussions;
-            const response = await fetch(`${Host}/get_discussions?discussion_id=${data.context_id}&store_id=${h.store.id}&blocked=all`, {
+            const response = await fetch(`${Host}/get_discussions?discussion_id=${d.id}&store_id=${h.store.id}&blocked=all`, {
                 headers: h.headers,
             });
             const djson = await response.json() as Discussion[];
             console.log('reload Discussion ___________ ', djson.length);
             if (!djson?.[0]) return
 
-            const newDs = [...ds?.map((d) => {
-                if (d.id == data.context_id) {
+            const newDs = [...ds?.map((_d) => {
+                if (_d.id == d.id) {
                     return djson?.[0]
                 }
                 return d
@@ -256,9 +256,8 @@ export async function ListenDiscussion(d: Discussion) {
         if (data.reloadMessage) {
             if (currentD?.id == d.id) {
                 console.log('reload Message___________', currentD);
-                const messages = await useMessageStore.getState().fetchMessages(d.id);
-                disSet(() => ({ messages }));
-                disSet(() => ({ discussion: { ...d } }))
+                const messages = await useMessageStore.getState().fetchMessages(d.id,'discussions');
+                disSet(() => ({ messages, discussion: { ...d } }))
             }
         }
     })

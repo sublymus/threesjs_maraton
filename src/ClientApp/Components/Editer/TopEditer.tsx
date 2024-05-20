@@ -3,6 +3,7 @@ import './TopEditer.css'
 import { useProductStore } from '../Products/ProductStore';
 import { useWindowSize } from '../../../Hooks';
 import { Feature } from '../../../DataBase';
+import { Host } from '../../../Config';
 ;
 
 export function TopEditer() {
@@ -23,14 +24,14 @@ export function TopEditer() {
   dim.width = w; 
   const v = 50;
   const column = Math.floor((w - 20) / v); // nbr of valu per row
-  const row = Math.ceil((feature?.values?.length || 0) / column);
+  const row = Math.ceil((feature?.components?.length || 0) / column);
   dim.height = Math.min(row,6) * v;
   return product && (
     <div className='top-ctn-edit' >
       <div className="features" ref={featuresDivRef}>
         {
-          product.features&&Object.values(product.features).map((_feature) => (
-            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${_feature.icon})` }} onClick={() => {
+          product.features&&Object.values(product.features.list).map((_feature) => (
+            <div className={'feature ' + (_feature == feature ? 'active' : '')} key={_feature.id} style={{ backgroundImage: `url(${Host}${_feature.icon[0]})` }} onClick={() => {
               if (feature == _feature) {
                 setFeature(null);
               } else {
@@ -43,8 +44,8 @@ export function TopEditer() {
       </div>
       <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:row>6?'scroll':'inherit'}}>
         {feature && (
-          feature.values?.map((_value) => (
-            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${(_value as any).url})` }} onClick={() => {
+          feature.components?.map((_value) => (
+            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${Host}${_value.icon[0]})` }} onClick={() => {
               
               if (valueId == (_value as any).id) {
                 

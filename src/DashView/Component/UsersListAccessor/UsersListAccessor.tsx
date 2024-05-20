@@ -21,6 +21,12 @@ const topCard=  [
         url: '/src/res/settings.png',
         path: [ 'roles']
     },
+    {
+        label: "moderators",
+        value: '4',
+        url: '/src/res/services.png',
+        path: [ 'moderators']
+    },
 
 ] as const 
 export function UsersListAccessor({active, setActive}:{active:typeof topCard[number]['label'], setActive:(active:typeof topCard[number])=>any}) {

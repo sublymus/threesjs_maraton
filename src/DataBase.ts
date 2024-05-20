@@ -1,43 +1,69 @@
 
 export type Features = { [key: string]: Feature }
 
-export  interface AppInterface {
+export interface AppInterface {
 
-} 
+}
 
-export interface Discussion  {
-    "id":string,
+export interface CartInterface {
+    "id": string,
+    product_id: string,
+    store_id: string,
+    quantity: number,
+    collectedFeatures: Record<string, any>,
+    "created_at": string,
+    "updated_at": string,
+}
+
+export interface Session {
+    "id": string,
+    "title": string;
+    "creator_id": string,
+    "receiver_id": string,
+    "deleted": string,
+    "closed": string,
+    "other_att": 'creator' | 'receiver',// calculer
+    "unchecked_count": number,// calculer
+    "last_message"?: Message | undefined,
+    "creator_opened_at": string,
+    "receiver_opened_at": string,
+    "created_at": string,
+    "updated_at": string,
+    "other": UserInterface,
+};
+export interface Discussion {
+    "id": string,
     "creator_id": string,
     "receiver_id": string,
     "deleted": string,
     "blocked": string,
     "other_att": 'creator' | 'receiver',// calculer
     "unchecked_count": number,// calculer
-    "last_message":Message|undefined,
+    "last_message": Message | undefined,
     "creator_opened_at": string,
     "receiver_opened_at": string,
     "created_at": string,
     "updated_at": string,
-    "other":UserInterface,
+    "other": UserInterface,
 };
-export  interface Message  {
+export interface Message {
     "id": string,
     "table_name": string,
     "table_id": string,
     "text": string,
     "files": string[],
-    "rating_id": string|undefined,
-    "survey_id": string|undefined,
+    "rating_id": string | undefined,
+    "survey_id": string | undefined,
     "user_id": string,
     "created_at": string,
     "updated_at": string
 };
 
-type Status=  'PAUSE'|'VISIBLE'|'TRASH'
-export interface Role{
-    id:string,
-    name:string,
-    store_id:string|null,
+type Status = 'PAUSE' | 'VISIBLE' | 'TRASH'
+export interface Role {
+    id: string,
+    name: string,
+    store_id: string | null,
     filter_flient: boolean,
     ban_client: boolean,
     filter_collaborator: boolean,
@@ -52,48 +78,49 @@ export interface Role{
     filter_command: boolean,
     manage_command: boolean,
 
-    created_at:string,
-    updated_at:string,
-}    
-export interface StoreInterface{
-    id:string,
-    name:string,
-    owner_id:string,
-    description:string|undefined,
-    sotre_interface: AppInterface|undefined,
-    phone:string,
-    store_email:string;
-    banners:string[],
-    website:string
-}    
-export interface UserInterface{
-    id:string,
-    name:string,
-    email:string,
-    password:string,
-    photos:string[],
-    type:string;
+    created_at: string,
+    updated_at: string,
+}
+export interface StoreInterface {
+    id: string,
+    name: string,
+    owner_id: string,
+    description: string | undefined,
+    sotre_interface: AppInterface | undefined,
+    phone: string,
+    store_email: string;
+    banners: string[],
+    logo: string[]
+    website: string
+}
+export interface UserInterface {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    photos: string[],
+    type: string;
     roles?: Role[],
-    token:string;
-    created_at:string,
-    status:Status|'NEW'
-    s_type?:string;
-    user_store_id?:string;
+    token: string;
+    created_at: string,
+    status: Status | 'NEW'
+    s_type?: string;
+    user_store_id?: string;
 }
 
-export interface UserStore{
-    id:string,
-    type:string,
-    role_id:string,
-    user_id:string,
-    store_id:string,
-    join_at:string
+export interface UserStore {
+    id: string,
+    type: string,
+    role_id: string,
+    user_id: string,
+    store_id: string,
+    join_at: string
 }
 
 export type ListType<T = any> = {
-    page:number,
-    limit:number,
-    total:number,
+    page: number,
+    limit: number,
+    total: number,
     list: T[],
 }
 
@@ -123,19 +150,24 @@ export interface CatalogueInterface {
 
 }
 
-export type F_Value = {
+export type BinderComponent = {
     id: string,
-    label: string,
-    feature_id: string
-    price?: number
-    url?: string,
-    file?: string,
-    icon?: string,
-    key_word?: string,
-    value?: string,
-
-    created_at?: string;
-    updated_at?: string
+    product_id: string,
+    component_id: string,
+    feature_id: string,
+    store_id: string,
+    price: number,
+    unity: string,
+    devise: string,
+    created_at: string,
+    updated_at: string,
+    name: string,
+    description: string,
+    images: string,
+    icon:string[],
+    scene: null,
+    code: string,
+    key: string
 }
 
 type CollectType =
@@ -157,7 +189,7 @@ type Views =
     'file' | //interval de values[0] -> values[1]
     'input_file'; // ->values[0]
 
-export type VALUES = F_Value | string | boolean | number;
+export type Component = BinderComponent // | string | boolean | number;
 
 export interface Feature {
     id: string,
@@ -167,7 +199,7 @@ export interface Feature {
     view: Views,
     required?: string,
     placeholder?: string;
-    default_value?: VALUES,
+    default_value?: string,
     lowercase?: boolean,
     uppercase?: boolean,
     capitalize?: boolean,
@@ -179,9 +211,9 @@ export interface Feature {
     max?: number;
     max_size?: number;
     ext?: string
-    values?: (VALUES)[];
     created_at?: string;
     updated_at?: string;
+    components?: (Component)[];
 }
 
 export interface ProductInterface {
@@ -190,7 +222,7 @@ export interface ProductInterface {
     description: string,
     images: string[],
     model_images: string[],
-    status: 'PAUSE'|'VISIBLE'|'TRASH',// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
+    status: 'PAUSE' | 'VISIBLE' | 'TRASH',// 0 pres // 1 ingenieer a finiattend conirmation de colaborateur // 2colaborator a poster // 3 en pause// 4 deleted // 5   
     stock: number,
     category_id: string,
     price: number,
@@ -199,7 +231,7 @@ export interface ProductInterface {
     collaborator_id: string,
     engineer_id: string,
     scene_dir: string,
-    features: Feature[],
+    features: ListType<Feature>
 
     created_at: string;
     updated_at: string
@@ -212,115 +244,116 @@ const gemFeature: Feature = {
     icon: '/src/World/images/gem/gem.png',
     view: 'icon',
     default_value: 'blue_garnet',
-    values: [{
+    components: [{
         id: 'blue_garnet',
-        label: 'Grenat bleu',
+        name: 'Grenat bleu',
         feature_id: 'gem_id',
-        url: '/src/World/images/gem/blue_garnet.png',
-        value: '2d3563'
+        icon: ['/src/World/images/gem/blue_garnet.png'],
+        code: '2d3563'
+
     }, {
-        label: 'Taaffeite',
+        name: 'Taaffeite',
         id: 'taaffeite',
-        url: '/src/World/images/gem/taaffeite.png',
-        value: '9575ab',
+        icon: ['/src/World/images/gem/taaffeite.png'],
+        code: '9575ab',
         feature_id: 'gem_id',
     }, {
-        label: 'Grandidierite',
+        name: 'Grandidierite',
         id: 'grandidierite',
-        url: '/src/World/images/gem/grandidierite.png',
-        value: '3f7269',
+        icon: ['/src/World/images/gem/grandidierite.png'],
+        code: '3f7269',
         feature_id: 'gem_id',
     }, {
-        label: 'Serendibite',
+        name: 'Serendibite',
         id: 'serendibite',
-        url: '/src/World/images/gem/serendibite.png',
-        value: '024a3d',
+        icon: ['/src/World/images/gem/serendibite.png'],
+        code: '024a3d',
         feature_id: 'gem_id',
     }, {
-        label: 'Diamant',
+        name: 'Diamant',
         id: 'diamond',
-        url: '/src/World/images/gem/diamond.png',
-        value: 'abdcf9',
+        icon: ['/src/World/images/gem/diamond.png'],
+        code: 'abdcf9',
         feature_id: 'gem_id',
     }, {
-        label: 'Rubis',
+        name: 'Rubis',
         id: 'ruby',
-        url: '/src/World/images/gem/ruby.png',
-        value: 'c24a4a',
+        icon: ['/src/World/images/gem/ruby.png'],
+        code: 'c24a4a',
         feature_id: 'gem_id',
     }, {
-        label: 'Alexandrite',
+        name: 'Alexandrite',
         id: 'alexandrite',
-        url: '/src/World/images/gem/alexandrite.png',
-        value: '0d5a4c',
+        icon: ['/src/World/images/gem/alexandrite.png'],
+        code: '0d5a4c',
         feature_id: 'gem_id',
     }, {
-        label: 'Béryl rouge',
+        name: 'Béryl rouge',
         id: 'red_beryl',
-        url: '/src/World/images/gem/red_beryl.png',
-        value: '6f4060',
+        icon: ['/src/World/images/gem/red_beryl.png'],
+        code: '6f4060',
         feature_id: 'gem_id',
     }, {
-        label: 'Padparadscha Saphire',
+        name: 'Padparadscha Saphire',
         id: 'padparadscha_saphire',
-        url: '/src/World/images/gem/padparadscha_saphire.png',
-        value: '98485d',
+        icon: ['/src/World/images/gem/padparadscha_saphire.png'],
+        code: '98485d',
         feature_id: 'gem_id',
     }, {
-        label: 'Musgravite',
+        name: 'Musgravite',
         id: 'musgravite',
-        url: '/src/World/images/gem/musgravite.png',
-        value: 'b2acad',
+        icon: ['/src/World/images/gem/musgravite.png'],
+        code: 'b2acad',
         feature_id: 'gem_id',
     }, {
-        label: 'Saphir',
+        name: 'Saphir',
         id: 'sapphire',
-        url: '/src/World/images/gem/sapphire.png',
-        value: '288fc3',
+        icon: ['/src/World/images/gem/sapphire.png'],
+        code: '288fc3',
         feature_id: 'gem_id',
     }, {
-        label: 'Benitoite',
+        name: 'Benitoite',
         id: 'benitoite',
-        url: '/src/World/images/gem/benitoite.png',
-        value: '286bc3',
+        icon: ['/src/World/images/gem/benitoite.png'],
+        code: '286bc3',
         feature_id: 'gem_id',
     }, {
-        label: 'Opale noire',
+        name: 'Opale noire',
         id: 'black_opal',
-        url: '/src/World/images/gem/black_opal.png',
-        value: '4c415e',
+        icon: ['/src/World/images/gem/black_opal.png'],
+        code: '4c415e',
         feature_id: 'gem_id',
     }, {
-        label: 'Grenat démantoïde',
+        name: 'Grenat démantoïde',
         id: 'demantoid_garnet',
-        url: '/src/World/images/gem/demantoid_garnet.png',
-        value: '5cb065',
+        icon: ['/src/World/images/gem/demantoid_garnet.png'],
+        code: '5cb065',
         feature_id: 'gem_id',
     }, {
-        label: 'Poudretteite',
+        name: 'Poudretteite',
         id: 'poudretteite',
-        url: '/src/World/images/gem/poudretteite.png',
-        value: 'a770b5',
+        icon: ['/src/World/images/gem/poudretteite.png'],
+        code: 'a770b5',
         feature_id: 'gem_id',
     }, {
-        label: 'Opale de feu',
+        name: 'Opale de feu',
         id: 'fire_opal',
-        url: '/src/World/images/gem/fire_opal.png',
-        value: 'b38a3c',
+        icon: ['/src/World/images/gem/fire_opal.png'],
+        code: 'b38a3c',
         feature_id: 'gem_id',
     }, {
-        label: 'Jeremejevite',
+        name: 'Jeremejevite',
         id: 'jeremejevite',
-        url: '/src/World/images/gem/jeremejevite.png',
-        value: '99a1ca',
+        icon: ['/src/World/images/gem/jeremejevite.png'],
+        code: '99a1ca',
         feature_id: 'gem_id',
     }, {
-        label: 'Tanzanite',
+        name: 'Tanzanite',
         id: 'tanzanite',
-        url: '/src/World/images/gem/tanzanite.png',
-        value: '46518a',
+        icon: ['/src/World/images/gem/tanzanite.png'],
+        code: '46518a',
         feature_id: 'gem_id',
-    }]
+    }] as any
 }
 
 const metalFeature: Feature = {
@@ -330,31 +363,74 @@ const metalFeature: Feature = {
     icon: '/src/World/images/metal/metal.png',
     view: 'icon',
     default_value: "gold",
-    values: [{
-        label: 'Gold',
-        id: 'gold',
-        url: '/src/World/images/metal/gold.png',
-        value: 'bead2e',
-        price: 200,
-        feature_id: 'metal_id',
-    }, {
-        label: 'Silver',
-        id: 'silver',
-        url: '/src/World/images/metal/silver.png',
-        value: 'eeeeee',
-        price: 200,
-        feature_id: 'metal_id',
-    }, {
-        label: 'Bronze',
-        id: 'bronz',
-        url: '/src/World/images/metal/bronz.png',
-        value: 'ffaa55',
-        price: 200,
-        feature_id: 'metal_id',
-    },]
+    components: [
+        {
+            "id": "6bd884a0-82be-414a-ac45-9ef47a866bf8",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "6bd884a0-82be-414a-ac45-9ef47a866bf8",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:58:13",
+            "updated_at": "2024-05-20 07:58:13",
+            "name": "Gold",
+            "description": "gold",
+            "images": "[]",
+            "icon": [
+                "/fs/1huag4619_4bddo0_components_icon_6bd884a0-82be-414a-ac45-9ef47a866bf8.png"
+            ],
+            "scene": null,
+            "code": "bead2e",
+            "key": "gold"
+        },
+        {
+            "id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:59:07",
+            "updated_at": "2024-05-20 07:59:07",
+            "name": "Silver",
+            "description": "silver",
+            "images": "[]",
+            "icon": [
+                "/fs/1huag5qd9_3nhrv0_components_icon_5707c6a6-d197-4a7b-8a8c-34150325e514.png"
+            ],
+            "scene": null,
+            "code": "eeeeee",
+            "key": "silver"
+        },
+        {
+            "id": "0af71216-5c1f-40f7-823f-8b25afb20984",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "0af71216-5c1f-40f7-823f-8b25afb20984",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:59:57",
+            "updated_at": "2024-05-20 08:01:09",
+            "name": "Bronze",
+            "description": "bronz",
+            "images": "[]",
+            "icon": [
+                "/fs/1huag9i95_58sb80_components_icon_0af71216-5c1f-40f7-823f-8b25afb20984.png"
+            ],
+            "scene": null,
+            "code": "ffaa55",
+            "key": "bronz"
+        }
+    ]
 }
 
-export const features: Feature[] = [metalFeature, gemFeature]
+export const features: ListType<Feature> = { limit: 25, total: 2, page: 1, list: [metalFeature, gemFeature] }
 
 
 
@@ -990,6 +1066,4 @@ export const DataBase = {
             createdAt: (new Date(Date.now() - (1000 * 60 * 60 * 24 * 20)).toDateString())
         },
     ],
-    
-
 }

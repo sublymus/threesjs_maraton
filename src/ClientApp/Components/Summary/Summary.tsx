@@ -1,7 +1,7 @@
 import './Summary.css'
 import { useAppRouter } from "../../AppStore";
 import { useProductStore } from '../Products/ProductStore';
-import { F_Value, Feature } from '../../../DataBase';
+import { Component, Feature } from '../../../DataBase';
 ;
 
 export function Summary() {
@@ -12,11 +12,8 @@ export function Summary() {
     
     const f:Record<string, Feature> = {};
 
-    product?.features.forEach(t=>f[t.id]=t);
+    product?.features.list.forEach(t=>f[t.id]=t);
     
-    console.log();
-    
-
     return check('summary') && (
         <div className="summary">
             <div className='summary-top'>
@@ -28,19 +25,23 @@ export function Summary() {
             </div>
             <div className='summary-list'>
                 {
-                    Object.keys(a).map((key) => (
-                        <div className="summary-fiture">
-                        <div className="f-info">
-                            <div className="f-icon" style={{backgroundImage:`url(${f[key].icon})`}}></div>
-                            <div className="f-name">{f[key].name}</div>
-                            <div className="v-price">{(a[key] as F_Value)?.price||0} P</div>
-                        </div>
-                            <div className="v-info">
-                                <div className="v-label">{(a[key] as F_Value)?.label}</div>
-                                <div className="v-icon"  style={{backgroundImage:`url(${(a[key] as F_Value)?.url})`}}></div>
-                            </div>
-                        </div>
-                    ))
+                    Object.keys(a).map((key) => {
+                        return (
+                            (
+                                <div className="summary-fiture">
+                                <div className="f-info">
+                                    <div className="f-icon" style={{backgroundImage:`url(${f[key].icon})`}}></div>
+                                    <div className="f-name">{f[key].name}</div>
+                                    <div className="v-price">{(a[key] as Component)?.price||0} P</div>
+                                </div>
+                                    <div className="v-info">
+                                        <div className="v-label">{(a[key] as Component)?.name}</div>
+                                        <div className="v-icon"  style={{backgroundImage:`url(${(a[key] as Component)?.icon[0]})`}}></div>
+                                    </div>
+                                </div>
+                            )
+                        )
+                    })
                 }
             </div>
             <div className='summary-command'>

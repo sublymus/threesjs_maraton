@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { DefaultImage, useAppRouter } from '../../AppStore';
+import { useAppRouter } from '../../AppStore';
 import { PageRegister } from '../PageRegister/PageRegister';
 import { PageUser } from '../PageUser/PageUser';
 import './Profile.css';
@@ -7,7 +7,6 @@ import { ProfilePhoto } from '../../Components/ProfilePhoto/ProfilePhoto';
 import { useProfileStore } from './ProfileStore';
 
 import { PageAbout } from "../../Layout/PageAbout/PageAbout";
-import { PageBlog } from "../../Layout/PageBlog/PageBlog";
 import { PageService } from "../../Layout/PageService/PageService";
 import { PageCommand } from "../../Layout/PageCommand/PageCommand";
 import { PageCart } from "../../Layout/PageCart/PageCart";
@@ -93,7 +92,6 @@ export function Profile() {
     }, [bubbleCtnRef])
 
     
-    console.log('user' , user);
     
     return check('profile') && (
         <div className="page-profile">
@@ -134,9 +132,6 @@ export function Profile() {
                             <li className={check('service') && 'active'} onClick={() => {
                                 setPath('service')
                             }}>Customer service</li>
-                            <li className={check('blog') && 'active'} onClick={() => {
-                                setPath('blog')
-                            }}>Blog</li>
                             <li className={check('about') && 'active'} onClick={() => {
                                 setPath('about')
                             }}>About us</li>
@@ -149,7 +144,6 @@ export function Profile() {
                             <PageRegister />
                             <PageUser />
                             <PageAbout />
-                            <PageBlog />
                             <PageService />
                             <PageCommand />
                             <PageCart />

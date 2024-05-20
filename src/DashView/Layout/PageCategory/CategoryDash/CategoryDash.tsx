@@ -91,10 +91,10 @@ export function CategoryDash() {
                 <section className={"editor " + wrap}>
                     <div className="left-side">
                         {
-                            isDash && <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedCategory?.id || '')} />
+                            isDash && <InputText isCheckRequired={isCheckRequired} label='Category Id' value={(selectedCategory?.id || '')} />
                         }
                         <div className="category-title">
-                            <InputText editable prompt='Catalog Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={isDash && (selectedCategory?.label || '')} onChange={(value) => {
+                            <InputText editable prompt='Category Label' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Label' placeholder='Catalog Label' value={isDash && (selectedCategory?.label || '')} onChange={(value) => {
                                 isDash ? (updateCategory({
                                     category_id: selectedCategory?.id,
                                     label: value
@@ -102,7 +102,7 @@ export function CategoryDash() {
                             }} />
                         </div>
                         <div className="category-description">
-                            <Textarea editable prompt='Catalog Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={isDash && (selectedCategory?.description || '')} onChange={(value) => {
+                            <Textarea editable prompt='Category Description' isCheckRequired={isCheckRequired} min={3} check='auto' max={250} label='Description' placeholder='Catalog Description' value={isDash && (selectedCategory?.description || '')} onChange={(value) => {
                                 isDash ? (updateCategory({
                                     category_id: selectedCategory?.id,
                                     description: value
@@ -141,7 +141,7 @@ export function CategoryDash() {
                         }}
                             disableFilterBar
                             items_height={80}
-                            id={'product-use-catalog_list'}
+                            id={'product-use-cattegory_list'}
                             datas={categoryProducts?.list || []}
                             itemsMapper={{
                                 images: {

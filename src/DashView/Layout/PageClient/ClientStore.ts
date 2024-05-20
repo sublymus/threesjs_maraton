@@ -80,9 +80,7 @@ export const useClientStore = create<ClientState>((set) => ({
         if (filter?.query.text) query.text = filter.query.text;
         if (filter?.query.user_id) query.user_id = filter.query.user_id;
         if (filter?.query.phone) query.phone = filter.query.phone;
-        query.store_id = useRegisterStore.getState().store?.id
-        if(!query.store_id) return
-        console.log('lol');
+        query.store_id = h.store.id
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];

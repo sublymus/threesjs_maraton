@@ -2,14 +2,17 @@ import './PageAbout.css'
 import { useAppRouter } from "../../AppStore";
 import { useRegisterStore } from '../PageRegister/RegisterStore';
 import { Host } from '../../../Config';
+import { getImg } from '../../../Tools/StringFormater';
 ;
 
 export function PageAbout() {
     const { check } = useAppRouter();
     const { store } = useRegisterStore();
+    console.log(store?.banners[0], getImg(store?.banners[0]||''));
+    
     return check('about') && (
         <div className="page-about" >
-            <div className="banner" style={{background:`no-repeat center/cover url(${store?.banners[0].startsWith('/')?Host:''}${store?.banners[0]})`}}></div>
+            <div className="banner" style={{background:getImg(store?.banners[0]||'')}}></div>
             <div className='structure'>
                 <div className='name-ctn'>
                     <div className="name">{store?.name}</div>

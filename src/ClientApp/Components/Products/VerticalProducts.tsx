@@ -21,11 +21,11 @@ export function VerticalProducts() {
   }, [fetchProducts]);
 
   useEffect(() => {
-    if (verticalCadreManagerRef.current) {
+    if (verticalCadreManagerRef.current && products) {
       const list: any[] = []
       let first=true;
       let i = 0;
-      for (const product of  [...products]) {
+      for (const product of  products.list) {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div

@@ -9,7 +9,7 @@ import emojis from "emoji.json";
 import { useDashStore } from "../../../../dashStore";
 import { UserInterface } from "../../../../../DataBase";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
-import { useMessageStore } from "../../MessageStore";
+import { useMessageStore } from "../../ChatMessage/MessageStore";
 
 
 export function DiscussionsCenter() {

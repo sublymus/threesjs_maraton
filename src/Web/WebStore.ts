@@ -121,14 +121,25 @@ export const useWebStore = create<WebState>((set) => ({
 
         const form = new FormData();
 
-        Object.keys(data).forEach(k => {
+        Object.keys(data).forEach((k,i) => {
+            console.log('data',i,k, data[k]);
+            
             if (k == 'banners') {
-                if (data.file?.file) {
-                    console.log('new File', data.file);
+                if (data[k].file) {
+                    console.log('new File', data[k].file);
                     form.append(k, JSON.stringify(['banners_0']));
-                    form.append('banners_0', data.file.file)
-                } else {
-                    form.append(k, JSON.stringify(data[k]));
+                    form.append('banners_0', data[k].file)
+                } else if(data[k].url) {
+                    form.append(k, JSON.stringify([data[k].url]));
+                    console.log('keep same', JSON.stringify(data[k]));
+                }
+            }else if (k == 'logo') {
+                if (data[k].file) {
+                    console.log('new File', data[k].file);
+                    form.append(k, JSON.stringify(['logo_0']));
+                    form.append('logo_0', data[k].file)
+                } else if(data[k].url){
+                    form.append(k, JSON.stringify([data[k].url]));
                     console.log('keep same', JSON.stringify(data[k]));
                 }
             }
@@ -164,11 +175,13 @@ export const useWebStore = create<WebState>((set) => ({
         console.log(data);
 
         Object.keys(data).forEach(k => {
+            if (k == 'logo') {
+                form.append(k, JSON.stringify(['logo_0']));
+                form.append('logo_0', data[k].file);
+            }
             if (k == 'banners') {
-                console.log('###########');
-
                 form.append(k, JSON.stringify(['banners_0']));
-                form.append('banners_0', data.banners.file)
+                form.append('banners_0', data[k].file);
             }
             else {
                 form.append(k, data[k])

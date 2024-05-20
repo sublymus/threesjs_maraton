@@ -28,6 +28,9 @@ const Pages = {
             //list
             client_profile: {},
         },
+        moderators:{
+            moderator_profile:{}
+        },
         collaborators: {
             //list
             collaborator_profile: {},

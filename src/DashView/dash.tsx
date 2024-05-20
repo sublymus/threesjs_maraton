@@ -13,7 +13,7 @@ import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
 import { PageAuth } from './Layout/PageAuth/PageAuth'
 import { useEffect } from 'react'
 import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
-
+import { PageModerator } from "./Layout/PageModerator/pageModerator";
 import { PageRole } from './Layout/PageRole/PageRole'
 import { PageCollaborator } from './Layout/PageCollaborator/PageCollaborator'
 import { useRoleStore } from './Layout/PageRole/RoleStore'
@@ -51,26 +51,32 @@ const PathMap = {
 }
 
 export function Dash() {
+    
     const { currentChild, blur ,openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
-    const { authenticateUser, user } = useRegisterStore();
+    const { authenticateUser, user , store } = useRegisterStore();
     const { pathList, setAbsPath , qs,} = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
     const paths: string[] = []
+    
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])
     })
 
     useEffect(() => {
-        authenticateUser().then(()=>{
-            fetchStoreVar();
-            fetchRolesJson();
-            fetchUsersVar();
-        });
+        authenticateUser();
         window.addEventListener('blur',()=>{
             openChild(undefined)
         }) 
     }, []);
+
+    useEffect(()=>{
+        if(store){
+            fetchStoreVar();
+            fetchRolesJson();
+            fetchUsersVar();
+        }
+    },[store])
 
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >
@@ -105,6 +111,7 @@ export function Dash() {
                         <PageFeature />
 
                         <PageClient />
+                        <PageModerator />
                         <PageCollaborator />
                         <PageRole />
 

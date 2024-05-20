@@ -89,7 +89,7 @@ export function CatalogDash() {
                     <div className="left-side">
 
                         {
-                            isDash && <InputText isCheckRequired={isCheckRequired} label='Product Id' value={(selectedCatalog?.id || '')} />
+                            isDash && <InputText isCheckRequired={isCheckRequired} label='Catalog Id' value={(selectedCatalog?.id || '')} />
                         }
                         <div className="editor-name">
                             <div className="catalog-title">

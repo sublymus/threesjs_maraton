@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { generateUid } from "../../../Tools/uidGenerator";
 import { useWindowSize } from "../../../Hooks";
 import { EditorTopBar } from "../../../DashView/Component/EditorTopBar/EditorTopBar";
+import { getImg } from "../../../Tools/StringFormater";
 
 export function PageNewStore() {
     const [id] = useState(generateUid());
@@ -12,21 +13,23 @@ export function PageNewStore() {
     const { owner, createStore, deleteStore, editStore, selectedStore } = useWebStore();
 
     const [collected, setCollected] = useState<Record<string, any>>(selectedStore || {});
-    const [file, setFile] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: `${Host}${selectedStore.banners[0]}` } : null)
+    const [fileLogo, setFileLogo] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: (current('edit_store')||'')&&`${selectedStore.logo[0]}` } : null)
+    const [fileBanner, setFileBanner] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: (current('edit_store')||'')&&`${selectedStore.banners?.[0]}` } : null)
 
     const size = useWindowSize();
     const wrap = size.width < 1050 ? 'wrap' : ''
     useEffect(() => {
         setTimeout(() => {//TODO tres gros probleme le useEffeect est appele avant le changement de page;
             if (selectedStore && current('edit_store')) {
-                console.log('new File');
                 setCollected(selectedStore);
-                setFile({ url: `${Host}${selectedStore.banners[0]}` });
+                setFileBanner({ url: `${selectedStore.banners[0]}` });
+                setFileLogo({ url: `${selectedStore.logo?.[0]}` });
             }
         });
     }, [selectedStore]);
 
-    const fileName = file?.file?.name || file?.url;
+    const bannerFileName = fileBanner?.file?.name || fileBanner?.url;
+    const logoFileName = fileLogo?.file?.name || fileLogo?.url;
     const edit = current('edit_store');
     return (edit && (!selectedStore)) ? (
         <div className="store-select-btn" onClick={() => { setAbsPath(['store_list']) }}>
@@ -45,44 +48,71 @@ export function PageNewStore() {
                 {
                     edit && <div className="open-opt">
                         <div className="btn-dash btn demo" onClick={() => {
-                        localStorage.setItem('store', JSON.stringify(selectedStore));
-                        window.open(
-                            `${Local}/demo/${selectedStore.name}`
-                        );
-                    }}>
-                        Open Demo Store
-                    </div>
-                    <div className="btn-dash btn" onClick={() => {
-                        localStorage.setItem('store', JSON.stringify(selectedStore));
-                        window.open(
-                            `${Local}/${selectedStore?.name}/dash`,
-                        );
-                    }}>
-                        Open Dashboard
-                    </div>
+                            localStorage.setItem('store', JSON.stringify(selectedStore));
+                            window.open(
+                                `${Local}/demo/${selectedStore.name}`
+                            );
+                        }}>
+                            Open Demo Store
+                        </div>
+                        <div className="btn-dash btn" onClick={() => {
+                            localStorage.setItem('store', JSON.stringify(selectedStore));
+                            window.open(
+                                `${Local}/${selectedStore?.name}/dash`,
+                            );
+                        }}>
+                            Open Dashboard
+                        </div>
                     </div>
                 }
             </div>
             }
             <div className={"center-content " + wrap}>
                 <div className="center-left">
-                    <input type="file" id={id} style={{ display: 'none' }} onChange={(e) => {
-                        const file = e.currentTarget.files?.[0];
-                        if (file) {
-                            setFile({ file, url: URL.createObjectURL(file) })
-                        }
-                    }} />
-                    <label htmlFor={id} className="choose-img"><span className="btn">{file ? 'Replace Banner' : 'Choose Banner'}</span> <span>{fileName ? (fileName.length > 35 ? fileName.substring(0, 35) + '...' : fileName) : ''}</span></label>
-                    <div className={"banner " + (file ? '' : 'nothing')} onDrop={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        const file = e.dataTransfer.files?.[0];
-                        if (file) {
-                            setFile({ file, url: URL.createObjectURL(file) })
-                        }
-                    }} style={{ background: `no-repeat center/cover url(${file?.url})` }}>
-                        {!file && <label htmlFor={id} className="img"></label>}
+                           
+                <div className="logo-ctn">
+                        <input type="file" id={id+'logo'} style={{ display: 'none' }} onChange={(e) => {
+                            const file = e.currentTarget.files?.[0];
+                            if (file) {
+                                setFileLogo({ file, url: URL.createObjectURL(file) })
+                            }
+                        }} />
+                        <label htmlFor={id+'logo'} className="choose-img"><span className="btn">{fileLogo ? 'Replace Logo' : 'Choose Logo'}</span> <span>{logoFileName ? (logoFileName.length > 35 ? logoFileName.substring(0, 35) + '...' : logoFileName) : ''}</span></label>
+                        <div className={"logo " + (fileLogo ? '' : 'nothing')} onDrop={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            const file = e.dataTransfer.files?.[0];
+                            if (file) {
+                                setFileLogo({ file, url: URL.createObjectURL(file) })
+                            }
+                        }} style={{ background: getImg(fileLogo?.url||'') }}>
+                            {!fileLogo && <label htmlFor={id+'logo'} className="img"></label>}
+                        </div>
                     </div>
+                    <div className="banner-ctn">
+                        <input type="file" id={id+'banner'} style={{ display: 'none' }} onChange={(e) => {
+                            const file = e.currentTarget.files?.[0];
+                            if (file) {
+                                setFileBanner({ file, url: URL.createObjectURL(file) })
+                            }
+                        }} />
+                        <label htmlFor={id+'banner'} className="choose-img"><span className="btn">{fileBanner ? 'Replace Banner' : 'Choose Banner'}</span> <span>{bannerFileName ? (bannerFileName.length > 35 ? bannerFileName.substring(0, 35) + '...' : bannerFileName) : ''}</span></label>
+                        <div className={"banner " + (fileBanner ? '' : 'nothing')} onDrop={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            const file = e.dataTransfer.files?.[0];
+                            if (file) {
+                                setFileBanner({ file, url: URL.createObjectURL(file) })
+                            }
+                        }} style={{ background: getImg(fileBanner?.url||'') }}>
+                            {!fileBanner && <label htmlFor={id+'banner'} className="img"></label>}
+                        </div>
+                    </div>
+                    
+             
+
+
+
                 </div>
                 <div className="center-right">
                     {/* <div className="user-name"><span>Owner : </span> <span className="name">{owner?.name}</span></div> */}
@@ -142,7 +172,6 @@ export function PageNewStore() {
                         <input type="text" id={id + 'address'} value={''} placeholder="Address" onChange={(e) => {
                             setCollected({
                                 ...collected,
-                                // ['address_id'] : e.currentTarget.value
                             })
                         }} />
                     </div>
@@ -150,13 +179,15 @@ export function PageNewStore() {
                         <div className="btn" onClick={() => {
                             edit ? (selectedStore && editStore({
                                 ...collected,
-                                file: file,
+                                banners: fileBanner,
+                                logo: fileLogo,
                                 store_id: selectedStore?.id
                             }).then((res) => {
                                 res && setAbsPath(['store_list']);
                             })) : createStore({
                                 ...collected,
-                                banners: file
+                                banners: fileBanner,
+                                logo: fileLogo
                             }).then((res) => {
                                 res && setAbsPath(['store_list']);
                             })

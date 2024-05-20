@@ -2,13 +2,13 @@ import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { Tactil } from "../Tools/Tactil";
-import { Feature, VALUES } from "../DataBase";
+import { Feature } from "../DataBase";
 
 export const WorlGui: GUI | null = new GUI();
 
 export interface AbstractLocalLoader {
     showFeature(uuid: string): void;
-    updateFeature(feature: Feature, value: VALUES|undefined): void;
+    updateFeature(feature: Feature, value: string): void;
     getModel(): Promise<THREE.Object3D>;
     getDependencies(): Dependencies;
     init(this: AbstractWorld, dependencies: Dependencies['obj']): void

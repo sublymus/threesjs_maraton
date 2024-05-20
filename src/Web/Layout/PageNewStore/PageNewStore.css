@@ -92,6 +92,26 @@
     border-radius: 20px;
 }
 
+.page-new-store .center-content .center-left .logo.nothing {
+    border: dashed 3px #000;
+    filter: invert(100%);
+}
+
+.page-new-store .center-content .center-left .logo.nothing .img {
+    width: 100%;
+    height: 100%;
+    filter: hue-rotate(130deg);
+    background: no-repeat center/60% url(/src/res/drag_and_drop.png);
+    display: block;
+    cursor: pointer;
+}
+
+.page-new-store .center-content .center-left .logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+}
+
 .page-new-store .center-content .center-left .choose-img {
     width: 100%;
     display: flex;
@@ -113,7 +133,6 @@
     border-radius: 15px;
     cursor: pointer;
 }
-
 
 .page-new-store .center-content .center-right span {
     font-weight: bold;

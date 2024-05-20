@@ -16,6 +16,9 @@
 }
 
 body{
+  width: 100vw;
+  height: 100vh;
+  
   font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
@@ -52,4 +55,39 @@ body{
 *::-webkit-scrollbar-thumb:hover {
   background: #b38a3c;
   transition: 200ms;
+}
+
+
+.child-viewer{
+  z-index:9999;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+sombre-mode-variable .child-viewer-ctn{
+  background: var(--backgroung-white);
+}
+.child-viewer-ctn{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.sombre-mode-variable .editor {
+  background: #0002 !important;
+}
+
+.not-found{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.not-found .img{
+  margin-top: 100px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  width: 60%;
+  height: 60%;
+  background: no-repeat center/cover url(/src/res/not_found.jpg);
 }

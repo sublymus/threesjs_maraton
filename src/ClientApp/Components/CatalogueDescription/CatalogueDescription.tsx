@@ -5,7 +5,7 @@ import { useProductStore } from "../Products/ProductStore";
 export function CatalogueDescription() {
     const {  check,setAbsPath } = useAppRouter();
     const { catalogue, selectedCategory } = useCatalogueStore();
-    const {fetchProducts}= useProductStore();
+    const {fetchProducts , selectProduct}= useProductStore();
     return check( 'catalogue_description') && (
         <div className="catalogue-description">
             <p className="description">
@@ -13,10 +13,12 @@ export function CatalogueDescription() {
             </p>
             <span className="see-all" onClick={() => {
                 fetchProducts({
-                    filter:{
+                    query:{
                         category_id:selectedCategory?.id
                     }
-                }).then(()=>{
+                }).then((list)=>{
+                    if(!list?.list[0]) return
+                    selectProduct(list.list[0])
                     setAbsPath(['product'])
                 })
             }}> See all {selectedCategory?.label}</span>

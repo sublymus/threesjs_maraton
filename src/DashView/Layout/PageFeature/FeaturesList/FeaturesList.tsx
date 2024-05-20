@@ -2,13 +2,17 @@ import './FeaturesList.css'
 import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { useFeatureStore } from '../FeatureStore'
-import { Host } from '../../../../Config';
-import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { getImg } from "../../../../Tools/StringFormater";
+import { useEffect } from 'react';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function FeaturesList() {
 
     const { current, setAbsPath } = useDashRoute();
+    const {store} = useRegisterStore();
     const { features, fetchFeatures, setSelectedFeature } = useFeatureStore();
-    
+    useEffect(() => {
+        current('features') && store && fetchFeatures()
+    }, [store])
     return current('features') && (
         <div className="features-list">
             <div className="list-ctn">
@@ -39,7 +43,7 @@ export function FeaturesList() {
                                     img.style.height = `${Math.min(d.height, d.width) * 0.9}px`;
                                 })
                                 return <div ref={setRef} key={colunm}>
-                                    <div className="image-element" ref={(ref) => img = ref} style={{ backgroundImage: `url(${Host}${JSON.parse(value)[0]})` , backgroundSize:'40%'}}></div>
+                                    <div className="image-element" ref={(ref) => img = ref} style={{ background:getImg(value[0]||'', '40%')}}></div>
                                 </div>
                             }
                         },

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useDashRoute, useDashStore } from '../../dashStore'
-import './PageChat.css'
-import { SessionCenter } from "./Session/SessionCenter/SessionCenter";
+import { useDashRoute } from '../../dashStore'
+import './PageChat.css';
 import { SessionNav } from "./Session/SessionNav/SessionNav";
 import { DiscussionsNav } from "./Discussion/DiscussionNav/DiscussionNav";
 import { DiscussionsCenter } from "./Discussion/DiscussionCenter/DiscussionCenter";
 import { useRegisterStore } from '../PageAuth/RegisterStore'
 import { Host } from '../../../Config'
 import { Click } from '../../../Tools/StringFormater';
+import { SessionsCenter } from './Session/SessionCenter/SessionCenter'
 // import React from 'react'
 
 export function PageChat() {
@@ -28,7 +28,7 @@ export function PageChat() {
     const centers: any = {
         discussions: <DiscussionsCenter />,
         groups: <DiscussionsCenter />,
-        sessions: <DiscussionsCenter />,
+        sessions: <SessionsCenter />,
         surveys: <DiscussionsCenter />,
     }
     const infos: any = {
@@ -39,8 +39,8 @@ export function PageChat() {
     }
     return check('chat') && user && (
         <div className='page-chat'>
-            <div className="back-close nav" style={{display:(navSize =='min')?'none':''}} onClick={e=>{
-                if(e.currentTarget == e.target){
+            <div className="back-close nav" style={{ display: (navSize == 'min') ? 'none' : '' }} onClick={e => {
+                if (e.currentTarget == e.target) {
                     setNavSize('min');
                 }
             }}></div>

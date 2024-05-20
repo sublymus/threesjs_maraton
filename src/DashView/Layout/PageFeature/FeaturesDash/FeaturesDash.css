@@ -64,3 +64,40 @@
      width: 100%;
     margin-top: 10px;
   }
+
+  .dash-feature .editor .choise_icon {
+    width: 100%;
+    margin-top: 10px;
+}
+.dash-feature .editor .choise_icon  .ctn{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    background: #3452;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 300px;
+}
+ .dash-feature .editor .choise_icon input {
+    display: none;
+ }
+
+ .dash-feature .editor .choise_icon .icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .dash-feature .editor .choise_icon .text .title{
+    font-weight: bold;
+  }
+  .dash-feature .editor .choise_icon .text .url{
+    opacity: 0.7;
+  }
+  .dash-feature .editor .choise_icon .text {
+    margin-left: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  

@@ -55,7 +55,8 @@
 /* MESSAGE  */
 .discussion-center .messages {
     width: 100%;
-    height: 100%;
+    max-height: 100%;
+    margin-top: auto;
     margin-bottom: 10px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -127,18 +128,20 @@
 .discussion-center .messages .ctn .text {
     /* all:unset; */
     overflow-wrap: break-word;
-    
-}
-.discussion-center .messages .ctn .files {
-   display: flex;
-   flex-direction: column;
+
 }
 
-.discussion-center .messages .ctn .message-file:hover{
+.discussion-center .messages .ctn .files {
+    display: flex;
+    flex-direction: column;
+}
+
+.discussion-center .messages .ctn .message-file:hover {
     opacity: 0.7;
     transition: 200ms;
 }
-.discussion-center .messages .ctn .message-file  {
+
+.discussion-center .messages .ctn .message-file {
     height: 30px;
     width: 350px;
     display: flex;
@@ -152,27 +155,30 @@
     transition: 200ms;
     margin: 2px 0;
 }
- 
-.discussion-center .messages .ctn .message-file .save{
-   min-width: 30px;
-   min-height: 30px;
-   background: no-repeat center/80% url(/src/res/chevron-right.png);
+
+.discussion-center .messages .ctn .message-file .save {
+    min-width: 30px;
+    min-height: 30px;
+    background: no-repeat center/80% url(/src/res/chevron-right.png);
 }
- 
-.discussion-center .messages .ctn .info{
+
+.discussion-center .messages .ctn .info {
     display: flex;
     position: absolute;
     bottom: 5px;
     right: 13px;
 }
-.discussion-center .messages .ctn.right .edited{
+
+.discussion-center .messages .ctn.right .edited {
     filter: invert();
 }
-.discussion-center .messages .ctn .edited{
+
+.discussion-center .messages .ctn .edited {
     width: 20px;
     height: 20px;
-    background:  no-repeat center/80% url(/src/res/pencil.png);
+    background: no-repeat center/80% url(/src/res/pencil.png);
 }
+
 .discussion-center .messages .ctn .date {
     opacity: 0.9;
     font-size: 0.9em;
@@ -257,21 +263,25 @@
     opacity: 0.6;
     background: no-repeat center/60% url(/src/res/paperclip.png);
 }
-.discussion-center .sender .sender_center{
+
+.discussion-center .sender .sender_center {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-.discussion-center .sender .sender_center .files{
+
+.discussion-center .sender .sender_center .files {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-.discussion-center .sender .sender_center .file:hover{
+
+.discussion-center .sender .sender_center .file:hover {
     opacity: 0.5;
     transition: 200ms;
 }
-.discussion-center .sender .sender_center .file{
+
+.discussion-center .sender .sender_center .file {
     width: 100%;
     height: 30px;
     border-left: 3px solid;
@@ -284,16 +294,17 @@
     cursor: pointer;
 }
 
-.discussion-center .sender .sender_center .remove:hover{
+.discussion-center .sender .sender_center .remove:hover {
     transform: scale(1.3);
     transition: 200ms;
 }
-.discussion-center .sender .sender_center .remove{
+
+.discussion-center .sender .sender_center .remove {
     width: 25px;
     transition: 200ms;
     height: 25px;
     background: no-repeat center/60% url(/src/res/x.png);
- }
+}
 
 #discussion_sender {
     all: unset;
@@ -455,6 +466,7 @@
     justify-content: center;
     padding: 5px 10px;
 }
+
 .message-edit-popu .input .save-ctn {
     display: flex;
     background: var(--primary-color);
@@ -462,6 +474,7 @@
     border-radius: 10px;
     padding: 7px 20px;
 }
+
 .message-edit-popu .label {
     margin-top: 0px;
 }

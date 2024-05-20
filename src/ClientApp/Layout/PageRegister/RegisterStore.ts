@@ -11,7 +11,7 @@ interface RegisterState {
     disconnection(): Promise<void>;
     authenticateUser(): Promise<void>;
     getAccess(): Promise<void>;
-    getStore(): Promise<void>
+    // getStore(): Promise<void>
     updateUser(data: Record<string, any>): Promise<void>;
     getHeaders(): Headers | undefined
 }
@@ -112,31 +112,32 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             } catch (error) {
                 return clear();
             }
+            console.log(js);
+            
             const _user = { ...user, ...js.user };
             set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false }))
 
             localStorage.setItem('user', JSON.stringify(_user));
         }
-        await useRegisterStore.getState().getStore()
+        // await useRegisterStore.getState().getStore()
     },
-    async getStore() {
+    // async getStore() {
 
-        const store_name = localStorage.getItem('store_name') || window.location.pathname.split('/')[1];
+    //     const store_name = localStorage.getItem('store_name') || window.location.pathname.split('/')[1];
 
 
-        if (store_name) {
+    //     if (store_name) {
 
-            const response = await fetch(`${Host}/get_store_by_name/${store_name}`)
+    //         const response = await fetch(`${Host}/get_store_by_name/${store_name}`)
 
-            try {
-                let js = await response.json();
-                set(() => ({ store: js }));
-                console.log(js);
-            } catch (error) {
+    //         try {
+    //             let js = await response.json();
+    //             set(() => ({ store: js }));
+    //         } catch (error) {
 
-            }
-        }
-    },
+    //         }
+    //     }
+    // },
     getHeaders() {
         const store = useRegisterStore.getState().store;
         if (!store) return;

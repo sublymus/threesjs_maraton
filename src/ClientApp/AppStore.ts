@@ -37,11 +37,28 @@ const Pages = {
 
 import { create } from "zustand";
 interface AppState{
-
+    back_color: string;
+    blur:boolean,
+    T: string | undefined | null,
+    setT(T: string | undefined): void,
+    currentChild: JSX.Element | undefined,
+    openChild: (child: JSX.Element | undefined, blur?:boolean,back_color?: string) => any,
 }
 
-export const useAppStore = create<AppState>((_set)=>({
-   
+export const useAppStore = create<AppState>((set)=>({
+    T: localStorage.getItem('theme'),
+    storeVar: undefined,
+    usersVar: undefined,
+    back_color: '',
+    blur:false,
+    setT(T) {
+        T && localStorage.setItem('theme', T);
+        set(() => ({ T }))
+    },
+    currentChild: undefined,
+    openChild(child , blur,back_color) {
+        set(() => ({ currentChild: child,blur ,back_color: child ?(back_color || ''):'' }))
+    },
 }));
 
 export const useAppRouter  = new SRouter(Pages,['/','catalogue']).getStore()

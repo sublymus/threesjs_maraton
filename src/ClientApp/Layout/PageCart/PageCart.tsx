@@ -8,11 +8,11 @@ import { Host } from "../../../Config";
 export function PageCart() {
     const { check } = useAppRouter();
     const { products } = useProductStore();
-    const ps = [...products, ...products, ...products];
+    const ps = products.list;
     return (check('cart') && <div className="page-cart">
         <div className="products">
             {
-                ps.map((p, i) => <Card  product={{ ...p, stock: 20 }} collectedFeatures={{}} id={p.id} quanty={i} key={p.id+i} />)
+                ps.map((p, i) => <Card  product={{ ...p, stock: 20 }} collectedFeatures={{}} id={p.id} quantity={i} key={p.id+i} />)
             }
         </div>
         <div className="btm">
@@ -28,27 +28,27 @@ export function PageCart() {
 
 function Card(cartProduct: {
     product: ProductInterface,
-    quanty: number,
+    quantity: number,
     id: string,
     collectedFeatures: Record<string, string | number | boolean>
 }) {
-    const { product, quanty } = cartProduct
-    const [_quanty, setQuanty] = useState(quanty);
+    const { product, quantity } = cartProduct
+    const [_quantity, setQuantity] = useState(quantity);
 
     return (
         <div className="product">
             <div className="img" style={{ backgroundImage: `url(${Host}${product.images[0]})` }}></div>
             <div className="title">{product.title}</div>
-            <div className="quanty">
+            <div className="quantity">
                 <div className="min" onClick={() => {
-                    setQuanty(_quanty - 1 < 0 ? 0 : _quanty - 1)
+                    setQuantity(_quantity - 1 < 0 ? 0 : _quantity - 1)
                 }}></div>
-                <div className="number">{_quanty}</div>
+                <div className="number">{_quantity}</div>
                 <div className="max" onClick={() => {
-                    setQuanty(_quanty + 1 > product.stock ? product.stock : _quanty + 1)
+                    setQuantity(_quantity + 1 > product.stock ? product.stock : _quantity + 1)
                 }}></div>
             </div>
-            <div className="price">{product.price * (quanty)} ₽</div>
+            <div className="price">{product.price * (quantity)} ₽</div>
             <div className="remove"></div>
         </div>
     )
