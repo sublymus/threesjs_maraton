@@ -1,5 +1,5 @@
 import { SRouter } from "../Tools/SRouter";
-export const DefaultImage = 'src/res/photo2.png';
+export const DefaultImage = '/src/res/photo2.png';
 
 const Pages = {
     '/': {

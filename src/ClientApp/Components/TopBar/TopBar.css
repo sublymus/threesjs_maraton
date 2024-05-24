@@ -24,8 +24,8 @@
     min-width: 230px;
 }
 .top-bar .logo .img{
-    width: 80px;
-    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
     border-radius: 10px;
 } 
 .top-bar .logo .name {
@@ -46,7 +46,7 @@
     justify-content: space-between;
     transition: 200ms;
     height: 50px;
-    width: 100%;
+    width: 40%;
     max-width: 400px;
     background: #fffa;
     border-radius: 20px;

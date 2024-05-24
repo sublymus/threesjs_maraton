@@ -9,7 +9,6 @@ const getClientView = (children: React.ReactNode) => {
 export const ClientView = getClientView(
     <React.StrictMode>
         <App />
-
     </React.StrictMode>,
 )
 

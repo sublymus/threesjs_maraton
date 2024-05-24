@@ -28,23 +28,33 @@
     border-radius: 20px;
     overflow: hidden;
     display: flex;
+    box-shadow: 0px 0px 10px #9469;
 }
+
+.page-profile .ctn-profile .profile-top {
+    min-height: 60px;
+    width: 100%;
+    background: #345;
+    display: flex;
+    align-items: center;
+ }
 
 .page-profile .close {
     position: absolute;
-    z-index: 1;
-    right: 0px;
-    margin: 0 5px;
-    background: no-repeat center/cover url(src/res/x.png), rgba(255, 255, 255, 0.37);
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    right:15px;
+    /* filter: invert(); */
+    background: no-repeat center/cover url(/src/res/x.png), rgba(255, 255, 255, 0.37);
+    width: 30px;
+    height: 30px;
     border-radius: 100px;
     transition: 200ms;
+    z-index: 2;
 }
 
 .page-profile .close:hover {
     transition: 200ms;
-    background: no-repeat center/cover url(src/res/x.png), rgb(255, 255, 255);
+    background: no-repeat center/cover url(/src/res/x.png), rgb(184, 184, 184);
 }
 
 .page-profile .show-photo {
@@ -76,7 +86,6 @@
 
 .page-profile .back-profile-nav {
     position: absolute;
-    /* z-index: -10; */
     width: 100%;
     height: 100%;
     filter: blur(10px);
@@ -84,70 +93,53 @@
     background: no-repeat center/cover url('/src/res/back.jpeg');
 }
 
-.page-profile .ctn-profile-nav {
-    position: relative;
-    width: 40%;
-    max-width: 400px;
-    height: 100%;
-    transition: 200ms;
-}
-
-.page-profile .ctn-profile-nav {
-    position: relative;
-    width: 30%;
-    max-width: 400px;
-    height: 100%;
-    transition: 200ms;
-}
-.page-profile .ctn-pages {
-    position: relative;
-    width: 75%;
-    height: 100%;
-    transition: 200ms;
-}
-
-.page-profile .ctn-profile-nav.min-size + .ctn-pages {
+/* 
+.page-profile .ctn-profile-nav.min-size+.ctn-pages {
     width: 100%;
 }
-.page-profile .ctn-profile-nav.min-size{
-    width: 0%;
-    max-width: 400px;
-    height: 100%;
+
+.page-profile .ctn-profile-nav.min-size {
+    transform: translateX(-400px);
     transition: 200ms;
 }
 
-
-
-
-.page-profile .ctn-profile-nav .resizer{
-    z-index: 1;
+.page-profile  .resizer {
+    position: absolute;
+    z-index: 2;
     width: 40px;
     height: 40px;
-    position: absolute;
     background: no-repeat center/cover url('/src/res/arrow-left.png');
     border-radius: 50%;
 }
-.page-profile .ctn-profile-nav.min-size .resizer{
-    
+
+.page-profile  .resizer.min {
+    position: relative;
     background: no-repeat center/cover url('/src/res/align-left.png');
-}
-/**/
-.page-profile .ctn-profile-nav.min-size .resizer:hover{
+} 
+*/
+
+/*
+.page-profile  .resizer.min:hover {
     background-color: #ffffff38;
 }
-.page-profile .ctn-profile-nav .resizer:hover{
+
+.page-profile  .resizer:hover {
     background-color: #ffffff38;
-}
+} 
+*/
 
 
 
 .page-profile .profile-nav {
-    position: absolute;
+    /* position: absolute; */
     display: flex;
+    z-index: 2;
     flex-direction: column;
     align-items: center;
-    align-content: center;
-   width: 100%;
+    min-width: 300px;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
 }
 
 .page-profile .profile-nav .profile-photo {
@@ -155,47 +147,97 @@
 }
 
 .page-profile .profile-nav .info {
-    font-weight: 600;
-    transform: translate(0, -10px);
+    font-weight: bold;
+    /* transform: translate(0, -10px); */
 }
 
-.page-profile .ctn-bubble {
-    overflow-x: hidden;
-    position: relative;
+.page-profile .profile-nav .img {
     width: 100%;
-    height: 100px;
-    /* background: rgb(45, 19, 163); */
+    height:190px;
+    min-height:190px;
+    transform: translate(0, -50px);
+    background: no-repeat center/cover url(/src/res/img/pngegg.png);
 }
 
-.page-profile .bubble {
-    position: absolute;
-    border-radius: 50%;
-}
 
 .page-profile .profile-nav ul {
     width: 100%;
+    /* height: 100%; */
     overflow: hidden;
+    transform: translateY(-100px);
 }
 
 .page-profile .profile-nav li {
     all: unset;
     display: flex;
-    justify-content: center;
     width: 100%;
-    text-align: center;
-    padding: 7px;
+    align-items: center;
+    padding: 10px;
     transition: 300ms;
-    border-radius: 10px;
     color: #444444f8;
+    cursor: pointer;
+    margin-top: 5px;
 }
 
 .page-profile .profile-nav li:hover {
-    background: #ffffff7a;
+    background: #e0c0e47a;
     transition: 300ms;
     color: #252525f8;
 }
 
 .page-profile .profile-nav li.active {
-    background: #ffffffad;
+    background: #e0c0e47a;
     color: #252525f8;
+}
+.page-profile .profile-nav li span {
+   display: inline-block;
+   width: 30px;
+   height: 30px;
+   margin: 0 30px;
+   opacity: 0.5;
+}
+.page-profile .profile-nav li span.profile {
+   background: no-repeat center/80% url(/src/res/circle-user-round.png);
+}
+.page-profile .profile-nav li span.command {
+   background: no-repeat center/80% url(/src/res/box.png);
+}
+.page-profile .profile-nav li span.cart {
+   background: no-repeat center/80% url(/src/res/shopping-cart.png);
+}
+.page-profile .profile-nav li span.service {
+   background: no-repeat center/80% url(/src/res/headset.png);
+}
+.page-profile .profile-nav li span.about {
+   background: no-repeat center/80% url(/src/res/store.png);
+}
+
+.page-profile .profile-nav .logout {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 7px;
+    transition: 300ms;
+    color: #444444f8;
+    cursor: pointer;
+    margin:0 15px;
+}
+
+.page-profile .profile-nav .logout:hover{
+    background: rgb(233, 190, 190);
+}
+.page-profile .profile-nav .logout span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 30px;
+    opacity: 0.5;
+    background: no-repeat center/80% url(/src/res/log-out.png);
+ }
+
+ .page-profile .ctn-pages {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: 200ms;
 }

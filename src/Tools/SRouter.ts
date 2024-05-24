@@ -82,6 +82,14 @@ interface UnUseAppState<T extends PageType> {
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
+    // history.pushState(self?.store.getState().pathList,self?.store.getState().pathList.join('/')||'')
+    // console.log(history.length);
+    
+    // if(hash.includes('cart')){
+    //     // history.go(0)
+    // }
+    // 
+    // console.log('ert',history.state);
     if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
     let h = '';

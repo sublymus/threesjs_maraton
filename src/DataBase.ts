@@ -5,14 +5,18 @@ export interface AppInterface {
 
 }
 
-export interface CartInterface {
-    "id": string,
-    product_id: string,
-    store_id: string,
+export interface CommandInterface {
+    id: string,
+    status: string,
+    created_at: string,
+    updated_at: string,
     quantity: number,
-    collectedFeatures: Record<string, any>,
-    "created_at": string,
-    "updated_at": string,
+    price: number,
+    payment_id: string|null,
+    images: string[],
+    title: string,
+    stock:number,
+    product_id: string
 }
 
 export interface Session {
@@ -77,7 +81,6 @@ export interface Role {
     chat_client: boolean,
     filter_command: boolean,
     manage_command: boolean,
-
     created_at: string,
     updated_at: string,
 }
@@ -158,13 +161,14 @@ export type BinderComponent = {
     store_id: string,
     price: number,
     unity: string,
+    is_default?:boolean,
     devise: string,
     created_at: string,
     updated_at: string,
     name: string,
     description: string,
     images: string,
-    icon:string[],
+    icon: string[],
     scene: null,
     code: string,
     key: string
@@ -199,7 +203,7 @@ export interface Feature {
     view: Views,
     required?: string,
     placeholder?: string;
-    default_value?: string,
+    default_value?: Component,
     lowercase?: boolean,
     uppercase?: boolean,
     capitalize?: boolean,
@@ -243,7 +247,7 @@ const gemFeature: Feature = {
     collect_type: 'string',
     icon: '/src/World/images/gem/gem.png',
     view: 'icon',
-    default_value: 'blue_garnet',
+    // default_value: 'blue_garnet',
     components: [{
         id: 'blue_garnet',
         name: 'Grenat bleu',
@@ -362,7 +366,7 @@ const metalFeature: Feature = {
     name: 'metal',
     icon: '/src/World/images/metal/metal.png',
     view: 'icon',
-    default_value: "gold",
+    // default_value: ,
     components: [
         {
             "id": "6bd884a0-82be-414a-ac45-9ef47a866bf8",

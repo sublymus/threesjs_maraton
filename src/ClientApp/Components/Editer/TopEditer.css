@@ -1,4 +1,5 @@
 .top-ctn-edit {
+    z-index: 100;
     position: absolute;
     top: 50px;
     width: 70px;

@@ -4,36 +4,37 @@
 }
 
 
-.page-about .banner{
+.page-about .banner {
     width: 100%;
     height: 250px;
     background: no-repeat 0 80%/cover url(/src/ClientApp/Layout/PageBlog/img/wrs_store_image.jpg);
 }
 
-.page-about .structure{
+.page-about .structure {
     margin: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
     /* justify-content: space-evenly; */
-    height:calc( 100%  - 300px);
+    height: calc(100% - 300px);
 
 }
 
-.page-about .name-ctn{
+.page-about .name-ctn {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-.page-about .name{
+.page-about .name {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     font-size: 4em;
     color: #fff;
 }
-.page-about .text{
+
+.page-about .text {
     display: flex;
     width: 400px;
     min-width: 200px;
@@ -43,32 +44,37 @@
     text-align: center;
     font-family: cursive;
 }
-.page-about .location{
+
+.page-about .location {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
 }
-.page-about .info{
+
+.page-about .info {
     background: rgba(51, 85, 85, 0.041);
     border-radius: 20px;
-}
-.page-about .info > div{
-   display: flex;
+    padding: 30px;
 }
 
-.page-about .info .label{
+.page-about .info>div {
+    display: flex;
+}
+
+.page-about .info .label {
     font-size: 15px;
 }
 
-.page-about .map{
-    width: 250px;
-    height: 200px;
+.page-about .map {
+    width: 350px;
+    height: 300px;
     border-radius: 10px;
     margin: 10px;
-    background: no-repeat center / 200% url(/src/ClientApp/Layout/PageBlog/img/Screenshot_20240315_122639.png);
+    background: no-repeat center /cover url(/src/res/img/map_img.jpg);
 }
+
 /* .page-about, .adress, .site, .phone{
     display: flex;
     margin: 10px;
@@ -76,18 +82,22 @@
 }
 */
 
-.page-about .icon{
+.page-about .icon {
     width: 40px;
     height: 40px;
-    margin-right:0 10px;
-}
-.page-about .adress .icon{
-    background: no-repeat center / 60% url(/src/res/map-pin.png);
-}
-.page-about .site .icon{
-    background: no-repeat center / 60% url(/src/res/globe.png);
-}
-.page-about  .phone .icon{
-    background: no-repeat center / 60% url(/src/res/phone.png);
+    margin-right: 0 10px;
+    /* filter: invert(); */
+    opacity: .7;
 }
 
+.page-about .adress .icon {
+    background: no-repeat center / 60% url(/src/res/map-pin.png);
+}
+
+.page-about .site .icon {
+    background: no-repeat center / 60% url(/src/res/globe.png);
+}
+
+.page-about .phone .icon {
+    background: no-repeat center / 60% url(/src/res/phone.png);
+}

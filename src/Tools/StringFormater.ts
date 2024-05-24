@@ -8,8 +8,8 @@ export const  toDate = (date: string) => {
 export const  limit = (text: string, max: number) => {
     return text?.length > max ? text.substring(0, max) + '..' : (text||'')
 }
-export const  getImg = (img: string,size='cover' ) => {
-    return `no-repeat center/${size} url(${img.startsWith('/') ? Host : ''}${img})`
+export const  getImg = (img: string,size='cover',addHost?:boolean) => {
+    return `no-repeat center/${size} url(${addHost===true?Host :addHost===false?'':(img.startsWith('/') ? Host : '')}${img})`
 }
 
 export const Click = (n=0.5 )=>{

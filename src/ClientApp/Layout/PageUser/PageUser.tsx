@@ -69,7 +69,7 @@ export function PageUser() {
             t = t.replace('-', '')
         }
         let count = 0;
-        t = ctn.map((c, e) => {
+        t = ctn.map((c) => {
 
             let s = '';
             for (let i = 0; i < c; i++) {
@@ -120,10 +120,7 @@ export function PageUser() {
     }
     return (check('user') &&
         <div className="user-page">
-            <div className="user-top">
-                My Profile
-            </div>
-            <div className="user-info">
+           <div className="user-info">
                 <div className="full-name" onClick={() => {
                     setIndex(1);
                 }}>
@@ -155,18 +152,6 @@ export function PageUser() {
                     <div className="label">Phone</div>
                     <div className="val">{phone}</div>
                     <div className="edit"></div>
-                </div>
-                <div className="password" onClick={() => {
-                    setIndex(5)
-                }}>
-                    <div className="icon"></div>
-                    <div className="label">Password</div>
-                    <div className="val">********</div>
-                    <div className="edit"></div>
-                </div>
-                <div className="logout">
-                    <div className="icon"></div>
-                    <div className="label">Logout</div>
                 </div>
             </div>
             <div className="ctn-list">

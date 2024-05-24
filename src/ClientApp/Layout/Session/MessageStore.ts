@@ -1,9 +1,8 @@
 import { create } from "zustand";
-import { useRegisterStore } from "../../PageAuth/RegisterStore";
-import { Host } from "../../../../Config";
-import { ListType } from "../../../../DataBase";
-import type { Message, UserInterface } from "../../../../DataBase";
-import {useDiscussionStore } from "../Discussion/DiscussionStore";
+import { useRegisterStore } from "../../Layout/PageRegister/RegisterStore";
+import { Host } from "../../../Config";
+import { ListType } from "../../../DataBase";
+import type { Message, UserInterface } from "../../../DataBase";
 import { useSessionStore } from "../Session/SessionStore";
 const NEW_DISCUSSION_STR = 'new_discussion'
 const NEW_SESSION_STR = 'new_session'
@@ -90,19 +89,11 @@ export const useMessageStore = create<DiscussionState>((set) => ({
     },
     async fetchSendMessage({ context, context_name, files, text }) {
         if (!context || !context.id) return;
-        if (context.id.startsWith(NEW_DISCUSSION_STR)) {
-            const d = await useDiscussionStore.getState().fetchCreateDiscussion(context.other.id);
-            console.log('D');
-            if (!d || !d.id) return
-            context = d;
-            // useDiscussionStore.getState().fetchDiscussions()
-            useDiscussionStore.getState().setDiscussion(d)
-        } else if (context.id.startsWith(NEW_SESSION_STR)) {
+        
+        if (context.id.startsWith(NEW_SESSION_STR)) {
             const s = await useSessionStore.getState().fetchCreateSession(context.other.id,text||'');
-            console.log('S', s);
             if (!s) return
             context = s;
-            // useSessionStore.getState().fetchSessions();
             useSessionStore.getState().setSession(s);
         }
         const h = useRegisterStore.getState().getHeaders();

@@ -4,13 +4,14 @@ import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 import { getImg } from '../../../Tools/StringFormater';
 import { SearchProduct } from "../SearchProduct/SearchProduct";
 import { useProductStore } from '../Products/ProductStore';
+import { useProfileStore } from '../../Layout/PageProfile/ProfileStore';
 
 export function TopBar() {
     const {  setAbsPath ,check } = useAppRouter();
     const {store}  = useRegisterStore();
     const { selectProduct } = useProductStore()
-    
-    const { openChild } = useAppStore();
+    const { setLastPath} = useProfileStore()
+    const { openChild ,  } = useAppStore();
     return check('top_bar')&&(
         <div className="top-bar">
             <div className="top-bar-ctn">
@@ -31,9 +32,13 @@ export function TopBar() {
                 </div>
                 <div style={{display:'flex'}}>
                 <div className="cart"  onClick={()=>{
+                    check('product') && setLastPath(1);
+                    check('catalogue') && setLastPath(0);
                      setAbsPath(['profile','cart']);
                 }}></div>
                 <div className="myprofile" onClick={()=>{
+                    check('product') && setLastPath(1);
+                    check('catalogue') && setLastPath(0);
                      setAbsPath(['profile','user']);
                 }}>
                 </div>

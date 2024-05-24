@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './ProfilePhoto.css'
-import { Host } from '../../../Config';
 import { DefaultImage } from '../../AppStore';
+import { getImg } from '../../../Tools/StringFormater';
 
 let i = 0;
 
@@ -14,11 +14,11 @@ let i = 0;
                 // setUrl(URL.createObjectURL(event.target.files[0]))
             }
         }
-        console.log();
-        const url = `${initUrl.startsWith('/')?Host:''}${initUrl}`;
-        const id  =( Math.random()+(i++)).toString();
+
+        const [id] = useState((Math.random()+(i++)).toString())
+        
         return (
-            <div className="profile-photo" style={{ backgroundImage:(props.canEdit? `url('${url}')`:`url(${url})`) }}>
+            <div className="profile-photo" style={{ background:getImg(props.photo||DefaultImage,undefined ,props.photo?undefined:false)}}>
                 <div className="open" style={{ display: props.canEdit ? 'block' : 'none' }} onClick={() => {
                     props.onOpen(initUrl);
                 }}></div>

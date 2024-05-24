@@ -1,14 +1,11 @@
 import './PageAbout.css'
 import { useAppRouter } from "../../AppStore";
 import { useRegisterStore } from '../PageRegister/RegisterStore';
-import { Host } from '../../../Config';
 import { getImg } from '../../../Tools/StringFormater';
-;
 
 export function PageAbout() {
     const { check } = useAppRouter();
     const { store } = useRegisterStore();
-    console.log(store?.banners[0], getImg(store?.banners[0]||''));
     
     return check('about') && (
         <div className="page-about" >

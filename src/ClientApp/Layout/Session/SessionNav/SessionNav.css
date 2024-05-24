@@ -1,0 +1,306 @@
+.session-nav {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: rgb(238, 252, 255);
+    position: absolute;
+    box-shadow: 0px 0px 10px  #3455 ;
+    position: relative;
+}
+.session-nav .close {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: no-repeat center/70% url(/src/res/x.png), rgba(187, 187, 187, 0.37);
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    transition: 200ms;
+    cursor: pointer;
+}
+.session-nav .close:hover {
+    background: no-repeat center/70% url(/src/res/x.png), rgba(187, 187, 187, 0.658);
+}
+
+
+.session-nav .title {
+    width: 100%;
+    min-height: 40px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.session-nav .title .label {
+    font-size: 32px;
+    font-weight: bold;
+} 
+
+.session-nav .title .add-new:hover{
+    opacity: 0.7;
+}
+.session-nav .title .add-new {
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.session-nav .title .add-new span {
+    display: block;
+    width: 30px;
+    height: 30px;
+    filter: invert();
+    background: no-repeat center/80% url(/src/res/plus.png);
+}
+
+.session-nav .options {
+    width: 100%;
+    min-height: 20px;
+    display: flex;
+    padding: 0 20px;
+}
+
+.session-nav .option {
+    width: 80px;
+    cursor: pointer;
+}
+
+.session-nav .option div {
+    position: relative;
+    display: inline-flex;
+    opacity: 0.6;
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+
+.session-nav .option:hover div {
+    background: #3455;
+}
+
+.session-nav .option div.active {
+    opacity: 1;
+    position: relative;
+    display: inline-flex;
+}
+
+.session-nav .option span {
+    position: absolute;
+    display: block;
+    background: #f00;
+    width: 5px;
+    height: 5px;
+    top: 0;
+    right: 0;
+    border-radius: 100%;
+}
+
+.session-nav .search {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+    padding: 0 10px 0 20px;
+}
+
+.session-nav .search .input {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 0 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.session-nav .search .input .icon {
+    width: 35px;
+    height: 35px;
+    background: no-repeat center/60% url(/src/res/search.png);
+}
+
+.session-nav .search .input input {
+    all: unset;
+    height: 35px;
+}
+
+.session-nav .sessions {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.session-nav .session:hover {
+    background: #3455;
+    transition: 200ms;
+}
+
+.session-nav .session.active {
+    color: #fff;
+    background: rgba(24, 46, 68, 0.842);
+    transition: 200ms;
+}
+
+.session-nav .session {
+    background: #fff;
+    width: 100%;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-left: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px #3455;
+    margin-bottom: 7px;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+.session-nav .session .photo {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.session-nav .session .right {
+    width: 100%;
+    height: 60px;
+    padding-left: 7px;
+}
+
+.session-nav .session .right .top-ctn {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.session-nav .session .right .top-ctn .name {
+    /* font-size: 0.9em; */
+}
+
+.session-nav .session.active .right .top-ctn .date{
+    color :#ffff;
+    background: none;
+}
+.session-nav .session .right .top-ctn .date {
+    font-size: 0.9em;
+    background: var(--primary-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+
+.session-nav .session .right .center-ctn {
+    width: 100%;
+    height: 20px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-style: italic;
+}
+
+.session-nav .session.active .checked{
+    filter: invert();
+}
+.session-nav .checked {
+    width: 22px;
+    height: 22px;
+    opacity: 0.5;
+    display: none;
+}
+
+.session-nav .checked.one {
+    display: block;
+    background: no-repeat center/60% url(/src/res/mark.png)
+}
+
+.session-nav .checked.double {
+    display: block;
+    background: no-repeat center/60% url(/src/res/read.png)
+}
+
+.session-nav .session .right .btm .text {
+    opacity: 0.6;
+    font-size: 0.9em;
+}
+
+.session-nav .session .right .btm .count {
+    color: #fff;
+    background: var(--primary-color);
+    width: 22px;
+    height: 22px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    display: none;
+}
+
+.session-nav .session .right .btm {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* DISCUSSION POPU */
+
+.session-popu {
+    z-index: 3;
+    width: 200px;
+    border-radius: 5px;
+    background: #fbf9ff;
+    box-shadow: var(--box-shadow);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+.session-popu > div:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.session-popu > div {
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+}
+.session-popu .icon {
+    width: 25px;
+    height: 25px;
+    padding: 5px 0;
+    margin-right: 10px;
+}
+
+.session-popu .delete{
+    color: rgba(255, 0, 0);
+}
+.session-popu .delete .icon{
+    filter: invert(24%) sepia(93%) saturate(7000%) hue-rotate(357deg) brightness(91%) contrast(123%);
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.session-popu .block .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.session-popu .as-read .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
