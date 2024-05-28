@@ -1,5 +1,5 @@
 import './ProductsListAccessor.css';
-import { useDashRoute, useDashStore } from "../../dashStore";
+import { useDashStore } from "../../dashStore";
 
 
 const topCard=  [

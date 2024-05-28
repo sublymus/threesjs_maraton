@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Category, Feature, ListType, ProductInterface } from "../../../DataBase";
+import { Feature, ListType, ProductInterface } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useProductStore } from "../PageProduct/ProductStore";
 import { useDashStore } from "../../dashStore";
@@ -32,18 +32,18 @@ export const useFeatureStore = create<DashState>((set) => ({
         
         return json?.isDeleted;
     },
-    async fetchProductsUseFeature(feature_id){
+    async fetchProductsUseFeature(_feature_id){
         set(()=>({productsUseFeature:useProductStore.getState().products}))
     },
     setSelectedFeature(selected) {
         set(()=>({selectedFeature:selected}))
     },
-    async createFeature(feature) {
+    async createFeature(_feature) {
 
         useDashStore.getState().fetchStoreVar();
         return undefined
     },
-    async updateFeature(feature) {
+    async updateFeature(_feature) {
         return undefined
     },
     async fetchFeatures(filter) {

@@ -31,12 +31,6 @@ export function PageChat() {
         sessions: <SessionsCenter />,
         surveys: <DiscussionsCenter />,
     }
-    const infos: any = {
-        discussions: <DiscussionsNav />,
-        groups: <DiscussionsNav />,
-        sessions: <DiscussionsNav />,
-        surveys: <DiscussionsNav />,
-    }
     return check('chat') && user && (
         <div className='page-chat'>
             <div className="back-close nav" style={{ display: (navSize == 'min') ? 'none' : '' }} onClick={e => {

@@ -60,10 +60,10 @@ export const useModeratorStore = create<ModeratorState>((set) => ({
             }
         }
     },
-    async fetchModeratorCommands(filter) {
+    async fetchModeratorCommands() {
         
     },
-    async fetchModeratorVisites(filter) {
+    async fetchModeratorVisites() {
         
     },
     async setSelectedModerator(selected) {
@@ -97,7 +97,7 @@ export const useModeratorStore = create<ModeratorState>((set) => ({
         set(() => ({ moderators: json }))
         return json;
     },
-    async banModerator(product_id) {
+    async banModerator() {
         return undefined
     },
 }));

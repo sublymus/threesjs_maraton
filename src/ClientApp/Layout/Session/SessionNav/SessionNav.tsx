@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAppRouter , useAppStore } from '../../../AppStore'
+import { useAppStore } from '../../../AppStore'
 import './SessionNav.css'
 import { useSessionStore } from '../SessionStore';
 import { getImg, limit, toDate } from '../../../../Tools/StringFormater';
@@ -9,7 +9,6 @@ import { useRegisterStore } from '../../../Layout/PageRegister/RegisterStore';
 export function SessionNav({ }: {}) {
     const [optionActive, setOptionActive] = useState('opened')
     const { openChild } = useAppStore();
-    const { json } = useAppRouter();
     const {
         // addSession,
         asReadSession,
@@ -21,7 +20,6 @@ export function SessionNav({ }: {}) {
         session,
         sessions,
         openSessionMessages,
-        setSessionById,
         openNav
     } = useSessionStore();
 
@@ -31,11 +29,6 @@ export function SessionNav({ }: {}) {
         store && fetchSessions()
     }, [store])
 
-    useEffect(() => {
-        if (json?.client_id) {
-            setSessionById(json?.clientid);
-        }
-    }, [json])
     useEffect(() => {
         if (session?.closed?.includes(user?.id || '')) {
             setOptionActive('closed')

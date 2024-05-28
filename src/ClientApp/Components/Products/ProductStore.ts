@@ -1,6 +1,6 @@
 
 import { create } from 'zustand'
-import {Feature, ProductInterface, Component, ListType } from '../../../DataBase'
+import { Feature, ProductInterface, Component, ListType } from '../../../DataBase'
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
@@ -32,6 +32,7 @@ export interface ProductState {
     products: ListType<ProductScenus>
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
+    setProductById(d: { product_id: string, collected: Record<string, any> }): void
     selectProduct: (id: ProductScenus) => Promise<void>,
     fetchProducts: (filter: Filter) => Promise<ListType<ProductScenus> | undefined>;
 }
@@ -43,7 +44,46 @@ export const useProductStore = create<ProductState>((set) => ({
     product: undefined,
     products: { limit: 25, list: [], page: 1, total: 0 },
     featuresCollector: undefined,
-
+    async setProductById(d) {
+        console.log('dd');
+        
+        if (!d.product_id) return;
+        console.log('d',{d});
+        
+        const ps = useProductStore.getState().products;
+        const p1 = ps.list.find((p) => p.id == d.product_id);
+        if (p1) {
+            console.log({p1});
+            
+            // const newPs = ps.list.map(p => p.id == d.product_id ? p1 : p);
+            // set(() => ({ products: { ...ps, list: newPs }, product: p1 }))
+            useProductStore.getState().selectProduct(p1)
+            set(()=>({featuresCollector: p1?.featuresCollector }))
+            showProductWorld(set,p1)
+            console.log({p1});
+            
+        } else {
+            const store = useRegisterStore.getState().store;
+            if (!store) return;
+            const query: any = {};
+            query.product_id = d.product_id;
+            query.is_features_required = true;
+            query.store_id = useRegisterStore.getState().store?.id;
+            const searchParams = new URLSearchParams({});
+            for (const key in query) {
+                const value = query[key];
+                searchParams.set(key, value);
+            }
+            const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
+            const p2 = (await response.json())?.list?.[0] as ProductScenus ||undefined
+            if(!p2) return
+            set(() => ({ products: { ...ps, list: [p2,...ps.list] }, product: p2 ,featuresCollector: p2?.featuresCollector}))
+            useProductStore.getState().selectProduct(p2)
+            showProductWorld(set,p2)
+            console.log({p2});
+            
+        }
+    },
     fetchProducts: async (filter: Filter) => {
         const store = useRegisterStore.getState().store;
         if (!store) return;
@@ -103,19 +143,19 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
     const { World } = await import(/* @vite-ignore */`${Host}${product.scene_dir}/World.js`);
 
     const world = new World() as AbstractWorld
-    await WorldManager.worldManager.initialize(world.getDependencies(), (...a) => {
+    await WorldManager.worldManager.initialize((...a) => {
         world.init(...a)
     });
     //  WorldManager.worldManager.setWorld(world);
-    const l:Function[] = []
+    const l: Function[] = []
     const collector: CollectedFeatures = {}
     product.features.list.forEach(f => {
         collector[f.id] = f.components?.find(v => !!v.is_default);
         f.default_value = collector[f.id];
-        l.push(()=>{
-            world.localLoader.getModel().then(()=>{
-                world.localLoader.updateFeature(f, f.default_value?.code||'')
-            }) 
+        l.push(() => {
+            world.localLoader.getModel().then(() => {
+                world.localLoader.updateFeature(f, f.default_value?.code || '')
+            })
         })
     });
     productCache = {
@@ -127,9 +167,9 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
                     collector[feature.id] = value
                     world.localLoader.updateFeature(feature, value.code)
                 } else {
-                    if(feature.default_value){
-                        collector[feature.id] = feature.components?.find(v=> v.is_default);
-                        feature.default_value&&world.localLoader.updateFeature(feature, feature.default_value.code) 
+                    if (feature.default_value) {
+                        collector[feature.id] = feature.components?.find(v => v.is_default);
+                        feature.default_value && world.localLoader.updateFeature(feature, feature.default_value.code)
                     }
                 }
                 set(() => ({ featuresCollector: productCache.featuresCollector && { ...productCache.featuresCollector } }))
@@ -143,6 +183,6 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
         }
     };
     WorldManager.worldManager.setWorld(world);
-    l.forEach(f=>f())
+    l.forEach(f => f())
     return PRODUCTS_CACHE[product.id] = productCache;
 }

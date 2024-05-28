@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
+// import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
+// import Stats from "three/examples/jsm/libs/stats.module.js";
+import * as ADDON from 'three/addons'
 import { Tactil } from "../Tools/Tactil";
 import { Feature } from "../DataBase";
 
-export const WorlGui: GUI | null = new GUI();
-
+export const WorlGui: any = null//new GUI();
 export interface AbstractLocalLoader {
     showFeature(uuid: string): void;
     updateFeature(feature: Feature, value: string): void;
@@ -24,6 +24,8 @@ export interface AbstractWorld {
     open(): void
     close(): void
 };
+
+
 
 const params = {
     exposure: 2.0,
@@ -51,7 +53,7 @@ export interface Dependencies {
     }
 }
 
-type i = (obj: Dependencies['obj'], renderer: THREE.WebGLRenderer , world:typeof WorldManager) => void|((obj: Dependencies['obj']) => void)
+type i = (obj: Dependencies['obj'], renderer: THREE.WebGLRenderer , world:typeof WorldManager) => void|((obj: Record<string, any>) => void)
 
 export class WorldManager {
     public static worldManager: WorldManager | null = null;
@@ -73,7 +75,7 @@ export class WorldManager {
     
     public _renderer: THREE.WebGLRenderer;
     public currentWorl: AbstractWorld | null = null;
-    private stats: Stats;
+    // private stats: Stats;
     // WorlList
     constructor(container: HTMLElement) {
         WorldManager.worldManager = this;
@@ -83,61 +85,66 @@ export class WorldManager {
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
         this._renderer.toneMappingExposure = params.exposure;
-        this.stats = new Stats();
+        // this.stats = new Stats();
         container.append(this._renderer.domElement);
-        container.append(WorldManager.tactil.getView())
+        // container.append(WorldManager.tactil.getView())
         container.style.zIndex = '-100';
 
         window.addEventListener('resize', this.onResize)
 
-        WorldManager.tactil.resize({ height: window.innerHeight, width: window.innerWidth })
+        // WorldManager.tactil.resize({ height: window.innerHeight, width: window.innerWidth })
 
-        if (WorlGui) {
-            const gui = WorlGui.addFolder('World');
-            const toneMappingFolder = gui.addFolder('tone mapping');
-            toneMappingFolder.close();
+        // if (WorlGui) {
+        //     const gui = WorlGui.addFolder('World');
+        //     const toneMappingFolder = gui.addFolder('tone mapping');
+        //     toneMappingFolder.close();
 
-            toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
-                .onChange(() => {
-                    this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
-                });
+        //     toneMappingFolder.add(params, 'toneMapping' as any, Object.keys(toneMappingOptions))
+        //         .onChange(() => {
+        //             this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
+        //         });
 
-            toneMappingFolder.add(params, 'blurriness', 0, 1)
+        //     toneMappingFolder.add(params, 'blurriness', 0, 1)
 
-                .onChange((value) => {
-                    if (this.currentWorl) this.currentWorl.getScene().backgroundBlurriness = value;
-                });
+        //         .onChange((value) => {
+        //             if (this.currentWorl) this.currentWorl.getScene().backgroundBlurriness = value;
+        //         });
 
-            toneMappingFolder.add(params, 'intensity', 0, 1)
+        //     toneMappingFolder.add(params, 'intensity', 0, 1)
 
-                .onChange((value) => {
-                    if (this.currentWorl) this.currentWorl.getScene().backgroundIntensity = value;
-                });
+        //         .onChange((value) => {
+        //             if (this.currentWorl) this.currentWorl.getScene().backgroundIntensity = value;
+        //         });
 
-            toneMappingFolder.add(params, 'exposure', 0, 2)
+        //     toneMappingFolder.add(params, 'exposure', 0, 2)
 
-                .onChange(() => {
+        //         .onChange(() => {
 
-                    this._renderer.toneMappingExposure = params.exposure;
+        //             this._renderer.toneMappingExposure = params.exposure;
 
-                });
-        }
-        WorlGui?.close()
+        //         });
+        // }
+        // WorlGui?.close()
 
     }
-    public async initialize(dependencies: Dependencies, initializer: i) {
-        const obj: any = {};
-        await new Promise(async (rev) => {
-            for (const key in dependencies.path) {
-                if (Object.prototype.hasOwnProperty.call(dependencies.path, key)) {
-                    const path = dependencies.path[key];
-                    const module = await import(/* @vite-ignore */ path);
-                    obj[key] = module[key]||module;
-                }
-            }
-            rev(null)
-        });
-        initializer(obj, this._renderer , WorldManager );
+    public async initialize(initializer: i) {
+        // // const obj: any = {};
+        // await new Promise(async (rev) => {
+        //     // for (const key in dependencies.path) {
+        //     //     if (Object.prototype.hasOwnProperty.call(dependencies.path, key)) {
+        //     //         const path = dependencies.path[key];
+        //     //         console.log('==>',path);
+                    
+        //     //         const module = await import(/* @vite-ignore */ path);
+        //     //         console.log('ok',path);
+        //     //         obj[key] = module[key]||module;
+        //     //     }
+        //     // }
+        //     // rev(null)
+        // });
+        console.log('three , addon');
+        
+        initializer({THREE, ADDON}, this._renderer , WorldManager );
     }
 
     setWorld(world: AbstractWorld) {
@@ -159,7 +166,7 @@ export class WorldManager {
 
     animus = (time: number) => {
         const t = time * 0.001;
-        this.stats.update();
+        // this.stats.update();
         if (this.currentWorl) {
             this.currentWorl.update(t)
             this._renderer.render(this.currentWorl.getScene(), this.currentWorl.getCamera())

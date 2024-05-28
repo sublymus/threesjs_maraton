@@ -7,7 +7,7 @@ import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { getImg } from "../../../Tools/StringFormater";
 
 export function PageCart() {
-    const { check } = useAppRouter();
+    const { check, setAbsPath } = useAppRouter();
     const { carts, fetchCarts,confirmCommand } = useCommandStore();
     const { store } = useRegisterStore()
     useEffect(() => {
@@ -33,7 +33,11 @@ export function PageCart() {
                 <div className="total">Total : <span>{Math.trunc(total * 100) / 100}</span> ₽</div>
             </div>
             <div className="command" onClick={()=>{
-                confirmCommand()
+                confirmCommand().then((ok)=>{   
+                    if(ok){
+                        setAbsPath(['profile','command'])
+                    }
+                })
             }}> COMMAND</div>
         </div>
     </div>

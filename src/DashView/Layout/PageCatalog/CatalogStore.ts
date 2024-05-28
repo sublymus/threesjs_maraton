@@ -19,9 +19,6 @@ interface DashState {
 }
 
 
-const CATALOG_CACHE: {
-    all?: CatalogueInterface[];
-} & Record<string, any> = {};
 export const useCatalogStore = create<DashState>((set) => ({
     catalogs: undefined,
     selectedCatalog: undefined,

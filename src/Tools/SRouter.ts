@@ -90,15 +90,17 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
     // }
     // 
     // console.log('ert',history.state);
+    
     if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
-    let h = '';
-    let h_json = ''
-    let json = undefined
-    if (hash.includes('=')) {
-        const index = hash.indexOf('=');
-        h = hash.substring(0, index);
-        h_json = hash.substring(index + 1, hash.length);
+let h = '';
+let h_json = ''
+let json = undefined
+if (hash.includes('=')) {
+    const index = hash.indexOf('=');
+    h = hash.substring(0, index);
+    h_json = hash.substring(index + 1, hash.length);
+    console.log({h,h_json});
         try {
             json = h_json && JSON.parse(h_json);
         } catch (error) {
@@ -144,6 +146,8 @@ export class SRouter<T extends PageType = PageType>{
                 self.isInitialized = true;
             },
             navNext() {
+                console.log('navNext');
+                
                 history.forward();
                 return;
             },
@@ -152,10 +156,13 @@ export class SRouter<T extends PageType = PageType>{
                 return self.store.getState()
             },
             navBack() {
+                console.log('navBack');
                 history.back();
                 return;
             },
             setPath(...paths) {
+
+                console.log('setPath');
                 self.editPath(paths);
                 _qs = undefined;
             },
@@ -177,6 +184,8 @@ export class SRouter<T extends PageType = PageType>{
                 return true
             },
             setAbsPath(paths) {
+
+                console.log('setAbsPath');
                 let nav: string[] = ['/'];
                 let currentPage = pages['/'];
                 for (const path of paths) {
@@ -210,6 +219,8 @@ export class SRouter<T extends PageType = PageType>{
         return this.store
     }
     navHistoryUpdate(pathList: string[]) {
+
+        console.log('navHistoryUpdate');
         let path = pathList.join('/').replace('//', '');
         try {
             if(_qs) path += '='+ JSON.stringify(_qs);

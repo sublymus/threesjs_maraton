@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import './BottomEditer.css'
 import { useProductStore } from '../Products/ProductStore';
 import { Feature } from '../../../DataBase';
-import { getImg } from '../../../Tools/StringFormater';
 import { Host } from '../../../Config';
 ;
 

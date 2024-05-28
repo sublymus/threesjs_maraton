@@ -1,6 +1,6 @@
 import "./PageNewStore.css";
 import { useWebRoute, useWebStore } from '../../WebStore'
-import { Host, Local } from "../../../Config";
+import { Local } from "../../../Config";
 import { useEffect, useState } from "react";
 import { generateUid } from "../../../Tools/uidGenerator";
 import { useWindowSize } from "../../../Hooks";
@@ -10,7 +10,7 @@ import { getImg } from "../../../Tools/StringFormater";
 export function PageNewStore() {
     const [id] = useState(generateUid());
     const { current, setAbsPath } = useWebRoute();
-    const { owner, createStore, deleteStore, editStore, selectedStore } = useWebStore();
+    const { createStore, deleteStore, editStore, selectedStore } = useWebStore();
 
     const [collected, setCollected] = useState<Record<string, any>>(selectedStore || {});
     const [fileLogo, setFileLogo] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: (current('edit_store')||'')&&`${selectedStore.logo[0]}` } : null)
@@ -169,7 +169,7 @@ export function PageNewStore() {
                     </div>
                     <div className="address">
                         <label htmlFor={id + 'address'}>Address</label>
-                        <input type="text" id={id + 'address'} value={''} placeholder="Address" onChange={(e) => {
+                        <input type="text" id={id + 'address'} value={''} placeholder="Address" onChange={() => {
                             setCollected({
                                 ...collected,
                             })

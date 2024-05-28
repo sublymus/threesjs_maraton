@@ -26,7 +26,7 @@ export function TopBar() {
                         openChild(<SearchProduct  setProduct={(p)=>{
                             selectProduct(p);
                             setAbsPath(['product'])
-                        }}/>)
+                        }}/>, true)
                     }}>
                     <div className="icon-research"></div>
                 </div>

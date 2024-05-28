@@ -10,15 +10,13 @@ import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
 import { useFeatureStore } from '../FeatureStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
-import { ImageViewer } from '../../../Component/ImageViewer/ImageViewer';
 import { getImg, limit } from '../../../../Tools/StringFormater';
 
 
 export function FeaturesDash() {
     const { current, setAbsPath } = useDashRoute();
-    const { selectedFeature, createFeature, updateFeature, fetchProductsUseFeature, productsUseFeature, setSelectedFeature, removeFeature } = useFeatureStore();
-    const [collected, setCollected] = useState<Record<string, any>>({});
-    const [isCheckRequired, setIsCheckRequired] = useState(false);
+    const { selectedFeature, createFeature, fetchProductsUseFeature, productsUseFeature, setSelectedFeature, removeFeature } = useFeatureStore();
+    const [collected] = useState<Record<string, any>>({});
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
@@ -32,7 +30,7 @@ export function FeaturesDash() {
 
     const isNew = current('new_feature');
     const isDash = current('dash_features');
-    const [featureIcon, setFeatureIcon] = useState<{ url?: string, file?: File }>({ url: selectedFeature?.icon?.[0] })
+    const [featureIcon] = useState<{ url?: string, file?: File }>({ url: selectedFeature?.icon?.[0] })
     return (isDash || isNew) && (
         (!selectedFeature && isDash) ? (
             <div className="not-found">
@@ -62,7 +60,7 @@ export function FeaturesDash() {
                         <InputText editable label='Name' value={(selectedFeature?.name || '')} />
                         <label htmlFor='choise_feature_icon' className="choise_icon">
                             <div className="ctn">
-                                <input type="file" name="choise_feature_icon" id="choise_feature_icon" onChange={(e) => {
+                                <input type="file" name="choise_feature_icon" id="choise_feature_icon" onChange={(_e) => {
 
                                 }} />
                                 <div className="icon" style={{ background: getImg(selectedFeature?.icon[0] || '') }}></div>

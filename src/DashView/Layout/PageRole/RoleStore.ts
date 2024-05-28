@@ -14,7 +14,6 @@ interface RoleState {
     newRole(data: any): Promise<any>,
     fetchRoles(filter?: Record<string, any>): Promise<ListType<Role>|undefined>;
     setSelectedRole(selected: Role | undefined): Promise<void>;
-    banRole(role_id: string): Promise<string | undefined>
     setRoleById(role_id:string):void;
 }
 
@@ -184,7 +183,5 @@ export const useRoleStore = create<RoleState>((set) => ({
         set(() => ({ roles: json }))
         return json
     },
-    async banRole(role_id) {
-        return undefined
-    },
+    
 }));

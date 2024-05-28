@@ -1,6 +1,5 @@
 import "./PageHome.css";
 import { useWebRoute, useWebStore } from '../../WebStore'
-import { Local } from "../../../Config";
 
 const icons: string[] = ['img1.png', 'img2.png', 'img3.svg', 'img4.png', 'img5.svg'].map(m=> '/src/res/img/'+m);
 

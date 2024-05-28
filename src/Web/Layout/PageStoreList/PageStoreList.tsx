@@ -1,14 +1,12 @@
 import "./PageStoreList.css";
 import { useWebRoute, useWebStore } from '../../WebStore'
-import { Host, Local } from "../../../Config";
-import { useState } from "react";
+import { Host } from "../../../Config";
 
 export function PageStoreList() {
 
     const { current, setAbsPath } = useWebRoute();
-    const { owner, stores, createStore  , setSelectedStore} = useWebStore();
-    const [collect] = useState<Record<string, any>>({});
-
+    const { stores, setSelectedStore} = useWebStore();
+   
     return current('store_list') && (
         <div className="page-list-store">
             <div className="center-content">

@@ -54,7 +54,7 @@ export function Dash() {
     
     const { currentChild, blur ,openChild, fetchUsersVar, fetchStoreVar, T , setT ,back_color } = useDashStore();
     const { authenticateUser, user , store } = useRegisterStore();
-    const { pathList, setAbsPath , qs,} = useDashRoute()
+    const { pathList, setAbsPath ,} = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
     const paths: string[] = []
     

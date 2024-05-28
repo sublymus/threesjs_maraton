@@ -75,7 +75,14 @@ async function setCatalogueCategory(catalogue: CatalogueInterface) {
         const { LocalLoader } = await import(/* @vite-ignore */`${Host}${category.scene_dir}/LocalLoader.js`)
         const loader = new LocalLoader() as AbstractLocalLoader;
 
-        await WorldManager.worldManager?.initialize(loader.getDependencies(), loader.init)
+        console.log('cate');
+        
+        await WorldManager.worldManager?.initialize( (d)=>{
+            console.log('-----', d);
+            //@ts-ignore
+            loader.init(d);
+        
+        })
 
         CATALOGUE_CATEGORY_LOADER_CACHE[catalogue.id].push(loader)
         const model = await loader.getModel();

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ListType, Role, UserInterface, UserStore } from "../../../DataBase";
+import { ListType, UserInterface, UserStore } from "../../../DataBase";
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
 import { useDashRoute, useDashStore } from "../../dashStore";
@@ -20,7 +20,7 @@ interface CollaboratorState {
 export const useCollaboratorStore = create<CollaboratorState>((set) => ({
     collaborators:undefined,
     selectedCollaborator:undefined,
-    async updateCollaborator(data) {
+    async updateCollaborator(_data) {
         
     },
     async change_collaborator_role(data){
@@ -176,7 +176,7 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         set(() => ({ collaborators: json }));
         return json;
     },
-    async banCollaborator(collaborator_id) {
+    async banCollaborator(_collaborator_id) {
         return undefined
     },
 }));

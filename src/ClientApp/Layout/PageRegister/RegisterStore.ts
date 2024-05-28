@@ -6,6 +6,7 @@ import { StoreInterface, UserInterface, UserStore } from "../../../DataBase";
 interface RegisterState {
     user: UserInterface | undefined;
     store: StoreInterface | undefined,
+    storePromise: Promise<StoreInterface | undefined>,
     userStore: UserStore | undefined,
     openAuth: boolean;
     disconnection(): Promise<void>;
@@ -20,6 +21,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
     store: undefined,
     userStore: undefined,
     openAuth: false,
+    storePromise:Promise.resolve(undefined),
     async updateUser({ name, photos, id }) {
 
         const fromData = new FormData();
@@ -112,7 +114,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
                 return //clear();
             }
             const _user = { ...user, ...js.user };
-            set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false }))
+            set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false , storePromise: Promise.resolve(js.store)}))
 
             localStorage.setItem('user', JSON.stringify(_user));
         }
@@ -131,7 +133,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
 
             try {
                 let js = await response.json();
-                set(() => ({ store: js }));
+                set(() => ({ store: js , storePromise: Promise.resolve(js) }));
             } catch (error) {
 
             }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './ProfilePhoto.css'
 import { DefaultImage } from '../../AppStore';
 import { getImg } from '../../../Tools/StringFormater';
@@ -6,7 +6,7 @@ import { getImg } from '../../../Tools/StringFormater';
 let i = 0;
 
     export function ProfilePhoto(props: {photo:string|undefined, onOpen: (photo: string) => any, onChange: (fileList: FileList|null) => any, canOpen: boolean, canEdit: boolean }) {
-        const [initUrl ,  setInitUrl] = useState(props.photo || DefaultImage);
+        const [initUrl ] = useState(props.photo || DefaultImage);
     
         const onImageChange = (event: any) => {
             if (event.target.files && event.target.files[0]) {

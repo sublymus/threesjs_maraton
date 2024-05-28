@@ -4,7 +4,6 @@ import { Host } from "../../../Config";
 import { ListType } from "../../../DataBase";
 import type { Message, UserInterface } from "../../../DataBase";
 import { useSessionStore } from "../Session/SessionStore";
-const NEW_DISCUSSION_STR = 'new_discussion'
 const NEW_SESSION_STR = 'new_session'
 
 type ContextName = 'discussions'|'groups'|'sessions';
@@ -34,7 +33,7 @@ interface DiscussionState {
     fetchDeleteMessageMe(message_id: string): Promise<boolean>
     fetchEditMessage(data: { message_id: string, text: string }): Promise<Message | undefined>
 }
-export const useMessageStore = create<DiscussionState>((set) => ({
+export const useMessageStore = create<DiscussionState>((_set) => ({
     async fetchEditMessage(data) {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return

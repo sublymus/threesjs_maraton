@@ -2,7 +2,7 @@ import { FilterMapper } from '../../../type';
 import './FilterLevel.css'
 
 
-export const FilterLevel = (filterInterval: [number, number], defaultValue: number): FilterMapper => {
+export const FilterLevel = (filterInterval: [number, number], _defaultValue?: number): FilterMapper => {
 
     return {
         getView(name, _onChange) {

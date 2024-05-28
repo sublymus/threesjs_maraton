@@ -11,7 +11,7 @@ interface CommandStore {
     updateCommand(command_id: string, quantity?: number, collected?: Record<string, any>): Promise<CommandInterface | undefined>
     confirmCommand(): Promise<boolean>
     deleteCommand(command_id: string): Promise<boolean>
-    addProductToCart(product_id: string, quantity: number, collected: Record<string, any>): Promise<void>
+    addProductToCart(product_id: string, quantity: number, collected: Record<string, any>): Promise<CommandInterface | undefined>
 }
 export const useCommandStore = create<CommandStore>((set) => ({
     commands: undefined,
@@ -45,7 +45,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
         const query: any = {};
         fromData.append('command_id', command_id);
         quantity && fromData.append('quantity', `${quantity}`);
-        collected && fromData.append('collectedFeatures', JSON.stringify(collected));
+        collected && fromData.append('collected_features', JSON.stringify(collected));
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
@@ -70,8 +70,37 @@ export const useCommandStore = create<CommandStore>((set) => ({
 
         return cart
     },
-    async addProductToCart(product_id, quantity = 1, collected) {
+    async addProductToCart(product_id, quantity = 1, collected={}) {
+        const h = useRegisterStore.getState().getHeaders()
+        if (!h) return
+        const fromData = new FormData();
+        const query: any = {};
+        fromData.append('product_id', product_id);
+        fromData.append('quantity', `${quantity}`);
+        fromData.append('collected_features', JSON.stringify(collected));
+        const searchParams = new URLSearchParams({});
+        for (const key in query) {
+            const value = query[key];
+            searchParams.set(key, value);
+        }
+        const response = await fetch(`${Host}/create_command`, {
+            method: 'POST',
+            headers: h.headers,
+            body:fromData
+        });
+        const cart = (await response.json()) as CommandInterface
+        if (!cart.id) return;
+        const c = useCommandStore.getState().carts;
+        set(() => ({
+            carts: {
+                limit: c?.limit || 25,
+                page: c?.page || 1,
+                total: c?.total || 0,
+                list: [...(c?.list || []).map(f => f.id == cart.id ? cart : f)]
+            }
+        }));
 
+        return cart
     },
     async confirmCommand() {
         const h = useRegisterStore.getState().getHeaders()
@@ -86,7 +115,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
         useCommandStore.getState().fetchCommands({});
         return true
     },
-    async fetchCarts(filter) {
+    async fetchCarts() {
         const h = useRegisterStore.getState().getHeaders()
         if (!h) return
         const query: any = {};
@@ -105,7 +134,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
 
         return carts
     },
-    async fetchCommands(filter) {
+    async fetchCommands() {
         const h = useRegisterStore.getState().getHeaders()
         if (!h) return
         const query: any = {};

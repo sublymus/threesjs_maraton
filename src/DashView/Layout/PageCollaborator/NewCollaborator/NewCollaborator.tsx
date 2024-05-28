@@ -6,19 +6,18 @@ import { useWindowSize } from '../../../../Hooks';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { ChoiseRole } from "../../../Component/ChoiseRole/ChoiseRole";
 import { InputText } from '../../../Component/Form/Input';
-import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function NewCollaborator() {
 
 
     const { current } = useDashRoute();
-    const { selectedCollaborator, addCollaborator } = useCollaboratorStore();
+    const { addCollaborator } = useCollaboratorStore();
     const { store } = useRegisterStore()
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-    const [collected, setCollected] =  useState<Record<string, any>>({});
+    const [collected] =  useState<Record<string, any>>({});
     useEffect(() => {
         // if (selectedCategory)
         //     fetchCategoryProducts({

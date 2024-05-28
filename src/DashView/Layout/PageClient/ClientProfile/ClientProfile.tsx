@@ -103,7 +103,7 @@ export function ClientProfile() {
                             status: StatusElement,
                             created_at: GenericList.DateStringElement({ size: 200 }),
                         }}
-                        onItemsSelected={(item) => {
+                        onItemsSelected={() => {
                             // s(item[0] as any);
                             // setAbsPath(['command']);
                         }}
@@ -141,7 +141,7 @@ export function ClientProfile() {
                             status: StatusElement,
                             created_at: GenericList.DateStringElement({ size: 500 }),
                         }}
-                        onItemsSelected={(item) => {
+                        onItemsSelected={() => {
                             // setSelectedCategory(item[0] as any);
                             setAbsPath(['products', 'dash_product']);
                         }}

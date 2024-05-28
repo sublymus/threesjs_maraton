@@ -19,6 +19,7 @@ export function Web() {
 
     return (
         <div className="web">
+            <div className="background"></div>
             <TopBar/>
             <div className="page-ctn">
                 <PageHome />

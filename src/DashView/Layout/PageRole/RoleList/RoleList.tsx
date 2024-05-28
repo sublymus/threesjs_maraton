@@ -2,13 +2,11 @@ import { useDashRoute } from '../../../dashStore';
 import './RoleList.css'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { useRoleStore } from '../RoleStore'
-import { Host } from '../../../../Config';
 import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
 import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
 import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
 import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
-import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'

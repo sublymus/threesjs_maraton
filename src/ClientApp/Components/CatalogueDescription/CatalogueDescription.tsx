@@ -3,7 +3,7 @@ import "./CatalogueDescription.css";
 import { useCatalogueStore } from "../Catalogue/CatalogueStore";
 import { useProductStore } from "../Products/ProductStore";
 export function CatalogueDescription() {
-    const {  check,setAbsPath } = useAppRouter();
+    const {  check,qs } = useAppRouter();
     const { catalogue, selectedCategory } = useCatalogueStore();
     const {fetchProducts , selectProduct}= useProductStore();
     return check( 'catalogue_description') && (
@@ -19,7 +19,7 @@ export function CatalogueDescription() {
                 }).then((list)=>{
                     if(!list?.list[0]) return
                     selectProduct(list.list[0])
-                    setAbsPath(['product'])
+                    qs({product_id:list?.list[0].id}).setAbsPath(['product'])
                 })
             }}> See all {selectedCategory?.label}</span>
         </div>

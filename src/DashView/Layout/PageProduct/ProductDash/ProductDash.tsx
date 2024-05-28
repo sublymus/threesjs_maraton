@@ -23,9 +23,9 @@ enum StatusMap {
 
 export function ProductDash() {
 
-    const { current, setAbsPath, setPath, json } = useDashRoute();
+    const { current, setAbsPath, json } = useDashRoute();
     const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct, setProductById } = useProductStore();
-    const [isCheckRequired, setIsCheckRequired] = useState(false);
+    const [isCheckRequired,] = useState(false);
 
     const [error, setError] = useState('')
 
@@ -131,7 +131,7 @@ export function ProductDash() {
                             }} />
                         </div>
                         <div className="editor-features">
-                            <ChoiseFeatures features={isDash && (selectedProduct?.features)} onChange={(ids) => {
+                            <ChoiseFeatures features={isDash && (selectedProduct?.features?.list)} onChange={(ids) => {
                                 collected['features'] = ids;
                                 console.log(collected);
                             }} />

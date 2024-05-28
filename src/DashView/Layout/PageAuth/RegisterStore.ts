@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { Host } from "../../../Config";
 import { StoreInterface, UserInterface, UserStore } from "../../../DataBase";
 
-const channels:string[] = []
 interface RegisterState {
     user: UserInterface | undefined;
     store: StoreInterface | undefined,
@@ -110,8 +109,6 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             const _user = { ...user, ...js.user };
             set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false }))
             localStorage.setItem('user', JSON.stringify(_user));
-            transmitListenner(set, user)
-
         } else {
             localStorage.removeItem('user');
             localStorage.removeItem('store');
@@ -128,7 +125,3 @@ export const useRegisterStore = create<RegisterState>((set) => ({
         return {headers ,user, store}
     }
 }));
-
-function transmitListenner(set:(cb:(state:RegisterState)=>Partial<RegisterState>)=>any, user:UserInterface) {
-    
-}

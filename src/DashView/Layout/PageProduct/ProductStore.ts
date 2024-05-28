@@ -75,7 +75,7 @@ export const useProductStore = create<ProductState>((set) => ({
                 const list: string[] = [];
                 Object.keys(d).sort((a, b) => {
                     return (d[a]?.index || 0) - (d[b]?.index || 0)
-                }).forEach((k, i) => {
+                }).forEach((k) => {
                     list.push(k);
                     if (d[k].isLocal) {
                         formData.append(k, d[k].file as Blob);

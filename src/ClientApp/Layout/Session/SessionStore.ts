@@ -22,7 +22,6 @@ interface SessionState {
     asReadSession(session: Session): void
     deleteSession(session: Session): void
     openSessionMessages(session_id: string): void
-    setSessionById(session_id:string):void
 }
 
 type setType = ((cb: (data: SessionState) => Partial<SessionState>) => any)
@@ -39,35 +38,6 @@ export const useSessionStore = create<SessionState>((set) => ({
     },
     setSession(session) {
         set(() => ({ session }));
-    },
-    async setSessionById(client_id) {
-        setTimeout(async () => {
-            // const list = useSessionStore.getState().sessions;
-            // const currentSession = list?.find((l) => l.other.id == client_id);
-
-            // console.log('current Session', currentSession);
-
-            // if (currentSession) {
-            //     const ms = await useMessageStore.getState().fetchMessages(currentSession.id,'sessions');
-            //     set(() => ({ session: currentSession, messages: ms }));
-            // } else {
-            //     const h = useRegisterStore.getState().getHeaders();
-            //     if (!h) return
-            //     const response = await fetch(`${Host}/get_sessions?collaborator_id=${client_id}&store_id=${h.store.id}`, {
-            //         headers: h.headers,
-            //     });
-            //     const existSession  = (await response.json() as Session[])[0];
-                
-            //     if (existSession) {
-            //         const ms = await useMessageStore.getState().fetchMessages(existSession.id,'sessions');
-            //         set(() => ({ session: existSession, messages: ms }));
-            //     } else {
-            //         const collabo = useClientStore.getState().clients?.list.find((c)=>c.id ==client_id)|| (await useClientStore.getState().fetchClients({ query: { user_id: client_id } }))?.list[0]
-            //         console.log('collabo', collabo);
-            //         collabo && useSessionStore.getState().addSession(collabo)
-            //     }
-            // }
-        }, 400);
     },
     async openSessionMessages(session_id) {
         const messages = await useMessageStore.getState().fetchMessages(session_id,'sessions');

@@ -45,20 +45,20 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
             chance: []
         })
         CatalogueWorld.catalogueWorld = this;
-        WorldManager.tactil.addListener('step', (step) => {
-            this.indexBeforLastRemove = -1
-            if (step.x != 0) {
-                clearTimeout(this.outId)
-                let s = step.x / 60;
-                const l = 0.2;
-                s = s > l ? l : (s < -l ? -l : s)
-                this.setIndex(this.index + s);
-                this.outId = setTimeout(() => {
-                    this.setIndex(Math.round(this.index));
-                }, 500);
-            }
-        })
-        WorldManager.tactil.visibility(true);
+        // WorldManager.tactil.addListener('step', (step) => {
+        //     this.indexBeforLastRemove = -1
+        //     if (step.x != 0) {
+        //         clearTimeout(this.outId)
+        //         let s = step.x / 60;
+        //         const l = 0.2;
+        //         s = s > l ? l : (s < -l ? -l : s)
+        //         this.setIndex(this.index + s);
+        //         this.outId = setTimeout(() => {
+        //             this.setIndex(Math.round(this.index));
+        //         }, 500);
+        //     }
+        // })
+        // WorldManager.tactil.visibility(true);
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.01, 300)
         this.camera.lookAt(0, 0, 0);
@@ -128,7 +128,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         })
     }
     open(): void {
-        WorldManager.tactil.visibility(true);
+        // WorldManager.tactil.visibility(true);
     }
     close(): void {}
 

@@ -15,7 +15,6 @@ import { useMessageStore } from "../../ChatMessage/MessageStore";
 export function DiscussionsCenter() {
     const {
         discussion: d,
-        discussions,
         messages: ms,
     } = useDiscussionStore();
     const {

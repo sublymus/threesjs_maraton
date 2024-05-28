@@ -1,16 +1,10 @@
-import { useState } from 'react';
-import { useAppRouter  , DefaultImage} from '../../AppStore'
-import { ProfilePhoto } from "../../Components/ProfilePhoto/ProfilePhoto";
+import { useAppRouter} from '../../AppStore'
 import './PageRegister.css';
-import { useProfileStore } from "../PageProfile/ProfileStore";
-import React from "react";
-import { Host } from '../../../Config';
 import { useRegisterStore } from '../PageRegister/RegisterStore';
 
 export function PageRegister({login, create}:{login?:boolean, create?:boolean}) {
     const { getAccess} = useRegisterStore();
-    const { openPhoto}= useProfileStore(); 
-    const { check, setPath } = useAppRouter();
+    const { check } = useAppRouter();
    const canCreate = create||check('create');
     const canLogin = login||check('login');
     

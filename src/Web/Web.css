@@ -1,19 +1,25 @@
+body{
+    background: linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124));
+}
 .web {
     width: 100%;
-    height: 100%;
-    background: linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124));
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+.web .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    height: 100%;
+    background: url(/src/res/img/noise.png);
+    opacity: 0.4;
+}
 .web .page-ctn{
     width: 95%;
     max-width: 2000px;
-    height: var(100% - 50px);
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    height: calc(100% - 0px);
+  
 }

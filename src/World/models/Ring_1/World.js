@@ -63,7 +63,7 @@ class World {
             (this.camera).updateProjectionMatrix();
         })
 
-        this.controls = new this.dependencies.obj.OrbitControls(this.camera, renderer.domElement)
+        this.controls = new this.dependencies.obj.OrbitControls(this.camera, this.WorldManager.tactil.getView())
         this.controls.target.z = 0;
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
@@ -86,7 +86,7 @@ class World {
     open() {
         if (this.controls) this.controls.enabled = true;
        console.log('this.dependencies.obj.WorldManager',this.WorldManager);
-        this.WorldManager.tactil.visibility(false);
+        // this.WorldManager.tactil.visibility(false);
     }
     close() {
         if (this.controls) this.controls.enabled = false;

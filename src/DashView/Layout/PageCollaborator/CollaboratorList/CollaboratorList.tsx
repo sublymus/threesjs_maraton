@@ -57,7 +57,7 @@ export function CollaboratorList() {
                         email: GenericList.StringElement({ size:200}),
                         status:StatusElement,
                         role_id:{
-                            getView(label, value, e, setRef) {
+                            getView(_label, value, e, setRef) {
                                 return (
                                     <div key={e.id} ref={setRef}>{roles?.list.find(r=>r.id == value)?.name}</div>
                                 )

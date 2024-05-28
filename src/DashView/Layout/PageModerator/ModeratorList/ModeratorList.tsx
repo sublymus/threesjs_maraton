@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
 export function ModeratorList() {
-    const { current , setAbsPath, qs } = useDashRoute();
+    const { current , qs } = useDashRoute();
     const { moderators , setSelectedModerator , fetchModerators} = useModeratorStore();
     const { store } = useRegisterStore();
     useEffect(()=>{ 
@@ -53,7 +53,7 @@ export function ModeratorList() {
                         },
                         name: GenericList.StringElement({ size_interval: [50, 200] }),
                         status:{
-                            getView(label, value, e, setRef) {
+                            getView(label, _value, e, setRef) {
                                 return (StatusElement.getView(label,'VISIBLE',e, setRef))
                             },
                         },

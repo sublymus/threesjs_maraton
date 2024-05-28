@@ -79,8 +79,12 @@
      height: 50px;
      align-items: center;
  }
+ .summary .summary-command .btn:hover{
+    background: #3459;
+ }
  .summary .summary-command .btn{
     background: #345;
     padding: 5px 10px;
     border-radius: 10px;
+    cursor: pointer;
  }

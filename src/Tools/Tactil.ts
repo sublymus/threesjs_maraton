@@ -15,25 +15,25 @@ export class Tactil extends Emitter<VECTOR , typeof events> {
     private marge = 1;
 
     private tactil: HTMLDivElement;
-    private scrollable: HTMLDivElement;
+    // private scrollable: HTMLDivElement;
     private progress: VECTOR = {
         x: 0,
         y: 0
     };
-    resize(rec: { width: number, height: number }) {
-        this.tactil.style.width = rec.width + 'px';
-        this.tactil.style.height = rec.height + 'px';
-        this.tactil.style.top = 0 + 'px';
-        this.tactil.style.left = 0 + 'px';
+    resize(_rec: { width: number, height: number }) {
+        // this.tactil.style.width = rec.width + 'px';
+        // this.tactil.style.height = rec.height + 'px';
+        // this.tactil.style.top = 0 + 'px';
+        // this.tactil.style.left = 0 + 'px';
 
-        this.rect = rec;
+        // this.rect = rec;
 
-        this.scrollable.style.width = (this.rect.width * 2) + 'px';
-        this.scrollable.style.height = (this.rect.height * 2) + 'px';
+        // this.scrollable.style.width = (this.rect.width * 2) + 'px';
+        // this.scrollable.style.height = (this.rect.height * 2) + 'px';
 
     }
-    visibility(isVisible: boolean) {
-        this.tactil.style.display = isVisible ? 'block' : 'none'
+    visibility(_isVisible: boolean) {
+        // this.tactil.style.display = isVisible ? 'block' : 'none'
     }
 
     constructor() {
@@ -44,11 +44,11 @@ export class Tactil extends Emitter<VECTOR , typeof events> {
             step: []
         })
         this.tactil = document.createElement('div');
-        this.scrollable = document.createElement('div');
-        this.tactil.style.position = 'absolute';
-        this.tactil.style.overflow = 'scroll';
+        // this.scrollable = document.createElement('div');
+        // this.tactil.style.position = 'absolute';
+        // this.tactil.style.overflow = 'scroll';
         this.tactil.className = 'tactil'
-        this.tactil.append(this.scrollable);
+        // this.tactil.append(this.scrollable);
 
         function isMounted(node: Node) {
             if (node.nodeType === Node.DOCUMENT_NODE) return true;

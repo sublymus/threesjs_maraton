@@ -1,16 +1,12 @@
 import { useAppRouter } from "../../AppStore"
 import './PageCommand.css'
-import { useProductStore } from "../../Components/Products/ProductStore";
-import { ProductInterface } from "../../../DataBase";
-import { Host } from "../../../Config";
 import { useCommandStore } from "./CommandStore";
 import { useEffect } from "react";
 import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { getImg } from "../../../Tools/StringFormater";
 
 export function PageCommand() {
-    const { check, current } = useAppRouter();
-    const { products } = useProductStore();
+    const { check } = useAppRouter();
     const {store} = useRegisterStore();
     const {  commands , fetchCommands } = useCommandStore();
     useEffect(()=>{

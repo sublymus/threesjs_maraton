@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppRouter } from '../../AppStore';
 import { PageRegister } from '../PageRegister/PageRegister';
 import { PageUser } from '../PageUser/PageUser';
@@ -12,9 +12,10 @@ import { PageCommand } from "../../Layout/PageCommand/PageCommand";
 import { PageCart } from "../../Layout/PageCart/PageCart";
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 import { Host } from '../../../Config';
+import { WorldManager } from '../../../World/WorldManager';
 
 export function Profile() {
-    const { setPath, check, navBack, pathList } = useAppRouter();
+    const { setPath, check, pathList } = useAppRouter();
     const { openPhoto, photo: bigPhoto, lastPath } = useProfileStore();
     // const [isMin, setIsMin] = useState(true);
     const { user, updateUser, disconnection } = useRegisterStore()
@@ -22,7 +23,11 @@ export function Profile() {
         if (user && photos) updateUser({ id: user.id, photos })
     }
 
-    
+    useEffect(()=>{
+        check('profile') ? (
+            WorldManager.tactil.getView().style.display = 'none'
+        ) : WorldManager.tactil.getView().style.display = ''
+    },[pathList])
 
     return check('profile') && (
         <div className="page-profile"onClick={() => {
@@ -105,10 +110,3 @@ export function Profile() {
         </div>
     )
 }
-
-
-
-
-
-
-//{check('user')&&(user && JSON.stringify(user))}

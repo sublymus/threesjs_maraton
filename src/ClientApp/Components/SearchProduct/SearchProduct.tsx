@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { ProductInterface, UserInterface } from '../../../DataBase';
+import { ProductInterface } from '../../../DataBase';
 import { getImg, limit } from '../../../Tools/StringFormater';
-import { useAppStore , useAppRouter} from '../../AppStore';
+import { useAppStore } from '../../AppStore';
 import './SearchProduct.css'
 import { useProductStore } from "../../Components/Products/ProductStore";
-import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
-
 
 export function SearchProduct({setProduct}: {setProduct:(user:ProductInterface)=>void}) {
 

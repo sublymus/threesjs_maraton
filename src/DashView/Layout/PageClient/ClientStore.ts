@@ -60,10 +60,10 @@ export const useClientStore = create<ClientState>((set) => ({
             }
         }
     },
-    async fetchClientCommands(filter) {
+    async fetchClientCommands() {
         
     },
-    async fetchClientVisites(filter) {
+    async fetchClientVisites() {
         
     },
     async setSelectedClient(selected) {
@@ -97,7 +97,7 @@ export const useClientStore = create<ClientState>((set) => ({
         set(() => ({ clients: json }))
         return json;
     },
-    async banClient(product_id) {
+    async banClient() {
         return undefined
     },
 }));
