@@ -10,7 +10,6 @@ import { useDashRoute, useDashStore } from "../../../../dashStore";
 import { UserInterface } from "../../../../../DataBase";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 import { useMessageStore } from "../../ChatMessage/MessageStore";
-import { useClientStore } from "../../../PageClient/ClientStore";
 
 const TITLE_LENGTH = 250
 

@@ -169,11 +169,6 @@
     justify-content: space-between;
 }
 
-
-.discussion-nav .discussion .right .top-ctn .name {
-    /* font-size: 0.9em; */
-}
-
 .discussion-nav .discussion.active .right .top-ctn .date{
     color :#ffff;
     background: none;

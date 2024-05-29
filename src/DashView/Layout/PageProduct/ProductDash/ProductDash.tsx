@@ -1,4 +1,4 @@
-import { DataBase } from '../../../../DataBase';
+import { CommandInterface } from '../../../../DataBase';
 import { useWindowSize } from '../../../../Hooks';
 import { useDashRoute } from '../../../dashStore'
 import { InputText } from '../../../Component/Form/Input'
@@ -16,17 +16,17 @@ import { ChoiseFeatures } from '../../../Component/ChoiseFeatures/ChoiseFeatures
 import { EditorTopBar } from "../../../Component/EditorTopBar/EditorTopBar";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { ChoiseStatus } from "../../../Component/ChoiseStatus/ChoiseStatus";
-enum StatusMap {
-    Start, Payment, Waiting, Delivery, End, Cancel
-}
+// enum StatusMap {
+//     Start, Payment, Waiting, Delivery, End, Cancel
+// }
 
 
 export function ProductDash() {
 
     const { current, setAbsPath, json } = useDashRoute();
-    const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct, setProductById } = useProductStore();
+    const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct, setProductById, fectProductCommands } = useProductStore();
     const [isCheckRequired,] = useState(false);
-
+    const [commands, setCommands]  = useState<CommandInterface[]>([])
     const [error, setError] = useState('')
 
     useEffect(() => {
@@ -34,12 +34,20 @@ export function ProductDash() {
         //     setError('');
         // }, 5000); 
     }, [error])
+    
     useEffect(()=>{
         if(json?.product_id){
             setProductById(json?.product_id)
         }
     },[json])
-   
+    useEffect(() => {
+        selectedProduct && fectProductCommands({
+            limit:10,
+            product_id:selectedProduct.id
+        }).then((commands)=>{
+            return setCommands(commands?.list||[])
+        })
+    }, [selectedProduct]);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
@@ -184,13 +192,14 @@ export function ProductDash() {
                         <h2 className="see-all">SEE ALL</h2>
                     </div>
                     <div className="orders-ctn">
-                        {DataBase.commands.map((c) => (
+                        {commands.map((c) => (
                             <div key={c.id} className="order">
-                                <div className="id">#{c.id}</div>
-                                <div className="client">{c.client.name}</div>
-                                <div className="date">{c.completedAt}</div>
-                                <div className="price">{c.ref_payement.price} {c.ref_payement.symbol}</div>
-                                <div className={"status " + StatusMap[c.status].toLocaleLowerCase()}>{StatusMap[c.status]}</div>
+                                <div className="id">#{c.id.split('-')[0]}</div>
+                                <div className="id">{c.quantity}</div>
+                                <div className="date">{c.updated_at.split('')}</div>
+                                <div className="client">userId: {c.user_id.split('-')[0]}</div>
+                                <div className="price">{c.price} {'$'}</div>
+                                <div className={"status " + c.status.toLocaleLowerCase()}>{c.status}</div>
                             </div>
                         ))}
                     </div>

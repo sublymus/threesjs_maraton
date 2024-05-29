@@ -12,11 +12,19 @@ export interface CommandInterface {
     updated_at: string,
     quantity: number,
     price: number,
+    user_id:string,
     payment_id: string|null,
     images: string[],
     title: string,
     stock:number,
     product_id: string
+}
+
+export interface ClientVisites extends ProductInterface {
+    user_name: string;
+    user_email: string;
+    visited_at: string;
+    client_id: string;
 }
 
 export interface Session {

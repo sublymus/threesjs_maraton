@@ -1,6 +1,6 @@
 
 import { create } from 'zustand'
-import { Feature, ProductInterface, Component, ListType } from '../../../DataBase'
+import { Feature, ProductInterface, Component, ListType, ClientVisites } from '../../../DataBase'
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
@@ -29,11 +29,14 @@ interface ProductScenus extends ProductInterface {
     scene?: AbstractWorld
 }
 export interface ProductState {
+    visites:ListType<ClientVisites>|undefined
     products: ListType<ProductScenus>
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
     setProductById(d: { product_id: string, collected: Record<string, any> }): void
     selectProduct: (id: ProductScenus) => Promise<void>,
+    fetchVisites(filter: { after_date?: string, before_date?: string, client_id?: string, product_id?: string, limit?: number, page?: number }): Promise<void>;
+    setClientVisite( product_id: string): Promise<void>;
     fetchProducts: (filter: Filter) => Promise<ListType<ProductScenus> | undefined>;
 }
 
@@ -41,8 +44,48 @@ export interface ProductState {
 const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
 
 export const useProductStore = create<ProductState>((set) => ({
+    visites:undefined,
     product: undefined,
     products: { limit: 25, list: [], page: 1, total: 0 },
+    async setClientVisite(product_id) {
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        const formData = new FormData();
+        formData.append('product_id', product_id);
+        const response = await fetch(`${Host}/set_client_visited`, {
+            headers: h.headers,
+            body:formData,
+            method:'PUT'
+        });
+        const json = await response.json();
+        console.log('setClient_VISITE', json);
+        
+    },
+    async fetchVisites({ after_date, before_date, client_id, product_id, limit, page }) {
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        const query: any = {};
+        query.store_id = h.store.id;
+        query.product_id = product_id || '';
+        query.client_id = client_id || '';
+        query.limit = limit || 25;
+        query.page = page || 1;
+        query.after_date = after_date||'';
+        query.before_date = before_date || '';
+        const searchParams = new URLSearchParams({});
+        for (const key in query) {
+            const value = query[key];
+            searchParams.set(key, value);
+        }
+        const response = await fetch(`${Host}/get_client_visited/?${searchParams.toString()}`, {
+            headers: h.headers
+        });
+        const json = await response.json() as ListType<ClientVisites>;
+        if (!json || !json.list) return;
+        console.log(json.list);
+        
+       set(()=>({visites:json}))
+    },
     featuresCollector: undefined,
     async setProductById(d) {
         console.log('dd');
@@ -124,6 +167,8 @@ export const useProductStore = create<ProductState>((set) => ({
 
         const productScenus = await showProductWorld(set, product);
         set(() => ({ product: productScenus, featuresCollector: productScenus?.featuresCollector }))
+
+        useProductStore.getState().setClientVisite(product.id)
     }
 }))
 

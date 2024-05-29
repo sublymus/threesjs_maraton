@@ -125,7 +125,7 @@
 }
 
 .product-dash .orders-ctn .order>.client {
-    width: 250px;
+    width: 150px;
     opacity: 0.5;
 }
 
@@ -162,7 +162,7 @@
     color: rgb(109, 0, 173);
 }
 
-.product-dash .orders-ctn .order>.status.delivery {
+.product-dash .orders-ctn .order>.status.in_delivery {
     width: 100px;
     text-align: center;
     color: rgb(0, 102, 255);

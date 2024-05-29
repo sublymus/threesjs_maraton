@@ -16,8 +16,6 @@ export function CollaboratorProfile() {
 
     const { current, json} = useDashRoute();
     const { selectedCollaborator, setCollaboratorById ,removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
-    const { user }= useRegisterStore()
-
     const [isCheckRequired] = useState(false);
     
     const size = useWindowSize();

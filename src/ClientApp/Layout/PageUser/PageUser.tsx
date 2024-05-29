@@ -24,7 +24,7 @@ let ctn: number[] = []
 export function PageUser() {
     const { check } = useAppRouter();
     const { user } = useRegisterStore();
-    const { products } = useProductStore();
+    const { visites, fetchVisites } = useProductStore();
     const [index, setIndex] = useState(0)
     const [canSee, setCanSee] = useState(false);
     const [fullName, setFullName] = useState('');
@@ -113,6 +113,7 @@ export function PageUser() {
     }
     useEffect(() => {
         onIdentifierChange();
+        fetchVisites({limit:15})
     }, [])
 
     
@@ -157,7 +158,7 @@ export function PageUser() {
             <div className="ctn-list">
                 <h1>Last Visited Product</h1>
                 <div className="list">
-                    {(products.list).map((p, i) => (<div key={p.id + i} className='profile-btm-product' style={{ backgroundImage: `url(${Host}${p.images[0]})` }}>
+                    {(visites?.list)?.map((p, i) => (<div key={p.id + i} className='profile-btm-product' style={{ backgroundImage: `url(${Host}${p.images[0]})` }}>
                         <div className="min-info">
                             <div className="category">Ring</div>
                             <div className="Price">2000p</div>
