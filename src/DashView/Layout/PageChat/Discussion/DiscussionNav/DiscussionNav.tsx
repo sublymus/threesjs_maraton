@@ -11,17 +11,17 @@ export function DiscussionsNav() {
     const {
         discussion,
         discussions,
-        setDiscussion,
+        // setDiscussion,
         fetchDiscussions,
         addDiscussion,
         asReadDiscussion,
         blockDiscussion,
         deleteDiscussion,
         unBlockDiscussion,
-        openDiscussionMessages,
+        // openDiscussionMessages,
         setDiscussionByCollaboId
     } = useDiscussionStore();
-    const { json} = useDashRoute();
+    const { json , qs} = useDashRoute();
     const { openChild} = useDashStore()
     const { user , store } = useRegisterStore();
     useEffect(() => { 
@@ -111,9 +111,9 @@ export function DiscussionsNav() {
                     return (
                         <div key={d.id} className={"discussion " + (discussion?.id == d.id ? 'active' : '')} onClick={(e) => {
                             d.unchecked_count = 0;
-                            setDiscussion(d);
-
-                            openDiscussionMessages(d.id);
+                            qs({ 'collaborator_id': d.other.id }).setAbsPath(['chat', 'discussions'])
+                            // setDiscussion(d);
+                            // openDiscussionMessages(d.id);
                             const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;
                             div.style.display = 'none';
 

@@ -40,8 +40,8 @@ export const useSessionStore = create<SessionState>((set) => ({
             const list = useSessionStore.getState().sessions;
             const currentSession = list?.find((l) => l.other.id == client_id);
 
-            console.log('current Session', currentSession);
-
+            console.log('current Session', client_id, currentSession);
+            
             if (currentSession) {
                 const ms = await useMessageStore.getState().fetchMessages(currentSession.id,'sessions');
                 set(() => ({ session: currentSession, messages: ms }));
@@ -63,7 +63,7 @@ export const useSessionStore = create<SessionState>((set) => ({
                     collabo && useSessionStore.getState().addSession(collabo)
                 }
             }
-        }, 400);
+        });
     },
     async openSessionMessages(session_id) {
         const messages = await useMessageStore.getState().fetchMessages(session_id,'sessions');

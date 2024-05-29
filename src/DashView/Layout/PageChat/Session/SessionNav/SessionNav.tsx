@@ -10,7 +10,7 @@ import { useRegisterStore } from '../../../PageAuth/RegisterStore';
 export function SessionNav({ }: {}) {
     const [optionActive, setOptionActive] = useState('opened')
     const { openChild } = useDashStore();
-    const { json } = useDashRoute();
+    const { json, qs } = useDashRoute();
     const {
         addSession,
         asReadSession,
@@ -18,10 +18,10 @@ export function SessionNav({ }: {}) {
         openSession,
         deleteSession,
         fetchSessions,
-        setSession,
+        // setSession,
         session,
         sessions,
-        openSessionMessages,
+        // openSessionMessages,
         setSessionByClientId
     } = useSessionStore();
 
@@ -33,7 +33,7 @@ export function SessionNav({ }: {}) {
 
     useEffect(() => {
         if (json?.client_id) {
-            setSessionByClientId(json?.clientid);
+            setSessionByClientId(json?.client_id);
         }
     }, [json])
     useEffect(() => {
@@ -99,8 +99,11 @@ export function SessionNav({ }: {}) {
                         }
                         return (
                             <div key={s.id} className={"session " + (session?.id == s.id ? 'active' : '')} onClick={(e) => {
-                                setSession(s);
-                                openSessionMessages(s.id);
+                                console.log(s.other, user);
+                                
+                                qs({ 'client_id': s.other.id }).setAbsPath(['chat', 'sessions'])
+                                // setSessionByClientId(s.other.id)//setSession(s);
+                                // openSessionMessages(s.id);
                                 const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;
                                 div.style.display = 'none';
                             }} onContextMenu={(e) => {

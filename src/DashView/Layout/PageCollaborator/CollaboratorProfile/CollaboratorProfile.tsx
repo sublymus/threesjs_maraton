@@ -16,7 +16,10 @@ export function CollaboratorProfile() {
 
     const { current, json} = useDashRoute();
     const { selectedCollaborator, setCollaboratorById ,removeCollaborator , updateCollaborator ,change_collaborator_role } = useCollaboratorStore();
+    const { user }= useRegisterStore()
+
     const [isCheckRequired] = useState(false);
+    
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
     const { store } = useRegisterStore() 
@@ -39,7 +42,7 @@ export function CollaboratorProfile() {
             }}/>
             <section className={"editor " + wrap}>
                 <div className="left-right">
-                    <ImageViewer name='collaborator_profile' images={selectedCollaborator.photos || []} cannotEdit />
+                    <ImageViewer name='collaborator_profile' images={selectedCollaborator.photos || []} cannotEdit/*={selectedCollaborator.id!=user?.id}*/ />
                     <InputText  label='Name'  value={selectedCollaborator?.name} />
                     <InputText label='Email' value={selectedCollaborator?.email} />
                     <InputText label='created At' value={selectedCollaborator?.created_at} />

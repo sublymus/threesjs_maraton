@@ -6,10 +6,11 @@ import './SessionCenter.css'
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "../../../../../Hooks";
 import emojis from "emoji.json";
-import { useDashStore } from "../../../../dashStore";
+import { useDashRoute, useDashStore } from "../../../../dashStore";
 import { UserInterface } from "../../../../../DataBase";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 import { useMessageStore } from "../../ChatMessage/MessageStore";
+import { useClientStore } from "../../../PageClient/ClientStore";
 
 const TITLE_LENGTH = 250
 
@@ -20,10 +21,10 @@ const FormatText = (text: string) => {
             (
                 m.includes('\n')) ?
                 m.split('\n').map((n, ni) =>
-                    <>
-                        <span style={{ marginRight: '4px' }} key={i + "_" + ni}>{n}</span>
+                    <div key={i + "_" + ni}>
+                        <span style={{ marginRight: '4px' }}>{n}</span>
                         <br />
-                    </>
+                    </div>
                 ) : <span style={{ marginRight: '4px' }} key={i}>{m}</span>)
 }
 
@@ -41,6 +42,7 @@ export function SessionsCenter() {
     } = useMessageStore();
     const { user } = useRegisterStore();
     const { openChild } = useDashStore();
+    const  { qs } = useDashRoute()
     const [scrollInit, setScrollInit] = useState(false)
     const [senderSize, setSenderSize] = useState(1)
     const [emijiOpen, setEmijiOpen] = useState(false)
@@ -93,7 +95,9 @@ export function SessionsCenter() {
         <div className="label">Select a chat to start messaging</div>
     </div>) : (user && (<div className="session-center">
     <div className="top">
-            <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }}></div>
+            <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }} onClick={()=>{
+                qs({client_id:d.other.id}).setAbsPath(['clients','client_profile'])
+            }}></div>
             <div className="ctn-name">
                 <div className="name">{limit(d.other.name, 50)}</div>
                 {d[`${d.other_att}_opened_at`] && <div className="last-time">Last seen {toDate(d[`${d.other_att}_opened_at`])}</div>}

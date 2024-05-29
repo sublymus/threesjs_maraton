@@ -61,7 +61,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
                     collabo && useDiscussionStore.getState().addDiscussion(collabo)
                 }
             }
-        }, 400);
+        }, 200);
     },
     async openDiscussionMessages(discussion_id) {
         const messages = await useMessageStore.getState().fetchMessages(discussion_id,'discussions');
@@ -240,14 +240,19 @@ export async function ListenDiscussion(d: Discussion) {
             });
             const djson = await response.json() as Discussion[];
             console.log('reload Discussion ___________ ', djson.length);
-            if (!djson?.[0]) return
+            if (!djson?.[0].id) return
 
-            const newDs = [...ds?.map((_d) => {
+            
+            const newDs = [...ds?.map((_d, i) => {
+                console.log(i,_d.id);
                 if (_d.id == d.id) {
+                    
                     return djson?.[0]
                 }
-                return d
+                return _d
             }) || []];
+            console.log({newDs, ds, d, djson});
+            
             disSet(() => ({ discussions: newDs }));
             if (currentD?.id == djson?.[0].id) {
                 disSet(() => ({ discussion: { ...djson?.[0] } }))

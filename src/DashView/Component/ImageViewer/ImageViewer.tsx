@@ -105,6 +105,8 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     }
     imageMapperCache[id] = imageMapper;
     ListenerCache[id] = deleteImage;
+    console.log({canSave});
+    
     return (
         <div className='image-viewer'>
             <div className={"top-viewer " + optionPosition}>
@@ -183,6 +185,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                                             r[m.name] = m;
                                         }
                                         setImageMapper(r);
+                                        setCanSave(true);
                                         if (autosave) onSave?.(r)
                                     }} onClick={() => {
                                         openChild(<ImageViewerPage selectedKey={k} imagesMapper={imageMapper} />, true);
@@ -234,8 +237,9 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                         <div className="icon"></div>
                         <div className="label">OPEN</div>
                     </div>}
-                    {(!autosave && !cannotEdit) && <div className={"save " + (canSave ? 'can-save' : '')} onClick={() => {
+                    {(!autosave && !cannotEdit)&& <div className={"save " + (canSave ? 'can-save' : '')} style ={{opacity:canSave?'1':'0.2'}}onClick={() => {
                         onSave?.(imageMapper);
+                        setCanSave(false)
                     }}>
                         <div className="icon"></div>
                         <div className="label">SAVE</div>

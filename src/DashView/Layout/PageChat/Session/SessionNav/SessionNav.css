@@ -69,6 +69,7 @@
     opacity: 1;
     position: relative;
     display: inline-flex;
+    background: #3455;
 }
 
 .session-nav .option span {

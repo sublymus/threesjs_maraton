@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -15,6 +16,10 @@
     box-shadow: var(--box-shadow);
 }
 
+.session-center .top .profile:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
 .session-center .top .profile {
     width: 60px;
     height: 60px;
@@ -259,13 +264,14 @@
 
 /* SENDER */
 .session-center .sender {
-    width: 100%;
+    width: 95%;
     background: #fff;
     margin-bottom: 10px;
     display: flex;
+    border-radius: 50px;
     justify-content: flex-start;
     align-items: flex-end;
-    padding: 10px 20px;
+    padding: 10px 0px;
     position: relative;
 }
 

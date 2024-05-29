@@ -7,8 +7,6 @@ export function EditorTopBar({ mode, title, onCreate, onDelete, deteleKey , term
     const [remove, setRemove] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    console.log(deteleKey);
-    
     return (
         <div className={"editor-top-bar"}>
             <h1 className="page-title">{title}</h1>
