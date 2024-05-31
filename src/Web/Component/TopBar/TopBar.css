@@ -9,9 +9,28 @@
     min-height:50px;
 }
 
+.top-bar .left{
+    display: flex;
+    align-items: center;
+}
+.top-bar .options:hover{
+    transition: 200ms;
+    background: no-repeat center/90% url(/src/res//align-left.png),#bbb;
+}
+.top-bar .options {
+    cursor: pointer;
+    min-width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    filter: invert();
+    display: none;
+    border-radius: 5px;
+    transition: 200ms;
+    background: no-repeat center/80% url(/src/res//align-left.png),#ccc;
+}
 .top-bar .logo-ctn {
     cursor: pointer;
-    width: 150px;
+    min-width: 150px;
     height: 50px;
     background: no-repeat center/contain url(/src/res//img/img3.svg);
 }
@@ -85,7 +104,7 @@
 
  .top-bar .profile {
     position: relative;
-    width: 80px;
+    min-width: 80px;
     height: 80px;
     border-radius: 100%;
     margin-left: 20px;
@@ -111,3 +130,41 @@
     justify-content: center;
     border-radius: 10px;
  }
+
+@media (width < 1000px ) {
+    .top-bar .top-bar-center{
+       display: none;
+    }
+    .top-bar .options {
+        display: block;
+    }
+}
+
+/* vert-nav */
+
+.vert-nav{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.vert-nav li:hover{
+    background: #fff2;
+}
+.vert-nav li{
+    all:unset;
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    /* background: #fff3; */
+    border: 1px #fff6 solid;
+    font-weight: bold;
+
+}

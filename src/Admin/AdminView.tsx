@@ -1,13 +1,14 @@
+
 import './index.css'
 import React from 'react'
-import { Web } from './Web'
+import { Admin } from './Admin'
 
  const getClientView = (children: React.ReactNode) => {
     return children
 }
 
-export const WebView = getClientView(
+export const AdminView = getClientView(
     <React.StrictMode>
-        <Web />
+        <Admin />
     </React.StrictMode>,
 )

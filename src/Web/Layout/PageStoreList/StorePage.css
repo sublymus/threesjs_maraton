@@ -1,0 +1,248 @@
+.stores-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.stores-page .top-top{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.stores-page  .top-top .nav-back:hover{
+    background: no-repeat center/90% url(/src/res/arrow-left.png), #bbb;
+}
+.stores-page  .top-top .nav-back{
+    min-width: 40px;
+    min-height: 40px;
+    filter: invert();
+    border-radius: 5px;
+    background: no-repeat center/80% url(/src/res/arrow-left.png), #ccc;
+}
+
+.stores-page .sreach-stores{
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stores-page .sreach-stores .ctn{
+    display: flex;
+    background: rgb(221, 223, 255);
+    padding: 5px 10px;
+    border-radius: 50px;
+}
+.stores-page .sreach-stores .ctn .icon{
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/search.png);
+}
+.stores-page .sreach-stores .ctn input{
+    all:unset
+}
+
+.stores-page .sreach-stores .new-btn:hover{
+    opacity: 0.8;
+}
+.stores-page .sreach-stores .new-btn{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 10px;
+    margin-left: 20px;
+    border-radius: 50px;
+    background: linear-gradient(0.25turn, #5900ffa9, #0059ff85);
+}
+.stores-page .sreach-stores .new-btn .icon{
+    width: 40px;
+    height: 40px;
+    filter: invert();
+    background: no-repeat center/80% url(/src/res/plus.png);
+}
+
+.stores-page .stores{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;   
+}
+
+.stores-page .store{
+    min-width: 260px;
+    height: 360px;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: var(--box-shadow);   
+}
+
+.stores-page .store .banner {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stores-page .store .edit{
+    width: 50px;
+    height: 50px;
+    filter: invert();
+    opacity: 0;
+    transform: translateY(100px);
+    transition: 200ms;
+    background: no-repeat center/80% url(/src/res/edit.png);
+}
+
+.stores-page .store .banner:hover .edit{
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0px);  
+    transition: 200ms; 
+}
+.stores-page .store .banner:hover .more{
+    height: 100%;
+    transition: 200ms;
+}
+.stores-page .store .more {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    bottom: 0px;
+    color: #fff;
+    width: 100%;
+    height: 80px;
+    transition: 200ms;
+    background: linear-gradient(#0000,#000 );
+}
+
+.stores-page .store .more .logo {
+    min-width: 80px;
+    height: 80px;
+    border-radius: 50px;
+}
+.stores-page .store .more .text {
+   height: 80px; 
+   display: flex;
+   flex-direction: column;
+   margin-left: 10px;
+   padding-top: 10px;
+}
+.stores-page .store .more .text .name {
+    font-weight: bold;
+    font-size: 24px;
+}
+.stores-page .store .more .text .owner-email {
+    opacity: 0.9;
+    font-size: 0.85em;
+}
+
+.stores-page .store .more .text .id{
+    margin-top: 5px;
+    font-size: 0.8em;
+}
+.stores-page .store .btm{
+    height: 100px;
+    width: 100%;
+    position: relative;
+}
+
+.stores-page .store .btm .info{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: 2000ms;
+}
+
+.stores-page .store .btm .stat{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.stores-page .store .btm .stat > div{
+    display: flex ;
+    align-items: center;
+}
+.stores-page .store .btm .stat .icon{
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    margin-left: 5px;
+    filter: invert();
+}
+.stores-page .store .btm .stat .products .icon{
+    background: no-repeat center/80% url(/src/res/package.png);
+}
+.stores-page .store .btm .stat .clients .icon{
+    background: no-repeat center/80% url(/src/res/multiple-users-silhouette.png);
+}
+.stores-page .store .btm .stat .collaborators .icon{
+    background: no-repeat center/80% url(/src/res/services.png);
+}
+
+.stores-page .store .btm .info .other{ 
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+
+.stores-page .store .btm .info .other >div{
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.stores-page .store .btm .options{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    transform: rotate3d(1 , 0 , 0,-90deg)  translate3d(0,0,50px);
+    transition: 700ms;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.stores-page .store .btm .options > div:hover{
+    opacity: 0.7;
+}
+.stores-page .store .btm .options > div{
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff
+}
+.stores-page .store .btm .options .open-store{
+    background: linear-gradient(0.75turn, #a36a00, #854700a6);
+}
+
+.stores-page .store .btm .options .open-dash{
+    background: linear-gradient(0.25turn, #5900ffa9, #0059ff85);
+}
+ 
+
+.stores-page .store .btm .info{
+    transform:  rotate3d(1 , 0 , 0,0deg) translate3d(0,0,50px);
+    transition: 700ms;
+}
+.stores-page .store .btm:hover .info{
+    transform:  rotate3d(1 , 0 , 0,90deg)  translate3d(0,0px,50px);
+    transition: 700ms;
+}
+.stores-page .store .btm:hover .options{
+    
+    transform:  rotate3d(1 , 0 , 0,0deg) translate3d(0,0,50px);
+    transition: 700ms;
+}

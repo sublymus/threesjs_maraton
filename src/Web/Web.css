@@ -1,8 +1,18 @@
 body{
     background: linear-gradient(40deg ,#111,#112);
+    width: 100vw;
+    height: 100vh;
 }
 .web {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.web .web-ctn{
+    width: 100%;
+    height:100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,6 +22,7 @@ body{
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
     z-index: -1;
     height: 100%;
     background: url(/src/res/img/noise.png);
@@ -20,6 +31,25 @@ body{
 .web .page-ctn{
     width: 95%;
     max-width: 2000px;
-    height: calc(100% - 0px);
-  
+    height:  calc(100% - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.web .child-viewer{
+    z-index:9999;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.web.sombre-mode-variable .child-viewer-ctn{
+    background: var(--backgroung-white);
+}
+.web .child-viewer-ctn{
+    position: relative;
+    width: 100%;
+    height: 100%;
 }

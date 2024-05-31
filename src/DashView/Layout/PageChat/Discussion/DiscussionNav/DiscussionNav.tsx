@@ -7,7 +7,6 @@ import './DiscussionNav.css'
 import { useDashRoute, useDashStore } from "../../../../dashStore";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 export function DiscussionsNav() {
-    const [optionActive, setOptionActive] = useState('all')
     const {
         discussion,
         discussions,
@@ -21,20 +20,28 @@ export function DiscussionsNav() {
         // openDiscussionMessages,
         setDiscussionByCollaboId
     } = useDiscussionStore();
-    const { json , qs} = useDashRoute();
-    const { openChild} = useDashStore()
-    const { user , store } = useRegisterStore();
-    useEffect(() => { 
-        store&&fetchDiscussions()
+    const { json, pathList, qs, setAbsPath } = useDashRoute();
+    const optionPath = pathList[3]?.split('_')[1]
+    const [optionActive, setOptionActive] = useState(optionPath || 'all')
+    const { openChild } = useDashStore()
+    const { user, store } = useRegisterStore();
+    useEffect(() => {
+        store && fetchDiscussions()
     }, [store])
 
-    useEffect(()=>{
-        if(json?.collaborator_id){
+    useEffect(() => {
+        if (json?.collaborator_id) {
             setDiscussionByCollaboId(json?.collaborator_id)
         }
-    },[json])
+        setOptionActive(optionPath || 'all')
+    }, [json]);
+
     useEffect(() => {
-        if(discussion?.blocked?.includes(user?.id||'')){
+        setOptionActive(optionPath || 'all')
+    }, [pathList])
+
+    useEffect(() => {
+        if (discussion?.blocked?.includes(user?.id || '')) {
             setOptionActive('blocked')
         }
     }, [discussion])
@@ -78,13 +85,16 @@ export function DiscussionsNav() {
         </div>
         <div className="options">
             <div className="option" onClick={() => {
-                setOptionActive('all')
+                // setOptionActive('all')
+                setAbsPath(['chat', 'discussions', 'discussions_all'])
             }}><div className={(optionActive == 'all' ? 'active' : '')}>All{(all?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
-                setOptionActive('new')
+                // setOptionActive('new')
+                setAbsPath(['chat', 'discussions', 'discussions_new'])
             }}><div className={optionActive == 'new' ? 'active' : ''}>New {(_new?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
-                setOptionActive('blocked')
+                // setOptionActive('blocked')
+                setAbsPath(['chat', 'discussions', 'discussions_blocked'])
             }}><div className={optionActive == 'blocked' ? 'active' : ''}>Blocked  {(blocked?.length || 0) > 0 ? <span></span> : undefined}</div></div>
         </div>
         <div className="search">
@@ -121,11 +131,11 @@ export function DiscussionsNav() {
                             e.preventDefault();
                             openChild(<DiscussionPopu blocked={!!blocked?.includes(d)} x={e.clientX} y={e.clientY}
                                 onBlock={(block) => {
-                                    if (block){
+                                    if (block) {
                                         blockDiscussion(d);
                                         setOptionActive('blocked');
                                     }
-                                    else{
+                                    else {
                                         unBlockDiscussion(d);
                                         setOptionActive('all');
                                     }
@@ -160,8 +170,8 @@ export function DiscussionsNav() {
 }
 
 function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked }: { blocked: boolean, x: number, y: number, onDelete: () => void, onBlock: (block: boolean) => void, onAsRead: () => void }) {
-    const ref = useRef<HTMLDivElement|null>(null)
-    useEffect(()=>{
+    const ref = useRef<HTMLDivElement | null>(null)
+    useEffect(() => {
         ref.current && limitPopupPosition(ref.current)
     })
     return (

@@ -4,7 +4,7 @@ import { useCatalogueStore } from "../Catalogue/CatalogueStore";
 import { useProductStore } from "../Products/ProductStore";
 export function CatalogueDescription() {
     const {  check,qs } = useAppRouter();
-    const { catalogue, selectedCategory } = useCatalogueStore();
+    const { catalogue, selectedCategory,  } = useCatalogueStore();
     const {fetchProducts , selectProduct}= useProductStore();
     return check( 'catalogue_description') && (
         <div className="catalogue-description">

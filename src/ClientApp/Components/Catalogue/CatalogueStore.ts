@@ -44,6 +44,7 @@ export const useCatalogueStore = create<AppState>((set) => ({
         
         if(catalogue)setCatalogueCategory(catalogue);
         set(() => ({ catalogues, catalogue }));
+        useCatalogueStore.getState().initCatalogueListener()
     },
     initCatalogueListener() {
         /**

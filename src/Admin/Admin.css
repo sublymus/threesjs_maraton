@@ -1,4 +1,4 @@
-.dash {
+.admin {
     width: 100%;
     height: 100%;
     display: flex;
@@ -7,21 +7,21 @@
     /* background: linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124)); */
 }
 
-.dash .dash-ctn {
+.admin .admin-ctn {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
     /* filter: blur(5px); */
 }
 
-.dash .dash-ctn.blur {
+.admin .admin-ctn.blur {
   filter: blur(10px);
 }
 
 
-.dash .center {
-    width: 90%;
+.admin .center {
+    width: 100%;
     max-width: 1500px;
     height: 100%;
     display: flex;
@@ -29,7 +29,7 @@
     align-items: center;
 }
 
-.dash .center-top {
+.admin .center-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,24 +37,24 @@
     /* min-width: calc(var(--center-width) - 100px); */
     padding-top: 30px;
 }
-.dash .center-ctn{
+.admin .center-ctn{
     width: 100%;
     height: calc( 100% - 70px);
 }
 
-.dash .page-path {
+.admin .page-path {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.dash .page-path .path {
+.admin .page-path .path {
     display: flex;
     align-items: center;
 }
 
 
-.dash .page-path .path .label {
+.admin .page-path .path .label {
     font-size: xx-large;
     font-weight: bold;
     cursor: pointer;
@@ -63,7 +63,7 @@
     flex-direction: column;
     padding: 0;
 }
-.dash .page-path .path .label > span {
+.admin .page-path .path .label > span {
     display: inline-block;
     background: #4565;
     width: 100%;
@@ -71,7 +71,7 @@
     height: 1px;
     transition: 200ms;
 }
-.dash .page-path .path .label:hover > span{
+.admin .page-path .path .label:hover > span{
     background: #4565;
     transform: scale(1);
     transition: 200ms;
@@ -79,31 +79,31 @@
 .sombre-mode-variable .page-path .path .icon{
     filter: invert();
 }
-.dash .page-path .path .icon {
+.admin .page-path .path .icon {
     width: 40px;
     height: 40px;
     background: no-repeat center/60% url(/src/res/chevron-right.png);
 }
 
-.dash .center-top .top-right {
+.admin .center-top .top-right {
     display: flex;
 }
 
-.dash .center-top .dark-mode {
+.admin .center-top .dark-mode {
     display: flex;
     align-items: center;
     border-radius: 10px;
 }
-.dash .center-top .dark-mode.active {
+.admin .center-top .dark-mode.active {
     background: #fff6;
     transition: 200ms;
 }
-.dash .center-top .dark-mode {
+.admin .center-top .dark-mode {
     background: rgba(180, 180, 180, 0.4);
     transition: 200ms;
 }
 
-.dash .center-top .dark-mode .dark-mode-btn {
+.admin .center-top .dark-mode .dark-mode-btn {
     font-size: 1.5em;
     background: #3450;
     border-radius: 10px;
@@ -115,7 +115,7 @@
     width: 40px;
     height: 40px;
 }
-.dash .center-top .dark-mode.active .dark-mode-btn {
+.admin .center-top .dark-mode.active .dark-mode-btn {
     background: no-repeat center/70% url(/src//res/moon.png), rgb(211, 166, 128);
     opacity: 1;
     transition: 200ms;
@@ -125,7 +125,7 @@
     filter: invert(100%);
 }
 
-.dash .center-top .dark-mode .dark-white-btn {
+.admin .center-top .dark-mode .dark-white-btn {
     font-size: 1.5em;
     opacity: 1;
     padding: 7px;
@@ -137,7 +137,7 @@
     height: 40px;
 
 }
-.dash .center-top .dark-mode.active .dark-white-btn {
+.admin .center-top .dark-mode.active .dark-white-btn {
     opacity: 0.5;
     background: no-repeat center/70% url(/src/res/sun.png) #3450;
     box-shadow:none;
@@ -145,14 +145,14 @@
 
 }
 
-.dash.sombre-mode-variable .center-top .notf {
+.admin.sombre-mode-variable .center-top .notf {
     filter: invert();
 }
-.dash.sombre-mode-variable .center-top .notf span{
+.admin.sombre-mode-variable .center-top .notf span{
     filter: invert();
 }
 
-.dash .center-top .notf {
+.admin .center-top .notf {
     margin-left: 20px;
     position: relative;
     width: 40px;
@@ -160,7 +160,7 @@
     background: no-repeat center/60% url(/src/res/bell.png);
 }
 
-.dash .center-top .notf span {
+.admin .center-top .notf span {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -172,16 +172,16 @@
     
 }
 
-.dash .child-viewer{
+.admin .child-viewer{
     z-index:9999;
     position: absolute;
     width: 100%;
     height: 100%;
 }
-.dash.sombre-mode-variable .child-viewer-ctn{
+.admin.sombre-mode-variable .child-viewer-ctn{
     background: var(--backgroung-white);
 }
-.dash .child-viewer-ctn{
+.admin .child-viewer-ctn{
     position: relative;
     width: 100%;
     height: 100%;

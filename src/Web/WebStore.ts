@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
-import { StoreInterface, UserInterface } from "../DataBase";
+import { ListType, StoreInterface, UserInterface } from "../DataBase";
 
 const Pages = {
     '/': {
@@ -16,11 +16,25 @@ const Pages = {
 }
 
 interface WebState {
+    back_color: string;
+    blur: boolean,
+    currentChild: JSX.Element | undefined,
+    openChild: (child: JSX.Element | undefined, blur?: boolean, back_color?: string) => any,
     owner: UserInterface | undefined,
-    stores: StoreInterface[] | undefined,
+    stores: ListType<StoreInterface> | undefined,
     selectedStore: StoreInterface | undefined,
     setSelectedStore(store: StoreInterface | undefined): void
-    owner_stores(): Promise<void>
+    owner_stores(filter: {
+        page?: number,
+        limit?: number,
+        order_by?: string,
+        text?: string,
+        // email?:string,
+        // name?:string,
+        // owner_name?:string,
+        // id?:string,
+        // owner_email?:string
+    }): Promise<ListType<StoreInterface> | undefined>
     createStore(data: Record<string, any>): Promise<StoreInterface | undefined>
     editStore(data: Record<string, any>): Promise<StoreInterface | undefined>
     createOwner(): Promise<void>
@@ -31,8 +45,14 @@ interface WebState {
 
 export const useWebStore = create<WebState>((set) => ({
     owner: undefined,
-    stores: [],
+    stores: undefined,
     selectedStore: undefined,
+    currentChild: undefined,
+    back_color: '',
+    blur:false,
+    openChild(child, blur, back_color) {
+        set(() => ({ currentChild: child, blur, back_color: child ? (back_color || '') : '' }))
+    },
     async deleteStore(store_id) {
         const owner = useWebStore.getState().owner
         if (!owner) return false;
@@ -47,7 +67,7 @@ export const useWebStore = create<WebState>((set) => ({
         const response = await fetch(`${Host}/delete_store/${store_id}`, requestOptions);
         try {
             const json = await response.json();
-            useWebStore.getState().owner_stores();
+            useWebStore.getState().owner_stores({});
             return json?.deleted;
         } catch (error) {
             return false;
@@ -85,32 +105,31 @@ export const useWebStore = create<WebState>((set) => ({
 
         const response = await fetch(`${Host}/me`, requestOptions);
         let js = await response.json();
-        if (!js?.id) return localStorage.removeItem( 'user');
-        useWebStore.getState().owner_stores();
+        if (!js?.id) return localStorage.removeItem('user');
+        useWebStore.getState().owner_stores({});
         js = { token: owner.token, ...js }
 
         set(() => ({ owner: js }))
         localStorage.setItem('user', JSON.stringify(js));
     },
-    async owner_stores() {
+    async owner_stores(filter) {
         const owner = useWebStore.getState().owner
-        if (!owner) return;
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${owner.token}`);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-        };
-        let js2: any = []
-        try {
-            const response2 = await fetch(`${Host}/owner_stores`, requestOptions)
-            const list = await response2.json();
-            if (Array.isArray(list)) js2 = list
-        } catch (error) { }
-        console.log('listOwner', { stores: js2 })
-
-        set(() => ({ stores: js2 }))
+        if (!owner) return
+        const searchParams = new URLSearchParams({});
+        for (const key in filter) {
+            const value = (filter as any)[key];
+            searchParams.set(key, value);
+        }
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${owner.token}`);
+        const response = await fetch(`${Host}/get_stores/?${searchParams}`, {
+            headers
+        })
+        const json = await response.json();
+        if (!json?.list) return
+        console.log(json.list);
+        set(() => ({ stores: json }))
+        return json
     },
     async editStore(data) {
 
@@ -121,24 +140,24 @@ export const useWebStore = create<WebState>((set) => ({
 
         const form = new FormData();
 
-        Object.keys(data).forEach((k,i) => {
-            console.log('data',i,k, data[k]);
-            
+        Object.keys(data).forEach((k, i) => {
+            console.log('data', i, k, data[k]);
+
             if (k == 'banners') {
                 if (data[k].file) {
                     console.log('new File', data[k].file);
                     form.append(k, JSON.stringify(['banners_0']));
                     form.append('banners_0', data[k].file)
-                } else if(data[k].url) {
+                } else if (data[k].url) {
                     form.append(k, JSON.stringify([data[k].url]));
                     console.log('keep same', JSON.stringify(data[k]));
                 }
-            }else if (k == 'logo') {
+            } else if (k == 'logo') {
                 if (data[k].file) {
                     console.log('new File', data[k].file);
                     form.append(k, JSON.stringify(['logo_0']));
                     form.append('logo_0', data[k].file)
-                } else if(data[k].url){
+                } else if (data[k].url) {
                     form.append(k, JSON.stringify([data[k].url]));
                     console.log('keep same', JSON.stringify(data[k]));
                 }
@@ -154,10 +173,10 @@ export const useWebStore = create<WebState>((set) => ({
         };
 
         const response = await fetch(`${Host}/update_store`, requestOptions)
-        
+
         try {
             const store = await response.json();
-            useWebStore.getState().owner_stores()
+            useWebStore.getState().owner_stores({})
             return store
         } catch (error: any) {
             console.log(error.message);
@@ -196,7 +215,7 @@ export const useWebStore = create<WebState>((set) => ({
         const response = await fetch(`${Host}/create_store`, requestOptions)
         try {
             const store = await response.json();
-            useWebStore.getState().owner_stores()
+            useWebStore.getState().owner_stores({})
             return store
         } catch (error: any) {
             console.log(error.message);
@@ -215,7 +234,7 @@ export const useWebStore = create<WebState>((set) => ({
             if (user) {
                 set(() => ({ owner: user }))
                 clearInterval(id);
-                useWebStore.getState().owner_stores();
+                useWebStore.getState().owner_stores({});
                 useWebRoute.getState().setAbsPath(['store_list']);
             }
         }, 100);

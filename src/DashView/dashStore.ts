@@ -11,9 +11,17 @@ current('page')
 const Pages = {
     '/': {
         chat: {
-            discussions: {},
+            discussions: {
+                discussions_all:{},
+                discussions_new:{},
+                discussions_blocked:{},
+            },
             groups: {},
-            sessions: {},
+            sessions: {
+                sessions_new:{},
+                sessions_opened:{},
+                sessions_closed:{},
+            },
             surveys: {}
         },
         interface: {},

@@ -46,7 +46,9 @@ const PathMap = {
     create_role: 'New Role',
     edit_role: 'Editor',
     new_collaborator: 'New Collaborator',
-    chat:'Chat'
+    chat:'Chat',
+    sessions:'Sessions',
+    discussions:'Discussions'
 
 }
 
@@ -77,6 +79,9 @@ export function Dash() {
             fetchUsersVar();
         }
     },[store])
+
+    console.log({pathList});
+    
 
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >

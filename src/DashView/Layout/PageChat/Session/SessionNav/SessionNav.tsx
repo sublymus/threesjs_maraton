@@ -8,9 +8,10 @@ import { limitPopupPosition } from '../../../../../Tools/BindToParentScroll';
 import { useRegisterStore } from '../../../PageAuth/RegisterStore';
 
 export function SessionNav({ }: {}) {
-    const [optionActive, setOptionActive] = useState('opened')
     const { openChild } = useDashStore();
-    const { json, qs } = useDashRoute();
+    const { json, qs, pathList , setAbsPath } = useDashRoute();
+    const optionPath = pathList[3]?.split('_')[1]
+    const [optionActive, setOptionActive] = useState(optionPath||'opened')
     const {
         addSession,
         asReadSession,
@@ -35,7 +36,10 @@ export function SessionNav({ }: {}) {
         if (json?.client_id) {
             setSessionByClientId(json?.client_id);
         }
-    }, [json])
+    }, [json]);
+    useEffect(() => {
+        setOptionActive(optionPath || 'opened')
+    }, [pathList])
     useEffect(() => {
         if (session?.closed?.includes(user?.id || '')) {
             setOptionActive('closed')
@@ -67,13 +71,13 @@ export function SessionNav({ }: {}) {
             </div>
             <div className="options">
                 <div className="option" onClick={() => {
-                    setOptionActive('opened')
+                    setAbsPath(['chat', 'sessions', 'sessions_opened'])
                 }}><div className={(optionActive == 'opened' ? 'active' : '')}>Open{(openeds?.length || 0) > 0 ? <span></span> : undefined}</div></div>
                 <div className="option" onClick={() => {
-                    setOptionActive('closed')
+                    setAbsPath(['chat', 'sessions', 'sessions_closed'])
                 }}><div className={optionActive == 'closed' ? 'active' : ''}>Closed {(closeds?.length || 0) > 0 ? <span></span> : undefined}</div></div>
                 <div className="option" onClick={() => {
-                    setOptionActive('new')
+                    setAbsPath(['chat', 'sessions', 'sessions_new'])
                 }}><div className={optionActive == 'new' ? 'active' : ''}>New  {(news?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             </div>
             <div className="search">

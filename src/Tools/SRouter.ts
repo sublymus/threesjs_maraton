@@ -77,30 +77,30 @@ interface UnUseAppState<T extends PageType> {
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
     exist(...page: string[]): true | undefined,
-    qs(json:Record<string, any>):UnUseAppState<T>
+    qs(json: Record<string, any>): UnUseAppState<T>
 }
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
     // history.pushState(self?.store.getState().pathList,self?.store.getState().pathList.join('/')||'')
     // console.log(history.length);
-    
+
     // if(hash.includes('cart')){
     //     // history.go(0)
     // }
     // 
     // console.log('ert',history.state);
-    
+
     if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
-let h = '';
-let h_json = ''
-let json = undefined
-if (hash.includes('=')) {
-    const index = hash.indexOf('=');
-    h = hash.substring(0, index);
-    h_json = hash.substring(index + 1, hash.length);
-    console.log({h,h_json});
+    let h = '';
+    let h_json = ''
+    let json = undefined
+    if (hash.includes('=')) {
+        const index = hash.indexOf('=');
+        h = hash.substring(0, index);
+        h_json = hash.substring(index + 1, hash.length);
+        console.log({ h, h_json });
         try {
             json = h_json && JSON.parse(h_json);
         } catch (error) {
@@ -116,7 +116,7 @@ if (hash.includes('=')) {
     return { pathList, json };
 }
 
-let _qs:any = {};
+let _qs: any = {};
 
 export class SRouter<T extends PageType = PageType>{
     isInitialized = false;
@@ -147,23 +147,20 @@ export class SRouter<T extends PageType = PageType>{
             },
             navNext() {
                 console.log('navNext');
-                
+
                 history.forward();
                 return;
             },
-            qs(json){
+            qs(json) {
                 _qs = json;
                 return self.store.getState()
             },
             navBack() {
-                console.log('navBack');
                 history.back();
                 return;
             },
             setPath(...paths) {
-
-                console.log('setPath');
-                self.editPath(paths);
+                 self.editPath(paths);
                 _qs = undefined;
             },
             exist(...paths) {
@@ -180,12 +177,10 @@ export class SRouter<T extends PageType = PageType>{
                     currentPage = c;
                     nav.push(path as string);
                 }
-                console.log('ok existe');
                 return true
             },
             setAbsPath(paths) {
 
-                console.log('setAbsPath');
                 let nav: string[] = ['/'];
                 let currentPage = pages['/'];
                 for (const path of paths) {
@@ -223,8 +218,8 @@ export class SRouter<T extends PageType = PageType>{
         console.log('navHistoryUpdate');
         let path = pathList.join('/').replace('//', '');
         try {
-            if(_qs) path += '='+ JSON.stringify(_qs);
-        } catch (error) {}
+            if (_qs) path += '=' + JSON.stringify(_qs);
+        } catch (error) { }
         if (window.location.hash !== path) window.location.hash = path;
     }
     editPath(paths: string[]) {
@@ -296,23 +291,23 @@ function _check(_path: string, pages: any, self: SRouter<any>) {
         let currentPage = pages
         const list = [...self.store.getState().pathList];
         if (list.includes(_path)) return true;
-        const r = ()=>{
+        const r = () => {
             for (const path of list) {
-            //@ts-ignore
+                //@ts-ignore
 
-            const c = currentPage[path];
+                const c = currentPage[path];
 
-            //@ts-ignore
-            if (c && (c[_path] === null)) {
-                return true;
-            } else if (c === undefined) {
-                return
+                //@ts-ignore
+                if (c && (c[_path] === null)) {
+                    return true;
+                } else if (c === undefined) {
+                    return
+                }
+                //@ts-ignore
+                currentPage = c;
             }
-            //@ts-ignore
-            currentPage = c;
         }
-        }
-        let res = r();        
+        let res = r();
         return res
     } catch (error) {
         return
