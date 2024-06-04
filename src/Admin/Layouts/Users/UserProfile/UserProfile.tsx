@@ -14,7 +14,7 @@ export function UserProfile() {
     const { selectedUser, setUserById } = useUserStore();
     const {user} = useRegisterStore();
     const [isCheckRequired] = useState(false);
-    const size = useWindowSize(); 
+    const size = useWindowSize();  
     const wrap = size.width < 1000 ? 'wrap' : '';
  
     useEffect(() => {
