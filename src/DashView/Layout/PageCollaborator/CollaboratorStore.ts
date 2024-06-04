@@ -10,9 +10,9 @@ interface CollaboratorState {
     updateCollaborator(data:Record<string, any>):Promise<any>
     fetchCollaborators(filter?: Record<string, any>): Promise<ListType<UserInterface& UserStore>|undefined>;
     change_collaborator_role(data:{new_role_id:string, collaborator_id:string , store_id?:string}):Promise<any>
+    addCollaborator(data: Record<string,any>):Promise<string[]|undefined>,
     setSelectedCollaborator(selected: UserInterface& UserStore |undefined): Promise<void>;
     banCollaborator(collaborator_id: string):Promise<string|undefined>
-    addCollaborator(data: Record<string,any>):Promise<string[]|undefined>,
     removeCollaborator(collaborator_id:string):Promise<void>;
     setCollaboratorById(id:string):void;
 }
@@ -129,22 +129,16 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         }
     },
     async removeCollaborator(collaborator_id) {
-        console.log(collaborator_id);
+        let h = useRegisterStore.getState().getHeaders();
+        if (!h) return
         
-        const store = useRegisterStore.getState().store;
-        if (!store) return;
-        let user = useRegisterStore.getState().user;
-        if (!user) return
-        const h = new Headers();
-        h.append("Authorization", `Bearer ${user.token}`);
-
         const formData = new FormData();
-        formData.append('store_id',store.id);
+        formData.append('store_id',h.store.id);
         formData.append('collaborator_id',collaborator_id)
        
         const requestOptions = {
             method: "DELETE",
-            headers: h,
+            headers: h.headers,
             body:formData
         };
         
@@ -154,6 +148,9 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         if(json.deleted) set(()=>({selectedCollaborator:undefined}));
     },
     async fetchCollaborators(filter) {
+        let h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        
         const query: any = {};
         if (filter?.page) query.page = Number(filter.page);
         if (filter?.limit) query.limit = Number(filter.limit);
@@ -161,15 +158,16 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
         if (filter?.query.text) query.text = filter.query.text;
         if (filter?.query.user_id) query.user_id = filter.query.user_id;
         if (filter?.query.phone) query.phone = filter.query.phone;
-        query.store_id = useRegisterStore.getState().store?.id;
-        if(!query.store_id) return
+        query.store_id = h.store?.id;
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
             searchParams.set(key, value);
         }
         
-         const response = await fetch(`${Host}/get_store_collaborators/?${searchParams.toString()}`);
+         const response = await fetch(`${Host}/get_store_collaborators/?${searchParams.toString()}`,{
+            headers:h.headers
+         });
         const json = await response.json() as ListType<UserInterface & UserStore>;
         
         if (!json || !json.list) return;

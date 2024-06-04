@@ -20,9 +20,10 @@ interface StoreState {
 export const useStoreStore = create<StoreState>((set) => ({
     stores: undefined,
     async fetchStores(filter) {
-        console.log('************');
         const owner = useWebStore.getState().owner
         if(!owner) return
+        //@ts-ignore
+        filter.owner_id = owner.id
         const searchParams = new URLSearchParams({});
             for (const key in filter) {
                 const value = (filter as any)[key];
@@ -35,7 +36,6 @@ export const useStoreStore = create<StoreState>((set) => ({
         })
         const json = await response.json();
         if(!json?.list) return 
-        console.log(json.list);
         set(()=>({stores:json}))
         return json
     },

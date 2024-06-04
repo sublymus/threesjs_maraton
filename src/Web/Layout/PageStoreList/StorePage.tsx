@@ -8,12 +8,13 @@ import { useWebRoute } from '../../WebStore'
 
 
 export function StorePage() {
-    const { check, current, setAbsPath , navBack } = useWebRoute()
+    const { check, current, setAbsPath , qs , navBack  } = useWebRoute()
     const { owner, stores, owner_stores, setSelectedStore } = useWebStore()
-    // const { stores, fetchStores } = useStoreStore()
+    
     useEffect(() => {
         check('store_list') && owner_stores({})
     }, [owner])
+    
     return current('store_list') && (
         <div className='stores-page'>
             <div className="top-top">
@@ -39,7 +40,7 @@ export function StorePage() {
                     <div className="store">
                         <div className="banner" style={{ background: getImg(s.banners[0]) }} onClick={() => {
                             setSelectedStore(s)
-                            setAbsPath(['edit_store'])
+                            qs({store_id:s.id}).setAbsPath(['edit_store'])
                         }}>
                             <div className="edit"></div>
                             <div className="more">

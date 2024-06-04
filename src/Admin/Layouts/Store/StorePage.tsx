@@ -9,13 +9,14 @@ import { Local } from '../../../Config'
 
 
 export function StorePage() {
-    const { check } = useAdminRoute()
+    const { current, qs, json } = useAdminRoute()
     const { user } = useRegisterStore()
-    const { stores, fetchStores } = useStoreStore()
+    const { stores, fetchStores , setStore } = useStoreStore()
     useEffect(() => {
-        check('stores') && fetchStores({})
+        user && current('stores') && fetchStores({text:''})
     }, [user])
-    return (
+    
+    return current('stores') &&(
         <div className='stores-page'>
             <div className="sreach-stores">
                 <div className="ctn">
@@ -27,8 +28,11 @@ export function StorePage() {
             </div>
             <div className="stores">
                 {stores?.list.map((s) => (
-                    <div className="store">
-                        <div className="banner" style={{ background: getImg(s.banners[0]) }}>
+                    <div className="store" key={s.id}>
+                        <div className="banner" style={{ background: getImg(s.banners[0]) }} onClick={()=>{
+                            setStore(s)
+                            qs({store_id:s.id}).setAbsPath(['stores','store_info']);
+                        }}>
                             <div className="more">
                                 <div className="logo" style={{ background: getImg(s.logo[0]) }}></div>
                                 <div className="text">
@@ -81,7 +85,6 @@ export function StorePage() {
                     </div>
                 ))}
             </div>
-
         </div>
     )
 }

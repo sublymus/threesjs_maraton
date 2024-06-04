@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
-import { Host } from "../Config";
 // import { useRegisterStore } from "./Layout/PageAuth/RegisterStore";
 /*
 default path,
@@ -11,17 +10,21 @@ current('page')
 const Pages = {
     '/': {
         stores:{
-
+            store_info:{}
+        },
+        roles:{
+            edit_role:{},
+            create_role:{}
         },
         users:{
-
+            user_profile:{}
         },
         chat: {
             discussions: {},
             groups: {},
             surveys: {}
         },
-        interface: {},
+        interfaces: {},
         statistic: {},
         // roles: {
         //     //list
@@ -29,7 +32,8 @@ const Pages = {
         //     edit_role: {}
         // },
         moderators:{
-            moderator_profile:{}
+            moderator_profile:{},
+            new_moderator:{}
         }
     }
 }

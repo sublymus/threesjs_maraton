@@ -35,7 +35,7 @@ export function NavBar ({blur}:{blur:boolean}){
                             setActive('stores')
                             setAbsPath(['stores'])
                         }}><span className='stores'></span>{showText&&'STORE'}</li>
-                       <li className={width+' '+(active=='users'?'active':'no')} onClick={()=>{
+                       <li className={width+' '+((active=='users' || active=='moderators'||active=='roles')?'active':'no')} onClick={()=>{
                             setActive('users')
                             setAbsPath(['users'])
                         }}><span className='users'></span>{showText&&'USERS'}</li>
@@ -43,9 +43,9 @@ export function NavBar ({blur}:{blur:boolean}){
                             setActive('chat')
                             setAbsPath(['chat'])
                         }}><span className='chat'></span>{showText&&'CHAT'}</li>
-                        <li className={width+' '+((active=='interface')?'active':'no')} onClick={()=>{
-                            setActive('interface')
-                            setAbsPath(['interface'])
+                        <li className={width+' '+((active=='interfaces')?'active':'no')} onClick={()=>{
+                            setActive('interfaces')
+                            setAbsPath(['interfaces'])
                         }}><span className='interface'></span>{showText&&'INTERFACE'}</li>
                         <li className={width+' '+((active=='statistic')?'active':'no')} onClick={()=>{
                             setActive('statistic')

@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import './ChoiseOption.css'
-import { useRoleStore } from '../../Layout/PageRole/RoleStore';
-export function ChoiseOptions({onChange , isNew  }:{isNew ?:boolean ,onChange?:(ids:string[])=>any}) {
-    const { selectedRole, json_roles } = useRoleStore();
+export function ChoiseOptions({onChange , isNew , json_roles,role }:{role?:Record<string,any>,json_roles?:Record<string,any>,isNew ?:boolean ,onChange?:(ids:string[])=>any}) {
     const listRole = Object.keys(json_roles || {});
-    const  options = isNew?[] : listRole.filter(f=> (selectedRole as any)[f])
+    const  options = (isNew || !role)?[] : listRole.filter(f=> !!(role as any)[f])
     const [selected, setSelected] = useState(options);
     const [open, setOpen] = useState('');
     

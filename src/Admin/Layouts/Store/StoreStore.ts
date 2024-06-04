@@ -3,7 +3,9 @@ import { StoreInterface, type ListType } from '../../../DataBase'
 import { Host } from "../../../Config";
 import { useRegisterStore } from "../PageAuth/RegisterStore";
 interface StoreState {
+    store:StoreInterface|undefined,
     stores: ListType<StoreInterface> | undefined,
+    setStore(store:StoreInterface|undefined):void,
     fetchStores(filter: {
         page?: number,
         limit?: number,
@@ -14,14 +16,28 @@ interface StoreState {
         // owner_name?:string,
         // id?:string,
         // owner_email?:string
-    }):Promise<ListType<StoreInterface>|undefined>
+    }, unsave?:boolean):Promise<ListType<StoreInterface>|undefined>
+    setStoreById(store_id:string):any
 }
 
 export const useStoreStore = create<StoreState>((set) => ({
     stores: undefined,
-    
-    async fetchStores(filter) {
-        console.log('************');
+    store:undefined,
+    setStore(store) {
+        set(()=>({store}));
+    },
+    async setStoreById(store_id) {
+        const store = useStoreStore.getState().stores?.list.find(s=>s.id==store_id) as StoreInterface 
+        if(store){
+            return set(()=>({store:store}));
+        }else{
+            const store = (await useStoreStore.getState().fetchStores({text:'#'+store_id},true))?.list[0] as StoreInterface;
+            if(store){
+                return set(()=>({store:store}));
+            }
+        }
+    },
+    async fetchStores(filter, unsave) {
         const h = useRegisterStore.getState().getHeaders()
         const searchParams = new URLSearchParams({});
             for (const key in filter) {
@@ -33,8 +49,7 @@ export const useStoreStore = create<StoreState>((set) => ({
         })
         const json = await response.json();
         if(!json?.list) return 
-        console.log(json.list);
-        set(()=>({stores:json}))
+       if(!unsave) set(()=>({stores:json}))
         return json
     },
 }));

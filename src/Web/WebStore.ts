@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
 import { ListType, StoreInterface, UserInterface } from "../DataBase";
-
+import { useStoreStore } from './Layout/PageStoreList/StoreStore'
 const Pages = {
     '/': {
         new_store: {},
@@ -40,6 +40,7 @@ interface WebState {
     createOwner(): Promise<void>
     tryToken(): Promise<void>
     disconnection(): Promise<void>
+    setStoreById(store_id:string):any,
     deleteStore(store_id: string): Promise<boolean>
 }
 
@@ -50,6 +51,21 @@ export const useWebStore = create<WebState>((set) => ({
     currentChild: undefined,
     back_color: '',
     blur:false,
+    async setStoreById(store_id) {
+        const store = useWebStore.getState().stores?.list.find(s=>s.id==store_id) as StoreInterface 
+        console.log('1',{store});
+        
+        if(store){
+            console.log('2',{store});
+            return set(()=>({selectedStore:store}));
+        }else{
+            const store = (await useStoreStore.getState().fetchStores({text:'#'+store_id}))?.list[0];
+            console.log('3',{store});
+            if(store){
+                return set(()=>({selectedStore:store}));
+            }
+        }
+    },
     openChild(child, blur, back_color) {
         set(() => ({ currentChild: child, blur, back_color: child ? (back_color || '') : '' }))
     },
@@ -237,6 +253,8 @@ export const useWebStore = create<WebState>((set) => ({
                 useWebStore.getState().owner_stores({});
                 useWebRoute.getState().setAbsPath(['store_list']);
             }
+            // console.log(new Date().getMilliseconds());
+            
         }, 100);
 
     },

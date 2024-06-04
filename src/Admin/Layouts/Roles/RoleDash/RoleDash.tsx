@@ -1,27 +1,30 @@
 import './RoleDash.css'
-import { useDashRoute } from '../../../dashStore'
-import { ChoiseOptions } from '../../../Component/ChoiseOption/ChoiseOption'
+import { useAdminRoute } from '../../../AdminStore'
+import { ChoiseOptions } from '../../../../DashView/Component/ChoiseOption/ChoiseOption'
 import { useRoleStore } from '../RoleStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
-import { InputText } from '../../../Component/Form/Input';
-import { ActionsCard } from '../../../Component/Chart/ActionsCard/ActionsCard';
+import { InputText } from '../../../../DashView/Component/Form/Input';
+import { ActionsCard } from '../../../../DashView/Component/Chart/ActionsCard/ActionsCard';
 import { useEffect, useState } from 'react';
-import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
+import { EditorTopBar } from '../../../../DashView/Component/EditorTopBar/EditorTopBar';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function RoleDash() {
 
-    const { selectedRole,setRoleById, updateRole , newRole , deleteRole , json_roles } = useRoleStore();
-    const { current, json } = useDashRoute();
-
+    const { selectedRole,setRoleById, updateRole , newRole , deleteRole, fetchRolesJson ,json_roles} = useRoleStore();
+    const { current, json } = useAdminRoute();
+    const {user} = useRegisterStore()
     const [collected] = useState<Record<string, any>>({})
     const isDash = current('edit_role');
     const isNew = current('create_role');
 
     useEffect(()=>{
-        if(json?.role_id){
-            setRoleById(json?.role_id)
-        }
+        (isDash || isNew) && json?.role_id && user && setRoleById(json?.role_id)
+        
+    },[json, user])
+    useEffect(()=>{
+        (isDash || isNew) && fetchRolesJson()
     },[json])
-
+    
     return  (isDash || isNew) && (
         (!selectedRole && isDash) ? (
             <div className="not-found">
@@ -52,7 +55,7 @@ export function RoleDash() {
                     }
                 </div>
                 <div className="right-side">
-                    <ChoiseOptions role={selectedRole} json_roles={json_roles} isNew={isNew} onChange={(value) => {
+                    <ChoiseOptions json_roles={json_roles} role={selectedRole} isNew={isNew} onChange={(value) => {
                         isDash ? updateRole({
                             options: value
                         }) : collected['options'] = value

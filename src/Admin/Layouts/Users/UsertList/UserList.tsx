@@ -1,33 +1,33 @@
-import { useDashRoute } from '../../../dashStore';
-import './ModeratorList.css'
-import { GenericList } from '../../../Component/GenericList/GenericList';
-import { useModeratorStore } from '../ModeratorStore'
+import { useAdminRoute } from '../../../AdminStore';
+import './UserList.css'
+import { GenericList } from '../../../../DashView/Component/GenericList/GenericList';
+import { useUserStore } from '../UserStore'
 import { Host } from '../../../../Config';
-import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
-import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
-import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
-import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
+import { FilterLevel } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
+import { FilterCollector } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
+import { FilterInterval } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
+import { FilterSwitch } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
-import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { StatusElement } from '../../../../DashView/Component/ChoiseStatus/ChoiseStatus';
 import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
-export function ModeratorList() {
-    const { current , qs } = useDashRoute();
-    const { moderators , setSelectedModerator , fetchModerators} = useModeratorStore();
-    const { store } = useRegisterStore();
+export function UserList() {
+    const { current,qs } = useAdminRoute();
+    const { users , setSelectedUser , fetchUsers} = useUserStore();
+    const { user } = useRegisterStore();
     useEffect(()=>{ 
-        current('moderators') && store&&fetchModerators();
-    },[store])
-    return current('moderators') && (
-        <div className="moderator-list" ref={bindToParentScroll}>
+        current('users') &&fetchUsers();
+    },[user])
+    return current('users') && (
+        <div className="user-list" ref={bindToParentScroll}>
             <div className="list-ctn">
                 <GenericList filter={{
                     sortBy:'id',
                     sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
-                    limit: moderators?.limit,
-                    page: moderators?.page,
-                    total: moderators?.total,
+                    limit: users?.limit,
+                    page: users?.page,
+                    total: users?.total,
                     filter:{
                         price:FilterInterval([0,100000],[0,10000]),
                         stock:FilterInterval([0,10000],[0,10000]),
@@ -36,7 +36,7 @@ export function ModeratorList() {
                         is_dynamic_price:FilterSwitch(),
                         hasScene:FilterSwitch()
                     }}}
-                    items_height={80} id={'moderator_list'} datas={moderators?.list||[]} itemsMapper={{
+                    items_height={80} id={'user_list'} datas={users?.list||[]} itemsMapper={{
                         photos: {
                             getView(label, value, e, setRef) {
                                 return (
@@ -67,11 +67,11 @@ export function ModeratorList() {
                         selectedItems.forEach((item)=>{
                             if(item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
-                        setSelectedModerator(selectedItems[0] as any);
-                        qs({moderator_id:selectedItems[0].id}).setAbsPath(['moderators','moderator_profile'])
+                        setSelectedUser(selectedItems[0] as any);
+                        qs({user_id:selectedItems[0].id}).setAbsPath(['users','user_profile'])
                     }}
                     onQuery={(query)=>{
-                        fetchModerators(query)
+                        fetchUsers(query)
                     }}    
                      
                     top_height={40}

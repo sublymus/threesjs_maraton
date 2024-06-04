@@ -7,16 +7,13 @@ import { useWebStore } from './WebStore';
 import { useEffect } from 'react';
 
 export function Web() {
-    const { tryToken, owner, owner_stores,blur, currentChild, openChild, back_color } = useWebStore();
+    const { tryToken, blur, currentChild, openChild, back_color } = useWebStore();
 
     useEffect(() => {
         tryToken();
     }, [])
 
-    useEffect(() => {
-        owner_stores({});
-    }, [owner])
-
+ 
     return (
         <div className="web">
             <div className="web-ctn" style={{filter :blur ? `blur(10px)`:''}}>

@@ -1,71 +1,76 @@
-import "./PageNewStore.css";
-import { useWebRoute, useWebStore } from '../../WebStore'
-import { Local } from "../../../Config";
+import "./PageInfo.css";
+import { Local } from "../../../../Config";
 import { useEffect, useState } from "react";
-import { generateUid } from "../../../Tools/uidGenerator";
-import { useWindowSize } from "../../../Hooks";
-import { EditorTopBar } from "../../../DashView/Component/EditorTopBar/EditorTopBar";
-import { getImg } from "../../../Tools/StringFormater";
+import { generateUid } from "../../../../Tools/uidGenerator";
+import { useWindowSize } from "../../../../Hooks";
+import { EditorTopBar } from "../../../../DashView/Component/EditorTopBar/EditorTopBar";
+import { getImg } from "../../../../Tools/StringFormater";
+import { useAdminStore , useAdminRoute } from "../../../AdminStore";
+import { useStoreStore } from "../StoreStore";
+import { useRegisterStore } from "../../PageAuth/RegisterStore";
 
-export function PageNewStore() {
+export function PageInfo () {
     const [id] = useState(generateUid());
-    const { current, setAbsPath, navBack, json } = useWebRoute();
-    const { createStore, deleteStore, editStore, selectedStore, openChild, setStoreById , owner} = useWebStore();
-
-    const [collected, setCollected] = useState<Record<string, any>>(selectedStore || {});
-    const [fileLogo, setFileLogo] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: (current('edit_store') || '') && `${selectedStore.logo[0]}` } : null)
-    const [fileBanner, setFileBanner] = useState<{ file?: File, url: string } | null>(selectedStore ? { url: (current('edit_store') || '') && `${selectedStore.banners?.[0]}` } : null)
+    const { current, setAbsPath, navBack , json} = useAdminRoute();
+    const {  store ,setStoreById} = useStoreStore();
+    const {openChild } = useAdminStore();
+    const { user} = useRegisterStore()
+    const [collected, setCollected] = useState<Record<string, any>>(store || {});
+    const [fileLogo, setFileLogo] = useState<{ file?: File, url: string } | null>(store ? { url: (current('store_info') || '') && `${store.logo[0]}` } : null)
+    const [fileBanner, setFileBanner] = useState<{ file?: File, url: string } | null>(store ? { url: (current('store_info') || '') && `${store.banners?.[0]}` } : null)
 
     const size = useWindowSize();
     const wrap = size.width < 1050 ? 'wrap' : ''
     useEffect(() => {
         setTimeout(() => {//TODO tres gros probleme le useEffeect est appele avant le changement de page;
-            if (selectedStore && current('edit_store')) {
-                setCollected(selectedStore);
-                setFileBanner({ url: `${selectedStore.banners[0]}` });
-                setFileLogo({ url: `${selectedStore.logo?.[0]}` });
+            if (store && current('store_info')) {
+                setCollected(store);
+                setFileBanner({ url: `${store.banners[0]}` });
+                setFileLogo({ url: `${store.logo?.[0]}` });
             }
         });
-        if (!selectedStore) {
+        if (!store) {
             setCollected({})
             setFileLogo(null)
             setFileBanner(null)
         }
-    }, [selectedStore]);
-    useEffect(()=>{
-        owner &&json?.store_id && setStoreById(json.store_id)
-    },[json, owner])
-    const edit = current('edit_store');
+    }, [store]);
 
-    const s = selectedStore;
-    return (edit && (!selectedStore)) ? (
-        <div className="store-select-btn" onClick={() => { setAbsPath(['store_list']) }}>
+    const edit = current('store_info');
+    useEffect(()=>{
+        json?.store_id && user && setStoreById(json.store_id)
+    },[json, user])
+    const s = store;
+    return (edit && (!store)) ? (
+        <div className="store-select-btn" onClick={() => { setAbsPath(['stores']) }}>
             Select Store Before Edition
         </div>
-    ) : (current('new_store', 'edit_store')) && (
-        <div className="page-new-store">
-            {selectedStore && <div className="editor-top">
+    ) : (current('store_info')) && (
+        <div className="store-info">
+            {store && <div className="editor-top">
                 <div className="nav-back" onClick={()=>navBack()}></div>
-                <EditorTopBar terme="dark" deteleKey={selectedStore.id} mode={'delete'} onDelete={() => {
-                    deleteStore(selectedStore.id).then((res => {
-                        if (res) {
-                            setAbsPath(['store_list'])
-                        }
-                    }))
+                <EditorTopBar terme="dark" deteleKey={store.id} mode={'delete'} onDelete={() => {
+                    console.log('DELETE REQUIRED');
+                    
+                    // deleteStore(store.id).then((res => {
+                    //     if (res) {
+                    //         setAbsPath(['stores'])
+                    //     }
+                    // }))
                 }} onCreate={() => { }} title="Store Information" />
                 <div className="open-opt">
                     <div className="btn-dash btn demo" onClick={() => {
-                        localStorage.setItem('store', JSON.stringify(selectedStore));
+                        localStorage.setItem('store', JSON.stringify(store));
                         window.open(
-                            `${Local}/demo/${selectedStore.name}`
+                            `${Local}/demo/${store.name}`
                         );
                     }}>
                         Open Demo Store
                     </div>
                     <div className="btn-dash btn" onClick={() => {
-                        localStorage.setItem('store', JSON.stringify(selectedStore));
+                        localStorage.setItem('store', JSON.stringify(store));
                         window.open(
-                            `${Local}/${selectedStore?.name}/dash`,
+                            `${Local}/${store?.name}/dash`,
                         );
                     }}>
                         Open Dashboard
@@ -75,63 +80,12 @@ export function PageNewStore() {
             }
             <div className={"center-content " + wrap}>
                 <div className="center-left">
-
-                    {/* <div className="logo-ctn">
-                        <input type="file" id={id + 'logo'} style={{ display: 'none' }} onChange={(e) => {
-                            const file = e.currentTarget.files?.[0];
-                            if (file) {
-                                setFileLogo({ file, url: URL.createObjectURL(file) })
-                            }
-                        }} />
-                        <label htmlFor={id + 'logo'} className="choose-img"><span className="btn">{fileLogo ? 'Replace Logo' : 'Choose Logo'}</span> <span>{logoFileName ? (logoFileName.length > 35 ? logoFileName.substring(0, 35) + '...' : logoFileName) : ''}</span></label>
-                        <div className={"logo " + (fileLogo ? '' : 'nothing')} onDrop={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            const file = e.dataTransfer.files?.[0];
-                            if (file) {
-                                setFileLogo({ file, url: URL.createObjectURL(file) })
-                            }
-                        }} style={{ background: getImg(fileLogo?.url || '') }}>
-                            {!fileLogo && <label htmlFor={id + 'logo'} className="img"></label>}
-                        </div>
-                    </div>
-                    <div className="banner-ctn">
-                        
-                        <label htmlFor={id + 'banner'} className="choose-img"><span className="btn">{fileBanner ? 'Replace Banner' : 'Choose Banner'}</span> <span>{bannerFileName ? (bannerFileName.length > 35 ? bannerFileName.substring(0, 35) + '...' : bannerFileName) : ''}</span></label>
-                        <div className={"banner " + (fileBanner ? '' : 'nothing')} onDrop={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            const file = e.dataTransfer.files?.[0];
-                            if (file) {
-                                setFileBanner({ file, url: URL.createObjectURL(file) })
-                            }
-                        }} style={{ background: getImg(fileBanner?.url || '') }}>
-                            {!fileBanner && <label htmlFor={id + 'banner'} className="img"></label>}
-                        </div>
-                    </div> */}
-                    <div className={"store " + (selectedStore ? 'anim' : 'void')}>
+                <div className={"store " + (store ? 'anim' : 'void')}>
 
                         <div className={"banner " + (fileBanner?.url ? '' : 'void')} style={fileBanner?.url ? { background: getImg(fileBanner?.url || '') } : {}} onClick={() => {
-                            // setAbsPath(['edit_store'])
+                            // setAbsPath(['store_info'])
                         }}>
-                            <div className="img-options">
-                                {fileBanner?.url && <div className="open" onClick={() => {
-                                    openChild(
-                                        <div className="big-img" onClick={() => openChild(undefined, false)}>
-                                            <div className="img" style={{
-                                                background: getImg(fileBanner?.url || '')
-                                            }} ></div>
-                                        </div>, true, '#3455'
-                                    )
-                                }}></div>}
-                                <input type="file" id={id + 'banner'} style={{ display: 'none' }} onChange={(e) => {
-                                    const file = e.currentTarget.files?.[0];
-                                    if (file) {
-                                        setFileBanner({ file, url: URL.createObjectURL(file) })
-                                    }
-                                }} />
-                                <label htmlFor={id + 'banner'} className="edit"></label>
-                            </div>
+                            
                             <div className="more">
                                 <div className={"logo " + (fileLogo?.url ? '' : 'void')} style={fileLogo?.url ? { background: getImg(fileLogo?.url || '') } : {}} onClick={(e) => {
                                      if(e.currentTarget != e.target) return
@@ -143,13 +97,6 @@ export function PageNewStore() {
                                         </div>, true, '#3455'
                                     )
                                 }}>
-                                    <input type="file" id={id + 'logo'} style={{ display: 'none' }} onChange={(e) => {
-                                        const file = e.currentTarget.files?.[0];
-                                        if (file) {
-                                            setFileLogo({ file, url: URL.createObjectURL(file) })
-                                        }
-                                    }} />
-                                    <label htmlFor={id + 'logo'} className="edit"></label>
                                 </div>
                                 <div className="text">
                                     <div className="name">{collected.name}</div>
@@ -162,15 +109,15 @@ export function PageNewStore() {
                             <div className="info">
                                 <div className="stat">
                                     <div className="products">
-                                        <div className="value">{selectedStore ? 42 : 0}</div>
+                                        <div className="value">{store ? 42 : 0}</div>
                                         <div className="icon"></div>
                                     </div>
                                     <div className="clients">
-                                        <div className="value">{selectedStore ? 205 : 0}</div>
+                                        <div className="value">{store ? 205 : 0}</div>
                                         <div className="icon"></div>
                                     </div>
                                     <div className="collaborators">
-                                        <div className="value">{selectedStore ? 9 : 0}</div>
+                                        <div className="value">{store ? 9 : 0}</div>
                                         <div className="icon"></div>
                                     </div>
                                 </div>
@@ -184,7 +131,7 @@ export function PageNewStore() {
                                 </div>
                             </div>
                             {
-                                selectedStore && (
+                                store && (
                                     <div className="options">
                                         <div className="open-store" onClick={() => {
                                             localStorage.setItem('store', JSON.stringify(s));
@@ -212,8 +159,8 @@ export function PageNewStore() {
                     {/* <div className="user-name"><span>Owner : </span> <span className="name">{owner?.name}</span></div> */}
                     {
                         edit && <div className="id">
-                            <label htmlFor={id + 'id'} style={{ color: '#fff9' }} >Id</label>
-                            <input type="text" id={id + 'id'} value={collected.id || ''} style={{ color: '#fff9', borderColor: '#fff9' }} placeholder="Name" />
+                            <label htmlFor={id + 'id'} style={{ opacity: '0.5' }} >Id</label>
+                            <input type="text" id={id + 'id'} value={collected.id || ''} style={{ opacity: '0.5' }} placeholder="Name" />
                         </div>
                     }
                     <div className="name">
@@ -269,27 +216,27 @@ export function PageNewStore() {
                             })
                         }} />
                     </div>
-                    <div className="btm">
+                    {/* <div className="btm">
                         <div className="btn" onClick={() => {
-                            edit ? (selectedStore && editStore({
+                            edit ? (store && editStore({
                                 ...collected,
                                 banners: fileBanner,
                                 logo: fileLogo,
-                                store_id: selectedStore?.id
+                                store_id: store?.id
                             }).then((res) => {
-                                res && setAbsPath(['store_list']);
+                                res && setAbsPath(['stores']);
                             })) : createStore({
                                 ...collected,
                                 banners: fileBanner,
                                 logo: fileLogo
                             }).then((res) => {
-                                res && setAbsPath(['store_list']);
+                                res && setAbsPath(['stores']);
                             })
                         }}>
                             {edit ? 'Edit' : 'Create'} Store
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>

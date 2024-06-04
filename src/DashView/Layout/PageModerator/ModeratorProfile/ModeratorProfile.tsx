@@ -9,29 +9,27 @@ import { GenericList } from '../../../Component/GenericList/GenericList';
 import { Host } from '../../../../Config';
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 import { OpenChat } from "../../../Component/OpenChat/OpenChat";
+import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function ModeratorProfile() {
 
     const { current, setAbsPath, json } = useDashRoute();
-    const { selectedModerator ,setModeratorById ,moderatorCommands , moderatorVisites } = useModeratorStore();
-
-    const [btmList, setBtmList] = useState('commands');
-
+    const { selectedModerator ,setModeratorById  } = useModeratorStore();
+    const {store} = useRegisterStore()
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
     useEffect(()=>{
-        if(json?.moderator_id){
-            setModeratorById(json?.moderator_id)
-        }
-    },[json])
-
+            json?.moderator_id && store && setModeratorById(json.moderator_id)
+        },[json, store])
+        
     return current('moderator_profile') && (!selectedModerator ? (
         <div className="not-found">
             <div className="img"></div>
         </div>
     ) : (
-        <div className="moderator-profile">
+        <div className="moderator-profile" ref={bindToParentScroll}>
             <h1>Moderator Information</h1>
             <section className={"editor " + wrap}>
                 <div className="left-right">
@@ -46,111 +44,7 @@ export function ModeratorProfile() {
                     <OpenChat user={selectedModerator} channel='sessions'/>
                 </div>
             </section>
-            <>
-            <div className="btm-list">
-
-                <h1 >Products That Use This Catalog</h1>
-                <div className={"btn " + (btmList == 'commands' ? 'active' : '')} onClick={() => {
-                    setBtmList('commands');
-                }}>
-                    <div className="icon"></div>
-                    <div className="label">Commands</div>
-                </div>
-                <div className={"btn " + (btmList == 'visites' ? 'active' : '')} onClick={() => {
-                    setBtmList('visites');
-                }}>
-                    <div className="icon"></div>
-                    <div className="label">Visites</div>
-                </div>
-
-                <h2 className='see-all' onClick={() => {
-                    btmList == 'visites' ?
-                    setAbsPath(['products']):
-                    setAbsPath(['command'])
-                }}>SEE ALL</h2>
-            </div>
-                {
-                    btmList == 'commands' && <GenericList 
-                        disableFilterBar
-                        items_height={80}
-                        id={'product-use-catalog_list'}
-                        datas={moderatorCommands?.list || []}
-                        itemsMapper={{
-                            images: {
-                                getView(label, value, e, setRef) {
-                                    return (
-                                        GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
-                                    )
-                                }
-                            },
-                            id: {
-                                getView(_, value: string, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            title: GenericList.StringElement({ size_interval: [50, 200] }),
-                            stock: GenericList.StringElement(),
-                            category_id: {
-                                getView(_, value, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            price: GenericList.StringElement({ size: 200 }),
-                            status: StatusElement,
-                            created_at: GenericList.DateStringElement({ size: 200 }),
-                        }}
-                        onItemsSelected={() => {
-                            // s(item[0] as any);
-                            // setAbsPath(['command']);
-                        }}
-                    >
-
-                    </GenericList>
-                }{
-                    btmList == 'visites' && <GenericList
-                        disableFilterBar
-                        items_height={80}
-                        id={'product-use-catalog_list'}
-                        datas={moderatorVisites?.list || []}
-                        itemsMapper={{
-                            id: {
-                                getView(_, value: string, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            label: GenericList.StringElement({ size_interval: [50, 200] }),
-                            total_products: {
-                                getView(label, value, e, setRef) {
-                                    const mapper = GenericList.StringElement();
-                                    return mapper.getView(label, value || 0, e, setRef);
-                                },
-                            },
-                            catalog_id: {
-                                getView(_, value, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            status: StatusElement,
-                            created_at: GenericList.DateStringElement({ size: 500 }),
-                        }}
-                        onItemsSelected={() => {
-                            // setSelectedCategory(item[0] as any);
-                            setAbsPath(['products', 'dash_product']);
-                        }}
-                    >
-
-                    </GenericList>
-                }
-            </>
-
+           
         </div>
     ))
 }

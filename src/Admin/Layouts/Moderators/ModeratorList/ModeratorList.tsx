@@ -1,24 +1,24 @@
-import { useDashRoute } from '../../../dashStore';
+import { useAdminRoute } from '../../../AdminStore';
 import './ModeratorList.css'
-import { GenericList } from '../../../Component/GenericList/GenericList';
+import { GenericList } from '../../../../DashView/Component/GenericList/GenericList';
 import { useModeratorStore } from '../ModeratorStore'
 import { Host } from '../../../../Config';
-import { FilterLevel } from '../../../Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
-import { FilterCollector } from '../../../Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
-import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
-import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
+import { FilterLevel } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';
+import { FilterCollector } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterCollector/FilterCollector';
+import { FilterInterval } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterInterval/FilterInterval';
+import { FilterSwitch } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
-import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
+import { StatusElement } from '../../../../DashView/Component/ChoiseStatus/ChoiseStatus';
 import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 // import React from 'react'
 export function ModeratorList() {
-    const { current , qs } = useDashRoute();
+    const { current,qs , setAbsPath } = useAdminRoute();
     const { moderators , setSelectedModerator , fetchModerators} = useModeratorStore();
-    const { store } = useRegisterStore();
+    const { user } = useRegisterStore();
     useEffect(()=>{ 
-        current('moderators') && store&&fetchModerators();
-    },[store])
+        current('moderators') &&fetchModerators();
+    },[user])
     return current('moderators') && (
         <div className="moderator-list" ref={bindToParentScroll}>
             <div className="list-ctn">
@@ -73,7 +73,10 @@ export function ModeratorList() {
                     onQuery={(query)=>{
                         fetchModerators(query)
                     }}    
-                     
+                     canAddNew
+                     onNewRequired={()=>{
+                        setAbsPath(['moderators','new_moderator'])
+                     }}
                     top_height={40}
                     canPaginate
                     >

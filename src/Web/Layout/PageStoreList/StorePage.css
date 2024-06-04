@@ -75,7 +75,8 @@
     height: 360px;
     display: flex;
     flex-wrap: wrap;
-    box-shadow: var(--box-shadow);   
+    box-shadow: var(--box-shadow);
+    margin: 10px;   
 }
 
 .stores-page .store .banner {

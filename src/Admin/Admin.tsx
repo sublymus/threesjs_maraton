@@ -3,17 +3,29 @@ import './index.css'
 import './Admin.css'
 import { useAdminRoute ,useAdminStore } from "./AdminStore";
 import { useEffect } from 'react';
+import { PageInfo } from "./Layouts/Store/PageInfo/PageInfo";
 import { NavBar } from './Components/NavBar/NavBar'
 import { StorePage } from "./Layouts/Store/StorePage";
 import { PageAuth } from './Layouts/PageAuth/PageAuth';
 import { useRegisterStore } from './Layouts/PageAuth/RegisterStore';
+import { PageUser } from './Layouts/Users/PageUser'
+import { PageModerator } from "./Layouts/Moderators/PageModerator";
+import { PageRole } from "./Layouts/Roles/PageRole";
 const PathMap ={
     stores: 'Stores',
+    store_info:'Store Info',
+    roles:'Roles',
+    edit_role:'Edit Role',
+    create_role:'Create Role',
+    users:'Users',
+    user_profile:'User Profile',
+    chat:'Chat',
+    discussions:'Discussions',
+    groups:'Groups',
+    surveys:'Surveys',
+    interface:'Interfaces',
     statistic: 'Statistic',
     action: 'Action',
-    users: 'Users',
-    chat:'Chat',
-    discussions:'Discussions'
 }
 export function Admin() {
     
@@ -62,7 +74,10 @@ export function Admin() {
                     </div>
                     <div className="center-ctn">
                         <StorePage/>
-                        
+                        <PageInfo/>
+                        <PageUser/>
+                        <PageModerator/>
+                        <PageRole/>
                     </div>
                 </div>
             </div>

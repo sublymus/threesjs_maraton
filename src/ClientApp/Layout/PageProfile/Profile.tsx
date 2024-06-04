@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useAppRouter } from '../../AppStore';
 import { PageRegister } from '../PageRegister/PageRegister';
 import { PageUser } from '../PageUser/PageUser';

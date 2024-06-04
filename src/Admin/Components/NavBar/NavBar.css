@@ -70,9 +70,9 @@
     width: 100%;
     height: 60px;
     margin-top: 10px;
-    padding-left: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
     color: #7e7e7e;
     font-size: 15px;
     transition: 200ms;
