@@ -16,7 +16,7 @@ export function UserProfile() {
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-
+ 
     useEffect(() => {
         current('user_profile') && json?.user_id && user&& setUserById(json?.user_id)
     }, [json, user])
