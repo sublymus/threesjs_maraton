@@ -12,8 +12,9 @@ interface DashState {
     setSelectedFeature(selected: Feature|undefined): any,
     updateFeature(feature: Record<string, any>): Promise<void>;
     createFeature(feature: Record<string, any>): Promise<string[]|undefined>;
-    fetchFeatures(query?: Record<string, any>): Promise<void>,
+    fetchFeatures(query?: Record<string, any>, noSave?:boolean): Promise<ListType<Feature> | undefined>,
     removeFeature(feature_id: string):Promise<string|undefined>
+    setFeatureById(feature_id:string):void;
 }
 
 // const FEATURES_CACHE: {
@@ -23,6 +24,17 @@ export const useFeatureStore = create<DashState>((set) => ({
     features: undefined,
     selectedFeature: undefined,
     productsUseFeature:undefined,
+    async setFeatureById(feature_id) {
+        const f = useFeatureStore.getState().selectedFeature || useFeatureStore.getState().features?.list.find(f=>f.id == feature_id);
+        if(f){
+            set(()=>({selectedFeature:f}));
+        }else{
+            const feature = (await useFeatureStore.getState().fetchFeatures({
+                feature_id
+            },true))?.list[0];
+            set(()=>({selectedFeature:feature}));
+        }
+    },
     async removeFeature(feature_id) {
         const response = await fetch(`${Host}/delete_feature/${feature_id}`, {
             method: 'DELETE'
@@ -46,14 +58,13 @@ export const useFeatureStore = create<DashState>((set) => ({
     async updateFeature(_feature) {
         return undefined
     },
-    async fetchFeatures(filter) {
-        try {
-          
+    async fetchFeatures(filter, noSave) {
             const query :any = {};
             if(filter?.page) query.page = Number(filter.page);
             if(filter?.limit) query.limit = Number(filter.limit);
             if(filter?.sortBy) query.order_by = filter.sortBy;
-            if(filter?.query.text) query.text = filter.query.text;
+            if(filter?.query?.text) query.text = filter.query?.text;
+            if(filter?.feature_id) query.feature_id = filter.feature_id;
             query.store_id = useRegisterStore.getState().store?.id
             const searchParams = new URLSearchParams({});
             for (const key in query) {
@@ -62,13 +73,10 @@ export const useFeatureStore = create<DashState>((set) => ({
             }
             const response = await fetch(`${Host}/get_features/?${searchParams.toString()}`);
             const json = (await response.json()) as ListType<Feature>;
-            if (!json || !json.list) return
-            set(() => ({ features: json }));
+            if (!json || !json.list) return undefined
+            if(!noSave)set(() => ({ features: json }));
             console.log(json);
-            
-        } catch (error: any) {
-            return console.warn(error.message);
-        }
+            return json
 
     },
 }));

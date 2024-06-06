@@ -11,6 +11,7 @@ import { useRegisterStore } from './Layouts/PageAuth/RegisterStore';
 import { PageUser } from './Layouts/Users/PageUser'
 import { PageModerator } from "./Layouts/Moderators/PageModerator";
 import { PageRole } from "./Layouts/Roles/PageRole";
+import { PageChat } from "./Layouts/Chat/PageChat";
 const PathMap ={
     stores: 'Stores',
     store_info:'Store Info',
@@ -78,6 +79,7 @@ export function Admin() {
                         <PageUser/>
                         <PageModerator/>
                         <PageRole/>
+                        <PageChat/>
                     </div>
                 </div>
             </div>

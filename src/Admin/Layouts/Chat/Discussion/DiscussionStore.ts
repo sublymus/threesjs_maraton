@@ -5,39 +5,23 @@ import { Host } from "../../../../Config";
 import { ListType, UserInterface } from "../../../../DataBase";
 import { transmit } from "../../../../Tools/Transmit";
 import type { Discussion, Message } from "../../../../DataBase";
-import { useCollaboratorStore } from "../../PageCollaborator/CollaboratorStore";
-import { useModeratorStore } from "../../PageModerator/ModeratorStore";
+import { useModeratorStore } from "../../Moderators/ModeratorStore";
 
 const NEW_DISCUSSION_STR = 'new_discussion'
 interface DiscussionState {
-    
     discussion: Discussion | undefined,
-    
     discussions: Discussion[] | undefined,
-    
     messages: ListType<Message> | undefined
-    
     setDiscussion(discussion: Discussion | undefined): void
-    
-    fetchDiscussions(blocked?: 'no' | 'only' | 'all', context_name?: 'm_c'): Promise<void>
-    
-    fetchCreateDiscussion(user_id: string, isM_C: boolean): Promise<Discussion | undefined>
-    
-    
+    fetchDiscussions(blocked?: 'no' | 'only' | 'all', context_name?: 'm_m' | 'm_c'): Promise<void>
+    fetchCreateDiscussion(user_id: string, isM_C?: boolean): Promise<Discussion | undefined>
+    addDiscussion(collabo: UserInterface): void
     unBlockDiscussion(discussion: Discussion): void
-    
-    
-    blockDiscussion(discussion: Discussion): void   // dicussion.blocked +=  null
-    
+    blockDiscussion(discussion: Discussion): void
     asReadDiscussion(discussion: Discussion): void
-    
     deleteDiscussion(discussion: Discussion): void
-    
     openDiscussionMessages(discussion_id: string): Promise<void>
-
-    addDiscussion(collabo: UserInterface, discMode?: string): void
-    setDiscussionByCollaboId(collabo_id: string, isMc?: boolean): void
-    
+    setDiscussionByModeratorId(collabo_id: string): void
 }
 type setType = ((cb: (data: DiscussionState) => Partial<DiscussionState>) => any)
 let disSet: setType | undefined;
@@ -49,38 +33,35 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
     setDiscussion(discussion) {
         set(() => ({ discussion }));
     },
-    async setDiscussionByCollaboId(collabo_id, isMc) {
-        const list = useDiscussionStore.getState().discussions;
-        const currentDiscussion = list?.find((l) => (l.other.id == collabo_id) && (isMc ? l.table_name == 'm_c' : l.table_name == 'stores'));
+    async setDiscussionByModeratorId(collabo_id) {
+        setTimeout(async () => {
+            const list = useDiscussionStore.getState().discussions;
+            const currentDiscussion = list?.find((l) => l.other.id == collabo_id);
 
-        console.log('current Discussion', currentDiscussion,isMc);
+            console.log('current Discussion', currentDiscussion);
 
-        if (currentDiscussion) {
-            const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id, 'discussions');
-            set(() => ({ discussion: currentDiscussion, messages: ms }));
-        } else {
-            const h = useRegisterStore.getState().getHeaders();
-            if (!h) return
-            const response = await fetch(`${Host}/get_discussions?context_name=${isMc ? 'm_c' : ''}&collaborator_id=${collabo_id}&store_id=${h.store.id}`, {
-                headers: h.headers,
-            });
-            const existDiscussion = (await response.json() as Discussion[])[0];
-            console.log('exist Discussion', existDiscussion,isMc);
-
-            if (existDiscussion) {
-                const ms = await useMessageStore.getState().fetchMessages(existDiscussion.id, 'discussions');
-                set(() => ({ discussion: existDiscussion, messages: ms }));
+            if (currentDiscussion) {
+                const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id, 'discussions');
+                set(() => ({ discussion: currentDiscussion, messages: ms }));
             } else {
-                let collabo:any;
-                if(isMc)
-                collabo = useModeratorStore.getState().moderators?.list.find((m) => m.id == collabo_id) || (await useModeratorStore.getState().fetchModerators({ query: { user_id: collabo_id } }))?.list[0]
-                else
-                collabo = useCollaboratorStore.getState().collaborators?.list.find((c) => c.id == collabo_id) || (await useCollaboratorStore.getState().fetchCollaborators({ query: { user_id: collabo_id } }))?.list[0]
-                
-                console.log('collabo', collabo);
-                collabo && useDiscussionStore.getState().addDiscussion(collabo,isMc?'moderators':'collaborators')
+                const h = useRegisterStore.getState().getHeaders();
+                if (!h) return
+                const response = await fetch(`${Host}/get_discussions?collaborator_id=${collabo_id}`, {
+                    headers: h.headers,
+                });
+                const existDiscussion = (await response.json() as Discussion[])[0];
+                console.log('exist Discussion', existDiscussion);
+
+                if (existDiscussion) {
+                    const ms = await useMessageStore.getState().fetchMessages(existDiscussion.id, 'discussions');
+                    set(() => ({ discussion: existDiscussion, messages: ms }));
+                } else {
+                    const collabo = useModeratorStore.getState().moderators?.list.find((c) => c.id == collabo_id) || (await useModeratorStore.getState().fetchModerators({ query: { user_id: collabo_id } }))?.list[0]
+                    console.log('collabo', collabo);
+                    collabo && useDiscussionStore.getState().addDiscussion(collabo)
+                }
             }
-        }
+        }, 200);
     },
     async openDiscussionMessages(discussion_id) {
         const messages = await useMessageStore.getState().fetchMessages(discussion_id, 'discussions');
@@ -150,8 +131,8 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         const formData = new FormData();
 
         formData.append('receiver_id', user_id);
-        formData.append('store_id', h.store.id);
-        formData.append('context_name', isM_C?'m_c':'stores')
+        if (isM_C) formData.append('context_name', 'm_c');
+        else formData.append('context_name', 'm_m');
         const response = await fetch(`${Host}/create_discussion`, {
             headers: h.headers,
             body: formData,
@@ -171,10 +152,8 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
             console.log(error);
         }
     },
-    async addDiscussion(collabo, discMode) {
-        const exist: any = useDiscussionStore.getState().discussions?.find(d => (d.other.id == collabo.id) && (discMode == 'moderators' ? d.table_name == 'm_c' : d.table_name == 'stores'));
-        console.log('addDiscussion',{ exist });
-
+    async addDiscussion(collabo) {
+        const exist: any = useDiscussionStore.getState().discussions?.find(d => d.other.id == collabo.id);
         if (exist) {
             //@ts-ignore
             set(() => ({ discussion: exist }));
@@ -184,8 +163,6 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         }
         const user = useRegisterStore.getState().user;
         if (!user) return
-        console.log('===', { discMode });
-
         const discussion = {
             "id": NEW_DISCUSSION_STR + Date.now(),
             "creator_id": user.id,
@@ -198,20 +175,20 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
             "created_at": '',
             "updated_at": "2024-05-09 13:46:04",
             "other": collabo,
-            table_name: discMode == 'moderators' ? 'm_c' : 'stores',
             last_message: undefined,
             other_att: 'creator'
         } as Discussion
-        set(({ discussions }) => ({ messages: { list: [], limit: 25, page: 1, total: 0 }, discussion, discussions: [discussion, ...(discussions || [])] }));
+        console.log('addDiscussion', { collabo });
+        set(({ discussions }) => ({ messages: { list: [], limit: 25, page: 1, total: 0 }, discussion, discussions: [...(discussions || []), discussion] }));
     },
-    async fetchDiscussions(blocked = 'all') {
+    async fetchDiscussions(blocked = 'all', context_name = 'm_m') {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
-        const response = await fetch(`${Host}/get_discussions?context_name=${'m_c,stores'}&store_id=${h.store.id}&blocked=${blocked || ''}`, {
+        const response = await fetch(`${Host}/get_discussions?blocked=${blocked || ''}&context_name=${'m_c,m_m'}`, {
             headers: h.headers,
         });
         const json = await response.json() as Discussion[];
-        console.log('fetch Dic', json);
+        console.log('discussion', json);
 
         if (!Array.isArray(json)) {
             return;
@@ -259,7 +236,7 @@ export async function ListenDiscussion(d: Discussion) {
         const currentD = useDiscussionStore.getState().discussion;
         if (data.reload) {
             const ds = useDiscussionStore.getState().discussions;
-            const response = await fetch(`${Host}/get_discussions?context_name=${'m_c,stores'}&discussion_id=${d.id}&store_id=${h.store.id}&blocked=all`, {
+            const response = await fetch(`${Host}/get_discussions?context_name=${'m_c,m_m'}&discussion_id=${d.id}&blocked=all`, {
                 headers: h.headers,
             });
             const djson = await response.json() as Discussion[];
@@ -268,11 +245,15 @@ export async function ListenDiscussion(d: Discussion) {
 
 
             const newDs = [...ds?.map((_d, i) => {
+                console.log(i, _d.id);
                 if (_d.id == d.id) {
+
                     return djson?.[0]
                 }
                 return _d
             }) || []];
+            console.log({ newDs, ds, d, djson });
+
             disSet(() => ({ discussions: newDs }));
             if (currentD?.id == djson?.[0].id) {
                 disSet(() => ({ discussion: { ...djson?.[0] } }))

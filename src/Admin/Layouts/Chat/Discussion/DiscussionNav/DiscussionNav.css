@@ -1,0 +1,280 @@
+.discussion-nav {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.discussion-nav .title {
+    width: 100%;
+    min-height: 40px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.discussion-nav .title .label {
+    font-size: 32px;
+    font-weight: bold;
+} 
+
+.discussion-nav .title .add-new:hover{
+    opacity: 0.7;
+}
+.discussion-nav .title .add-new {
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.discussion-nav .title .add-new span {
+    display: block;
+    width: 30px;
+    height: 30px;
+    filter: invert();
+    background: no-repeat center/80% url(/src/res/plus.png);
+}
+
+.discussion-nav .options {
+    width: 100%;
+    min-height: 20px;
+    display: flex;
+    padding: 0 20px;
+}
+
+.discussion-nav .option {
+    width: 80px;
+    cursor: pointer;
+}
+
+.discussion-nav .option div {
+    position: relative;
+    display: inline-flex;
+    opacity: 0.6;
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+
+.discussion-nav .option:hover div {
+    background: #3455;
+}
+
+.discussion-nav .option div.active {
+    opacity: 1;
+    position: relative;
+    display: inline-flex;
+    background: #3455;
+}
+
+.discussion-nav .option span {
+    position: absolute;
+    display: block;
+    background: #f00;
+    width: 5px;
+    height: 5px;
+    top: 0;
+    right: 0;
+    border-radius: 100%;
+}
+
+.discussion-nav .search {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+    padding: 0 10px 0 20px;
+}
+
+.discussion-nav .search .input {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 0 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.discussion-nav .search .input .icon {
+    width: 35px;
+    height: 35px;
+    background: no-repeat center/60% url(/src/res/search.png);
+}
+
+.discussion-nav .search .input input {
+    all: unset;
+    height: 35px;
+}
+
+.discussion-nav .discussions {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.discussion-nav .discussion:hover {
+    background: #3455;
+    transition: 200ms;
+}
+
+.discussion-nav .discussion.active {
+    color: #fff;
+    background: rgba(24, 46, 68, 0.842);
+    transition: 200ms;
+}
+
+.discussion-nav .discussion {
+    background: #fff;
+    width: 100%;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-left: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px #3455;
+    margin-bottom: 7px;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+.discussion-nav .discussion .photo {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.discussion-nav .discussion .right {
+    width: 100%;
+    height: 60px;
+    padding-left: 7px;
+}
+
+.discussion-nav .discussion .right .top-ctn {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.discussion-nav .discussion.active .right .top-ctn .date{
+    color :#ffff;
+    background: none;
+}
+.discussion-nav .discussion .right .top-ctn .date {
+    font-size: 0.9em;
+    background: var(--primary-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.discussion-nav .discussion .right .btm {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.discussion-nav .discussion.active .checked{
+    filter: invert();
+}
+.discussion-nav .checked {
+    width: 22px;
+    height: 22px;
+    opacity: 0.5;
+    display: none;
+}
+
+.discussion-nav .checked.one {
+    display: block;
+    background: no-repeat center/60% url(/src/res/mark.png)
+}
+
+.discussion-nav .checked.double {
+    display: block;
+    background: no-repeat center/60% url(/src/res/read.png)
+}
+
+.discussion-nav .discussion .right .btm .text {
+    opacity: 0.6;
+    font-size: 0.9em;
+}
+
+.discussion-nav .discussion .right .btm .count {
+    color: #fff;
+    background: var(--primary-color);
+    width: 22px;
+    height: 22px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    display: none;
+}
+
+.discussion-nav .discussion .right .btm {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* DISCUSSION POPU */
+
+.discussion-popu {
+    z-index: 3;
+    width: 200px;
+    border-radius: 5px;
+    background: #fbf9ff;
+    box-shadow: var(--box-shadow);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+.discussion-popu > div:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.discussion-popu > div {
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+}
+.discussion-popu .icon {
+    width: 25px;
+    height: 25px;
+    padding: 5px 0;
+    margin-right: 10px;
+}
+
+.discussion-popu .delete{
+    color: rgba(255, 0, 0);
+}
+.discussion-popu .delete .icon{
+    filter: invert(24%) sepia(93%) saturate(7000%) hue-rotate(357deg) brightness(91%) contrast(123%);
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.discussion-popu .block .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}
+.discussion-popu .as-read .icon{
+    background: no-repeat center/90% url(/src/res/trash-2.png);
+}

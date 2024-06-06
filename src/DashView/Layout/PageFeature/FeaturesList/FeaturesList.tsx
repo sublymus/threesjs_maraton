@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function FeaturesList() {
 
-    const { current, setAbsPath } = useDashRoute();
+    const { current, setAbsPath, qs } = useDashRoute();
     const {store} = useRegisterStore();
-    const { features, fetchFeatures, setSelectedFeature } = useFeatureStore();
+    const {features, fetchFeatures, setSelectedFeature } = useFeatureStore();
     useEffect(() => {
         current('features') && store && fetchFeatures()
     }, [store])
@@ -58,18 +58,17 @@ export function FeaturesList() {
                             if (item.$itemRef) item.$itemRef.style.background = '#00f2';
                         });
                         setSelectedFeature(selectedItems[0] as any);
-                        setAbsPath([ 'features','dash_features']);
+                        qs({feature_id:selectedItems[0].id}).setAbsPath([ 'features','dash_features']);
                     }}
                     onQuery={(query) => {
                         console.log('query',query);
                         fetchFeatures(query)
-
                     }}
                     top_height={40}
                     canAddNew
                     canPaginate
                     onNewRequired={()=>{
-                        setAbsPath(['features','new_feature']);
+                       setAbsPath(['features','new_feature']);
                     }}
                     >
 

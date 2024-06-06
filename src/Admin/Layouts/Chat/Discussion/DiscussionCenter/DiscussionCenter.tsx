@@ -6,7 +6,7 @@ import './DiscussionCenter.css'
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "../../../../../Hooks";
 import emojis from "emoji.json";
-import { useDashRoute, useDashStore } from "../../../../dashStore";
+import { useAdminRoute, useAdminStore } from "../../../../AdminStore";
 import { UserInterface } from "../../../../../DataBase";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 import { useMessageStore } from "../../ChatMessage/MessageStore";
@@ -24,8 +24,8 @@ export function DiscussionsCenter() {
         fetchEditMessage
     }= useMessageStore()
     const { user } = useRegisterStore();
-    const { openChild } = useDashStore();
-    const {qs, json} = useDashRoute()
+    const { openChild } = useAdminStore();
+    const {qs} = useAdminRoute()
     const [scrollInit, setScrollInit] = useState(false)
     const [senderSize, setSenderSize] = useState(1)
     const [emijiOpen, setEmijiOpen] = useState(false)
@@ -76,10 +76,7 @@ export function DiscussionsCenter() {
     </div>) : (user && (<div className="discussion-center">
         <div className="top">
             <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }} onClick={()=>{
-               if(json?.moderator_id){
-                qs({moderator_id:d.other.id}).setAbsPath(['moderators','moderator_profile'])
-               }else
-               qs({collaborator_id:d.other.id}).setAbsPath(['collaborators','collaborator_profile'])
+                qs({collaborator_id:d.other.id}).setAbsPath(['moderators','moderator_profile'])
             }}></div>
             <div className="ctn-name">
                 <div className="name">{limit(d.other.name, 50)}</div>

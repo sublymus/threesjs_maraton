@@ -71,6 +71,8 @@ export function ModeratorList() {
                         qs({moderator_id:selectedItems[0].id}).setAbsPath(['moderators','moderator_profile'])
                     }}
                     onQuery={(query)=>{
+                        console.log(query);
+                        
                         fetchModerators(query)
                     }}    
                      canAddNew

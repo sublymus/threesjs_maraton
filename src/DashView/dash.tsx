@@ -68,7 +68,7 @@ export function Dash() {
     useEffect(() => {
         authenticateUser();
         window.addEventListener('blur',()=>{
-            openChild(undefined)
+            // openChild(undefined)
         }) 
     }, []);
 
@@ -79,9 +79,6 @@ export function Dash() {
             fetchUsersVar();
         }
     },[store])
-
-    console.log({pathList});
-    
 
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >

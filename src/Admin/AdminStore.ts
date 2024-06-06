@@ -20,7 +20,11 @@ const Pages = {
             user_profile:{}
         },
         chat: {
-            discussions: {},
+            discussions: {
+                discussions_all:{},
+                discussions_new:{},
+                discussions_blocked:{}
+            },
             groups: {},
             surveys: {}
         },

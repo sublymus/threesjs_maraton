@@ -11,12 +11,18 @@ import { useFeatureStore } from '../FeatureStore';
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { getImg, limit } from '../../../../Tools/StringFormater';
+import { useRegisterStore } from '../../PageAuth/RegisterStore';
 
 
 export function FeaturesDash() {
-    const { current, setAbsPath } = useDashRoute();
-    const { selectedFeature, createFeature, fetchProductsUseFeature, productsUseFeature, setSelectedFeature, removeFeature } = useFeatureStore();
+    const { current, setAbsPath, json } = useDashRoute();
+    const { user } = useRegisterStore();
+    const { selectedFeature, createFeature, fetchProductsUseFeature, productsUseFeature, setSelectedFeature, removeFeature, setFeatureById } = useFeatureStore();
     const [collected] = useState<Record<string, any>>({});
+    const isNew = current('new_feature');
+    const isDash = current('dash_features');
+    const [featureIcon] = useState<{ url?: string, file?: File }>({ url: selectedFeature?.icon?.[0] })
+
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
 
@@ -26,11 +32,10 @@ export function FeaturesDash() {
         if (selectedFeature)
             fetchProductsUseFeature(selectedFeature.id)
     }, [selectedFeature])
-    console.log(selectedFeature);
+    useEffect(() => {
+        isDash && json?.feature_id && user && setFeatureById(json.feature_id)
+    }, [user, json])
 
-    const isNew = current('new_feature');
-    const isDash = current('dash_features');
-    const [featureIcon] = useState<{ url?: string, file?: File }>({ url: selectedFeature?.icon?.[0] })
     return (isDash || isNew) && (
         (!selectedFeature && isDash) ? (
             <div className="not-found">
@@ -56,7 +61,7 @@ export function FeaturesDash() {
                         {
                             isDash && <InputText label='Feature Id' value={(selectedFeature?.id || '')} />
                         }
-                        
+
                         <InputText editable label='Name' value={(selectedFeature?.name || '')} />
                         <label htmlFor='choise_feature_icon' className="choise_icon">
                             <div className="ctn">
@@ -76,8 +81,8 @@ export function FeaturesDash() {
 
                         }} />
                         <InputText editable label='Placeholder' value={(selectedFeature?.placeholder || '')} />
-                        <InputText editable label='Default' value={( 'TODO DEFAULT')} />
-                        <Choiser canEdit select={selectedFeature?.capitalize?'Capitalize':selectedFeature?.lowercase?'Lowercase':selectedFeature?.uppercase?'Uppercase':''} list={['Capitalise', 'Uppercase', 'LowerCase']} onChange={(format) => {
+                        <InputText editable label='Default' value={('TODO DEFAULT')} />
+                        <Choiser canEdit select={selectedFeature?.capitalize ? 'Capitalize' : selectedFeature?.lowercase ? 'Lowercase' : selectedFeature?.uppercase ? 'Uppercase' : ''} list={['Capitalise', 'Uppercase', 'LowerCase']} onChange={(format) => {
                             console.log(format);
                         }} />
                         <InputText editable label='Macth RegExp' value={(selectedFeature?.match || '')} />
@@ -86,7 +91,7 @@ export function FeaturesDash() {
                         <InputText editable label='Min Value' type='number' value={(selectedFeature?.min || '')} />
                         <InputText editable label='Max Value' type='number' value={(selectedFeature?.max || '')} />
                         <InputText editable label='Max File Size' type='number' value={(selectedFeature?.max_size || '')} />
-                        <InputText editable label='Files Type' value={(selectedFeature?.ext|| '')} />
+                        <InputText editable label='Files Type' value={(selectedFeature?.ext || '')} />
                         <InputText editable label='Enumeration of possible values' value={(selectedFeature?.id || '')} />
                         <div className="editor-name">
 

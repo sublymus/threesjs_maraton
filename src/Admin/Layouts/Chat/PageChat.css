@@ -1,0 +1,163 @@
+.page-chat {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.page-chat .back-close{
+    width: 100%;
+    height: 100%;
+    background: #1125;
+    position: absolute;
+    z-index: 1;
+    display: none;
+}
+/* NAV */
+.page-chat .chat-nav.min {
+    width: 60px;
+    min-width: 60px;
+    background: #fbf9ff;
+    top: 0;
+}
+
+.page-chat .chat-nav {
+    z-index: 2;
+    width: 320px;
+    min-width: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #fbf9ff;
+    overflow: hidden;
+}
+
+.page-chat .chat-nav.min .top {
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-chat .chat-nav .top {
+    min-height: 70px;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.page-chat .chat-nav .top .nav-size:hover {
+    opacity: 1;
+}
+
+.page-chat .chat-nav.min .top .nav-size {
+    background: no-repeat center/60% url(/src/res/align-left.png);
+}
+
+.page-chat .chat-nav .top .nav-size {
+    width: 50px;
+    height: 50px;
+    opacity: 0.5;
+    transition: 200ms;
+    cursor: pointer;
+    background: no-repeat center/60% url(/src/res/arrow-left.png);
+}
+
+.page-chat .chat-nav .top .icon.active {
+    opacity: 0.8;
+    transition: 200ms;
+}
+
+.page-chat .chat-nav .top .icon:hover {
+    opacity: 0.8;
+    transition: 200ms;
+}
+
+.page-chat .chat-nav .top  .icon {
+    width: 50px;
+    height: 50px;
+    background: #345;
+    opacity: 0.4;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+.page-chat .chat-nav .top .icon.discussions-icon {
+    background: no-repeat center/50% url(/src/res/message-square.png);
+}
+
+.page-chat .chat-nav .top .icon.groups {
+    background: no-repeat center/50% url(/src/res/multiple-users-silhouette.png);
+}
+
+.page-chat .chat-nav .top .icon.sessions {
+    background: no-repeat center/50% url(/src/res/headset.png);
+}
+
+.page-chat .chat-nav .top .icon.surveys {
+    background: no-repeat center/50% url(/src/res/notebook-pen.png);
+}
+
+.page-chat .chat-nav .top .profile {
+    border-radius: 100%;
+    opacity: 1;
+}
+
+.page-chat .chat-nav .nav-ctn {
+    width: 100%;
+    height: calc(100% - 70px);
+    position: relative;
+}
+
+/* CENTER */
+.page-chat .chat-center {
+    width: 100%;
+    height: 100%;
+}
+
+/* INFO */
+.page-chat .chat-info {
+    width: 320px;
+    min-width: 320px;
+    height: 100%;
+    background: #345;
+}
+
+@media (width <=1350px) {
+
+    
+    .page-chat .chat-info {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #3005;
+    }
+    .page-chat .back-close.info {
+       display: block;
+    }
+}
+
+@media (width <=900px) {
+
+    .page-chat .chat-nav.max {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #fbf9ff;
+        z-index: 1;
+    }
+    .page-chat .back-close.nav {
+       display: block;
+    }
+}
+
+
+
+
+
+
+
+

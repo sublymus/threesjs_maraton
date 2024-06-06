@@ -4,9 +4,9 @@ import { Host } from "../../../../Config";
 import { ListType } from "../../../../DataBase";
 import type { Message, UserInterface } from "../../../../DataBase";
 import {useDiscussionStore } from "../Discussion/DiscussionStore";
-import { useSessionStore } from "../Session/SessionStore";
+// import { useSessionStore } from "../Session/SessionStore";
 const NEW_DISCUSSION_STR = 'new_discussion'
-const NEW_SESSION_STR = 'new_session'
+const NEW_DISTORE_STR = 'new_distore'
 
 type ContextName = 'discussions'|'groups'|'sessions';
 export type ContextType = {
@@ -19,7 +19,6 @@ export type ContextType = {
     "last_message"?:Message|undefined,
     "creator_opened_at": string,
     "receiver_opened_at": string,
-    table_name?:string,
     "created_at": string,
     "updated_at": string,
     "other":UserInterface,
@@ -92,19 +91,19 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
     async fetchSendMessage({ context, context_name, files, text }) {
         if (!context || !context.id) return;
         if (context.id.startsWith(NEW_DISCUSSION_STR)) {
-            const d = await useDiscussionStore.getState().fetchCreateDiscussion(context.other.id,context.table_name=='m_c');
+            const d = await useDiscussionStore.getState().fetchCreateDiscussion(context.other.id);
             console.log('D');
             if (!d || !d.id) return
             context = d;
             // useDiscussionStore.getState().fetchDiscussions()
             useDiscussionStore.getState().setDiscussion(d)
-        } else if (context.id.startsWith(NEW_SESSION_STR)) {
-            const s = await useSessionStore.getState().fetchCreateSession(context.other.id,text||'');
-            console.log('S', s);
-            if (!s) return
-            context = s;
-            // useSessionStore.getState().fetchSessions();
-            useSessionStore.getState().setSession(s);
+        } else if (context.id.startsWith(NEW_DISTORE_STR)) {
+            // const s = await useSessionStore.getState().fetchCreateSession(context.other.id,text||'');
+            // console.log('S', s);
+            // if (!s) return
+            // context = s;
+            // // useSessionStore.getState().fetchSessions();
+            // useSessionStore.getState().setSession(s);
         }
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
@@ -141,7 +140,6 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
         }
     },
     async fetchMessages(context_id,context_name) {
-        if(context_id.toLowerCase().startsWith('new_')) return;
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
         const response = await fetch(`${Host}/get_messages/?context_id=${context_id}&context_name=${context_name}`, {

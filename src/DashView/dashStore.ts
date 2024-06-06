@@ -15,6 +15,7 @@ const Pages = {
                 discussions_all:{},
                 discussions_new:{},
                 discussions_blocked:{},
+                discussions_admin:{}
             },
             groups: {},
             sessions: {
@@ -109,8 +110,10 @@ interface DashState {
     setT(T: string | undefined): void,
     storeVar: StoreVar | undefined,
     usersVar: StoreVar | undefined,
-    currentChild: JSX.Element | undefined,
-    openChild: (child: JSX.Element | undefined, blur?:boolean,back_color?: string) => any,
+    currentChild: JSX.Element[]|JSX.Element | undefined,
+    openChild(child: JSX.Element | undefined, blur?:boolean,back_color?: string, option?:{
+        overlay:boolean
+    }) : any,
     fetchStoreVar(): Promise<void>;
     fetchUsersVar(): Promise<void>;
 }
@@ -145,8 +148,18 @@ export const useDashStore = create<DashState>((set) => ({
         set(() => ({ T }))
     },
     currentChild: undefined,
-    openChild(child , blur,back_color) {
-        set(() => ({ currentChild: child,blur ,back_color: child ?(back_color || ''):'' }))
+    openChild(child , blur,back_color, options) {
+        if(options?.overlay){
+            const chidren = useDashStore.getState().currentChild;
+            if(chidren){
+                if(Array.isArray(chidren)){
+                    child = [...chidren,child] as any;
+                }else{
+                    child = [chidren,child] as any;
+                }
+            }
+        }
+        set(() => ({ currentChild: child,blur:child?blur||useDashStore.getState().blur:undefined ,back_color: child ?(back_color || useDashStore.getState().back_color):'' }))
     },
 }));
 

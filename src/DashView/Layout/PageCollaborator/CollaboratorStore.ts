@@ -150,14 +150,15 @@ export const useCollaboratorStore = create<CollaboratorState>((set) => ({
     async fetchCollaborators(filter) {
         let h = useRegisterStore.getState().getHeaders();
         if (!h) return
+        // console.log('collaborators', filter);
         
         const query: any = {};
         if (filter?.page) query.page = Number(filter.page);
         if (filter?.limit) query.limit = Number(filter.limit);
         if (filter?.order_by) query.order_by = filter.order_by;
-        if (filter?.query.text) query.text = filter.query.text;
-        if (filter?.query.user_id) query.user_id = filter.query.user_id;
-        if (filter?.query.phone) query.phone = filter.query.phone;
+        if (filter?.query?.text) query.text = filter.query?.text;
+        if (filter?.query?.user_id) query.user_id = filter.query?.user_id;
+        if (filter?.query?.phone) query.phone = filter.query?.phone;
         query.store_id = h.store?.id;
         const searchParams = new URLSearchParams({});
         for (const key in query) {

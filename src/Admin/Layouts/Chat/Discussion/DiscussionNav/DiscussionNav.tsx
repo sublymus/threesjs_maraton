@@ -2,47 +2,38 @@ import { useEffect, useRef, useState } from "react";
 import { useRegisterStore } from "../../../PageAuth/RegisterStore";
 import { useDiscussionStore } from '../DiscussionStore'
 import { getImg, limit, toDate } from "../../../../../Tools/StringFormater";
-import { SearchUser } from "../../../../Component/SearchUser/SearchUser";
+import { SearchUser } from "../../../../../DashView/Component/SearchUser/SearchUser";
 import './DiscussionNav.css'
-import { useDashRoute, useDashStore } from "../../../../dashStore";
+import { useAdminRoute, useAdminStore } from "../../../../AdminStore";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
-import { useCollaboratorStore } from "../../../PageCollaborator/CollaboratorStore";
-import { useModeratorStore } from "../../../PageModerator/ModeratorStore";
+import { useModeratorStore } from "../../../Moderators/ModeratorStore";
 export function DiscussionsNav() {
     const {
         discussion,
         discussions,
+        // setDiscussion,
         fetchDiscussions,
         addDiscussion,
         asReadDiscussion,
         blockDiscussion,
         deleteDiscussion,
         unBlockDiscussion,
-        setDiscussionByCollaboId
+        // openDiscussionMessages,
+        setDiscussionByModeratorId
     } = useDiscussionStore();
-    const { json, pathList, qs, setAbsPath } = useDashRoute();
+    const { json, pathList, qs, setAbsPath } = useAdminRoute();
     const optionPath = pathList[3]?.split('_')[1]
     const [optionActive, setOptionActive] = useState(optionPath || 'all')
-    const { openChild } = useDashStore()
-    const { user, store } = useRegisterStore();
-    const { fetchCollaborators } = useCollaboratorStore();
-    const { fetchModerators } = useModeratorStore()
-
-    const [discMode, setDiscMode] = useState(optionActive=='admin'?'moderators':'collaborators')
-
+    const { openChild } = useAdminStore()
+    const { user } = useRegisterStore();
+    const { fetchModerators } = useModeratorStore();
     useEffect(() => {
-        store && fetchDiscussions()
-    }, [store])
+        user && fetchDiscussions()
+    }, [user])
 
     useEffect(() => {
         if (json?.collaborator_id) {
-            console.log('________________collabo', json);
-            
-            setDiscussionByCollaboId(json?.collaborator_id)
-        }else if (json?.moderator_id) {
-
-            console.log('_______________moder',json);
-            setDiscussionByCollaboId(json?.moderator_id,true)
+            setDiscussionByModeratorId(json?.collaborator_id)
         }
         setOptionActive(optionPath || 'all')
     }, [json]);
@@ -58,79 +49,55 @@ export function DiscussionsNav() {
     }, [discussion])
 
     if (!user) return undefined;
-
     const all = discussions?.filter(d => {
-        return !d.blocked?.includes(user.id) && d.table_name != 'm_c'
+        return !d.blocked?.includes(user.id)
     })
-
     const blocked = discussions?.filter(d => {
         return d.blocked?.includes(user.id)
     })
     const _new = all?.filter(d => {
         return d.unchecked_count > 0
     })
-    const m_c = discussions?.filter(d => {
-        return d.table_name == 'm_c'
-    })
+
     let ds: typeof discussions = [];
-    if (optionActive == 'admin') {
-        ds = m_c;
+    if (optionActive == 'all') {
+        ds = all;
     } else if (optionActive == 'new') {
         ds = _new;
-    } else if (optionActive == 'blocked') {
-        ds = blocked;
     } else {
-        ds = all;
+        ds = blocked;
     }
 
-    // let new_sum = 0;
-    // _new?.forEach((n) => {
-    //     new_sum += n.unchecked_count
-    // })
-    // let blocked_sum = 0;
-    // blocked?.forEach((n) => {
-    //     blocked_sum += n.unchecked_count
-    // })
+    let new_sum = 0;
+    _new?.forEach((n) => {
+        new_sum += n.unchecked_count
+    })
+    let blocked_sum = 0;
+    _new?.forEach((n) => {
+        blocked_sum += n.unchecked_count
+    })
     return (<div className="discussion-nav">
         <div className="title">
             <div className="label">Chats </div>
             <div className="add-new" onClick={() => {
-                openChild(<SearchUser fetchUsers={fetchCollaborators} openChild={openChild} setAbsPath={setAbsPath} user={user} setUser={(collabo, discMode) => {
-                    addDiscussion(collabo, discMode)
-                    if (discMode == 'moderators') setAbsPath(['chat', 'discussions', 'discussions_admin'])
-                }} selector={{
-                    list: [{
-                        name: 'collaborators',
-                        fetch: fetchCollaborators
-                    }, {
-                        name: 'moderators',
-                        fetch: fetchModerators
-                    }],
-                    setSelected(selected) {
-                        console.log({ selected });
-
-                        setDiscMode(selected)
-                    },
+                openChild(<SearchUser user={user} openChild={openChild} setAbsPath={setAbsPath} fetchUsers={fetchModerators} setUser={(moderator) => {
+                    addDiscussion(moderator)
                 }} />, true, '#0002')
             }}> <span></span></div>
         </div>
         <div className="options">
             <div className="option" onClick={() => {
                 // setOptionActive('all')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_all'])
+                setAbsPath(['chat', 'discussions', 'discussions_all'])
             }}><div className={(optionActive == 'all' ? 'active' : '')}>All{(all?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
                 // setOptionActive('new')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_new'])
+                setAbsPath(['chat', 'discussions', 'discussions_new'])
             }}><div className={optionActive == 'new' ? 'active' : ''}>New {(_new?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
                 // setOptionActive('blocked')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_blocked'])
+                setAbsPath(['chat', 'discussions', 'discussions_blocked'])
             }}><div className={optionActive == 'blocked' ? 'active' : ''}>Blocked  {(blocked?.length || 0) > 0 ? <span></span> : undefined}</div></div>
-            <div className="option" onClick={() => {
-                // setOptionActive('blocked')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_admin'])
-            }}><div className={optionActive == 'admin' ? 'active' : ''}>Admin  {(m_c?.length || 0) > 0 ? <span></span> : undefined}</div></div>
         </div>
         <div className="search">
             <div className="input">
@@ -156,13 +123,7 @@ export function DiscussionsNav() {
                     return (
                         <div key={d.id} className={"discussion " + (discussion?.id == d.id ? 'active' : '')} onClick={(e) => {
                             d.unchecked_count = 0;
-
-                            if (optionActive == 'admin') {
-                                qs({ 'moderator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_admin'])
-                            } else {
-                                //@ts-ignore
-                                qs({ 'collaborator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
-                            }
+                            qs({ 'collaborator_id': d.other.id }).setAbsPath(['chat', 'discussions'])
                             // setDiscussion(d);
                             // openDiscussionMessages(d.id);
                             const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;

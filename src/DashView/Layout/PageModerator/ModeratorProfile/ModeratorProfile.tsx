@@ -5,15 +5,13 @@ import { useEffect, useState } from 'react';
 import { useWindowSize } from '../../../../Hooks';
 import { InputText } from '../../../Component/Form/Input';
 import { ImageViewer } from '../../../Component/ImageViewer/ImageViewer';
-import { GenericList } from '../../../Component/GenericList/GenericList';
-import { Host } from '../../../../Config';
-import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
 import { OpenChat } from "../../../Component/OpenChat/OpenChat";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
 export function ModeratorProfile() {
 
-    const { current, setAbsPath, json } = useDashRoute();
+    const { current,  json } = useDashRoute();
+    const { user } = useRegisterStore();
     const { selectedModerator ,setModeratorById  } = useModeratorStore();
     const {store} = useRegisterStore()
     const [isCheckRequired] = useState(false);
@@ -21,7 +19,7 @@ export function ModeratorProfile() {
     const wrap = size.width < 1000 ? 'wrap' : '';
 
     useEffect(()=>{
-            json?.moderator_id && store && setModeratorById(json.moderator_id)
+        current('moderator_profile') && json?.moderator_id && store && setModeratorById(json.moderator_id)
         },[json, store])
         
     return current('moderator_profile') && (!selectedModerator ? (
@@ -41,7 +39,7 @@ export function ModeratorProfile() {
                     <InputText prompt='Moderator Email' isCheckRequired={isCheckRequired} min={3} check='auto' max={50} label='Email' placeholder='Catalog Label' value={selectedModerator?.email} />
                     <InputText label='created At' value={selectedModerator?.created_at} />
                     <InputText label='Join Store At' value={selectedModerator?.join_at} />
-                    <OpenChat user={selectedModerator} channel='sessions'/>
+                   {user && selectedModerator.id != user.id && <OpenChat user={selectedModerator} channel='discussions_admin'/>}
                 </div>
             </section>
            

@@ -1,28 +1,27 @@
-import { useEffect } from 'react';
-import { UserInterface } from '../../../DataBase';
+import { useEffect, useRef, useState } from 'react';
+import { ListType, UserInterface } from '../../../DataBase';
 import { getImg, limit } from '../../../Tools/StringFormater';
-import { useCollaboratorStore } from '../../Layout/PageCollaborator/CollaboratorStore';
-import { useDashRoute, useDashStore } from '../../dashStore';
 import './SearchUser.css'
-import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
 
-
-export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
-
-    const { fetchCollaborators, collaborators } = useCollaboratorStore()
-    const {user}=useRegisterStore()
-    const {openChild} = useDashStore()
-    const { setAbsPath } = useDashRoute()
-    const e= collaborators?.list.filter(f=>f.id != user?.id)
-    
+export function SearchUser({setUser, fetchUsers , user ,openChild, setAbsPath, selector}: {selector?:{setSelected:(selected:string)=>any,list:{name:string,fetch:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>}[]}, setAbsPath:Function,openChild:Function,user:UserInterface, fetchUsers:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>,setUser:(user:UserInterface, selected?:string)=>void}) {
+    const [uers, setUsers] = useState<ListType<UserInterface>>();
+    const [f,setF] = useState({fetchUsers});
     useEffect(()=>{
-        fetchCollaborators();
-    },[])
-
+        f.fetchUsers({}).then((users:any)=>{
+            if(users?.list){
+                return setUsers(users,)
+            }
+        });
+    },[f])
+    const e= uers?.list.filter(f=>f.id != user?.id)
+    const ref = useRef<HTMLSelectElement|null>(null)
     return (
         <div className='search-user'>
 
-            <div className="search-ctn" onClick={(e) => {
+            <div className="search-ctn"onContextMenu={(e)=>{
+                e.stopPropagation();
+                e.preventDefault();
+            }} onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
             }}>
@@ -31,14 +30,31 @@ export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
                 }}></div>
                 <div className="top">
                     <div className="icon"></div>
-                    <input type="text" placeholder='Search By #id , email, name' onChange={(e) => {
-                        e.currentTarget.value && fetchCollaborators({
+                    <input autoFocus type="text" placeholder='Search By #id , email, name' onChange={(e) => {
+                        f.fetchUsers({
                             limit: 10,
                             query: {
                                 text: e.currentTarget.value
                             }
-                        })
+                        }).then(users=>{
+                            if(users?.list){
+                                return setUsers(users)
+                            }
+                        });
                     }} />
+                   {selector && (
+                        <select ref={ref} name="search-select" id="search-select"  onChange={(e)=>{
+                            selector.setSelected(e.currentTarget.value)
+                            const _f = selector.list.find(l=>l.name==e.currentTarget.value)?.fetch
+                            _f && setF({fetchUsers:_f})
+                        }}>
+                            {
+                                selector.list.map(s=>(
+                                    <option key={s.name} value={s.name}>{s.name}</option>
+                                ))
+                            }
+                        </select>
+                   )}
                 </div>
                 <div className="list">
                     {
@@ -46,7 +62,7 @@ export function SearchUser({setUser}: {setUser:(user:UserInterface)=>void}) {
                             return (
                                 <div key={c.id+i} className="collabo"  onClick={()=>{
                                     openChild(undefined);
-                                    setUser(c);
+                                    setUser(c,ref.current?.value);
                                 }}>
                                     <div className="photo" style={{background:getImg(c.photos[0])}}></div>
                                     <div className="name-ctn">
