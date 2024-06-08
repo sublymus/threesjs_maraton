@@ -3,7 +3,7 @@ import { ListType, UserInterface } from '../../../DataBase';
 import { getImg, limit } from '../../../Tools/StringFormater';
 import './SearchUser.css'
 
-export function SearchUser({setUser, fetchUsers , user ,openChild, setAbsPath, selector}: {selector?:{setSelected:(selected:string)=>any,list:{name:string,fetch:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>}[]}, setAbsPath:Function,openChild:Function,user:UserInterface, fetchUsers:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>,setUser:(user:UserInterface, selected?:string)=>void}) {
+export function SearchUser({setUser, fetchUsers , user ,openChild, selector}: {selector?:{setSelected?:(selected:string)=>any,list:{name:string,fetch:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>}[]},openChild:Function,user:UserInterface, fetchUsers:(filter?:Record<string,any>)=>Promise<ListType<UserInterface>|undefined>,setUser:(user:UserInterface, selected?:string)=>void}) {
     const [uers, setUsers] = useState<ListType<UserInterface>>();
     const [f,setF] = useState({fetchUsers});
     useEffect(()=>{
@@ -44,7 +44,7 @@ export function SearchUser({setUser, fetchUsers , user ,openChild, setAbsPath, s
                     }} />
                    {selector && (
                         <select ref={ref} name="search-select" id="search-select"  onChange={(e)=>{
-                            selector.setSelected(e.currentTarget.value)
+                            selector.setSelected?.(e.currentTarget.value)
                             const _f = selector.list.find(l=>l.name==e.currentTarget.value)?.fetch
                             _f && setF({fetchUsers:_f})
                         }}>
@@ -76,7 +76,7 @@ export function SearchUser({setUser, fetchUsers , user ,openChild, setAbsPath, s
                     }
                 </div>
                 {e && (e.length>7)&&(<div className="see-all" onClick={()=>{
-                    setAbsPath(['collaborators']);
+                    // setAbsPath(['collaborators']);
                     openChild(undefined)
                 }}>
                     SEE ALL

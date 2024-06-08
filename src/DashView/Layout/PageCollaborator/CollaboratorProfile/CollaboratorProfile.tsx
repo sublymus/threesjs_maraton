@@ -13,15 +13,16 @@ import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { ChoiseStatusUser } from '../../../Component/ChoiseStatus/ChoiseStatusUser';
 import { OpenChat } from '../../../Component/OpenChat/OpenChat';
 import { useRoleStore } from '../../PageRole/RoleStore';
+import { Local } from '../../../../Config';
 export function CollaboratorProfile() {
 
-    const { current, json } = useDashRoute();
+    const { current, json,qs } = useDashRoute();
     const { selectedCollaborator, setCollaboratorById, removeCollaborator, updateCollaborator, change_collaborator_role } = useCollaboratorStore();
     const [isCheckRequired] = useState(false);
     const { roles } = useRoleStore()
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-    const { store } = useRegisterStore()
+    const { store, user } = useRegisterStore()
 
     useEffect(() => {
         if (json?.collaborator_id) {
@@ -52,14 +53,27 @@ export function CollaboratorProfile() {
 
                     <InputText label='Store Id' value={store?.id} />
                     <InputText isCheckRequired={isCheckRequired} label={selectedCollaborator?.s_type + ' Id'} value={(selectedCollaborator?.id || '')} />
-                    <OpenChat user={selectedCollaborator} channel='discussions' />
+                    {
+                        user?.id != selectedCollaborator.id&&  <div className="chat-btn-ctn">
+                        <OpenChat user={selectedCollaborator} channel='discussions' />
+                        {
+                            window.location.pathname.split('/')[3] == 'admin' && <div className="btn-chat-admin" onClick={()=>{
+                                store && window.open(
+                                    `${Local}/admin#chat/discussions={"store_id":"${store.id}","collaborator_id":"${selectedCollaborator.id}"}`
+                                );
+                            }}>
+                                Open as Admin
+                            </div>
+                        }
+                    </div>
+                    }
                     <ChoiseStatusUser status={selectedCollaborator?.status as any || 'NEW'} onChange={(value) => {
                         updateCollaborator({
                             product_id: selectedCollaborator.id,
                             status: value
                         })
                     }} />
-                    <ChoiseRole roles={roles?.list||[]} canChange={() => true} role_id={selectedCollaborator.role_id} onChange={(value) => {
+                    <ChoiseRole roles={roles?.list || []} canChange={() => true} role_id={selectedCollaborator.role_id} onChange={(value) => {
                         change_collaborator_role({
                             new_role_id: value,
                             collaborator_id: selectedCollaborator.id

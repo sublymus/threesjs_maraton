@@ -2,28 +2,14 @@ import { create } from "zustand";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
 import { Host } from "../../../../Config";
 import { ListType } from "../../../../DataBase";
-import type { Message, UserInterface } from "../../../../DataBase";
-import {useDiscussionStore } from "../Discussion/DiscussionStore";
+import type { Discussion, Message } from "../../../../DataBase";
+import { useDiscussionStore } from "../Discussion/DiscussionStore";
 import { useSessionStore } from "../Session/SessionStore";
 const NEW_DISCUSSION_STR = 'new_discussion'
 const NEW_SESSION_STR = 'new_session'
 
-type ContextName = 'discussions'|'groups'|'sessions';
-export type ContextType = {
-    "id":string,
-    "creator_id": string,
-    "receiver_id": string,
-    "deleted": string,
-    "other_att": 'creator' | 'receiver',// calculer
-    "unchecked_count": number,// calculer
-    "last_message"?:Message|undefined,
-    "creator_opened_at": string,
-    "receiver_opened_at": string,
-    table_name?:string,
-    "created_at": string,
-    "updated_at": string,
-    "other":UserInterface,
-} & Record<string, any> ;
+type ContextName = 'discussions' | 'groups' | 'sessions';
+export type ContextType = Discussion & Record<string, any>;
 interface DiscussionState {
     fetchSendMessage(data: {
         context_name: ContextName,
@@ -31,7 +17,7 @@ interface DiscussionState {
         files?: File[] | null,
         text?: string
     }): Promise<Message | undefined>
-    fetchMessages(context_id: string, context_name:ContextName): Promise<ListType<Message> | undefined>
+    fetchMessages(context_id: string, context_name: ContextName): Promise<ListType<Message> | undefined>
     fetchDeleteMessageBoth(message_id: string): Promise<boolean>
     fetchDeleteMessageMe(message_id: string): Promise<boolean>
     fetchEditMessage(data: { message_id: string, text: string }): Promise<Message | undefined>
@@ -92,14 +78,17 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
     async fetchSendMessage({ context, context_name, files, text }) {
         if (!context || !context.id) return;
         if (context.id.startsWith(NEW_DISCUSSION_STR)) {
-            const d = await useDiscussionStore.getState().fetchCreateDiscussion(context.other.id,context.table_name=='m_c');
+            const d = await useDiscussionStore.getState().createDiscussion({
+                other_id: context.other.id,
+                for_moderator: context.to_id == undefined
+            });
             console.log('D');
             if (!d || !d.id) return
             context = d;
             // useDiscussionStore.getState().fetchDiscussions()
             useDiscussionStore.getState().setDiscussion(d)
         } else if (context.id.startsWith(NEW_SESSION_STR)) {
-            const s = await useSessionStore.getState().fetchCreateSession(context.other.id,text||'');
+            const s = await useSessionStore.getState().fetchCreateSession(context.other.id, text || '');
             console.log('S', s);
             if (!s) return
             context = s;
@@ -140,8 +129,8 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
             console.log(error);
         }
     },
-    async fetchMessages(context_id,context_name) {
-        if(context_id.toLowerCase().startsWith('new_')) return;
+    async fetchMessages(context_id, context_name) {
+        if (context_id.toLowerCase().startsWith('new_')) return;
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
         const response = await fetch(`${Host}/get_messages/?context_id=${context_id}&context_name=${context_name}`, {

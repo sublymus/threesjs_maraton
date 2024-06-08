@@ -10,7 +10,6 @@ import { useStoreStore } from "../StoreStore";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
 
 export function PageInfo () {
-    const [id] = useState(generateUid());
     const { current, setAbsPath, navBack , json} = useAdminRoute();
     const {  store ,setStoreById} = useStoreStore();
     const {openChild } = useAdminStore();
@@ -38,7 +37,7 @@ export function PageInfo () {
 
     const edit = current('store_info');
     useEffect(()=>{
-        json?.store_id && user && setStoreById(json.store_id)
+        current('store_info') && json?.store_id && user && setStoreById(json.store_id)
     },[json, user])
     const s = store;
     return (edit && (!store)) ? (
@@ -159,13 +158,13 @@ export function PageInfo () {
                     {/* <div className="user-name"><span>Owner : </span> <span className="name">{owner?.name}</span></div> */}
                     {
                         edit && <div className="id">
-                            <label htmlFor={id + 'id'} style={{ opacity: '0.5' }} >Id</label>
-                            <input type="text" id={id + 'id'} value={collected.id || ''} style={{ opacity: '0.5' }} placeholder="Name" />
+                            <label htmlFor={store?.id + 'id'} style={{ opacity: '0.5' }} >Id</label>
+                            <input type="text" id={store?.id + 'id'} value={collected.id || ''} style={{ opacity: '0.5' }} placeholder="Name" onChange={()=>''} />
                         </div>
                     }
                     <div className="name">
-                        <label htmlFor={id + 'name'} >Name</label>
-                        <input type="text" id={id + 'name'} value={collected.name || ''} placeholder="Name" onChange={(e) => {
+                        <label htmlFor={store?.id + 'name'} >Name</label>
+                        <input type="text" id={store?.id + 'name'} value={collected.name || ''} placeholder="Name" onChange={(e) => {
                             setCollected({
                                 ...collected,
                                 ['name']: e.currentTarget.value
@@ -173,8 +172,8 @@ export function PageInfo () {
                         }} />
                     </div>
                     <div className="phone">
-                        <label htmlFor={id + 'phone'}>Phone</label>
-                        <input type="text" id={id + 'phone'} value={collected.phone || ''} placeholder="Phone" onChange={(e) => {
+                        <label htmlFor={store?.id + 'phone'}>Phone</label>
+                        <input type="text" id={store?.id + 'phone'} value={collected.phone || ''} placeholder="Phone" onChange={(e) => {
                             setCollected({
                                 ...collected,
                                 ['phone']: e.currentTarget.value
@@ -182,8 +181,8 @@ export function PageInfo () {
                         }} />
                     </div>
                     <div className="store_email">
-                        <label htmlFor={id + 'store_email'}>Store Email</label>
-                        <input type="email" id={id + 'store_email'} value={collected.store_email || ''} placeholder="Store email" onChange={(e) => {
+                        <label htmlFor={store?.id + 'store_email'}>Store Email</label>
+                        <input type="email" id={store?.id + 'store_email'} value={collected.store_email || ''} placeholder="Store email" onChange={(e) => {
                             setCollected({
                                 ...collected,
                                 ['store_email']: e.currentTarget.value
@@ -191,8 +190,8 @@ export function PageInfo () {
                         }} />
                     </div>
                     <div className="website">
-                        <label htmlFor={id + 'website'}>Web Site</label>
-                        <input type="text" id={id + 'website'} value={collected.website || ''} placeholder="Web Site" onChange={(e) => {
+                        <label htmlFor={store?.id + 'website'}>Web Site</label>
+                        <input type="text" id={store?.id + 'website'} value={collected.website || ''} placeholder="Web Site" onChange={(e) => {
                             setCollected({
                                 ...collected,
                                 ['website']: e.currentTarget.value
@@ -200,8 +199,8 @@ export function PageInfo () {
                         }} />
                     </div>
                     <div className="desciption">
-                        <label htmlFor={id + 'desciption'}>Description</label>
-                        <input type="text" id={id + 'description'} value={collected.description || ''} placeholder="Description" onChange={(e) => {
+                        <label htmlFor={store?.id + 'desciption'}>Description</label>
+                        <input type="text" id={store?.id + 'description'} value={collected.description || ''} placeholder="Description" onChange={(e) => {
                             setCollected({
                                 ...collected,
                                 ['description']: e.currentTarget.value
@@ -209,8 +208,8 @@ export function PageInfo () {
                         }} />
                     </div>
                     <div className="address">
-                        <label htmlFor={id + 'address'}>Address</label>
-                        <input type="text" id={id + 'address'} value={''} placeholder="Address" onChange={() => {
+                        <label htmlFor={store?.id + 'address'}>Address</label>
+                        <input type="text" id={store?.id + 'address'} value={''} placeholder="Address" onChange={() => {
                             setCollected({
                                 ...collected,
                             })

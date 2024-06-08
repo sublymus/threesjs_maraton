@@ -2,27 +2,14 @@ import { create } from "zustand";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
 import { Host } from "../../../../Config";
 import { ListType } from "../../../../DataBase";
-import type { Message, UserInterface } from "../../../../DataBase";
+import type { Discussion, Message, UserInterface } from "../../../../DataBase";
 import {useDiscussionStore } from "../Discussion/DiscussionStore";
 // import { useSessionStore } from "../Session/SessionStore";
 const NEW_DISCUSSION_STR = 'new_discussion'
 const NEW_DISTORE_STR = 'new_distore'
 
-type ContextName = 'discussions'|'groups'|'sessions';
-export type ContextType = {
-    "id":string,
-    "creator_id": string,
-    "receiver_id": string,
-    "deleted": string,
-    "other_att": 'creator' | 'receiver',// calculer
-    "unchecked_count": number,// calculer
-    "last_message"?:Message|undefined,
-    "creator_opened_at": string,
-    "receiver_opened_at": string,
-    "created_at": string,
-    "updated_at": string,
-    "other":UserInterface,
-} & Record<string, any> ;
+type ContextName = 'discussions'|'groups';
+export type ContextType =Discussion& Record<string, any> ;
 interface DiscussionState {
     fetchSendMessage(data: {
         context_name: ContextName,
@@ -91,7 +78,10 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
     async fetchSendMessage({ context, context_name, files, text }) {
         if (!context || !context.id) return;
         if (context.id.startsWith(NEW_DISCUSSION_STR)) {
-            const d = await useDiscussionStore.getState().fetchCreateDiscussion(context.other.id);
+            const d = await useDiscussionStore.getState().createDiscussion({
+                other_id: context.other.id,
+                store_id: context.to_id
+            });
             console.log('D');
             if (!d || !d.id) return
             context = d;
@@ -140,6 +130,7 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
         }
     },
     async fetchMessages(context_id,context_name) {
+        if (context_id.toLowerCase().startsWith('new_')) return;
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
         const response = await fetch(`${Host}/get_messages/?context_id=${context_id}&context_name=${context_name}`, {

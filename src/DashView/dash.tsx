@@ -68,7 +68,7 @@ export function Dash() {
     useEffect(() => {
         authenticateUser();
         window.addEventListener('blur',()=>{
-            // openChild(undefined)
+            openChild(undefined)
         }) 
     }, []);
 

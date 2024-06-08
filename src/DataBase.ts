@@ -45,15 +45,16 @@ export interface Session {
 };
 export interface Discussion {
     "id": string,
-    table_id:string,
-    table_name:string,
+    from_id?:string,
+    to_id?:string,
+    store?:StoreInterface,
     "creator_id": string,
     "receiver_id": string,
-    "deleted": string,
-    "blocked": string,
+    "deleted"?: string,
+    "blocked"?: string,
     "other_att": 'creator' | 'receiver',// calculer
     "unchecked_count": number,// calculer
-    "last_message": Message | undefined,
+    "last_message"?: Message | undefined,
     "creator_opened_at": string,
     "receiver_opened_at": string,
     "created_at": string,

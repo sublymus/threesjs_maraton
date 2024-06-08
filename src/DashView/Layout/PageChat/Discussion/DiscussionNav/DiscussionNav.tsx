@@ -1,24 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { useRegisterStore } from "../../../PageAuth/RegisterStore";
 import { useDiscussionStore } from '../DiscussionStore'
-import { getImg, limit, toDate } from "../../../../../Tools/StringFormater";
+import { getImg, getSeconContext, limit, toDate } from "../../../../../Tools/StringFormater";
 import { SearchUser } from "../../../../Component/SearchUser/SearchUser";
 import './DiscussionNav.css'
 import { useDashRoute, useDashStore } from "../../../../dashStore";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 import { useCollaboratorStore } from "../../../PageCollaborator/CollaboratorStore";
 import { useModeratorStore } from "../../../PageModerator/ModeratorStore";
+import { Discussion } from "../../../../../DataBase";
 export function DiscussionsNav() {
     const {
         discussion,
         discussions,
         fetchDiscussions,
         addDiscussion,
-        asReadDiscussion,
+        // asReadDiscussion,
         blockDiscussion,
         deleteDiscussion,
         unBlockDiscussion,
-        setDiscussionByCollaboId
+        setDiscussionByOtherId
     } = useDiscussionStore();
     const { json, pathList, qs, setAbsPath } = useDashRoute();
     const optionPath = pathList[3]?.split('_')[1]
@@ -28,53 +29,46 @@ export function DiscussionsNav() {
     const { fetchCollaborators } = useCollaboratorStore();
     const { fetchModerators } = useModeratorStore()
 
-    const [discMode, setDiscMode] = useState(optionActive=='admin'?'moderators':'collaborators')
-
     useEffect(() => {
-        store && fetchDiscussions()
-    }, [store])
+        if (json?.collaborator_id || json?.moderator_id) {
+            setDiscussionByOtherId({
+                other_id: json?.collaborator_id || json?.moderator_id,
+                for_moderator: !!json?.moderator_id,
+                async findOther(other_id, for_moderator) {
+                    if (for_moderator) {
+                        return useModeratorStore.getState().moderators?.list.find((m) => m.id == other_id) || (await useModeratorStore.getState().fetchModerators({ query: { user_id: other_id } }))?.list[0]
+                    }
+                    return useCollaboratorStore.getState().collaborators?.list.find((c) => c.id == other_id) || (await useCollaboratorStore.getState().fetchCollaborators({ query: { user_id: other_id } }))?.list[0]
 
-    useEffect(() => {
-        if (json?.collaborator_id) {
-            console.log('________________collabo', json);
-            
-            setDiscussionByCollaboId(json?.collaborator_id)
-        }else if (json?.moderator_id) {
-
-            console.log('_______________moder',json);
-            setDiscussionByCollaboId(json?.moderator_id,true)
+                },
+            })
         }
+        store && fetchDiscussions({})
         setOptionActive(optionPath || 'all')
-    }, [json]);
+    }, [json, store]);
 
     useEffect(() => {
         setOptionActive(optionPath || 'all')
     }, [pathList])
 
-    useEffect(() => {
-        if (discussion?.blocked?.includes(user?.id || '')) {
-            setOptionActive('blocked')
-        }
-    }, [discussion])
-
     if (!user) return undefined;
 
-    const all = discussions?.filter(d => {
-        return !d.blocked?.includes(user.id) && d.table_name != 'm_c'
+    const all = discussions?.list.filter(d => {
+        return !d.blocked?.includes(user.id) && !!getSeconContext(store?.id || '', d)
     })
 
-    const blocked = discussions?.filter(d => {
+    const blocked = discussions?.list.filter(d => {
         return d.blocked?.includes(user.id)
     })
-    const _new = all?.filter(d => {
+    const _new = discussions?.list.filter(d => {
         return d.unchecked_count > 0
     })
-    const m_c = discussions?.filter(d => {
-        return d.table_name == 'm_c'
+    const context_admin = discussions?.list.filter(d => {
+        return !getSeconContext(store?.id || '', d)
     })
-    let ds: typeof discussions = [];
+    let ds: Discussion[] | undefined = [];
     if (optionActive == 'admin') {
-        ds = m_c;
+        ds = context_admin;
     } else if (optionActive == 'new') {
         ds = _new;
     } else if (optionActive == 'blocked') {
@@ -83,20 +77,17 @@ export function DiscussionsNav() {
         ds = all;
     }
 
-    // let new_sum = 0;
-    // _new?.forEach((n) => {
-    //     new_sum += n.unchecked_count
-    // })
-    // let blocked_sum = 0;
-    // blocked?.forEach((n) => {
-    //     blocked_sum += n.unchecked_count
-    // })
     return (<div className="discussion-nav">
         <div className="title">
             <div className="label">Chats </div>
             <div className="add-new" onClick={() => {
-                openChild(<SearchUser fetchUsers={fetchCollaborators} openChild={openChild} setAbsPath={setAbsPath} user={user} setUser={(collabo, discMode) => {
-                    addDiscussion(collabo, discMode)
+                openChild(<SearchUser fetchUsers={fetchCollaborators} openChild={openChild} user={user} setUser={(collabo, discMode) => {
+                    console.log({ discMode });
+
+                    addDiscussion({
+                        other: collabo,
+                        for_moderator: discMode == 'moderators'
+                    })
                     if (discMode == 'moderators') setAbsPath(['chat', 'discussions', 'discussions_admin'])
                 }} selector={{
                     list: [{
@@ -106,31 +97,22 @@ export function DiscussionsNav() {
                         name: 'moderators',
                         fetch: fetchModerators
                     }],
-                    setSelected(selected) {
-                        console.log({ selected });
-
-                        setDiscMode(selected)
-                    },
                 }} />, true, '#0002')
             }}> <span></span></div>
         </div>
         <div className="options">
             <div className="option" onClick={() => {
-                // setOptionActive('all')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_all'])
+                qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_all'])
             }}><div className={(optionActive == 'all' ? 'active' : '')}>All{(all?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
-                // setOptionActive('new')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_new'])
+                qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_new'])
             }}><div className={optionActive == 'new' ? 'active' : ''}>New {(_new?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
-                // setOptionActive('blocked')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_blocked'])
+                qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_blocked'])
             }}><div className={optionActive == 'blocked' ? 'active' : ''}>Blocked  {(blocked?.length || 0) > 0 ? <span></span> : undefined}</div></div>
             <div className="option" onClick={() => {
-                // setOptionActive('blocked')
-                qs(json||{}).setAbsPath(['chat', 'discussions', 'discussions_admin'])
-            }}><div className={optionActive == 'admin' ? 'active' : ''}>Admin  {(m_c?.length || 0) > 0 ? <span></span> : undefined}</div></div>
+                qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_admin'])
+            }}><div className={optionActive == 'admin' ? 'active' : ''}>Admin  {(context_admin?.length || 0) > 0 ? <span></span> : undefined}</div></div>
         </div>
         <div className="search">
             <div className="input">
@@ -157,32 +139,26 @@ export function DiscussionsNav() {
                         <div key={d.id} className={"discussion " + (discussion?.id == d.id ? 'active' : '')} onClick={(e) => {
                             d.unchecked_count = 0;
 
-                            if (optionActive == 'admin') {
-                                qs({ 'moderator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_admin'])
-                            } else {
-                                //@ts-ignore
-                                qs({ 'collaborator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
-                            }
-                            // setDiscussion(d);
-                            // openDiscussionMessages(d.id);
+                            //@ts-ignore
+                            store && qs({ [getSeconContext(store.id,d)?'collaborator_id':'moderator_id']: d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
                             const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;
                             div.style.display = 'none';
 
                         }} onContextMenu={(e) => {
                             e.preventDefault();
-                            openChild(<DiscussionPopu blocked={!!blocked?.includes(d)} x={e.clientX} y={e.clientY}
+                            openChild(<DiscussionPopu canBlock={!!getSeconContext(store?.id,d)} blocked={!!blocked?.includes(d)} x={e.clientX} y={e.clientY}
                                 onBlock={(block) => {
                                     if (block) {
                                         blockDiscussion(d);
-                                        setOptionActive('blocked');
+                                        qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_blocked'])
                                     }
                                     else {
                                         unBlockDiscussion(d);
-                                        setOptionActive('all');
+                                        qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_all'])
                                     }
                                 }}
                                 onAsRead={() => {
-                                    asReadDiscussion(d)
+                                    // asReadDiscussion(d)
                                 }}
                                 onDelete={() => {
                                     deleteDiscussion(d)
@@ -210,7 +186,7 @@ export function DiscussionsNav() {
     </div>)
 }
 
-function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked }: { blocked: boolean, x: number, y: number, onDelete: () => void, onBlock: (block: boolean) => void, onAsRead: () => void }) {
+function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked , canBlock}: {canBlock:boolean, blocked: boolean, x: number, y: number, onDelete: () => void, onBlock: (block: boolean) => void, onAsRead: () => void }) {
     const ref = useRef<HTMLDivElement | null>(null)
     useEffect(() => {
         ref.current && limitPopupPosition(ref.current)
@@ -221,10 +197,10 @@ function DiscussionPopu({ x, y, onBlock, onAsRead, onDelete, blocked }: { blocke
                 <div className="icon"></div>
                 <div className="label">Mark as read</div>
             </div>
-            <div className="block" onClick={() => onBlock(!blocked)}>
+            {canBlock && <div className="block" onClick={() => onBlock(!blocked)}>
                 <div className="icon"></div>
                 <div className="label">{blocked ? 'Unblock' : 'Bolck'}</div>
-            </div>
+            </div>}
             <div className="delete" onClick={onDelete}>
                 <div className="icon"></div>
                 <div className="label">Delete chat</div>

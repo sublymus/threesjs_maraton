@@ -1,4 +1,5 @@
 import { Host } from "../Config";
+import { Discussion } from "../DataBase";
 
 export const  toDate = (date: string) => {
     let a: any = new Date(date).toLocaleTimeString();
@@ -20,4 +21,8 @@ export const Click = (n=0.5 )=>{
             div.style.opacity = '';
         },100);
     }
+}
+
+export function getSeconContext(context: string|undefined, d: Discussion) {
+    return ((d.from_id||null)=== (context||null) ? d.to_id : d.from_id)||null
 }

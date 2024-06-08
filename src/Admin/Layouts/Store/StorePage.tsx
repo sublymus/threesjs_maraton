@@ -9,12 +9,12 @@ import { Local } from '../../../Config'
 
 
 export function StorePage() {
-    const { current, qs, json } = useAdminRoute()
+    const { current, qs,pathList } = useAdminRoute()
     const { user } = useRegisterStore()
     const { stores, fetchStores , setStore } = useStoreStore()
     useEffect(() => {
         user && current('stores') && fetchStores({text:''})
-    }, [user])
+    }, [user,pathList])
     
     return current('stores') &&(
         <div className='stores-page'>
