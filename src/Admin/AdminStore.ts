@@ -25,7 +25,12 @@ const Pages = {
                 discussions_new:{},
                 discussions_blocked:{}
             },
-            groups: {},
+            services: {
+                services_stores:{},
+                services_all:{},
+                services_new:{},
+                services_blocked:{}
+            },
             surveys: {}
         },
         interfaces: {},

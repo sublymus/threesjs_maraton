@@ -69,7 +69,7 @@ export function PageInfo () {
                     <div className="btn-dash btn" onClick={() => {
                         localStorage.setItem('store', JSON.stringify(store));
                         window.open(
-                            `${Local}/${store?.name}/dash`,
+                            `${Local}/${store?.name}/dash/admin`,
                         );
                     }}>
                         Open Dashboard
@@ -141,7 +141,7 @@ export function PageInfo () {
                                         <div className="open-dash" onClick={() => {
                                             localStorage.setItem('store', JSON.stringify(s));
                                             window.open(
-                                                `${Local}/${collected.name}/dash`
+                                                `${Local}/${collected.name}/dash/admin`
                                             );
                                         }}>DASH</div>
                                     </div>

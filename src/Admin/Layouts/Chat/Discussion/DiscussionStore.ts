@@ -4,22 +4,20 @@ import { useMessageStore } from "../ChatMessage/MessageStore";
 import { Host } from "../../../../Config";
 import { ListType, UserInterface } from "../../../../DataBase";
 import { transmit } from "../../../../Tools/Transmit";
-import type { Discussion, Message } from "../../../../DataBase";
+import type { Discussion, Message, StoreInterface } from "../../../../DataBase";
 import { getSeconContext } from "../../../../Tools/StringFormater";
 
 const NEW_DISCUSSION_STR = 'new_discussion'
 interface DiscussionState {
     discussion: Discussion | undefined,
-
     discussions: ListType<Discussion> | undefined,
-
     messages: ListType<Message> | undefined
-
+   
     setDiscussion(discussion: Discussion | undefined): void
 
     fetchDiscussions(filter: {
         blocked?: 'no' | 'only' | 'all',
-        store_id?:string,
+        store_id?:string|null,
         no_save?: boolean,
         discussion_id?: string,
         other_id?: string
@@ -49,8 +47,9 @@ interface DiscussionState {
         other_id: string,
         store_id?: string
         findOther(other_id: string, store_id?: string): Promise<UserInterface | undefined>
-    }): void
+    }, set?:(cb:(state:any)=>any)=>any): void
 }
+
 type setType = ((cb: (data: DiscussionState) => Partial<DiscussionState>) => any)
 let disSet: setType | undefined;
 const channels: string[] = []
@@ -61,8 +60,8 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
     setDiscussion(discussion) {
         set(() => ({ discussion }));
     },
-    async setDiscussionByOtherId({ other_id, store_id, findOther }) {
-        
+    async setDiscussionByOtherId({ other_id, store_id, findOther }, _set) {
+        const localSet = _set || set;
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
         if(other_id == h.user.id) return
@@ -71,7 +70,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
  
         if (currentDiscussion) {
             const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id, 'discussions');
-            set(() => ({ discussion: currentDiscussion, messages: ms }));
+            localSet(() => ({ discussion: currentDiscussion, messages: ms }));
             return
         }
 
@@ -83,7 +82,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         
         if (existDiscussion) {
             const ms = await useMessageStore.getState().fetchMessages(existDiscussion.id, 'discussions');
-            set(() => ({ discussion: existDiscussion, messages: ms }));
+            localSet(() => ({ discussion: existDiscussion, messages: ms }));
             return
         }
         
@@ -243,18 +242,17 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         console.log('NEW DISCUSSION', discussion);
         
         return discussion
-    },
+    }, 
     async fetchDiscussions({discussion_id,no_save,other_id,store_id }) {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
         
         const searchParams = new URLSearchParams({});
-        searchParams.set('to_id',store_id||'');
         if(store_id){
+            searchParams.set('to_id',store_id);
             searchParams.set('add_store','true');
         }
-        // searchParams.set('to_id','');
-        //TODO
+        
         discussion_id &&searchParams.set('discussion_id',discussion_id);
         other_id && searchParams.set('other_id',other_id);
         
@@ -263,7 +261,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         });
 
         const json = (await response.json()) as ListType<Discussion>;
-        console.log('fetch Dic', json);
+        console.log('fetch Discussions', json);
 
         if (!json) {
             return;
@@ -273,26 +271,24 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         json.list.forEach(async (d) => {
             ListenDiscussion(d)
         })
-        
-        if (!channels.includes(h.user.id)) {
-            channels.push(h.user.id);
-            const subscription = transmit.subscription(h.user.id);
+        const channel = `${h.user.id}/`;
+        if (!channels.includes(channel)) {
+            channels.push(channel);
+            const subscription = transmit.subscription(channel);
             await subscription.create();
             subscription.onMessage<{ new_discussion?: Discussion & { receiver: UserInterface, creator: UserInterface }, reload_discussion?: boolean }>(async (data) => {
                 if (data.new_discussion) {
-                    // if(data.new_discussion.creator_id==h.user.id) return
+                    console.log('new_discussion ==>  ', data.new_discussion);
                     ListenDiscussion(data.new_discussion)
                     const a = data.new_discussion
                     const other_att = a.receiver.id != h.user.id ? 'receiver' as const : 'creator' as const;
                     a.other_att = other_att;
                     a.other = a[other_att];
-                    //TODO
-                    const ds = useDiscussionStore.getState().discussions?.list.filter(_d => _d.id.startsWith(NEW_DISCUSSION_STR)?!((_d.receiver_id == a.receiver_id||_d.creator_id==a.receiver_id) && (_d.from_id||null)==(a.from_id||null) && (_d.to_id||null)==(a.to_id||null)):true)
-                    console.log('########',ds);
-                    
+                    const ds = useDiscussionStore.getState().discussions?.list.filter(_d => _d.id.startsWith(NEW_DISCUSSION_STR)?!((_d.other.id == a.other.id) && (_d.from_id||null)==(a.from_id||null) && (_d.to_id||null)==(a.to_id||null)):true)
                     set(({ discussions }) => ({ discussions: discussions && { ...discussions, list: [a, ...(ds || [])] } }))
                 }
                 if (data.reload_discussion) {
+                    console.log('reload_discussion ==>  ');
                     useDiscussionStore.getState().fetchDiscussions({});
                 }
             })
@@ -315,15 +311,12 @@ export async function ListenDiscussion(d: Discussion) {
     await subscription.create();
     subscription.onMessage<{ reload: string, reloadMessage: boolean }>(async (data) => {
         if (!disSet) return;
-        console.log('data_discussion', data);
         const currentD = useDiscussionStore.getState().discussion;
         if (data.reload) {
             const ds = useDiscussionStore.getState().discussions?.list;
             const djson = (await useDiscussionStore.getState().fetchDiscussions({ discussion_id: d.id, no_save: true }))?.list;
             console.log('reload Discussion ___________ ', djson?.length);
             if (!djson?.[0].id) return
-
-
             const newDs = [...ds?.map((_d) => {
                 if (_d.id == d.id) {
                     return djson?.[0]

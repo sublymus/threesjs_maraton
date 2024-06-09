@@ -4,6 +4,7 @@ import './PageChat.css';
 // import { SessionNav } from "./Session/SessionNav/SessionNav";
 import { DiscussionsNav } from "./Discussion/DiscussionNav/DiscussionNav";
 import { DiscussionsCenter } from "./Discussion/DiscussionCenter/DiscussionCenter";
+import { ServiceNav } from "./Discussion/ServiceNav/ServiceNav";
 import { useRegisterStore } from '../PageAuth/RegisterStore'
 import { Host } from '../../../Config'
 import { Click } from '../../../Tools/StringFormater';
@@ -22,15 +23,16 @@ export function PageChat() {
     const navs: any = {
         discussions: <DiscussionsNav />,
         groups: <DiscussionsNav />,
-        // sessions: <SessionNav />,
+        services: <ServiceNav />,
         surveys: <DiscussionsNav />,
     }
     const centers: any = {
         discussions: <DiscussionsCenter />,
         groups: <DiscussionsCenter />,
-        // sessions: <SessionsCenter />,
+        services: <DiscussionsCenter/>,
         surveys: <DiscussionsCenter />,
     }
+    
     return check('chat') && user && (
         <div className='page-chat'>
             <div className="back-close nav" style={{ display: (navSize == 'min') ? 'none' : '' }} onClick={e => {
@@ -54,11 +56,11 @@ export function PageChat() {
                         setAbsPath(['chat', 'groups'])
                         setActivePage('groups')
                     }}></div> */}
-                    {/* <div className={"icon sessions " + (activePage == 'sessions' ? 'active' : '')} onClick={(e) => {
+                    <div className={"icon services " + (activePage == 'services' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
-                        setAbsPath(['chat', 'sessions'])
-                        setActivePage('sessions')
-                    }}></div> */}
+                        setAbsPath(['chat', 'services'])
+                        setActivePage('services')
+                    }}></div>
                     {/* <div className={"icon surveys " + (activePage == 'surveys' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
                         setAbsPath(['chat', 'surveys'])

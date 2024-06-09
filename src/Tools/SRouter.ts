@@ -77,7 +77,7 @@ interface UnUseAppState<T extends PageType> {
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
     exist(...page: string[]): true | undefined,
-    qs(json: Record<string, any>): UnUseAppState<T>
+    qs(json?: Record<string, any>|undefined): UnUseAppState<T>
 }
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {

@@ -269,7 +269,7 @@ export function SessionsCenter() {
                             </div>
                         ))
                     }</div>
-                    <textarea ref={textareaRef} value={text} name="session_sender" placeholder="Type a message here.." id="session_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
+                    <textarea autoFocus ref={textareaRef} value={text} name="session_sender" placeholder="Type a message here.." id="session_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
                         calculTextareaSize();
                         setText(isNewSession && _e.currentTarget.value.length > TITLE_LENGTH ? _e.currentTarget.value.substring(0, TITLE_LENGTH) : _e.currentTarget.value)
                     }} onKeyDown={() => {

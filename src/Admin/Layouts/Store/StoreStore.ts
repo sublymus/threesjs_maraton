@@ -16,7 +16,7 @@ interface StoreState {
         // owner_name?:string,
         // id?:string,
         // owner_email?:string
-    }, unsave?:boolean):Promise<ListType<StoreInterface>|undefined>
+    }, no_save?:boolean):Promise<ListType<StoreInterface>|undefined>
     setStoreById(store_id:string):any
 }
 
@@ -37,7 +37,7 @@ export const useStoreStore = create<StoreState>((set) => ({
             }
         }
     },
-    async fetchStores(filter, unsave) {
+    async fetchStores(filter, no_save) {
         const h = useRegisterStore.getState().getHeaders()
         const searchParams = new URLSearchParams({});
             for (const key in filter) {
@@ -49,7 +49,7 @@ export const useStoreStore = create<StoreState>((set) => ({
         })
         const json = await response.json();
         if(!json?.list) return 
-       if(!unsave) set(()=>({stores:json}))
+       if(!no_save) set(()=>({stores:json}))
         return json
     },
 }));

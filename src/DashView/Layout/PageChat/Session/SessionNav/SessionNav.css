@@ -220,13 +220,14 @@
 .session-nav .session .right .btm .count {
     color: #fff;
     background: var(--primary-color);
-    width: 22px;
+    min-width: 22px;
+    padding: 5px;
     height: 22px;
     margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
+    border-radius: 20px;
     display: none;
 }
 

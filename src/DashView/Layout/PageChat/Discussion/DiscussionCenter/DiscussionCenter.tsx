@@ -237,7 +237,7 @@ export function DiscussionsCenter() {
                             </div>
                         ))
                     }</div>
-                    <textarea ref={textareaRef} name="discussion_sender" placeholder="Type a message here.." id="discussion_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
+                    <textarea autoFocus ref={textareaRef} name="discussion_sender" placeholder="Type a message here.." id="discussion_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
                         calculTextareaSize()
                     }} onKeyDown={() => {
                         setEmijiOpen(false);
