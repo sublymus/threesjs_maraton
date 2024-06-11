@@ -4,7 +4,7 @@ import { useMessageStore } from "../ChatMessage/MessageStore";
 import { Host } from "../../../../Config";
 import { ListType, UserInterface } from "../../../../DataBase";
 import { transmit } from "../../../../Tools/Transmit";
-import type { Discussion, Message, StoreInterface } from "../../../../DataBase";
+import type { Discussion, Message } from "../../../../DataBase";
 import { getSeconContext } from "../../../../Tools/StringFormater";
 
 const NEW_DISCUSSION_STR = 'new_discussion'

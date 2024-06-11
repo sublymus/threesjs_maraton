@@ -22,11 +22,11 @@ export function TopBar() {
             <div className="left">
                 <div className="options" onClick={() => {
                     openChild(<ul className='vert-nav'>
-                <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME <span></span></li>
-                <li className={(active == 'store_list' || active == 'edit_store' || active == 'new_store') ? 'active' : ''} onClick={() => update('store_list')}>STORES <span></span></li>
-                <li className={active == 'about' ? 'active' : ''} onClick={() => update('about')}>ABOUT US <span></span></li>
-                <li className={active == 'contact' ? 'active' : ''} onClick={() => update('contact')}>CONTACT US <span></span></li>
-            </ul>, true, '#1129')
+                        <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME <span></span></li>
+                        <li className={(active == 'store_list' || active == 'edit_store' || active == 'new_store') ? 'active' : ''} onClick={() => update('store_list')}>STORES <span></span></li>
+                        <li className={active == 'about' ? 'active' : ''} onClick={() => update('about')}>ABOUT US <span></span></li>
+                        <li className={active == 'contact' ? 'active' : ''} onClick={() => update('contact')}>CONTACT US <span></span></li>
+                    </ul>, true, '#1129')
                 }}>
                 </div>
                 <div className="logo-ctn" onClick={() => {
@@ -44,7 +44,9 @@ export function TopBar() {
                 <div className="profile-ctn" onClick={() => {
                     openDisco(!disco);
                 }}>
-                    {owner.name}
+                    <div className="user-name">
+                        {owner.name}
+                    </div>
                     <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
                         {disco && <div className="disco" onClick={() => {
                             disconnection();

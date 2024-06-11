@@ -1,13 +1,12 @@
 import "./PageInfo.css";
-import { Local } from "../../../../Config";
 import { useEffect, useState } from "react";
-import { generateUid } from "../../../../Tools/uidGenerator";
 import { useWindowSize } from "../../../../Hooks";
 import { EditorTopBar } from "../../../../DashView/Component/EditorTopBar/EditorTopBar";
 import { getImg } from "../../../../Tools/StringFormater";
 import { useAdminStore , useAdminRoute } from "../../../AdminStore";
 import { useStoreStore } from "../StoreStore";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
+import { Local } from "../../../../Config";
 
 export function PageInfo () {
     const { current, setAbsPath, navBack , json} = useAdminRoute();
@@ -61,7 +60,8 @@ export function PageInfo () {
                     <div className="btn-dash btn demo" onClick={() => {
                         localStorage.setItem('store', JSON.stringify(store));
                         window.open(
-                            `${Local}/demo/${store.name}`
+                            `${Local}/demo/${store.name}`,
+                            undefined,
                         );
                     }}>
                         Open Demo Store
@@ -70,6 +70,7 @@ export function PageInfo () {
                         localStorage.setItem('store', JSON.stringify(store));
                         window.open(
                             `${Local}/${store?.name}/dash/admin`,
+                            undefined
                         );
                     }}>
                         Open Dashboard
@@ -135,7 +136,8 @@ export function PageInfo () {
                                         <div className="open-store" onClick={() => {
                                             localStorage.setItem('store', JSON.stringify(s));
                                             window.open(
-                                                `${Local}/${collected.name}`
+                                                `${Local}/${collected.name}`,
+                                                undefined
                                             );
                                         }}>STORE</div>
                                         <div className="open-dash" onClick={() => {
@@ -143,6 +145,7 @@ export function PageInfo () {
                                             window.open(
                                                 `${Local}/${collected.name}/dash/admin`
                                             );
+                                            undefined
                                         }}>DASH</div>
                                     </div>
                                 )

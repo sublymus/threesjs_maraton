@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { useRegisterStore } from "../../PageAuth/RegisterStore";
 import { Host } from "../../../../Config";
 import { ListType } from "../../../../DataBase";
-import type { Discussion, Message, UserInterface } from "../../../../DataBase";
+import type { Discussion, Message } from "../../../../DataBase";
 import {useDiscussionStore } from "../Discussion/DiscussionStore";
 // import { useSessionStore } from "../Session/SessionStore";
 const NEW_DISCUSSION_STR = 'new_discussion'

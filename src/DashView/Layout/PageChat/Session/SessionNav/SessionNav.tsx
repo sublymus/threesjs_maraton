@@ -6,6 +6,7 @@ import { useSessionStore } from '../SessionStore';
 import { getImg, limit, toDate } from '../../../../../Tools/StringFormater';
 import { limitPopupPosition } from '../../../../../Tools/BindToParentScroll';
 import { useRegisterStore } from '../../../PageAuth/RegisterStore';
+import { useClientStore } from '../../../PageClient/ClientStore';
 
 export function SessionNav({ }: {}) {
     const { openChild } = useDashStore();
@@ -27,6 +28,7 @@ export function SessionNav({ }: {}) {
     } = useSessionStore();
 
     const { user, store } = useRegisterStore();
+    const { fetchClients } = useClientStore();
 
     useEffect(() => {
         store && fetchSessions()
@@ -64,7 +66,7 @@ export function SessionNav({ }: {}) {
             <div className="title">
                 <div className="label">Sessions </div>
                 <div className="add-new" onClick={() => {
-                    openChild(<SearchUser setUser={(client) => {
+                    openChild(<SearchUser user={user} openChild={openChild} fetchUsers={fetchClients} setUser={(client) => {
                         addSession(client)
                     }} />, true, '#0002')
                 }}> <span></span></div>

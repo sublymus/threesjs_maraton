@@ -46,7 +46,7 @@ export const useServiveStore = create<ServiceState>((set) => ({
         set(() => ({ serviceStore: store }))
     },
     async setServiceDiscussionById(data) {
-        const discussion = useDiscussionStore.getState().setDiscussionByOtherId(data,set)
+        /*const discussion = */useDiscussionStore.getState().setDiscussionByOtherId(data,set)
     },
     async setServiceStoreById(store_id) {
         const existStore = useServiveStore.getState().serviceStores?.list.find(s => s.id == store_id);

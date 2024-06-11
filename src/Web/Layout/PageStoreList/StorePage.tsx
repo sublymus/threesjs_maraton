@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import './StorePage.css'
 import { getImg } from '../../../Tools/StringFormater'
 import { useWebStore } from "../../WebStore";
-import { Local } from '../../../Config'
 import { useWebRoute } from '../../WebStore'
+import { bindToParentScroll } from '../../../Tools/BindToParentScroll';
+import { Local } from '../../../Config';
 
 
 
@@ -35,7 +36,7 @@ export function StorePage() {
                     </div>
                 </div>
             </div>
-            <div className="stores">
+            <div className="stores" ref={bindToParentScroll}>
                 {stores?.list.map((s) => (
                     <div className="store">
                         <div className="banner" style={{ background: getImg(s.banners[0]) }} onClick={() => {

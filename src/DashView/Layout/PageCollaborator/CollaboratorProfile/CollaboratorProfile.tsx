@@ -16,7 +16,7 @@ import { useRoleStore } from '../../PageRole/RoleStore';
 import { Local } from '../../../../Config';
 export function CollaboratorProfile() {
 
-    const { current, json,qs } = useDashRoute();
+    const { current, json } = useDashRoute();
     const { selectedCollaborator, setCollaboratorById, removeCollaborator, updateCollaborator, change_collaborator_role } = useCollaboratorStore();
     const [isCheckRequired] = useState(false);
     const { roles } = useRoleStore()

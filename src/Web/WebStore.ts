@@ -131,6 +131,8 @@ export const useWebStore = create<WebState>((set) => ({
     async owner_stores(filter) {
         const owner = useWebStore.getState().owner
         if (!owner) return
+        //@ts-ignore
+        filter.owner_id =owner.id
         const searchParams = new URLSearchParams({});
         for (const key in filter) {
             const value = (filter as any)[key];

@@ -1,4 +1,5 @@
-const h = localStorage.getItem('host')||'localhost'
+// const h = localStorage.getItem('host')
 
-export const Host = `http://${h}:3333`
-export const Local = `http://${h}:5173`
+export const Host = location.host.includes('localhost')?`http://localhost:3333`:''
+
+export const Local = location.host.includes('localhost')?`http://localhost:5173`:''

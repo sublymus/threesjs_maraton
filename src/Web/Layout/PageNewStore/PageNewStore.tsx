@@ -1,12 +1,11 @@
 import "./PageNewStore.css";
 import { useWebRoute, useWebStore } from '../../WebStore'
-import { Local } from "../../../Config";
 import { useEffect, useState } from "react";
 import { generateUid } from "../../../Tools/uidGenerator";
 import { useWindowSize } from "../../../Hooks";
 import { EditorTopBar } from "../../../DashView/Component/EditorTopBar/EditorTopBar";
 import { getImg } from "../../../Tools/StringFormater";
-
+import { Local } from "../../../Config";
 export function PageNewStore() {
     const [id] = useState(generateUid());
     const { current, setAbsPath, navBack, json } = useWebRoute();

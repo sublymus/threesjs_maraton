@@ -1,5 +1,5 @@
 import './NewModerator.css'
-import { useAdminRoute, useAdminStore } from '../../../AdminStore'
+import { useAdminRoute } from '../../../AdminStore'
 import { useModeratorStore } from '../ModeratorStore';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from '../../../../Hooks';

@@ -42,7 +42,7 @@ export function NewCollaborator() {
                 }}/>
                 </div>
                 <div className="left-side">
-                    <ChoiseRole onChange={(value)=>{
+                    <ChoiseRole roles={[]} canChange={()=>true} onChange={(value)=>{
                         collected['role_id'] = value
                     }} />
                 </div>

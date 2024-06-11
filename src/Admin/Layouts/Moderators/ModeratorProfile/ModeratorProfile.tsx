@@ -133,7 +133,7 @@ export function ModeratorProfile() {
                             title: GenericList.StringElement({ size: 200 }),
                             visited_at: GenericList.DateStringElement({ size: 200 }),
                         }}
-                        onItemsSelected={(item) => {
+                        onItemsSelected={(_item) => {
                             // qs({product_id:item[0].id}).setAbsPath(['products', 'dash_product']);
                         }}
                     >
