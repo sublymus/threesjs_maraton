@@ -225,6 +225,13 @@ export function DiscussionsCenter() {
                         setFiles(list.length > 0 ? (files ? [...files, ...list] : list) : null);
                     }} />
                     <label htmlFor={id + 'message_file'} className="add-file" onClick={Click()}></label>
+
+                    <div className="emoji-min" onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        Click()(e)
+                        setEmijiOpen(!emijiOpen)
+                    }}></div>
                 </div>
                 <div className="sender_center">
                     <div className="files">{
@@ -244,12 +251,12 @@ export function DiscussionsCenter() {
                     }}></textarea>
                 </div>
                 <div className="right">
-                    <div className="emoji" onClick={(e) => {
+                    {/* <div className="emoji" onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         Click()(e)
                         setEmijiOpen(!emijiOpen)
-                    }}></div>
+                    }}></div> */}
                     {/* <div className='audio' onClick={Click()}></div> */}
                     <div className="send" onClick={(e) => {
                         Click()(e);

@@ -7,9 +7,9 @@ import { useProductStore } from './ProductStore';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 
 export function Products() {
-    const {check, json} = useAppRouter();
+    const {check, json , current} = useAppRouter();
     const {  setProductById} = useProductStore()
-    const { storePromise } = useRegisterStore()
+    const {  store } = useRegisterStore()
     const [state] = useState({
         vertical: undefined as JSX.Element| undefined,
         horizontal:  undefined as JSX.Element| undefined,
@@ -21,14 +21,10 @@ export function Products() {
      if(!isVertical)isVertical = size.width > 1200 ? true:false
      state.current = isVertical?(state.vertical?state.vertical:(state.vertical=<VerticalProducts/>)):(state.horizontal?state.horizontal:(state.horizontal= <HorizontalProducts/>))
     useEffect(()=>{
-        if(json?.product_id){
-            console.log('RRRRRRRR',json);
-            storePromise.then(()=>{
-                setProductById(json as any)
-            })
+        if(store && json?.product_id && current('product')){
+            setProductById(json as any)
         }
-    },[json, storePromise])
-    console.log('ppppp');
+    },[json, store])
     
      return (
         <>

@@ -124,9 +124,3 @@ pre{
   background: #15132548;
   transition: 200ms;
 }
-.generic-list .list-filter-top {
-  display: flex;
-  justify-content: space-between;
-  height: 40px;
-  margin-bottom: 20px;
-}

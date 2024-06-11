@@ -7,7 +7,7 @@ import { Host } from '../../../Config';
 
 
 export function VerticalProducts() {
-  const { products, fetchProducts, selectProduct, product } = useProductStore()
+  const { products, selectProduct, product } = useProductStore()
   const productsRef = useRef<HTMLDivElement | null>(null)
   const verticalCadreManagerRef = useRef<VerticalCadreManager | null>(null);
   const [productArray, setProductArray] = useState<Array<any>>()
@@ -17,15 +17,14 @@ export function VerticalProducts() {
     const verticalCadreManager = new VerticalCadreManager(productsRef);
     verticalCadreManagerRef.current = verticalCadreManager;
     verticalCadreManager.init();
-    fetchProducts({});
-  }, [fetchProducts]);
+  }, []);
 
   useEffect(() => {
     if (verticalCadreManagerRef.current && products) {
       const list: any[] = []
       let first=true;
       let i = 0;
-      for (const product of  products.list) {
+      for (const product of  products?.list) {
         const verticalcadre = new VerticalCadre();
         const productElement = (
           <div

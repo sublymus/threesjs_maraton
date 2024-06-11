@@ -10,7 +10,7 @@ export function TopBar() {
     const {  setAbsPath ,check } = useAppRouter();
     const {store}  = useRegisterStore();
     const { selectProduct } = useProductStore()
-    const { setLastPath} = useProfileStore()
+    const { setLastPath} = useProfileStore() 
     const { openChild ,  } = useAppStore();
     return check('top_bar')&&(
         <div className="top-bar">

@@ -1,5 +1,6 @@
 .list-search-bar {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .sombre-mode-variable .list-search-bar {

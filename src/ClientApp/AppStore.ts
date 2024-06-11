@@ -29,8 +29,8 @@ const Pages = {
             blog: {},
             service: {
             },
-            profile_nav: null,
-            top_bar: null,
+            // profile_nav: null,
+            // top_bar: null,
         },
     }
 } 

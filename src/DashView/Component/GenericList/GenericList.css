@@ -132,10 +132,12 @@
     transition: 200ms;
 }
 
+.generic-list .list-filter-top > div {
+    margin: 5px;
+}
 .generic-list .list-filter-top {
     display: flex;
-    justify-content: space-between;
-    height: 40px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
@@ -150,6 +152,7 @@
     color:#fff;
     align-items: center;
     padding: 0 10px;
+    height: 40px;
     border-radius: 10px;
     border: 1px solid #3453;
     font-size: 0.9em;

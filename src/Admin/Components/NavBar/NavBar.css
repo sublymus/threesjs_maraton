@@ -165,10 +165,6 @@
 
 }
 
-.nav-bar .nav-profile .name {
-
-}
-
 .nav-bar .nav-profile .logout {
     border-radius: 20px;
     padding: 10px 20px;
@@ -194,5 +190,43 @@
     filter: invert(50%);
     transition: 100ms;
     margin-bottom: 50px;
+    display: none;
 }
 
+@media (width < 1250px) {
+    .nav-bar {
+        min-width: 80px;
+        max-width: 80px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .nav-bar .nav-link li label {
+        display: none;
+    }
+    .nav-bar .nav-logo .label {
+        display: none;
+    }
+
+    .nav-bar .nav-profile {
+        display: none;
+    }
+
+    .nav-bar .nav-profile {
+        display: none;
+    }
+
+    .nav-bar .logut-icon {
+        display: block;
+    }
+}
+
+@media (width < 750px) {
+    .nav-bar {
+        all: unset;
+        display: none !important;
+        background: #456;
+    }
+}

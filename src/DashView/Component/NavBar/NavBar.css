@@ -3,21 +3,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     justify-content: space-between;
 }
+
 .nav-bar.blur {
     filter: blur(20px);
-  }
-  
-.nav-bar.small {
-    min-width: 80px;
-    max-width: 80px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: space-between;
 }
 
 .nav-bar .nav-logo {
@@ -60,7 +51,8 @@
 
 }
 
-.nav-bar .nav-link li:hover, .nav-bar .nav-link li.active {
+.nav-bar .nav-link li:hover,
+.nav-bar .nav-link li.active {
     background: rgba(102, 102, 102, 0.185);
     /* transition: 200ms; */
 }
@@ -80,6 +72,7 @@
 .nav-bar .nav-link li.active {
     color: #000;
 }
+
 /* 
 .sombre-mode-variable .nav-bar .nav-link li.no span {
     transition: 200ms;
@@ -118,7 +111,7 @@
     opacity: 0.7;
 }
 
-.nav-bar .nav-link li.active  {
+.nav-bar .nav-link li.active {
     filter: invert(9%) sepia(23%) saturate(7332%) hue-rotate(225deg) brightness(101%) contrast(120%);
 }
 
@@ -170,19 +163,23 @@
     padding: 10px 20px;
     background: rgba(255, 123, 62, 0.288);
     color: rgb(255, 123, 62);
-    border: 0px solid rgba(255, 123, 62, 0);;
+    border: 0px solid rgba(255, 123, 62, 0);
+    ;
     transition: 300ms;
 }
+
 .nav-bar .nav-profile .logout:hover {
     padding: 5px 20px;
-    border: 5px solid rgba(255, 123, 62, 0.123);;
+    border: 5px solid rgba(255, 123, 62, 0.123);
+    ;
     transition: 200ms;
 }
 
-.nav-bar .logut-icon:hover{
+.nav-bar .logut-icon:hover {
     filter: invert(30%);
     transition: 100ms;
 }
+
 .nav-bar .logut-icon {
     width: 60px;
     height: 60px;
@@ -190,5 +187,43 @@
     filter: invert(50%);
     transition: 100ms;
     margin-bottom: 50px;
+    display: none;
 }
 
+@media (width < 1250px) {
+    .nav-bar {
+        min-width: 80px;
+        max-width: 80px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .nav-bar .nav-link li label {
+        display: none;
+    }
+    .nav-bar .nav-logo .label {
+        display: none;
+    }
+
+    .nav-bar .nav-profile {
+        display: none;
+    }
+
+    .nav-bar .nav-profile {
+        display: none;
+    }
+
+    .nav-bar .logut-icon {
+        display: block;
+    }
+}
+
+@media (width < 750px) {
+    .nav-bar {
+        all: unset;
+        display: none !important;
+        background: #456;
+    }
+}

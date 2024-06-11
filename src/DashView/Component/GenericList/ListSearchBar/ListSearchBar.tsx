@@ -4,12 +4,12 @@ import { Selector } from '../../Selector/Selector'
 import './ListSearchBar.css'
 import { type FilterMapper } from '../type'
 
-export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , onFilterChange, onCancel , onSearchRequired}: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange?: (text: string) => any, onSortChange?: (sortBy: string) => any, onFilterChange?: (query: Record<string, any>) => any , onCancel?: () => any, onSearchRequired?:(query:Record<string, any>)=>any }) {
+export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter, onFilterChange, onCancel, onSearchRequired }: { sortBy: string[], filter: Record<string, FilterMapper>, onInputChange?: (text: string) => any, onSortChange?: (sortBy: string) => any, onFilterChange?: (query: Record<string, any>) => any, onCancel?: () => any, onSearchRequired?: (query: Record<string, any>) => any }) {
     const [_sortBy, setSortBy] = useState(sortBy[0]);
     const [isDesc, setIsDesc] = useState(true);
     const [text, setText] = useState('');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [query]= useState<Record<string, any>>({});
+    const [query] = useState<Record<string, any>>({});
 
     useEffect(() => {
         onSortChange?.(_sortBy + '_' + (isDesc ? 'desc' : 'asc'));
@@ -17,30 +17,32 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter , on
     return (
         <div className="list-search-bar">
             <div className="search">
-                <input type="text" placeholder={'Search by Id, '+(sortBy.includes('label')?'label':'title')+' description'} onChange={(e) => {
+                <input type="text" placeholder={'Search by Id, ' + (sortBy.includes('label') ? 'label' : 'title') + ' description'} onChange={(e) => {
                     setText(e.currentTarget.value)
-                }} onKeyUp={(e)=>{
-                    if(e.code == 'Enter'){
+                }} onKeyUp={(e) => {
+                    if (e.code == 'Enter') {
                         onInputChange?.(text)
                     }
-                }}/>
+                }} />
                 <div className="icon" onClick={() => {
                     onInputChange?.(text)
                 }}></div>
             </div>
-            <div className="filter-btn" onClick={() => {
-                setIsFilterOpen(!isFilterOpen);
-            }}>
-                <div className="icon"></div>
-                <div className="label">Filter</div>
-            </div>
-            <div className="sort-btn">
-                <div className={"icon " + (isDesc ? 'desc' : 'asc')} onClick={() => {
-                    setIsDesc(!isDesc);
-                }}></div>
-                <Selector placeholder={`sort by ${_sortBy}`} list={sortBy} selected={[_sortBy]} setSelectedColumns={(s) => {
-                    setSortBy(s[0]);
-                }} />
+            <div>
+                <div className="filter-btn" onClick={() => {
+                    setIsFilterOpen(!isFilterOpen);
+                }}>
+                    <div className="icon"></div>
+                    <div className="label">Filter</div>
+                </div>
+                <div className="sort-btn">
+                    <div className={"icon " + (isDesc ? 'desc' : 'asc')} onClick={() => {
+                        setIsDesc(!isDesc);
+                    }}></div>
+                    <Selector placeholder={`sort by ${_sortBy}`} list={sortBy} selected={[_sortBy]} setSelectedColumns={(s) => {
+                        setSortBy(s[0]);
+                    }} />
+                </div>
             </div>
             {isFilterOpen && <div className='filter-page' onClick={(e) => {
                 if (e.currentTarget == e.target) setIsFilterOpen(!isFilterOpen);

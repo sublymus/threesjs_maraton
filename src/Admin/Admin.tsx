@@ -71,6 +71,9 @@ export function Admin() {
                                 setT(T ? '' : 'active');
                             }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>
                             <div className="notf"> <span></span></div>
+                            <div className="nav-min" onClick={()=>{
+                                openChild(<NavBar blur={blur} />,undefined,'#345')
+                             }}> <span></span></div>
                         </div>
                     </div>
                     <div className="center-ctn">

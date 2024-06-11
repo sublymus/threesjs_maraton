@@ -30,7 +30,7 @@ interface ProductScenus extends ProductInterface {
 }
 export interface ProductState {
     visites:ListType<ClientVisites>|undefined
-    products: ListType<ProductScenus>
+    products: ListType<ProductScenus>|undefined,
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
     setProductById(d: { product_id: string, collected: Record<string, any> }): void
@@ -58,7 +58,6 @@ export const useProductStore = create<ProductState>((set) => ({
             method:'PUT'
         });
         const json = await response.json();
-        console.log('setClient_VISITE', json);
         
     },
     async fetchVisites({ after_date, before_date, client_id, product_id, limit, page }) {
@@ -88,23 +87,13 @@ export const useProductStore = create<ProductState>((set) => ({
     },
     featuresCollector: undefined,
     async setProductById(d) {
-        console.log('dd');
-        
         if (!d.product_id) return;
-        console.log('d',{d});
-        
         const ps = useProductStore.getState().products;
-        const p1 = ps.list.find((p) => p.id == d.product_id);
+        const p1 = ps?.list.find((p) => p.id == d.product_id);
         if (p1) {
-            console.log({p1});
-            
-            // const newPs = ps.list.map(p => p.id == d.product_id ? p1 : p);
-            // set(() => ({ products: { ...ps, list: newPs }, product: p1 }))
             useProductStore.getState().selectProduct(p1)
             set(()=>({featuresCollector: p1?.featuresCollector }))
-            showProductWorld(set,p1)
-            console.log({p1});
-            
+            showProductWorld(set,p1);
         } else {
             const store = useRegisterStore.getState().store;
             if (!store) return;
@@ -112,19 +101,19 @@ export const useProductStore = create<ProductState>((set) => ({
             query.product_id = d.product_id;
             query.is_features_required = true;
             query.store_id = useRegisterStore.getState().store?.id;
+            query.by_product_category = !ps?.list[0]
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
                 searchParams.set(key, value);
             }
             const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
-            const p2 = (await response.json())?.list?.[0] as ProductScenus ||undefined
-            if(!p2) return
-            set(() => ({ products: { ...ps, list: [p2,...ps.list] }, product: p2 ,featuresCollector: p2?.featuresCollector}))
+            const ps2 = (await response.json()) as ListType<ProductScenus>
+            if(!ps2.list) return
+            const p2 =ps2.list.find(p=>p.id == d.product_id) || ps2.list[0];
+            set(() => ({ products: ps &&{ ...ps, list: [...ps.list,...(ps2.list.filter(p=>!ps.list.find(_p=>_p.id==p.id)))] }, product: p2 ,featuresCollector: p2?.featuresCollector}))
             useProductStore.getState().selectProduct(p2)
-            showProductWorld(set,p2)
-            console.log({p2});
-            
+            // if()
         }
     },
     fetchProducts: async (filter: Filter) => {
@@ -151,7 +140,6 @@ export const useProductStore = create<ProductState>((set) => ({
         }
         const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
         const products = (await response.json()) as ListType<ProductScenus>
-        console.log(products);
         set(() => ({ products }))
         return products
         // const product = products[0];

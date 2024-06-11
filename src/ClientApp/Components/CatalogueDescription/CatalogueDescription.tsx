@@ -12,6 +12,8 @@ export function CatalogueDescription() {
                 {catalogue?.label} {selectedCategory?.id}{selectedCategory?.description}
             </p>
             <span className="see-all" onClick={() => {
+                console.log({selectedCategory});
+                
                 fetchProducts({
                     query:{
                         category_id:selectedCategory?.id

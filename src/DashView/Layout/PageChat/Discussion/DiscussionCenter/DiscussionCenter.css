@@ -16,9 +16,10 @@
     box-shadow: var(--box-shadow);
 }
 
-.discussion-center .top .profile:hover{
+.discussion-center .top .profile:hover {
     opacity: 0.7;
 }
+
 .discussion-center .top .profile {
     width: 60px;
     cursor: pointer;
@@ -46,6 +47,10 @@
 
 .discussion-center .top .more:hover {
     opacity: 1;
+}
+
+.sombre-mode-variable .discussion-center .top .more{
+    filter: invert();
 }
 
 .discussion-center .top .more {
@@ -194,14 +199,15 @@
 /* SENDER */
 .discussion-center .sender {
     width: 95%;
+    max-width: 600px;
     background: #fff;
     margin-bottom: 10px;
     display: flex;
-    border-radius: 50px;
+    border-radius: 30px;
     justify-content: flex-start;
-    align-items: flex-end;
-    padding: 10px 0px;
+    align-items: center;
     position: relative;
+    color: #345;
 }
 
 .discussion-center .sender .down-btn {
@@ -220,6 +226,7 @@
     position: absolute;
     width: 400px;
     height: 400px;
+    z-index: 1;
     border-radius: 10px;
     background: #fbf9ff;
     top: -440px;
@@ -321,7 +328,7 @@
 }
 
 .discussion-center .sender .right {
-    min-width: 150px;
+    min-width: 60px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -332,6 +339,17 @@
 }
 
 .discussion-center .sender .emoji {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    opacity: 0.4;
+    background: no-repeat center/60% url(/src/res/laugh.png);
+}
+.discussion-center .sender .emoji-min:hover {
+    opacity: 0.6;
+}
+
+.discussion-center .sender .emoji-min {
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -356,16 +374,17 @@
 }
 
 .discussion-center .sender .send {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
     background: var(--primary-color);
     cursor: pointer;
+    margin-bottom: 5px;
 }
 
 .discussion-center .sender .send .icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     filter: invert();
     background: no-repeat 40% 50%/50% url(/src/res/paper-plane.png);
 }
@@ -492,4 +511,14 @@
     height: 25px;
     padding: 5px 0;
     background: no-repeat center/90% url(/src/res/arrow-down-to-line.png);
+}
+
+@media (width < 5050px) {
+    .discussion-center .messages .ctn{
+        max-width: 300px;
+        overflow: hidden;
+    }   
+    .discussion-center .sender .emoji-list {
+     right: -10px;
+    }
 }

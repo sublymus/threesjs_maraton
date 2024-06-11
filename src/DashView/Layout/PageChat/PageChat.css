@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
 
 .page-chat .back-close{
@@ -20,10 +21,10 @@
     min-width: 60px;
     background: #fbf9ff;
     top: 0;
+    z-index: 0;
 }
 
 .page-chat .chat-nav {
-    z-index: 2;
     width: 320px;
     min-width: 320px;
     height: 100%;
@@ -32,6 +33,7 @@
     justify-content: flex-start;
     align-items: center;
     background: #fbf9ff;
+    color: #345;
     overflow: hidden;
 }
 
@@ -141,15 +143,16 @@
 }
 
 @media (width <=900px) {
-
+    
     .page-chat .chat-nav.max {
         position: absolute;
         top: 0;
         left: 0;
         background: #fbf9ff;
-        z-index: 1;
+        z-index: 2;
     }
     .page-chat .back-close.nav {
+        z-index: 2;
        display: block;
     }
 }

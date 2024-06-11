@@ -33,6 +33,7 @@
     align-items: center;
     background: #fbf9ff;
     overflow: hidden;
+    color: #345;
 }
 
 .page-chat .chat-nav.min .top {

@@ -47,6 +47,7 @@ const PathMap = {
     edit_role: 'Editor',
     new_collaborator: 'New Collaborator',
     chat:'Chat',
+    interface:'Interface',
     sessions:'Sessions',
     discussions:'Discussions'
 
@@ -99,11 +100,14 @@ export function Dash() {
                             ))}
                         </div>
                         
-                        <div className="top-right material-symbols-outlined">
+                        <div className="top-right">
                             <div className={"dark-mode " + T} onClick={() => {
                                 setT(T ? '' : 'active');
                             }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>
                             <div className="notf"> <span></span></div>
+                             <div className="nav-min" onClick={()=>{
+                                openChild(<NavBar blur={blur} />,undefined,'#345')
+                             }}> <span></span></div>
                         </div>
                     </div>
                     <div className="center-ctn">
