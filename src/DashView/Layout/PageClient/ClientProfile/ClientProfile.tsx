@@ -54,6 +54,7 @@ export function ClientProfile() {
                 <div className="btm-list">
 
                     <h1 >Products That Use This Catalog</h1>
+                    <div style={{display:'flex'}}>
                     <div className={"btn " + (btmList == 'commands' ? 'active' : '')} onClick={() => {
                         setBtmList('commands');
                     }}>
@@ -65,6 +66,7 @@ export function ClientProfile() {
                     }}>
                         <div className="icon"></div>
                         <div className="label">Visites</div>
+                    </div>
                     </div>
 
                     <h2 className='see-all' onClick={() => {

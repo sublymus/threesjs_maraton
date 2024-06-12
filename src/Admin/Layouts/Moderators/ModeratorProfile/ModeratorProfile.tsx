@@ -1,13 +1,9 @@
-import './ModeratorProfile.css'
 import { useAdminRoute } from '../../../AdminStore'
 import { useModeratorStore } from '../ModeratorStore';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from '../../../../Hooks';
 import { InputText } from '../../../../DashView/Component/Form/Input';
 import { ImageViewer } from '../../../../DashView/Component/ImageViewer/ImageViewer';
-import { GenericList } from '../../../../DashView/Component/GenericList/GenericList';
-import { Host } from '../../../../Config';
-import { StatusElement } from '../../../../DashView/Component/ChoiseStatus/ChoiseStatus';
 import { OpenChat } from "../../../../DashView/Component/OpenChat/OpenChat";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
@@ -15,7 +11,6 @@ export function ModeratorProfile() {
 
     const { current, json } = useAdminRoute();
     const { selectedModerator, setModeratorById } = useModeratorStore();
-    const [btmList, setBtmList] = useState('commands');
     const {user} = useRegisterStore()
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -45,103 +40,7 @@ export function ModeratorProfile() {
                     <OpenChat user={selectedModerator} channel='sessions' />
                 </div>
             </section>
-            <>
-                <div className="btm-list">
-
-                    <h1 >Products That Use This Catalog</h1>
-                    <div className={"btn " + (btmList == 'commands' ? 'active' : '')} onClick={() => {
-                        setBtmList('commands');
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Commands</div>
-                    </div>
-                    <div className={"btn " + (btmList == 'visites' ? 'active' : '')} onClick={() => {
-                        setBtmList('visites');
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Visites</div>
-                    </div>
-
-                    <h2 className='see-all' onClick={() => {
-                        // btmList == 'visites' ?
-                        // setAbsPath(['products']) :
-                        // setAbsPath(['command'])
-                    }}>SEE ALL</h2>
-                </div>
-                {
-                    btmList == 'commands' && <GenericList
-                        disableFilterBar
-                        items_height={80}
-                        id={'product-use-catalog_list'}
-                        datas={[]}
-                        itemsMapper={{
-                            images: {
-                                getView(label, value, e, setRef) {
-                                    return (
-                                        GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
-                                    )
-                                }
-                            },
-                            id: {
-                                getView(_, value: string, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            // title: GenericList.StringElement({ size_interval: [50, 200] }),
-                            stock: GenericList.StringElement(),
-                            // category_id: {
-                            //     getView(_, value, e, setRef) {
-                            //         return (
-                            //             <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                            //         )
-                            //     }
-                            // },
-                            price: GenericList.StringElement({ size: 200 }),
-                            status: StatusElement,
-                            created_at: GenericList.DateStringElement({ size: 200 }),
-                        }}
-                        onItemsSelected={() => {
-                            // s(item[0] as any);
-                            // setAbsPath(['command']);
-                        }}
-                    >
-
-                    </GenericList>
-                }{
-                    btmList == 'visites' && <GenericList
-                        disableFilterBar
-                        items_height={80}
-                        id={'product-use-catalog_list'}
-                        datas={[]}
-                        itemsMapper={{
-                            images: {
-                                getView(label, value, e, setRef) {
-                                    return (
-                                        GenericList.ImageElement().getView(label, `${Host}${value[0]}`, e, setRef)
-                                    )
-                                }
-                            },
-                            id: {
-                                getView(_, value: string, e, setRef) {
-                                    return (
-                                        <div ref={setRef} key={e.id}>#{value.split('-')[0]}</div>
-                                    )
-                                }
-                            },
-                            title: GenericList.StringElement({ size: 200 }),
-                            visited_at: GenericList.DateStringElement({ size: 200 }),
-                        }}
-                        onItemsSelected={(_item) => {
-                            // qs({product_id:item[0].id}).setAbsPath(['products', 'dash_product']);
-                        }}
-                    >
-
-                    </GenericList>
-                }
-            </>
-
+           
         </div>
     ))
 }

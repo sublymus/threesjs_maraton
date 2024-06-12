@@ -44,6 +44,7 @@
     margin: 15px 0px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .client-profile .btm-list .see-all:hover {

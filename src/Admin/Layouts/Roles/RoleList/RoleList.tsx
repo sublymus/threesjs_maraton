@@ -1,5 +1,5 @@
 import { useAdminRoute } from '../../../AdminStore';
-import './RoleList.css'
+import '../../../../DashView/Layout/PageRole/RoleList/RoleList.css'
 import { GenericList } from '../../../../DashView/Component/GenericList/GenericList';
 import { useRoleStore } from '../RoleStore'
 import { FilterLevel } from '../../../../DashView/Component/GenericList/ListSearchBar/Filter/FilterLevel/FilterLevel';

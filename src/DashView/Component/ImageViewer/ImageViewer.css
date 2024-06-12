@@ -278,3 +278,12 @@
 }
 
 /* end** viewer-images*/
+@media (width < 750px) {
+    .viewer-images .image-ctn {
+        position: relative;
+        width: calc(100vmin - 20px);
+        height: calc(100vmin - 20px);
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px #4566;
+    }
+}

@@ -1,4 +1,3 @@
-import './NewModerator.css'
 import { useAdminRoute } from '../../../AdminStore'
 import { useModeratorStore } from '../ModeratorStore';
 import { useEffect, useState } from 'react';

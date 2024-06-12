@@ -135,8 +135,6 @@ export const useRoleStore = create<RoleState>((set) => ({
         }
         const response = await fetch(`${Host}/get_store_roles/?${searchParams.toString()}`, requestOptions);
         const json = await response.json() as ListType<Role>;
-        console.log('roles', json);
-
         if (!json || !json.list) return;
         set(() => ({ roles: json }))
         return json

@@ -1,9 +1,9 @@
 .choise-features {
-    width: 300px;
+    max-width: 300px;
 }
 
 .choise-features .choise-ctn {
-    width: 300px;
+    max-width: 300px;
     height: 60px;
     background: #1482;
     display: flex;
@@ -43,7 +43,7 @@
     transition: 200ms;
 }
 .choise-features .list-features {
-    width: 300px;
+    max-width: 300px;
     min-height: 0px;
     max-height: 300px;
     overflow-x: hidden;

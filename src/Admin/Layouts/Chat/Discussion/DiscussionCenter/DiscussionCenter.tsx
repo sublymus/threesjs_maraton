@@ -2,7 +2,7 @@ import { useRegisterStore } from "../../../PageAuth/RegisterStore";
 import { useDiscussionStore } from '../DiscussionStore'
 import { Click, limit, toDate } from "../../../../../Tools/StringFormater";
 import { Host } from "../../../../../Config";
-import './DiscussionCenter.css'
+import './../../../../../DashView/Layout/PageChat/Discussion/DiscussionCenter/DiscussionCenter.css'
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "../../../../../Hooks";
 import emojis from "emoji.json";
@@ -75,6 +75,9 @@ export function DiscussionsCenter() {
         <div className="label">Select a chat to start messaging</div>
     </div>) : (user && (<div className="discussion-center">
         <div className="top">
+        <div className="open-nonav" onClick={()=>{
+                qs({nav:'max'}).apply()
+            }}></div>
             <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }} onClick={()=>{
                 qs({collaborator_id:d.other.id}).setAbsPath(['moderators','moderator_profile'])
             }}></div>

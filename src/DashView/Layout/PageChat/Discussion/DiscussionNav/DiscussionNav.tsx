@@ -21,7 +21,7 @@ export function DiscussionsNav() {
         unBlockDiscussion,
         setDiscussionByOtherId
     } = useDiscussionStore();
-    const { json, pathList, qs, setAbsPath } = useDashRoute();
+    const { check ,json, pathList, qs, setAbsPath } = useDashRoute();
     const optionPath = pathList[3]?.split('_')[1]
     const [optionActive, setOptionActive] = useState(optionPath || 'all')
     const { openChild } = useDashStore()
@@ -39,11 +39,10 @@ export function DiscussionsNav() {
                         return useModeratorStore.getState().moderators?.list.find((m) => m.id == other_id) || (await useModeratorStore.getState().fetchModerators({ query: { user_id: other_id } }))?.list[0]
                     }
                     return useCollaboratorStore.getState().collaborators?.list.find((c) => c.id == other_id) || (await useCollaboratorStore.getState().fetchCollaborators({ query: { user_id: other_id } }))?.list[0]
-
                 },
             })
         }
-        store && fetchDiscussions({})
+        check('discussions')&& !discussions && store && fetchDiscussions({})
         setOptionActive(optionPath || 'all')
     }, [json, store]);
 
@@ -61,7 +60,7 @@ export function DiscussionsNav() {
         return d.blocked?.includes(user.id)
     })
     const _new = discussions?.list.filter(d => {
-        return d.unchecked_count > 0
+        return d.unchecked_count > 0 && !d.blocked?.includes(user.id)
     })
     const context_admin = discussions?.list.filter(d => {
         return !getSeconContext(store?.id || '', d)

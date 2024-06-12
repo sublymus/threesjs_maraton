@@ -75,6 +75,9 @@ export function DiscussionsCenter() {
         <div className="label">Select a chat to start messaging</div>
     </div>) : (user && (<div className="discussion-center">
         <div className="top">
+            <div className="open-nonav" onClick={()=>{
+                qs({nav:'max'}).apply()
+            }}></div>
             <div className="profile" style={{ background: `no-repeat center/cover url(${photo?.startsWith('/') ? Host : ''}${photo})` }} onClick={()=>{
                if(json?.moderator_id){
                 qs({moderator_id:d.other.id}).setAbsPath(['moderators','moderator_profile'])

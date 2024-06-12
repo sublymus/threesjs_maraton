@@ -1,4 +1,4 @@
-import './RoleDash.css'
+import './../../../../DashView/Layout/PageRole/RoleDash/RoleDash.css'
 import { useAdminRoute } from '../../../AdminStore'
 import { ChoiseOptions } from '../../../../DashView/Component/ChoiseOption/ChoiseOption'
 import { useRoleStore } from '../RoleStore';

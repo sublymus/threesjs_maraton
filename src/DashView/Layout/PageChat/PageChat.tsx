@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useDashRoute } from '../../dashStore'
 import './PageChat.css';
 import { SessionNav } from "./Session/SessionNav/SessionNav";
@@ -11,14 +10,8 @@ import { SessionsCenter } from './Session/SessionCenter/SessionCenter'
 // import React from 'react'
 
 export function PageChat() {
-    const { check, setAbsPath, pathList } = useDashRoute();
+    const { check, qs, pathList, json } = useDashRoute();
     const { user } = useRegisterStore();
-    const [activePage, setActivePage] = useState(pathList?.[2] || 'discussions')
-    const [navSize, setNavSize] = useState('max')
-    useEffect(() => {
-        setActivePage(pathList[2] || 'discussions')
-    }, [pathList])
-
     const navs: any = {
         discussions: <DiscussionsNav />,
         groups: <DiscussionsNav />,
@@ -31,23 +24,24 @@ export function PageChat() {
         sessions: <SessionsCenter />,
         surveys: <DiscussionsCenter />,
     }
+    const activePage = pathList?.[2] || 'discussions'
+    const navSize = json?.nav||'max'
     return check('chat') && user && (
         <div className='page-chat'>
             <div className="back-close nav" style={{ display: (navSize == 'min') ? 'none' : '' }} onClick={e => {
                 if (e.currentTarget == e.target) {
-                    setNavSize('min');
+                    qs({...json, nav:'min'}).apply()
                 }
             }}></div>
             <div className={"chat-nav " + navSize}>
                 <div className="top">
                     <div className={"nav-size " + navSize} onClick={(e) => {
                         Click(0.4)(e)
-                        setNavSize(navSize == 'min' ? 'max' : 'min');
+                        qs({...json, nav:navSize == 'min' ? 'max' : 'min'}).apply()
                     }}></div>
                     <div className={"icon discussions-icon " + (activePage == 'discussions' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
-                        setAbsPath(['chat', 'discussions'])
-                        setActivePage('discussions')
+                        qs({nav:navSize}).setAbsPath(['chat', 'discussions'])
                     }}></div>
                     {/* <div className={"icon groups " + (activePage == 'groups' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
@@ -56,8 +50,7 @@ export function PageChat() {
                     }}></div> */}
                     <div className={"icon sessions " + (activePage == 'sessions' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
-                        setAbsPath(['chat', 'sessions'])
-                        setActivePage('sessions')
+                        qs({nav:navSize}).setAbsPath(['chat', 'sessions'])
                     }}></div>
                     {/* <div className={"icon surveys " + (activePage == 'surveys' ? 'active' : '')} onClick={(e) => {
                         Click(0.4)(e)
@@ -65,8 +58,7 @@ export function PageChat() {
                         setActivePage('surveys')
                     }}></div> */}
                     <div className="icon profile" style={{ background: `no-repeat center/cover url(${user.photos[0].startsWith('/') ? Host : ''}${user.photos[0]})` }} onClick={() => {
-                        setAbsPath(['profile'])
-                        setActivePage('profile')
+                        qs({nav:navSize}).setAbsPath(['profile'])
                     }}></div>
                 </div>
                 {

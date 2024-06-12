@@ -19,7 +19,7 @@ export function CollaboratorProfile() {
     const { current, json } = useDashRoute();
     const { selectedCollaborator, setCollaboratorById, removeCollaborator, updateCollaborator, change_collaborator_role } = useCollaboratorStore();
     const [isCheckRequired] = useState(false);
-    const { roles } = useRoleStore()
+    const { roles, fetchRoles } = useRoleStore()
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
     const { store, user } = useRegisterStore()
@@ -29,6 +29,10 @@ export function CollaboratorProfile() {
             setCollaboratorById(json?.collaborator_id)
         }
     }, [json])
+    useEffect(() => {
+        fetchRoles({})
+    }, [user])
+console.log({roles});
 
     return current('collaborator_profile') && (!selectedCollaborator ? (
         <div className="not-found">

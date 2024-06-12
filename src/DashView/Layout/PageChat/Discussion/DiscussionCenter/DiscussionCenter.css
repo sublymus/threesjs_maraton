@@ -16,14 +16,29 @@
     box-shadow: var(--box-shadow);
 }
 
+.discussion-center .top .open-nonav:hover {
+    opacity: 0.7;
+}
+.sombre-mode-variable .discussion-center .top .open-nonav{
+    filter: invert();
+}
+.discussion-center .top .open-nonav {
+    cursor: pointer;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 100%;
+    display: none;
+    rotate: 180deg;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+}
 .discussion-center .top .profile:hover {
     opacity: 0.7;
 }
 
 .discussion-center .top .profile {
-    width: 60px;
     cursor: pointer;
-    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
     border-radius: 100%;
 }
 
@@ -49,7 +64,7 @@
     opacity: 1;
 }
 
-.sombre-mode-variable .discussion-center .top .more{
+.sombre-mode-variable .discussion-center .top .more {
     filter: invert();
 }
 
@@ -345,6 +360,7 @@
     opacity: 0.4;
     background: no-repeat center/60% url(/src/res/laugh.png);
 }
+
 .discussion-center .sender .emoji-min:hover {
     opacity: 0.6;
 }
@@ -513,12 +529,33 @@
     background: no-repeat center/90% url(/src/res/arrow-down-to-line.png);
 }
 
-@media (width < 5050px) {
-    .discussion-center .messages .ctn{
+@media (width < 550px) {
+    .discussion-center .messages .ctn {
         max-width: 300px;
         overflow: hidden;
-    }   
+    }
+
+    .discussion-center .sender .left {
+        flex-direction: column;
+    }
+
     .discussion-center .sender .emoji-list {
-     right: -10px;
+        right: -10px;
+    }
+
+    
+}
+
+@media (width <= 440px) {
+    .discussion-center .top {
+        padding: 5px 5px;
+    }
+    .discussion-center .top .open-nonav {
+        display: block;
+    }
+}
+@media (width < 320px) {
+    .discussion-center .top .name {
+        display:none
     }
 }

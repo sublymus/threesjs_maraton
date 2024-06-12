@@ -2,7 +2,7 @@ import { useAdminRoute } from '../../AdminStore'
 import {RoleList} from './RoleList/RoleList'
 import {RoleDash} from './RoleDash/RoleDash'
 import { UsersListAccessor } from "../../../DashView/Component/UsersListAccessor/UsersListAccessor";
-import './PageRole.css'
+import '../../../DashView/Layout/PageRole/PageRole.css'
 // import React from 'react'
 
 export function PageRole() {

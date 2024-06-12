@@ -69,6 +69,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         const currentDiscussion = list?.find((l) => (l.other.id == other_id) && (store_id ? !!getSeconContext(undefined, l) : !getSeconContext(undefined, l)));
  
         if (currentDiscussion) {
+            if(useDiscussionStore.getState().messages?.list[0].table_id == currentDiscussion.id)return
             const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id, 'discussions');
             localSet(() => ({ discussion: currentDiscussion, messages: ms }));
             return

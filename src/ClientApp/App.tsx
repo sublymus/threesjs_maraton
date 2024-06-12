@@ -44,7 +44,7 @@ export function App() {
         }
     }, [ref])
 
-    return (<div className='app' style={{ width: '100%', height: '100%' }} ref={ref => {
+    return (<div className='app' style={{ width: '100%', height: '100%' }} ref={_ => {
         // if (!ref) return;
         // console.log(document.fullscreenEnabled);
         

@@ -1,5 +1,5 @@
 import { useAdminRoute } from '../../../AdminStore';
-import './ModeratorList.css'
+import '../../../../DashView/Layout/PageModerator/ModeratorList/ModeratorList.css'
 import { GenericList } from '../../../../DashView/Component/GenericList/GenericList';
 import { useModeratorStore } from '../ModeratorStore'
 import { Host } from '../../../../Config';

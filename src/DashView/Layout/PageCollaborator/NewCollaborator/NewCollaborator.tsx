@@ -8,6 +8,7 @@ import { ChoiseRole } from "../../../Component/ChoiseRole/ChoiseRole";
 import { InputText } from '../../../Component/Form/Input';
 import { EditorTopBar } from '../../../Component/EditorTopBar/EditorTopBar';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
+import { useRoleStore } from '../../PageRole/RoleStore';
 export function NewCollaborator() {
 
 
@@ -16,6 +17,10 @@ export function NewCollaborator() {
     const { store } = useRegisterStore()
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
+    const { roles, fetchRoles } = useRoleStore()
+    useEffect(() => {
+        fetchRoles({})
+    }, [store])
     const wrap = size.width < 1000 ? 'wrap' : '';
     const [collected] =  useState<Record<string, any>>({});
     useEffect(() => {
@@ -42,7 +47,7 @@ export function NewCollaborator() {
                 }}/>
                 </div>
                 <div className="left-side">
-                    <ChoiseRole roles={[]} canChange={()=>true} onChange={(value)=>{
+                    <ChoiseRole roles={roles?.list||[]} canChange={()=>true} onChange={(value)=>{
                         collected['role_id'] = value
                     }} />
                 </div>

@@ -52,13 +52,11 @@ export const useProductStore = create<ProductState>((set) => ({
         if (!h) return
         const formData = new FormData();
         formData.append('product_id', product_id);
-        const response = await fetch(`${Host}/set_client_visited`, {
+        /* const response =  */await fetch(`${Host}/set_client_visited`, {
             headers: h.headers,
             body:formData,
             method:'PUT'
         });
-        const json = await response.json();
-        
     },
     async fetchVisites({ after_date, before_date, client_id, product_id, limit, page }) {
         const h = useRegisterStore.getState().getHeaders();

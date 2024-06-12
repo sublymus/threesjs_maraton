@@ -70,6 +70,7 @@ export const useDiscussionStore = create<DiscussionState>((set) => ({
         const currentDiscussion = list?.find((l) => (l.other.id == other_id) && (for_moderator ? !getSeconContext(h.store.id, l) : !!getSeconContext(h.store.id, l)));
 
         if (currentDiscussion) {
+            if(useDiscussionStore.getState().messages?.list[0].table_id == currentDiscussion.id)return
             const ms = await useMessageStore.getState().fetchMessages(currentDiscussion.id, 'discussions');
             set(() => ({ discussion: currentDiscussion, messages: ms }));
             return

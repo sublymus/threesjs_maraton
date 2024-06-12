@@ -120,7 +120,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: 5px;
-    padding-left: 5px;
+    padding-left: calc(5px + ( (100% - 320px) / 3));
 }
 
 .discussion-nav .discussion:hover {
@@ -137,6 +137,7 @@
 .discussion-nav .discussion {
     background: #fff;
     width: 100%;
+    max-width: 340px;
     height: 73px;
     display: flex;
     align-items: center;

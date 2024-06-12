@@ -3,7 +3,7 @@ import { useRegisterStore } from "../../../PageAuth/RegisterStore";
 import { useDiscussionStore } from '../DiscussionStore'
 import { getImg, getSeconContext, limit, toDate } from "../../../../../Tools/StringFormater";
 import { SearchUser } from "../../../../../DashView/Component/SearchUser/SearchUser";
-import './DiscussionNav.css'
+import '../../../../../DashView/Layout/PageChat/Discussion/DiscussionNav/DiscussionNav.css'
 import { useAdminRoute, useAdminStore } from "../../../../AdminStore";
 import { limitPopupPosition } from "../../../../../Tools/BindToParentScroll";
 import { useModeratorStore } from "../../../Moderators/ModeratorStore";
@@ -20,33 +20,34 @@ export function DiscussionsNav() {
         unBlockDiscussion,
         setDiscussionByOtherId
     } = useDiscussionStore();
-    const { json, pathList, qs } = useAdminRoute();
+    const { json, pathList, qs, check } = useAdminRoute();
     const optionPath = pathList[3]?.split('_')[1]
     const [optionActive, setOptionActive] = useState(optionPath || 'all')
     const { openChild } = useAdminStore()
     const { user } = useRegisterStore();
     const { fetchUsers } = useUserStore();
-    const {fetchModerators} = useModeratorStore();
-  
+    const { fetchModerators } = useModeratorStore();
+
     useEffect(() => {
-        if (user &&(json?.collaborator_id||json?.moderator_id)) {
+        if (user && (json?.collaborator_id || json?.moderator_id)) {
             setDiscussionByOtherId({
                 async findOther(other_id/*, store_id*/) {
-                    return (await fetchUsers({query:{user_id:other_id}}))?.list[0]
+                    return (await fetchUsers({ query: { user_id: other_id } }))?.list[0]
                 },
-                other_id:json?.collaborator_id||json?.moderator_id,
-                store_id:json?.store_id
+                other_id: json?.collaborator_id || json?.moderator_id,
+                store_id: json?.store_id
             })
         }
         setOptionActive(optionPath || 'all')
-        user && fetchDiscussions({store_id:null})
-    }, [json,user]);
-
+    }, [json, user]);
+    useEffect(() => {
+        check('discussions') && !discussions && user && fetchDiscussions({ store_id: null })
+    }, [user])
     useEffect(() => {
         setOptionActive(optionPath || 'all')
     }, [pathList])
 
-    
+
     if (!user) return undefined;
     const all = discussions?.list.filter(d => {
         return !d.blocked?.includes(user.id)
@@ -58,7 +59,7 @@ export function DiscussionsNav() {
         return d.unchecked_count > 0
     })
 
-    let ds: Discussion[]|undefined = [];
+    let ds: Discussion[] | undefined = [];
     if (optionActive == 'all') {
         ds = all;
     } else if (optionActive == 'new') {
@@ -79,9 +80,9 @@ export function DiscussionsNav() {
         <div className="title">
             <div className="label">Chats </div>
             <div className="add-new" onClick={() => {
-                openChild(<SearchUser  user={user} openChild={openChild}  fetchUsers={fetchModerators} setUser={(moderator) => {
+                openChild(<SearchUser user={user} openChild={openChild} fetchUsers={fetchModerators} setUser={(moderator) => {
                     addDiscussion({
-                        other:moderator,
+                        other: moderator,
                     })
                 }} />, true, '#0002')
             }}> <span></span></div>
@@ -124,8 +125,8 @@ export function DiscussionsNav() {
                             // if (optionActive == 'admin') {
                             //     qs({ 'moderator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_admin'])
                             // } else {
-                                //@ts-ignore
-                                qs({store_id:getSeconContext(undefined,d), [getSeconContext(undefined,d)?'collaborator_id':'moderator_id']: d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
+                            //@ts-ignore
+                            qs({ store_id: getSeconContext(undefined, d), [getSeconContext(undefined, d) ? 'collaborator_id' : 'moderator_id']: d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
                             // }
                             // setDiscussion(d);
                             // openDiscussionMessages(d.id);
@@ -138,11 +139,11 @@ export function DiscussionsNav() {
                                 onBlock={(block) => {
                                     if (block) {
                                         blockDiscussion(d);
-                                        qs(json||{}).setAbsPath(['chat','discussions','discussions_blocked'])
+                                        qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_blocked'])
                                     }
                                     else {
                                         unBlockDiscussion(d);
-                                        qs(json||{}).setAbsPath(['chat','discussions','discussions_all'])
+                                        qs(json || {}).setAbsPath(['chat', 'discussions', 'discussions_all'])
                                     }
                                 }}
                                 onAsRead={() => {
@@ -164,7 +165,7 @@ export function DiscussionsNav() {
                                     <div className="text">{d.last_message ? limit(d.last_message.text, 24) : 'New Discussion'}</div>
                                     <div className="count" style={{ display: discussion?.id == d.id ? 'none' : d.unchecked_count > 0 ? 'flex' : 'none' }}>{d.unchecked_count}</div>
                                 </div>
-                                {d.store &&<div className="store-name">{d.store.name}</div>}
+                                {d.store && <div className="store-name">{d.store.name}</div>}
                             </div>
                         </div>
                     )

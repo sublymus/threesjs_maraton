@@ -1,9 +1,10 @@
+import '../../../DashView/Layout/PageModerator/ModeratorProfile/ModeratorProfile.css'
 import { useAdminRoute } from '../../AdminStore'
 import { ModeratorList } from './ModeratorList/ModeratorList'
 import { ModeratorProfile } from './ModeratorProfile/ModeratorProfile'
 import { UsersListAccessor } from "../../../DashView/Component/UsersListAccessor/UsersListAccessor";
 import { NewModerator } from './NewModerator/NewModerator'
-import './PageModerator.css'
+import '../../../DashView/Layout/PageModerator/PageModerator.css'
 // import React from 'react'
 
 export function PageModerator() {

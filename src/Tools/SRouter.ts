@@ -77,7 +77,7 @@ interface UnUseAppState<T extends PageType> {
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
     exist(...page: string[]): true | undefined,
-    qs(json?: Record<string, any>|undefined): UnUseAppState<T>
+    qs(json?: Record<string, any>|undefined): UnUseAppState<T>&{apply():void}
 }
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
@@ -100,7 +100,6 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
         const index = hash.indexOf('=');
         h = hash.substring(0, index);
         h_json = hash.substring(index + 1, hash.length);
-        console.log({ h, h_json });
         try {
             json = h_json && JSON.parse(h_json);
         } catch (error) {
@@ -153,7 +152,13 @@ export class SRouter<T extends PageType = PageType>{
             },
             qs(json) {
                 _qs = json;
-                return self.store.getState()
+                return {
+                    ...self.store.getState(),
+                    apply(){
+                        //@ts-ignore
+                        self.store.getState().setAbsPath(self.store.getState().pathList.slice(1))
+                    }
+                }
             },
             navBack() {
                 history.back();
