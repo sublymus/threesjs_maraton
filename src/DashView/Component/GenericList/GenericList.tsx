@@ -51,7 +51,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
     const _top_height = top_height ?? DEFAULT_TOP_HEIGHT;
     const sortableColumns = filter?.sortableColumns ?? []
     const cursorW = 5;
-    const _overflow = overflow || 'displayFlex';
+    const _overflow = 'scroll';
 
     let idx: string | undefined;
     let cdx: string | undefined;
@@ -130,7 +130,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
             }
             <div className="list">
                 <div className="top-ctn" style={{ height: `${_top_height}px` }}>
-                    <div className={'top ' + (_overflow == 'displayFlex' ? 'flex' : '')} ref={ListTop} style={{ height: `${_top_height}px` }}>
+                    <div className={'top ' /* + (_overflow == 'displayFlex' ? 'flex' : '') */} ref={ListTop} style={{ height: `${_top_height}px` }}>
                         {
                             selectedColumn.sort((a, b) => {
                                 return (cache.map[a]?.index || 0) - (cache.map[b]?.index || 0)
@@ -196,12 +196,12 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
                         }
                     </div>
                 </div>
-                <div className={'items ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ overflowX: _overflow === 'displayFlex' ? 'hidden' : (_overflow == 'scroll' ? 'auto' : 'hidden'), height: `calc(100% - ${_top_height}px)`, }} onScroll={(e) => {
+                <div className={'items ' /* + (_overflow == 'displayFlex' ? 'flex' : '') */} style={{ overflowX: /* _overflow === 'displayFlex' ? 'hidden' : (_overflow == 'scroll' ? 'auto' : 'hidden') */'scroll', height: `calc(100% - ${_top_height}px)`, }} onScroll={(e) => {
                     if (ListTop.current) ListTop.current.style.transform = `translateX(${-e.currentTarget.scrollLeft}px)`
                 }} >
                     {
                         datas.map(d => {
-                            return <div ref={(ref) => d.$itemRef = ref} key={d.id} className={'item ' + (_overflow == 'displayFlex' ? 'flex' : '')} style={{ height: `${_items_height}px` }} onClick={() => {
+                            return <div ref={(ref) => d.$itemRef = ref} key={d.id} className={'item '/*  + (_overflow == 'displayFlex' ? 'flex' : '') */} style={{ height: `${_items_height}px` }} onClick={() => {
                                 let is = multiple ?
                                     [...(selectedItems.includes(d) ? selectedItems.filter(a => a !== d) : [...selectedItems, d])] :
                                     [d];
@@ -217,7 +217,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
 
                                         cache.emitter.when(k, (columnSize) => {
                                             if (viewRef) viewRef.style.width = `${columnSize}px`;
-                                            if (_overflow != 'displayFlex' && d.$itemRef) d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
+                                            // if (_overflow != 'displayFlex' && d.$itemRef) d.$itemRef.style.width = `${ListTop.current?.getBoundingClientRect().width}px`;
                                             else if (d.$itemRef) d.$itemRef.style.width = `${ListTop.current?.parentElement?.getBoundingClientRect().width || 0}px`;
                                         })
                                         const setRef = (ref: HTMLElement | null) => {

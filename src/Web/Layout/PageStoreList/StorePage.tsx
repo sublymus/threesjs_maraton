@@ -27,7 +27,7 @@ export function StorePage() {
                             owner_stores({ text: e.currentTarget.value })
                         }} />
                     </div>
-                    <div className="new-btn" onClick={() => {
+                    <div className="new-btn no-selectable" onClick={() => {
                         setSelectedStore(undefined)
                         setAbsPath(['new_store'])
                     }}>

@@ -7,10 +7,11 @@ import { ImageViewer } from '../../../../DashView/Component/ImageViewer/ImageVie
 import { OpenChat } from "../../../../DashView/Component/OpenChat/OpenChat";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
+import { EditorTopBar } from '../../../../DashView/Component/EditorTopBar/EditorTopBar';
 export function ModeratorProfile() {
 
     const { current, json } = useAdminRoute();
-    const { selectedModerator, setModeratorById } = useModeratorStore();
+    const { selectedModerator, setModeratorById, removeModerator } = useModeratorStore();
     const {user} = useRegisterStore()
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -26,7 +27,9 @@ export function ModeratorProfile() {
         </div>
     ) : (
         <div className="moderator-profile" ref={bindToParentScroll}>
-            <h1>Moderator Information</h1>
+            <EditorTopBar title='Moderator Information' mode='delete' deteleKey={selectedModerator.id} onDelete={() => {
+                removeModerator(selectedModerator.id);
+            }} />
             <section className={"editor " + wrap}>
                 <div className="left-right">
                     <ImageViewer name='moderator_profile' images={selectedModerator.photos || []} cannotEdit />

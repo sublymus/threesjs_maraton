@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
-import { ListType, StoreInterface, UserInterface } from "../DataBase";
-import { useStoreStore } from './Layout/PageStoreList/StoreStore'
+import {  UserInterface, StoreInterface, type ListType } from '../DataBase'
+
 const Pages = {
     '/': {
         new_store: {},
@@ -29,11 +29,6 @@ interface WebState {
         limit?: number,
         order_by?: string,
         text?: string,
-        // email?:string,
-        // name?:string,
-        // owner_name?:string,
-        // id?:string,
-        // owner_email?:string
     }): Promise<ListType<StoreInterface> | undefined>
     createStore(data: Record<string, any>): Promise<StoreInterface | undefined>
     editStore(data: Record<string, any>): Promise<StoreInterface | undefined>
@@ -42,6 +37,13 @@ interface WebState {
     disconnection(): Promise<void>
     setStoreById(store_id:string):any,
     deleteStore(store_id: string): Promise<boolean>
+    fetchStores(filter: {
+        page?: number,
+        limit?: number,
+        order_by?: string,
+        text?: string,
+    }): Promise<ListType<StoreInterface> | undefined>
+    exist(store_id:string):Promise<boolean>|undefined
 }
 
 export const useWebStore = create<WebState>((set) => ({
@@ -51,20 +53,43 @@ export const useWebStore = create<WebState>((set) => ({
     currentChild: undefined,
     back_color: '',
     blur:false,
+    async exist(store_name) {
+        const response = await fetch(`${Host}/check_store/?store_name=${store_name}`);
+        const json = await response.json();
+        return json.exist == true ? true :false;
+    },
     async setStoreById(store_id) {
         const store = useWebStore.getState().stores?.list.find(s=>s.id==store_id) as StoreInterface 
-        console.log('1',{store});
-        
         if(store){
-            console.log('2',{store});
             return set(()=>({selectedStore:store}));
         }else{
-            const store = (await useStoreStore.getState().fetchStores({text:'#'+store_id}))?.list[0];
-            console.log('3',{store});
+            const store = (await useWebStore.getState().fetchStores({text:'#'+store_id}))?.list[0] as StoreInterface;
             if(store){
                 return set(()=>({selectedStore:store}));
             }
         }
+    },
+    async fetchStores(filter) {
+        const owner = useWebStore.getState().owner
+        if (!owner) return
+        //@ts-ignore
+        filter.owner_id = owner.id
+        console.log({filter});
+        
+        const searchParams = new URLSearchParams({});
+        for (const key in filter) {
+            const value = (filter as any)[key];
+            searchParams.set(key, value);
+        }
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${owner.token}`);
+        const response = await fetch(`${Host}/get_stores/?${searchParams}`, {
+            headers
+        })
+        const json = await response.json();
+        if (!json?.list) return
+        set(() => ({ stores: json }))
+        return json
     },
     openChild(child, blur, back_color) {
         set(() => ({ currentChild: child, blur, back_color: child ? (back_color || '') : '' }))

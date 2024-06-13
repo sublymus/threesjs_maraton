@@ -13,6 +13,8 @@ interface ModeratorState {
     addModerator(d: { email: string, role_id: string }): Promise<UserInterface & UserStore | undefined>
     setModeratorById(moderator_id: string): void,
     setSelectedModerator(selected: (UserInterface & UserStore) | undefined): Promise<void>;
+    
+    removeModerator(moderator_id:string):Promise<void>;
     banModerator(product_id: string): Promise<string | undefined>
 }
 
@@ -56,6 +58,23 @@ export const useModeratorStore = create<ModeratorState>((set) => ({
         }
         set(() => ({ moderators: json }));
         return json as UserInterface & UserStore
+    },
+    async removeModerator(moderator_id) {
+        let h = useRegisterStore.getState().getHeaders();
+        if (!h) return
+        
+        const formData = new FormData();
+        formData.append('moderator_id',moderator_id)
+       
+        const requestOptions = {
+            method: "DELETE",
+            headers: h.headers,
+            body:formData
+        };
+        
+        const response = await fetch(`${Host}/remove_moderator`,requestOptions);
+        const json = await response.json() ;
+        if(json.deleted) set(()=>({selectedModerator:undefined}));
     },
     async setModeratorById(id) {
         const list = useModeratorStore.getState().moderators;

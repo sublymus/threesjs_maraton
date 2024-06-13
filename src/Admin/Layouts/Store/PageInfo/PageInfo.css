@@ -80,12 +80,72 @@
     margin-top: 30px;
 }
 .store-info .center-content>div {
-    max-width: 600px;
-    width: 50%;
-    margin-top: 30px;
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.store-info .center-content .center-right {
+    width: 100%;
+    max-width: 400px;
+}
+
+
+.store-info .center-content .center-left .banner.nothing {
+    border: dashed 3px #000;
+    filter: invert(100%);
+}
+
+.store-info .center-content .center-left .banner.nothing .img {
+    width: 100%;
+    height: 100%;
+    filter: hue-rotate(130deg);
+    background: no-repeat center/60% url(/src/res/drag_and_drop.png);
+    display: block;
+    cursor: pointer;
+}
+
+.store-info .center-content .center-left .logo.nothing {
+    border: dashed 3px #000;
+    filter: invert(100%);
+}
+
+.store-info .center-content .center-left .logo.nothing .img {
+    width: 100%;
+    height: 100%;
+    filter: hue-rotate(130deg);
+    background: no-repeat center/60% url(/src/res/drag_and_drop.png);
+    display: block;
+    cursor: pointer;
+}
+
+.store-info .center-content .center-left .logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+}
+
+.store-info .center-content .center-left .choose-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.store-info .center-content .center-left .choose-img .btn {
+    display: block;
+    width: 200px;
+    min-width: 200px;
+    height: 40px;
+    background: #456;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    border-radius: 15px;
+    cursor: pointer;
 }
 
 .store-info .center-content .center-right span {
@@ -94,7 +154,10 @@
     display: flex;
     flex-direction: row;
     margin-top: 0px;
-    /* color: rgb(78, 104, 131); */
+    color: rgb(78, 104, 131);
+}
+.store-info .center-content .center-right .name {
+    color: #fff;
 }
 
 .store-info .center-content .center-right .user-name {
@@ -111,19 +174,19 @@
 }
 
 .store-info .center-content .center-right>div {
+    width: 80%;
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
 }
 
 .store-info .center-content .center-right input {
     all: unset;
-    width: 400px;
+    width: 100%;
     height: 40px;
     border-radius: 10px;
     padding-left: 20px;
     background: #fff0;
-    border: 1px solid #999;
+    color: #fff;
+    border: 1px solid #fff;
 }
 
 .store-info .center-content .center-right .btn:hover {
@@ -154,12 +217,16 @@
 /* STORE */
 
 .store-info .store{
-    min-width: 400px;
+    width: 360px;
     /* max-width: 400px; */
     max-height: 460px;
     display: flex;
     flex-wrap: wrap;
     box-shadow: var(--box-shadow);   
+}
+
+.store-info .store .banner.void{
+    background: no-repeat center/80% url(/src/res/drag_and_drop.png);
 }
 
 .store-info .store .banner {
@@ -168,11 +235,62 @@
     height: 360px;
     display: flex;
     align-items: center;
-    background: #3455;
     justify-content: center;
 }
 
+.store-info .store .banner .img-options{
+    display: flex;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: 200ms;
+}
 
+.store-info .store .banner:hover .img-options{
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0px);  
+    transition: 200ms; 
+}
+
+.store-info .store .open{
+    width: 50px;
+    height: 50px;
+    filter: invert();
+    cursor: pointer;
+    opacity: 0.6;
+    scale: 0.6;
+    transition: 200ms;
+    background: no-repeat center/80% url(/src/res/focus.png);
+}
+
+.store-info .store .open:hover{
+    opacity: 1;
+    scale: 1;
+    transition: 200ms;
+}
+
+.store-info .store .banner .img-options .edit:hover{
+    opacity: 1;
+    scale: 1;
+    transition: 200ms;
+}
+
+.store-info .store .banner .img-options .edit{
+    width: 50px;
+    height: 50px;
+    filter: invert();
+    cursor: pointer;
+    opacity: 0.6;
+    scale: 0.6;
+    transition: 200ms;
+    margin-left: 20px;
+    background: no-repeat center/80% url(/src/res/edit.png);
+}
+
+.store-info .store .banner:hover .more{
+    height: 100%;
+    transition: 200ms;
+}
 .store-info .store .more {
     position: absolute;
     display: flex;
@@ -184,6 +302,16 @@
     transition: 200ms;
     background: linear-gradient(#0000,#000 );
 }
+
+.store-info .store .more .logo.void:hover{
+    background: no-repeat center/120% url(/src/res/drag_and_drop.png),#112;
+    transition: 200ms;
+}
+.store-info .store .more .logo.void{
+    transition: 200ms;
+    cursor: default;
+    background: no-repeat center/150% url(/src/res/drag_and_drop.png),#112;
+}
 .store-info .store .more .logo {
     position: relative;
     min-width: 80px;
@@ -193,6 +321,24 @@
     border: 1px #fff9 solid;
 }
 
+.store-info .store .more .logo .edit:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+.store-info .store .more .logo .edit{
+    position: absolute;
+    bottom: 0px;
+    right: -10px;
+    background: no-repeat center/60% url(/src/res/edit.png) , #ccc;
+    opacity: 0.8;
+    width: 35px;
+    height: 35px;
+    filter: invert();
+    cursor: pointer;
+    transition: 200ms;
+    margin-left: 20px;
+    border-radius: 50px;
+}
 .store-info .store .more .text {
    height: 80px; 
    display: flex;
@@ -315,7 +461,6 @@
     transition: 700ms;
 }
 
-
 /*  BIG IMG */
 
 .big-img{
@@ -332,3 +477,14 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (width < 480px) {
+    .store-info .store{
+        width: 260px;
+    }
+    .store-info .banner {
+       max-height: 200px;
+    }
+}
+
+

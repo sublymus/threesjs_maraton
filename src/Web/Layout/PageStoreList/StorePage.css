@@ -49,7 +49,8 @@
 }
 
 .stores-page .sreach-stores .ctn input {
-    all: unset
+    all: unset;
+    color: #345;
 }
 
 .stores-page .sreach-stores .new-btn:hover {
@@ -242,7 +243,7 @@
 }
 
 .stores-page .store .btm .options>div {
-    width: 100px;
+    padding: 0 20px;
     height: 40px;
     cursor: pointer;
     border-radius: 10px;

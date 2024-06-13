@@ -220,9 +220,9 @@
     height: 100%;
 }
 
-.dash.sombre-mode-variable .child-viewer-ctn {
+/* .dash.sombre-mode-variable .child-viewer-ctn {
     background: var(--backgroung-white);
-}
+} */
 
 .dash .child-viewer-ctn {
     position: relative;
@@ -313,34 +313,5 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 70%;
-    /* transition: 200ms; */
-}
-/* 
-.sombre-mode-variable .nav-bar .nav-link li.active {
-    filter: invert(100%) sepia(23%) saturate(32%) hue-rotate(225deg) brightness(101%) contrast(120%);
-    opacity: 0.7;
 }
 
-.nav-bar .nav-link li.active {
-    filter: invert(9%) sepia(23%) saturate(7332%) hue-rotate(225deg) brightness(101%) contrast(120%);
-}
-
-.nav-min-ctn .nav-bar .nav-link li span.product {
-    background-image: url(/src/res/store.png);
-}
-
-.nav-min-ctn .nav-bar .nav-link li span.users {
-    background-image: url(/src/res/users.png);
-}
-
-.nav-min-ctn .nav-bar .nav-link li span.chat {
-    background-image: url(/src/res/message-circle-more.png);
-}
-
-.nav-min-ctn .nav-bar .nav-link li span.interface {
-    background-image: url(/src/res/app-window.png);
-}
-
-.nav-min-ctn .nav-bar .nav-link li span.state {
-    background-image: url(/src/res/line-chart.png);
-} */
