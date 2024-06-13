@@ -225,6 +225,8 @@ export class SRouter<T extends PageType = PageType>{
         try {
             if (_qs) path += '=' + JSON.stringify(_qs);
         } catch (error) { }
+        console.log(window.location.hash = path);
+        
         if (window.location.hash !== path) window.location.hash = path;
     }
     editPath(paths: string[]) {

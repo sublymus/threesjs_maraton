@@ -1,6 +1,7 @@
 
 import './index.css'
 import './Dash.css'
+import './Component/NavBar/NavBar.css'
 import { NavBar } from './Component/NavBar/NavBar'
 import { PageProduct } from './Layout/PageProduct/PageProduct'
 import { PageClient } from './Layout/PageClient/PageClient'
@@ -18,8 +19,6 @@ import { PageRole } from './Layout/PageRole/PageRole'
 import { PageCollaborator } from './Layout/PageCollaborator/PageCollaborator'
 import { useRoleStore } from './Layout/PageRole/RoleStore'
 // import React from 'react'
-
-
 
 const PathMap = {
     store: 'Store',
@@ -52,7 +51,6 @@ const PathMap = {
     discussions: 'Discussions',
     moderators: 'Moderators',
     moderator_profile: 'Moderator Profile'
-
 }
 
 export function Dash() {
@@ -81,7 +79,7 @@ export function Dash() {
             fetchRolesJson();
             fetchUsersVar();
         }
-    }, [store])
+    }, [store]);
 
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >
@@ -91,9 +89,7 @@ export function Dash() {
                 <div className="center">
                     <div className="center-top">
                         <div className="nav-min" onClick={() => {
-                            openChild((<div>
-
-                            </div>), true, '#3455')
+                            openChild(( <NavBar className={'max'} blur={blur} />), true, '#345b');
                         }}> <span></span></div>
                         <div className="page-path">
                             {paths.map((p, i) => (
@@ -121,7 +117,7 @@ export function Dash() {
                         const resize = () => {
                             const centerTop = document.querySelector('.dash .center .center-top')!
                             ref.style.height = `calc(100% - ${centerTop.getBoundingClientRect().height}px)`
-                         }
+                        }
                         window.addEventListener('resize', resize)
                         resize()
                     }}>

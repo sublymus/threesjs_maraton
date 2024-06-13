@@ -9,18 +9,18 @@
     align-items: center;
     justify-content: center;
     cursor: default;
+    color: #345;
 }
 
 .auth-ctn {
     position: relative;
-    width: 900px;
-    height: 600px;
+    height: 500px;
     background: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 20px;
-    overflow: hidden;
+    flex-wrap: wrap;
 }
 
 .page-auth .close:hover {
@@ -44,12 +44,14 @@
 
 .image {
     width: 50%;
-    height: 100%;
-    background: no-repeat center/cover url(/src/res/img/login-illustration.jpg) #456;
+    min-width: 300px;
+    height:100% ;
+    background: no-repeat center/contain url(/src/res/img/login-illustration.jpg);
 }
 
 .page-auth .auth-ctn .form {
     width: 50%;
+    min-width: 300px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -103,4 +105,36 @@
 
 .page-auth p  {
     margin-top: 50px;
+}
+
+@media (width <= 600px) {
+    .auth-ctn {
+        height: 100%;
+        width: 100%;
+        border-radius: 0px;
+        align-content: flex-start;
+    }
+    .auth-ctn .image {
+        width: 100%;
+        min-width: 100%;
+        max-height:300px;
+        background: no-repeat center/contain url(/src/res/img/login-illustration.jpg);
+    }
+    
+    .page-auth .auth-ctn .form {
+        width: 100%;
+        min-width: 100%;
+        height: 300px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .page-auth .auth-ctn .auth-title {
+       margin: 0px;
+    }
+    .auth-ctn p{
+        margin: 10px;
+    }
 }

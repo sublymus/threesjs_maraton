@@ -57,7 +57,7 @@ export function Admin() {
                 <div className="center">
                     <div className="center-top">
                         <div className="nav-min" onClick={() => {
-                            openChild(<NavBar blur={blur} />, undefined, '#345')
+                            openChild(<NavBar className='max' blur={blur} />, true, '#345b')
                         }}> <span></span></div>
                         <div className="page-path">
                             {paths.map((p, i) => (

@@ -1,4 +1,4 @@
-import './PageAuth.css'
+import '../../../DashView/Layout/PageAuth/PageAuth.css'
 import { useRegisterStore } from './RegisterStore';
 
 export function PageAuth() {
@@ -7,8 +7,7 @@ export function PageAuth() {
     return (
         <div className="page-auth" >
             <div className="auth-ctn">
-                <div className="image">
-                </div>
+                <div className="image"></div>
                 <div className="form">
                     <h1 className="auth-title">SUBLYMUS DASHBOARD</h1>
                     <h5 className="auth-prompt">{ 'Read more ?'} <span onClick={() => {

@@ -1,6 +1,7 @@
 // import React from 'react'
 import { useEffect, useState } from 'react';
 import { useAdminRoute } from '../../AdminStore'
+import '../../../DashView/Component/NavBar/NavBar.css'
 import './NavBar.css'
 import { useRegisterStore } from '../../Layouts/PageAuth/RegisterStore';
 import { Host } from '../../../Config';
@@ -10,7 +11,7 @@ const sublymus = {
     logo:['/src/res/img/img3.svg']
 }
 
-export function NavBar ({blur}:{blur:boolean}){
+export function NavBar ({blur, className}:{blur:boolean, className?:string}){
     const { setAbsPath , pathList} = useAdminRoute();
     const [active , setActive] = useState(pathList[1]||'products');
     const { user, disconnection } = useRegisterStore();
@@ -19,7 +20,7 @@ export function NavBar ({blur}:{blur:boolean}){
     },[pathList])
     
     return (
-        <div className={"nav-bar "+(user?(blur?'blur':''):'blur')}>
+        <div className={"nav-bar "+(className||'min')+' '+(user?(blur?'blur':''):'blur')}>
                 <div className="nav-logo">
                     <div className="logo" style={{backgroundImage:`url(${`${sublymus?.logo[0]}`})`}}></div>
                     {<div className="label">{sublymus?.name}</div>}

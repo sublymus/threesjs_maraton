@@ -69,7 +69,7 @@
     /* transition: 200ms; */
 }
 
-.nav-bar .nav-link li.active {
+.nav-bar .nav-link li {
     color: #000;
 }
 
@@ -106,13 +106,8 @@
     /* transition: 200ms; */
 }
 
-.sombre-mode-variable .nav-bar .nav-link li.active {
+.sombre-mode-variable .nav-bar .nav-link li, .sombre-mode-variable .nav-bar .nav-link li.active {
     filter: invert(100%) sepia(23%) saturate(32%) hue-rotate(225deg) brightness(101%) contrast(120%);
-    opacity: 0.7;
-}
-
-.nav-bar .nav-link li.active {
-    filter: invert(9%) sepia(23%) saturate(7332%) hue-rotate(225deg) brightness(101%) contrast(120%);
 }
 
 .nav-bar .nav-link li span.product {
@@ -191,7 +186,7 @@
 }
 
 @media (width < 1250px) {
-    .nav-bar {
+    .nav-bar.min {
         min-width: 80px;
         max-width: 80px;
         height: 100%;
@@ -200,30 +195,57 @@
         align-items: center;
         justify-content: space-between;
     }
-    .nav-bar .nav-link li label {
-        display: none;
-    }
-    .nav-bar .nav-logo .label {
+
+    .nav-bar.min .nav-link li label {
         display: none;
     }
 
-    .nav-bar .nav-profile {
+    .nav-bar.min .nav-logo .label {
         display: none;
     }
 
-    .nav-bar .nav-profile {
+    .nav-bar.min .nav-profile {
         display: none;
     }
 
-    .nav-bar .logut-icon {
+    .nav-bar.min .nav-profile {
+        display: none;
+    }
+
+    .nav-bar.min .logut-icon {
         display: block;
     }
 }
 
 @media (width < 750px) {
     .nav-bar {
-        all: unset;
         display: none !important;
-        background: #456;
     }
+
+    
+}
+
+.nav-bar.max {
+    display: flex !important;
+    min-width: 200px;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+.nav-bar.max ul {
+    max-width: 400px;
+    align-items: center;
+}
+.nav-bar.max li {
+    width: 250px;
+}
+.nav-bar.max .nav-link li.no span {
+    /* transition: 200ms; */
+    filter:none;
+}
+.nav-bar.max .nav-link li:hover,
+.nav-bar.max .nav-link li.active {
+    background: #00eeff;
 }

@@ -4,7 +4,6 @@
     display: flex;
     background: var(--backgroung-white);
     color: var(--text-color);
-    /* background: linear-gradient(40deg ,rgb(4, 0, 53),rgb(39, 20, 124)); */
 }
 
 .dash .dash-ctn {
@@ -17,7 +16,6 @@
 .dash .dash-ctn.blur {
     filter: blur(10px);
 }
-
 
 .dash .center {
     width: 100%;
@@ -46,6 +44,12 @@
     filter: invert();
 }
 
+.dash.sombre-mode-variable .center-top .nav-min-ctn {
+    width: 200px;
+    height: 200px;
+    background: #345;
+}
+
 .dash .center-top .nav-min:hover {
     opacity: 0.5;
     transition: 200ms;
@@ -66,7 +70,6 @@
     cursor: pointer;
     display: none;
 }
-
 
 .dash .page-path {
     display: flex;
@@ -275,3 +278,70 @@
         padding: 0 3px;
     }
 }
+
+.nav-min-ctn{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.nav-min-ctn .nav-link{
+    width: 100%;
+    max-width: 400px;
+    background: #345;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-min-ctn .nav-link ul{
+    all:unset;
+}
+
+.nav-min-ctn .nav-link li{
+    all:unset;
+    width: 100%;
+    display: flex;
+}
+.nav-bar .nav-link li.no span,
+.nav-bar .nav-link li.active span {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    /* transition: 200ms; */
+}
+/* 
+.sombre-mode-variable .nav-bar .nav-link li.active {
+    filter: invert(100%) sepia(23%) saturate(32%) hue-rotate(225deg) brightness(101%) contrast(120%);
+    opacity: 0.7;
+}
+
+.nav-bar .nav-link li.active {
+    filter: invert(9%) sepia(23%) saturate(7332%) hue-rotate(225deg) brightness(101%) contrast(120%);
+}
+
+.nav-min-ctn .nav-bar .nav-link li span.product {
+    background-image: url(/src/res/store.png);
+}
+
+.nav-min-ctn .nav-bar .nav-link li span.users {
+    background-image: url(/src/res/users.png);
+}
+
+.nav-min-ctn .nav-bar .nav-link li span.chat {
+    background-image: url(/src/res/message-circle-more.png);
+}
+
+.nav-min-ctn .nav-bar .nav-link li span.interface {
+    background-image: url(/src/res/app-window.png);
+}
+
+.nav-min-ctn .nav-bar .nav-link li span.state {
+    background-image: url(/src/res/line-chart.png);
+} */
