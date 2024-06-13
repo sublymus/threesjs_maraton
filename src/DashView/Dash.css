@@ -117,33 +117,32 @@
     background: no-repeat center/60% url(/src/res/chevron-right.png);
 }
 
-.dash .center-top .top-right {
+.dash-top-right {
     display: flex;
     /* position: absolute; */
     z-index: 1;
     /* top: 0; */
     margin-left: auto;
     right: 0;
-    background: var(--backgroung-white);
 }
 
-.dash .center-top .dark-mode {
+.dash-top-right .dark-mode {
     display: flex;
     align-items: center;
     border-radius: 10px;
 }
 
-.dash .center-top .dark-mode.active {
+.dash-top-right .dark-mode.active {
     background: #fff6;
     transition: 200ms;
 }
 
-.dash .center-top .dark-mode {
+.dash-top-right .dark-mode {
     background: rgba(180, 180, 180, 0.4);
     transition: 200ms;
 }
 
-.dash .center-top .dark-mode .dark-mode-btn {
+.dash-top-right .dark-mode-btn {
     background: #3450;
     border-radius: 10px;
     opacity: 0.5;
@@ -155,7 +154,7 @@
     height: 35px;
 }
 
-.dash .center-top .dark-mode.active .dark-mode-btn {
+.dash-top-right .dark-mode.active .dark-mode-btn {
     background: no-repeat center/70% url(/src//res/moon.png), rgb(211, 166, 128);
     opacity: 1;
     transition: 200ms;
@@ -165,7 +164,7 @@
     filter: invert(100%);
 }
 
-.dash .center-top .dark-mode .dark-white-btn {
+.dash-top-right .dark-mode .dark-white-btn {
     font-size: 1.5em;
     opacity: 1;
     padding: 7px;
@@ -178,7 +177,7 @@
 
 }
 
-.dash .center-top .dark-mode.active .dark-white-btn {
+.dash-top-right .dark-mode.active .dark-white-btn {
     opacity: 0.5;
     background: no-repeat center/70% url(/src/res/sun.png) #3450;
     box-shadow: none;
@@ -187,15 +186,15 @@
     height: 35px;
 }
 
-.dash.sombre-mode-variable .center-top .notf {
+.dash.sombre-mode-variable .dash-top-right .notf {
     filter: invert();
 }
 
-.dash.sombre-mode-variable .center-top .notf span {
+.dash.sombre-mode-variable .dash-top-right .notf span {
     filter: invert();
 }
 
-.dash .center-top .notf {
+.dash-top-right .notf {
     margin-left: 20px;
     position: relative;
     width: 40px;
@@ -203,7 +202,7 @@
     background: no-repeat center/60% url(/src/res/bell.png);
 }
 
-.dash .center-top .notf span {
+.dash-top-right .notf span {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -262,7 +261,7 @@
     *::-webkit-scrollbar {
         display: none;
     }
-    .dash .center-top .top-right{
+    .dash .center-top .dash-top-right{
         display: none;
     }
     .dash .center-top{

@@ -103,7 +103,7 @@ export function Dash() {
                             ))}
                         </div>
 
-                        <div className="top-right">
+                        <div className="dash-top-right">
                             <div className={"dark-mode " + T} onClick={() => {
                                 setT(T ? '' : 'active');
                             }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>

@@ -42,7 +42,7 @@
     background: no-repeat center/60% url('/src/res/x.png');
 }
 
-.image {
+.page-auth  .image {
     width: 50%;
     min-width: 300px;
     height:100% ;

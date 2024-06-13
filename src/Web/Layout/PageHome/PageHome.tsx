@@ -23,7 +23,7 @@ export function PageHome() {
                     }    
                     </p>
                     <div className="btn-ctn">
-                        <div className="login" onClick={()=>owner?setAbsPath(['store_list']):setAbsPath(['store_list'])}>MANAGE YOUR STORES</div>
+                        <div className="manage" onClick={()=>owner?setAbsPath(['store_list']):setAbsPath(['store_list'])}>MANAGE YOUR STORES</div>
                     </div>
                 </div>
                 <div className="center-right"></div>

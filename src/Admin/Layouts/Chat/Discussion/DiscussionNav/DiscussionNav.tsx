@@ -122,14 +122,12 @@ export function DiscussionsNav() {
                     return (
                         <div key={d.id} className={"discussion " + (discussion?.id == d.id ? 'active' : '')} onClick={(e) => {
                             d.unchecked_count = 0;
-                            // if (optionActive == 'admin') {
-                            //     qs({ 'moderator_id': d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_admin'])
-                            // } else {
-                            //@ts-ignore
-                            qs({ store_id: getSeconContext(undefined, d), [getSeconContext(undefined, d) ? 'collaborator_id' : 'moderator_id']: d.other.id }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
-                            // }
-                            // setDiscussion(d);
-                            // openDiscussionMessages(d.id);
+                            qs({
+                                store_id: getSeconContext(undefined, d),
+                                [getSeconContext(undefined, d) ? 'collaborator_id' : 'moderator_id']: d.other.id,
+                                nav: document.querySelector('.back-close.nav')!.getBoundingClientRect().width == 0 ? undefined : 'min'
+                                //@ts-ignore
+                            }).setAbsPath(['chat', 'discussions', 'discussions_' + (optionActive || '_all')])
                             const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;
                             div.style.display = 'none';
 

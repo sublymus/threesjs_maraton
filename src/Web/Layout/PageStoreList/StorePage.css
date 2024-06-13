@@ -27,7 +27,7 @@
 
 .stores-page .sreach-stores {
     width: 100%;
-    min-height: 80px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,7 +64,6 @@
     margin-left: 20px;
     border-radius: 50px;
     background: linear-gradient(0.25turn, #5900ffa9, #0059ff85);
-
 }
 
 .stores-page .sreach-stores .new-btn .icon {
@@ -79,6 +78,7 @@
     height: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -278,23 +278,45 @@
 }
 
 @media (width < 500px) {
-
     .stores-page .sreach-stores {
         width: 100%;
-        min-height: 80px;
+        /* min-height: 80px; */
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        padding: 20px;
     }
-    .stores-page .sreach-stores > div {
-      margin: 10px;
+
+    .stores-page .sreach-stores>div {
+        margin: 10px;
     }
+    .stores-page .sreach-stores .ctn {
+        padding: 0px 0px;
+    }
+    .stores-page .sreach-stores .new-btn {
+        height: 30px;
+        padding: 5;
+     }
+     /* .stores-page .sreach-stores .new-btn .label {
+        display: none;
+     } */
+}
+
+@media (width < 600px) {
+     .stores-page .store {
+        max-width: 200px;
+        min-width: 200px;
+        height: 300px;
+        overflow: hidden;
+        margin: 5px;
+     }
+     .stores-page .banner {
+        max-height: 200px;
+     }
 }
 
 .stores-page::-webkit-scrollbar {
     width: 10px;
     height: 10px;
     display: none;
-  }
+}

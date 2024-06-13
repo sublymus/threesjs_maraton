@@ -21,15 +21,16 @@
     color: var(--text-color-annex);
 }
 
-.page-home .center-content p  > span:hover{
+.page-home .center-content p>span:hover {
     color: #fff;
     transition: 100ms;
 }
-.page-home .center-content p  > span{
+
+.page-home .center-content p>span {
     transition: 1000ms;
 }
 
-.page-home .center-content > div{
+.page-home .center-content>div {
     max-width: 600px;
 }
 
@@ -42,13 +43,13 @@
 }
 
 .page-home .center-content .center-left .top {
-    font-size: 7em;
+    font-size: 6em;
     font-weight: bold;
     color: #fff;
 }
 
 .page-home .center-content .center-left .btm {
-    font-size: 7em;
+    font-size: 6em;
     font-weight: bold;
     color: var(--color-blue-purple);
 }
@@ -61,37 +62,25 @@
     justify-content: space-around;
 }
 
-.page-home .center-content .center-left .login:hover{
+.page-home .center-content .center-left .manage:hover {
     opacity: 0.9;
     transition: 100ms;
 }
-.page-home .center-content .center-left .login {
+
+.page-home .center-content .center-left .manage {
     background: var(--linear-orange);
     border-radius: 50px;
-    padding: 20px 40px;
+    padding: 10px 20px;
     opacity: 1;
     transition: 100ms;
     cursor: pointer;
 }
 
-.page-home .center-content .center-left .demo {
-    border: 1px solid #fff;
-    border-radius: 50px;
-    padding: 20px 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.page-home .center-content .center-left .demo:hover {
-    background: #fffe;
-    color: var(--color-blue-purple);
-}
-
 .page-home .center-content .center-left .demo .span {
-   display: block;
-   width: 30px;
-   height: 30px;
-   background: no-repeat center/cover url(/src/res/chevron-down2.png);
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/cover url(/src/res/chevron-down2.png);
 }
 
 .page-home .center-content .center-right {
@@ -109,27 +98,59 @@
     justify-content: space-around;
 }
 
-.page-home .bottom-bar .icon:hover{
+.page-home .bottom-bar .icon:hover {
     transition: 200ms;
-    filter:none;   
+    filter: none;
     opacity: 1;
 }
+
 .page-home .bottom-bar .icon {
     width: 150px;
-    height: 100px;   
+    height: 100px;
     transition: 200ms;
     margin: 10px;
     border: 1px #3455 solid;
     opacity: 0.7;
-    filter:  grayscale(100%)  invert(100%);   
+    filter: grayscale(100%) invert(100%);
 }
 
-@media (width < 1000px ) {
-    .page-home .center-content{
+@media (width < 1000px) {
+    .page-home .center-content {
         align-items: center;
         flex-direction: column;
     }
-    .page-home .center-content  > div{
-        width: 100%!important;
+
+    .page-home .center-content>div {
+        width: 100% !important;
     }
+}
+
+@media (width < 650px) {
+    .page-home .center-content .center-left .top {
+        font-size: 5em;
+    }
+
+    .page-home .center-content .center-left .btm {
+        font-size: 5em;
+    }
+    
+        .page-home .center-content .center-left .manage {
+            padding: 10px 20px;
+        }
+}
+
+@media (width < 450px) {
+    .page-home .center-content .center-left .top {
+        font-size: 4em;
+    }
+
+    .page-home .center-content .center-left .btm {
+        font-size: 4em;
+    }
+
+    .page-home .bottom-bar .icon {
+        width: 100px;
+        height: 100px;
+    }
+
 }

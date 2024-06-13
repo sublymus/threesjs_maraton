@@ -2,7 +2,7 @@
 import '../DashView/index.css'
 import '../DashView/Dash.css'
 import { useAdminRoute, useAdminStore } from "./AdminStore";
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { PageInfo } from "./Layouts/Store/PageInfo/PageInfo";
 import { NavBar } from './Components/NavBar/NavBar'
 import { StorePage } from "./Layouts/Store/StorePage";
@@ -36,7 +36,7 @@ export function Admin() {
     const { authenticateUser, user } = useRegisterStore();
     const { pathList, setAbsPath, } = useAdminRoute()
     const paths: string[] = []
-
+    const ref = useRef<HTMLDivElement|null>(null)
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])
@@ -49,8 +49,21 @@ export function Admin() {
         })
     }, []);
 
+    // useEffect(()=>{
+    //     if (ref.current?.requestFullscreen) {
+    //         ref.current?.requestFullscreen();
+    //         //@ts-ignore
+    //     } else if (ref.current?.webkitRequestFullscreen) { /* Safari */
+    //         //@ts-ignore
+    //         ref.current?.webkitRequestFullscreen?.();
+    //         //@ts-ignore
+    //     } else if (ref.current?.msRequestFullscreen) { /* IE11 */
+    //         //@ts-ignore
+    //         ref.current?.msRequestFullscreen?.();
+    //     }
+    // },[pathList])
     return (
-        <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >
+        <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} ref={ref} >
             <NavBar blur={blur} />
             {!user && <PageAuth />}
             <div className={"dash-ctn " + (user ? (blur ? 'blur' : '') : 'blur')}>
@@ -71,7 +84,7 @@ export function Admin() {
                             ))}
                         </div>
 
-                        <div className="top-right">
+                        <div className="dash-top-right">
                             <div className={"dark-mode " + T} onClick={() => {
                                 setT(T ? '' : 'active');
                             }}><span className="dark-mode-btn"></span> <span className="dark-white-btn"> </span></div>

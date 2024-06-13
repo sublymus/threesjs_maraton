@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    /* flex-wrap: wrap; */
     align-items: center;
     justify-content: space-between;
 }
@@ -32,6 +33,10 @@
 .nav-bar .nav-logo .label {
     font-size: large;
     padding: 5px;
+}
+
+.nav-bar.max .nav-logo .label{
+    color: #fff;
 }
 
 .nav-bar .nav-link {
@@ -106,7 +111,10 @@
     /* transition: 200ms; */
 }
 
-.sombre-mode-variable .nav-bar .nav-link li, .sombre-mode-variable .nav-bar .nav-link li.active {
+.sombre-mode-variable .nav-bar .nav-link li,
+.sombre-mode-variable .nav-bar .nav-link li.active,
+.nav-bar.max .nav-link li,
+.nav-bar.max .nav-link li.active {
     filter: invert(100%) sepia(23%) saturate(32%) hue-rotate(225deg) brightness(101%) contrast(120%);
 }
 
@@ -150,6 +158,10 @@
     background-image: url('https://lesdeuxpiedsdehors.com/wp-content/uploads/2019/05/comprendre-la-composition-photo.jpg');
     border-radius: 50%;
 
+}
+
+.nav-bar.max .nav-profile .name{
+    color: #fff;
 }
 
 
@@ -220,9 +232,15 @@
 @media (width < 750px) {
     .nav-bar {
         display: none !important;
+    }    
+}
+@media (height < 725px) {
+    .nav-bar.max li {
+        height: 40px;
     }
-
-    
+    .nav-bar.max .dash-top-right{
+        margin-top: 0px;
+    }
 }
 
 .nav-bar.max {
@@ -248,4 +266,28 @@
 .nav-bar.max .nav-link li:hover,
 .nav-bar.max .nav-link li.active {
     background: #00eeff;
+}
+
+
+.dash.sombre-mode-variable .dash-top-right .notf,
+.nav-bar.max .dash-top-right .notf {
+    filter: invert();
+}
+
+.dash.sombre-mode-variable .dash-top-right .notf,
+.nav-bar.max .dash-top-right .notf span {
+    filter: invert();
+}
+
+.nav-bar.max .dash-top-right {
+    display: flex;
+    /* position: absolute; */
+    z-index: 1;
+    /* top: 0; */
+    margin-left: 0px;
+    margin-top: 30px;
+    right: 0;
+}
+.nav-bar.min .dash-top-right {
+    display: none;    
 }
