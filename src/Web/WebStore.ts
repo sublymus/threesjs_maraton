@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
-import {  UserInterface, StoreInterface, type ListType } from '../DataBase'
+import { UserInterface, StoreInterface, type ListType } from '../DataBase'
 
 const Pages = {
     '/': {
@@ -35,7 +35,7 @@ interface WebState {
     createOwner(): Promise<void>
     tryToken(): Promise<void>
     disconnection(): Promise<void>
-    setStoreById(store_id:string):any,
+    setStoreById(store_id: string): any,
     deleteStore(store_id: string): Promise<boolean>
     fetchStores(filter: {
         page?: number,
@@ -43,7 +43,7 @@ interface WebState {
         order_by?: string,
         text?: string,
     }): Promise<ListType<StoreInterface> | undefined>
-    exist(store_id:string):Promise<boolean>|undefined
+    exist(store_id: string): Promise<boolean> | undefined
 }
 
 export const useWebStore = create<WebState>((set) => ({
@@ -52,20 +52,20 @@ export const useWebStore = create<WebState>((set) => ({
     selectedStore: undefined,
     currentChild: undefined,
     back_color: '',
-    blur:false,
+    blur: false,
     async exist(store_name) {
         const response = await fetch(`${Host}/check_store/?store_name=${store_name}`);
         const json = await response.json();
-        return json.exist == true ? true :false;
+        return json.exist == true ? true : false;
     },
     async setStoreById(store_id) {
-        const store = useWebStore.getState().stores?.list.find(s=>s.id==store_id) as StoreInterface 
-        if(store){
-            return set(()=>({selectedStore:store}));
-        }else{
-            const store = (await useWebStore.getState().fetchStores({text:'#'+store_id}))?.list[0] as StoreInterface;
-            if(store){
-                return set(()=>({selectedStore:store}));
+        const store = useWebStore.getState().stores?.list.find(s => s.id == store_id) as StoreInterface
+        if (store) {
+            return set(() => ({ selectedStore: store }));
+        } else {
+            const store = (await useWebStore.getState().fetchStores({ text: '#' + store_id }))?.list[0] as StoreInterface;
+            if (store) {
+                return set(() => ({ selectedStore: store }));
             }
         }
     },
@@ -74,8 +74,8 @@ export const useWebStore = create<WebState>((set) => ({
         if (!owner) return
         //@ts-ignore
         filter.owner_id = owner.id
-        console.log({filter});
-        
+        console.log({ filter });
+
         const searchParams = new URLSearchParams({});
         for (const key in filter) {
             const value = (filter as any)[key];
@@ -157,7 +157,7 @@ export const useWebStore = create<WebState>((set) => ({
         const owner = useWebStore.getState().owner
         if (!owner) return
         //@ts-ignore
-        filter.owner_id =owner.id
+        filter.owner_id = owner.id
         const searchParams = new URLSearchParams({});
         for (const key in filter) {
             const value = (filter as any)[key];
@@ -228,41 +228,42 @@ export const useWebStore = create<WebState>((set) => ({
     },
     async createStore(data) {
 
-        const owner = useWebStore.getState().owner;
-        if (!owner) return;
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${owner.token}`);
 
-        const form = new FormData();
-        console.log(data);
-
-        Object.keys(data).forEach(k => {
-            if (k == 'logo') {
-                form.append(k, JSON.stringify(['logo_0']));
-                form.append('logo_0', data[k].file);
-            }
-            if (k == 'banners') {
-                form.append(k, JSON.stringify(['banners_0']));
-                form.append('banners_0', data[k].file);
-            }
-            else {
-                form.append(k, data[k])
-            };
-        })
-        const requestOptions = {
-            method: "POST",
-            body: form,
-            headers: myHeaders,
-        };
-
-        const response = await fetch(`${Host}/create_store`, requestOptions)
         try {
+
+            const owner = useWebStore.getState().owner;
+            if (!owner) return;
+            const myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${owner.token}`);
+
+            const form = new FormData();
+            console.log(data);
+
+            Object.keys(data).forEach(k => {
+                if (k == 'logo') {
+                    form.append(k, JSON.stringify(['logo_0']));
+                    form.append('logo_0', data[k].file);
+                }
+                if (k == 'banners') {
+                    form.append(k, JSON.stringify(['banners_0']));
+                    form.append('banners_0', data[k].file);
+                }
+                else {
+                    form.append(k, data[k])
+                };
+            })
+            const requestOptions = {
+                method: "POST",
+                body: form,
+                headers: myHeaders,
+            };
+
+            const response = await fetch(`${Host}/create_store`, requestOptions)
             const store = await response.json();
             useWebStore.getState().owner_stores({})
             return store
-        } catch (error: any) {
-            console.log(error.message);
-            return
+        } catch (error) {
+            return error
         }
     },
     async createOwner() {
@@ -281,7 +282,7 @@ export const useWebStore = create<WebState>((set) => ({
                 useWebRoute.getState().setAbsPath(['store_list']);
             }
             // console.log(new Date().getMilliseconds());
-            
+
         }, 100);
 
     },

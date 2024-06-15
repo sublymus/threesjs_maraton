@@ -90,7 +90,7 @@ export function PageNewStore() {
                                         </div>, true, '#3455'
                                     )
                                 }}></div>}
-                                <input type="file" id={id + 'banner'} style={{ display: 'none' }} onChange={(e) => {
+                                <input type="file" accept="image/*" id={id + 'banner'} style={{ display: 'none' }} onChange={(e) => {
                                     const file = e.currentTarget.files?.[0];
                                     if (file) {
                                         setFileBanner({ file, url: URL.createObjectURL(file) })
@@ -109,7 +109,7 @@ export function PageNewStore() {
                                         </div>, true, '#3455'
                                     )
                                 }}>
-                                    <input type="file" id={id + 'logo'} style={{ display: 'none' }} onChange={(e) => {
+                                    <input type="file" accept="image/*" id={id + 'logo'} style={{ display: 'none' }} onChange={(e) => {
                                         const file = e.currentTarget.files?.[0];
                                         if (file) {
                                             setFileLogo({ file, url: URL.createObjectURL(file) })
@@ -165,14 +165,9 @@ export function PageNewStore() {
                                             );
                                         }}>DASH</div>
                                     </div>
-                                )
-                            }
+                                )}
                         </div>
                     </div>
-
-
-
-
                 </div>
                 <div className="center-right">
                     {
@@ -243,9 +238,10 @@ export function PageNewStore() {
                     </div>
                     <div className="address">
                         <label htmlFor={id + 'address'}>Address</label>
-                        <input type="text" id={id + 'address'} value={''} placeholder="Address" onChange={() => {
+                        <input type="text" id={id + 'address'} value={collected.address} placeholder="Address" onChange={(e) => {
                             setCollected({
                                 ...collected,
+                                ['address']: e.currentTarget.value
                             })
                         }} />
                     </div>
@@ -263,7 +259,16 @@ export function PageNewStore() {
                                 banners: fileBanner,
                                 logo: fileLogo
                             }).then((res) => {
-                                res && setAbsPath(['store_list']);
+                               if(!res?.id){
+                                openChild(<div style={{color:"#345"}}>
+                                    {
+                                        (res as any)?.stack || JSON.stringify(res||'{}')
+                                    }
+                                </div>, true, '#fff')
+                               }else{
+                                   res && setAbsPath(['store_list']);
+                               }
+                                return;
                             })
                         }}>
                             {edit ? 'Edit' : 'Create'} Store

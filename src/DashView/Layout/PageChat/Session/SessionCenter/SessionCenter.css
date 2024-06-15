@@ -15,6 +15,15 @@
     padding: 5px 30px;
     box-shadow: var(--box-shadow);
 }
+.session-center .top .open-nonav {
+    cursor: pointer;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 100%;
+    display: none;
+    rotate: 180deg;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+}
 
 .session-center .top .profile:hover{
     opacity: 0.7;
@@ -568,4 +577,36 @@
     overflow-wrap: break-word;
     padding: 20px;
     border-radius: 10px;
+}
+
+
+@media (width < 550px) {
+    .session-center .messages .ctn {
+        max-width: 300px;
+        overflow: hidden;
+    }
+
+    .session-center .sender .left {
+        flex-direction: column;
+    }
+
+    .session-center .sender .emoji-list {
+        right: -10px;
+    }
+
+    
+}
+
+@media (width <= 440px) {
+    .session-center .top {
+        padding: 5px 5px;
+    }
+    .session-center .top .open-nonav {
+        display: block;
+    }
+}
+@media (width < 320px) {
+    .session-center .top .name {
+        display:none
+    }
 }

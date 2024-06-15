@@ -12,8 +12,8 @@ import { OpenChat } from "../../../Component/OpenChat/OpenChat";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 export function ClientProfile() {
 
-    const { current, setAbsPath, json , qs} = useDashRoute();
-    const { selectedClient, setClientById, clientCommands, fetchClientVisites,fetchClientCommands, clientVisites } = useClientStore();
+    const { current, setAbsPath, json, qs } = useDashRoute();
+    const { selectedClient, setClientById, clientCommands, fetchClientVisites, fetchClientCommands, clientVisites } = useClientStore();
     const [btmList, setBtmList] = useState('commands');
 
     const [isCheckRequired] = useState(false);
@@ -26,8 +26,8 @@ export function ClientProfile() {
         }
     }, [json])
     useEffect(() => {
-        selectedClient && fetchClientCommands({limit:5, user_id:selectedClient.id})
-        selectedClient && fetchClientVisites({limit:5, client_id:selectedClient.id})
+        selectedClient && fetchClientCommands({ limit: 5, user_id: selectedClient.id })
+        selectedClient && fetchClientVisites({ limit: 5, client_id: selectedClient.id })
     }, [selectedClient])
 
     return current('client_profile') && (!selectedClient ? (
@@ -54,19 +54,19 @@ export function ClientProfile() {
                 <div className="btm-list">
 
                     <h1 >Products That Use This Catalog</h1>
-                    <div style={{display:'flex'}}>
-                    <div className={"btn " + (btmList == 'commands' ? 'active' : '')} onClick={() => {
-                        setBtmList('commands');
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Commands</div>
-                    </div>
-                    <div className={"btn " + (btmList == 'visites' ? 'active' : '')} onClick={() => {
-                        setBtmList('visites');
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Visites</div>
-                    </div>
+                    <div style={{ display: 'flex' }}>
+                        <div className={"btn " + (btmList == 'commands' ? 'active' : '')} onClick={() => {
+                            setBtmList('commands');
+                        }}>
+                            <div className="icon"></div>
+                            <div className="label">Commands</div>
+                        </div>
+                        <div className={"btn " + (btmList == 'visites' ? 'active' : '')} onClick={() => {
+                            setBtmList('visites');
+                        }}>
+                            <div className="icon"></div>
+                            <div className="label">Visites</div>
+                        </div>
                     </div>
 
                     <h2 className='see-all' onClick={() => {
@@ -141,7 +141,7 @@ export function ClientProfile() {
                             visited_at: GenericList.DateStringElement({ size: 200 }),
                         }}
                         onItemsSelected={(item) => {
-                            qs({product_id:item[0].id}).setAbsPath(['products', 'dash_product']);
+                            qs({ product_id: item[0].id }).setAbsPath(['products', 'dash_product']);
                         }}
                     >
 

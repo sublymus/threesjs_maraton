@@ -7,9 +7,10 @@ const root = document.getElementById('root')!;
 
 const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store indisponible
 (async () => {
-  const first = window.location.pathname.split('/')[1]
-  const scond = window.location.pathname.split('/')[2]
+  const first = window.location.pathname.split('/')[1]?.toLocaleLowerCase()
+  const scond = window.location.pathname.split('/')[2]?.toLocaleLowerCase()
   let view;
+console.log({first, scond});
 
   if (first && reservedStoreName.includes(first)) {
     view = (await import('./Web/WebView')).WebView;

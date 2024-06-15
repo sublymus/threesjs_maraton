@@ -50,19 +50,22 @@
 
 .product-dash .product-dash-ctn {
     width: 100%;
-    height: 400px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .product-dash .info {
-    width: 500px;
-    height: 400px;
+    /* width: 500px; */
+    height: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+}
+@media (width < 800) {
+    
 }
 
 .product-dash .info>div:hover {
@@ -124,10 +127,10 @@
     width: 100px;
 }
 
-.product-dash .orders-ctn .order>.client {
+/* .product-dash .orders-ctn .order>.client {
     width: 150px;
     opacity: 0.5;
-}
+} */
 
 .product-dash .orders-ctn .order>.date {
     width: 150px;
@@ -182,10 +185,7 @@
 
 
 
-
-
-
-
+/*  ERROR PANEL */
 .error-panel.open{
     position: absolute;
     width: 400px;

@@ -30,7 +30,7 @@ type PageType = {
     [key: string]: null | PageType
 }
 
-type NavJson = (qs: Record<string, any>) => Record<string, any>
+// type NavJson = (qs: Record<string, any>) => Record<string, any>
 
 function windowListenner(f: Function) {
     return () => {
@@ -42,8 +42,8 @@ interface UnUseAppState<T extends PageType> {
     Pages: T,
     navHistory: string[];
     pathList: V<AllComponents<T>>[],
-    navNext(json?: NavJson): undefined,
-    navBack(json?: NavJson): undefined,
+    navNext(): undefined,
+    navBack(): undefined,
     setAbsPath<
         A extends '/',
         B extends keyof T[A],

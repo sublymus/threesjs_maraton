@@ -9,7 +9,7 @@ export function FileLoader({onChange ,  icon , ext , label, file_name}:{file_nam
     
     return ( 
         <div className="loader-img">
-             <input type="file" style={{ display: 'none' }} accept="" name="img" id={id} onChange={(e)=>{
+             <input type="file" style={{ display: 'none' }} accept="application/zip" name="img" id={id} onChange={(e)=>{
                  const f = e.target.files?.[0];
                  if (!f) return
                  const n = f.name.toLowerCase();

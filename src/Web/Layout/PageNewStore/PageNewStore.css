@@ -179,7 +179,7 @@
 }
 
 .page-new-store .store .banner.void {
-    background: no-repeat center/80% url(/src/res/drag_and_drop.png);
+    /* background: no-repeat center/50% url(/src/res/drag_and_drop.png); */
 }
 
 .page-new-store .store .banner {
@@ -199,6 +199,12 @@
 }
 
 .page-new-store .store .banner:hover .img-options {
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0px);
+    transition: 200ms;
+}
+.page-new-store .store .banner.void .img-options {
     opacity: 1;
     z-index: 1;
     transform: translateY(0px);
@@ -241,6 +247,11 @@
 }
 
 .page-new-store .store .banner:hover .more {
+    height: 100%;
+    transition: 200ms;
+}
+
+.page-new-store .store .banner.void .more {
     height: 100%;
     transition: 200ms;
 }

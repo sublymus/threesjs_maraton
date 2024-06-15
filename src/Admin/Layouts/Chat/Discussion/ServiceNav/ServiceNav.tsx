@@ -61,7 +61,7 @@ export function ServiceNav() {
     }, [user])
 
     useEffect(() => {
-        serviceStore && fetchServiceDiscussions({
+        check('services') && serviceStore && fetchServiceDiscussions({
             store_id: serviceStore.id
         })
     }, [serviceStore])

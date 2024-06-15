@@ -14,7 +14,7 @@ const DEFAULT_TOP_HEIGHT = 40;
 const DEFAULT_LIMIT = 25;
 
 //TODO bug lor de la permutation des colonne, les deux colone consernee ne pas etre dragee imediatement
-const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items_height, top_height, overflow, filter, onQuery, onItemsSelected, multiple, canAddNew, onNewRequired }: { canPaginate?:boolean ,disableFilterBar?: boolean, canAddNew?: boolean, onNewRequired?: () => any, onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter?: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
+const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items_height, top_height, /* overflow , */ filter, onQuery, onItemsSelected, multiple, canAddNew, onNewRequired }: { canPaginate?:boolean ,disableFilterBar?: boolean, canAddNew?: boolean, onNewRequired?: () => any, onItemsSelected?: (selectedItems: (Record<string, any> & { $itemRef: HTMLDivElement | null })[], items: (Record<string, any> & { $itemRef: HTMLDivElement | null })[]) => any, multiple?: boolean, onQuery?: (query: FilterQuery) => any, filter?: filterType, top_height?: number, items_height?: number, overflow?: 'scroll' | 'hidden' | 'displayFlex'/* TODO display flex */, id: string | number, datas: Record<string, any>[], itemsMapper: ItemsMapperJSX }) => {
 
     const [selectedColumn, setSelectedColumn] = useState(Object.keys(itemsMapper));
     const [selectedItems, setSelectedItems] = useState<Record<string, any>[]>([]);
@@ -51,7 +51,7 @@ const _GenericList = ({ canPaginate ,datas, disableFilterBar, itemsMapper, items
     const _top_height = top_height ?? DEFAULT_TOP_HEIGHT;
     const sortableColumns = filter?.sortableColumns ?? []
     const cursorW = 5;
-    const _overflow = 'scroll';
+    // const _overflow = 'scroll';
 
     let idx: string | undefined;
     let cdx: string | undefined;

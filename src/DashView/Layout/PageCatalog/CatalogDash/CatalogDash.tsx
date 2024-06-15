@@ -19,11 +19,11 @@ import { useRegisterStore } from '../../PageAuth/RegisterStore';
 
 export function CatalogDash() {
     const { json, current, setAbsPath } = useDashRoute();
-    const {setCatalogById,  selectedCatalog, catalogCategories, fetchCatalogCategories, updateCatalog, catalogProducts, setSelectedCatalog, removeCatalog, fetchCatalogProducts, createCatalog } = useCatalogStore();
+    const { setCatalogById, selectedCatalog, catalogCategories, fetchCatalogCategories, updateCatalog, catalogProducts, setSelectedCatalog, removeCatalog, fetchCatalogProducts, createCatalog } = useCatalogStore();
     const { setSelectedProduct } = useProductStore();
     const { setSelectedCategory } = useCategotyStore();
     const [collected] = useState<Record<string, any>>({});
-    const {store} = useRegisterStore()
+    const { store } = useRegisterStore()
     const [btmList, setBtmList] = useState('products');
     const [isCheckRequired] = useState(false);
     const size = useWindowSize();
@@ -42,11 +42,11 @@ export function CatalogDash() {
     const isDash = current('dash_catalogs');
     const isNew = current('new_catalog');
 
-    useEffect(()=>{
-        if(json?.catalog_id){
+    useEffect(() => {
+        if (json?.catalog_id) {
             setCatalogById(json?.catalog_id)
         }
-    },[json])
+    }, [json])
 
     const choiser = <>
 
@@ -118,12 +118,12 @@ export function CatalogDash() {
                             }} direction='horizontal' />
                         </>)}
                         {
-                            isNew  && <>
-                            <InputText isCheckRequired={isCheckRequired} label='Store Name' value={(store?.name || '')}/>
-                            <InputText isCheckRequired={isCheckRequired} label='Store Id' value={(store?.id || '')}/>
+                            isNew && <>
+                                <InputText isCheckRequired={isCheckRequired} label='Store Name' value={(store?.name || '')} />
+                                <InputText isCheckRequired={isCheckRequired} label='Store Id' value={(store?.id || '')} />
                             </>
                         }
-                        
+
                     </div>
 
                 </section>
@@ -132,19 +132,22 @@ export function CatalogDash() {
                         <div className="btm-list">
 
                             <h1 >Products That Use This Catalog</h1>
-                            <div className={"btn " + (btmList == 'products' ? 'active' : '')} onClick={() => {
-                                setBtmList('products');
-                            }}>
-                                <div className="icon"></div>
-                                <div className="label">Products</div>
-                            </div>
-                            <div className={"btn " + (btmList == 'categories' ? 'active' : '')} onClick={() => {
-                                setBtmList('categories');
-                            }}>
-                                <div className="icon"></div>
-                                <div className="label">Categories</div>
-                            </div>
+                            <div style={{ display: 'flex' }}>
 
+                                <div className={"btn " + (btmList == 'products' ? 'active' : '')} onClick={() => {
+                                    setBtmList('products');
+                                }}>
+                                    <div className="icon"></div>
+                                    <div className="label">Products</div>
+                                </div>
+                                <div className={"btn " + (btmList == 'categories' ? 'active' : '')} onClick={() => {
+                                    setBtmList('categories');
+                                }}>
+                                    <div className="icon"></div>
+                                    <div className="label">Categories</div>
+                                </div>
+
+                            </div>
                             <h2 className='see-all' onClick={() => {
                                 btmList == 'products' ?
                                     setAbsPath(['products']) :

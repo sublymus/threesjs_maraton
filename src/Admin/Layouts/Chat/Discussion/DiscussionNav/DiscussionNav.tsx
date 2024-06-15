@@ -41,7 +41,7 @@ export function DiscussionsNav() {
         setOptionActive(optionPath || 'all')
     }, [json, user]);
     useEffect(() => {
-        check('discussions') && !discussions && user && fetchDiscussions({ store_id: null })
+        check('chat') && !discussions && user && fetchDiscussions({ store_id: null })
     }, [user])
     useEffect(() => {
         setOptionActive(optionPath || 'all')

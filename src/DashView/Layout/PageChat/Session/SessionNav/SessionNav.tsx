@@ -10,9 +10,9 @@ import { useClientStore } from '../../../PageClient/ClientStore';
 
 export function SessionNav({ }: {}) {
     const { openChild } = useDashStore();
-    const { json, qs, pathList , setAbsPath } = useDashRoute();
+    const { json, qs, check, pathList, setAbsPath } = useDashRoute();
     const optionPath = pathList[3]?.split('_')[1]
-    const [optionActive, setOptionActive] = useState(optionPath||'opened')
+    const [optionActive, setOptionActive] = useState(optionPath || 'opened')
     const {
         addSession,
         asReadSession,
@@ -31,7 +31,7 @@ export function SessionNav({ }: {}) {
     const { fetchClients } = useClientStore();
 
     useEffect(() => {
-        store && fetchSessions()
+        check('chat') && !sessions && store && fetchSessions()
     }, [store])
 
     useEffect(() => {
@@ -106,8 +106,11 @@ export function SessionNav({ }: {}) {
                         return (
                             <div key={s.id} className={"session " + (session?.id == s.id ? 'active' : '')} onClick={(e) => {
                                 console.log(s.other, user);
-                                
-                                qs({ 'client_id': s.other.id }).setAbsPath(['chat', 'sessions'])
+
+                                qs({
+                                    'client_id': s.other.id,
+                                    nav: document.querySelector('.back-close.nav')!.getBoundingClientRect().width == 0 ? undefined : 'min'
+                                }).setAbsPath(['chat', 'sessions'])
                                 // setSessionByClientId(s.other.id)//setSession(s);
                                 // openSessionMessages(s.id);
                                 const div = e.currentTarget.querySelector('.count')! as HTMLDivElement;

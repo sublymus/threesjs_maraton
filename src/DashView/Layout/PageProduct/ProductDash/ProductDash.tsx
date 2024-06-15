@@ -197,7 +197,7 @@ export function ProductDash() {
                                 <div className="id">#{c.id.split('-')[0]}</div>
                                 <div className="id">{c.quantity}</div>
                                 <div className="date">{c.updated_at.split('')}</div>
-                                <div className="client">userId: {c.user_id.split('-')[0]}</div>
+                                {/* <div className="client">userId: {c.user_id.split('-')[0]}</div> */}
                                 <div className="price">{c.price} {'$'}</div>
                                 <div className={"status " + c.status.toLocaleLowerCase()}>{c.status}</div>
                             </div>

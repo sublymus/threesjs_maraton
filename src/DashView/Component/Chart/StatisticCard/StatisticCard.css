@@ -1,13 +1,13 @@
-
 .statistic-card {
     background: rgb(255, 255, 255);
-    width: 480px;
-    height: 160px;
+    /* width: 480px; */
+    /* height: 160px; */
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 20px;
-    padding-left: 30px;
+    padding:10px;
+    flex-wrap: wrap;
     box-shadow: 0px 0px 10px #3453;
     cursor: pointer;
 }
@@ -16,45 +16,39 @@
     color: #345;
 }
 
-.statistic-card .text{
-    height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+.statistic-card .text {
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
-.statistic-card .title{
+
+.statistic-card .title {
     font-weight: bold;
     font-size: 18px;
     width: 150px;
 }
 
-.statistic-card .description{
+.statistic-card .description {
     color: #3459;
     font-size: 15px;
     max-width: 300px;
 }
 
-
-
-
-
-
-
-
-
-.bar-chart{
-    width: 350px;
+.bar-chart {
+    /* width: 350px; */
     height: 120px;
 }
 
-.bar-chart .bars{
+.bar-chart .bars {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: flex-end;
-    padding: 0 20px;
+    /* padding: 0 20px; */
 }
-.bar-chart .bars .bar{
+
+.bar-chart .bars .bar {
     width: 7px;
     height: 100%;
     background: #ececec;
@@ -65,17 +59,16 @@
     margin-right: 3px;
 }
 
-.bar-chart .bars .bar .level{
+.bar-chart .bars .bar .level {
     border-radius: 10px;
     width: 100%;
     height: 100%;
     opacity: 0.7;
 }
 
-.bar-chart .bars .bar:hover .level{
+.bar-chart .bars .bar:hover .level {
     border-radius: 10px;
     width: 100%;
     height: 100%;
     opacity: 1;
 }
-

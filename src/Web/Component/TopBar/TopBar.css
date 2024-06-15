@@ -91,7 +91,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
+    /* width: 100px; */
+    padding: 10px 20px;
     height: 40px;
     color: #fff;
     background: var(--linear-orange);

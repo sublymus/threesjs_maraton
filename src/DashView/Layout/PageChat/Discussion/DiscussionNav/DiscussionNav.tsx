@@ -42,7 +42,7 @@ export function DiscussionsNav() {
                 },
             })
         }
-        check('discussions')&& !discussions && store && fetchDiscussions({})
+        check('chat')&& !discussions && store && fetchDiscussions({})
         setOptionActive(optionPath || 'all')
     }, [json, store]);
 

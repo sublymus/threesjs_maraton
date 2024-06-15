@@ -9,12 +9,12 @@ import { Local } from '../../../Config';
 
 
 export function StorePage() {
-    const { check, current, setAbsPath , qs , navBack  } = useWebRoute()
+    const { check, current, setAbsPath , qs , navBack, pathList  } = useWebRoute()
     const { owner, stores, owner_stores, setSelectedStore } = useWebStore()
     
     useEffect(() => {
-        check('store_list') && owner_stores({})
-    }, [owner])
+        owner && check('store_list') && owner_stores({text: ''})
+    }, [pathList])
     
     return current('store_list') && (
         <div className='stores-page'>

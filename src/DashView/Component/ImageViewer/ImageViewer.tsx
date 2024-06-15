@@ -38,6 +38,9 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
         const r = {} as ImageViewerMapper;
         for (let i = files.length - 1; i >= 0; i--) {
             const file = files[i];
+            console.log(file.type);
+            
+            if(!file.type.startsWith('image/')) continue;
             const n = `${name}_${localLength + i}`;
             r[n] = { img: URL.createObjectURL(files[i]), index: -(localLength + i), file, isLocal: true, name: n };
         }
@@ -105,7 +108,6 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     }
     imageMapperCache[id] = imageMapper;
     ListenerCache[id] = deleteImage;
-    console.log({canSave});
     
     return (
         <div className='image-viewer'>
@@ -217,7 +219,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     }
                 </div>
                 <div className={"option " + optionPosition}>
-                    <input type="file" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
+                    <input type="file" accept="image/*" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
                         if (cannotEdit) return
                         if (e.target.files && e.target.files[0]) {
                             newFiles(e.target.files);
