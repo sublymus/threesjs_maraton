@@ -2,9 +2,8 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    font-family:  "Akaya Telivigala", system-ui; */
-
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;*/
+  
   font-optical-sizing: auto;
   font-weight: 100;
   font-style: normal;
@@ -27,7 +26,7 @@ body {
   height: 100vh;
   /* color: #010747; */
   color: #fff;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:  Roboto;
   /* font-family: "Edu NSW ACT Foundation", cursive; */
   /* font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif; */
 }

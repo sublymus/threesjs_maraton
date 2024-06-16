@@ -93,6 +93,7 @@
     justify-content: center;
     /* width: 100px; */
     padding: 10px 20px;
+
     height: 40px;
     color: #fff;
     background: var(--linear-orange);
@@ -203,10 +204,38 @@
     .top-bar .user-name {
         display: none;
     }
+    .top-bar .profile {
+        min-width: 50px;
+        height: 50px;
+    }
+}
+@media (width < 400px) {
+    .top-bar .options {
+        width: 25px;
+        min-width: 25px;
+        height: 25px;
+    }
+
+.top-bar .logo-ctn {
+    cursor: pointer;
+    min-width: 120px;
+    height: 50px;
+    background: no-repeat center/contain url(/src/res//img/img3.svg);
+}
+
+    .top-bar .user-name {
+        display: none;
+    }
+    .top-bar .login {
+        padding: 0px 5px;
+        height: 30px;
+    }
+    
 }
 
 @media (width < 300px) {
     .top-bar .profile{
         display: none;
     }
+
 }

@@ -22,7 +22,7 @@ export function TopBar() {
             <div className="left">
                 <div className="options" onClick={() => {
                     openChild(<ul className='vert-nav'>
-                        <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME <span></span></li>
+                        <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME<span></span></li>
                         <li className={(active == 'store_list' || active == 'edit_store' || active == 'new_store') ? 'active' : ''} onClick={() => update('store_list')}>STORES <span></span></li>
                         <li className={active == 'about' ? 'active' : ''} onClick={() => update('about')}>ABOUT US <span></span></li>
                         <li className={active == 'contact' ? 'active' : ''} onClick={() => update('contact')}>CONTACT US <span></span></li>
@@ -54,7 +54,7 @@ export function TopBar() {
                         }}> Disconnection</div>}
                     </div>
                 </div>
-            ) : <div className="login" onClick={() => createOwner()}>LOGIN</div>}
+            ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
         </div>
     )
 }

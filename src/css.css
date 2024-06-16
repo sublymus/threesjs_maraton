@@ -1,0 +1,79 @@
+@font-face {
+    font-family: 'Roboto';
+    font-weight: 100;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Regular.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 300;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Light.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 400;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Regular.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 500;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Medium.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 700;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Bold.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 900;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Black.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 100;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-ThinItalic.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 300;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-LightItalic.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-Italic.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 500;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-MediumItalic.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 700;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-BoldItalic.ttf);
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 900;
+    /* font-display: swap; */
+    src: url(/src/res/font/Roboto/Roboto-BlackItalic.ttf);
+  }
+  

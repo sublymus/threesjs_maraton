@@ -213,6 +213,8 @@
 .discussion-nav .discussion .right .btm .text {
     opacity: 0.6;
     font-size: 0.9em;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .discussion-nav .discussion .right .btm .count {

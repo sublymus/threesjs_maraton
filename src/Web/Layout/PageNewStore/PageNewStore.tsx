@@ -18,6 +18,7 @@ export function PageNewStore() {
     const size = useWindowSize();
     const wrap = size.width < 1050 ? 'wrap' : ''
     const [enable, setEnable] = useState('')
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         setTimeout(() => {//TODO tres gros probleme le useEffeect est appele avant le changement de page;
             if (selectedStore && current('edit_store')) {
@@ -35,11 +36,11 @@ export function PageNewStore() {
     useEffect(() => {
         owner && json?.store_id && setStoreById(json.store_id)
     }, [json, owner])
-    useEffect(()=>{
+    useEffect(() => {
         setEnable('')
-    },[pathList]);
+    }, [pathList]);
     const edit = current('edit_store');
-
+    const canEnd = fileBanner?.url && fileLogo?.url && collected.name;
     const s = selectedStore;
     return (edit && (!selectedStore)) ? (
         <div className="store-select-btn" onClick={() => { setAbsPath(['store_list']) }}>
@@ -170,6 +171,10 @@ export function PageNewStore() {
                     </div>
                 </div>
                 <div className="center-right">
+                    <div className="imgs">
+                        <label className={fileBanner?.url?'available':'no-available'} htmlFor={id + 'banner'} >Banner <span></span></label>
+                        <label className={fileLogo?.url?'available':'no-available'} htmlFor={id + 'logo'} >Logo <span></span></label>
+                    </div>
                     {
                         edit && <div className="id">
                             <label htmlFor={id + 'id'} style={{ color: '#fff9' }} >Id</label>
@@ -178,30 +183,33 @@ export function PageNewStore() {
                     }
                     <div className="name">
                         <div className="top">
-                            <label htmlFor={id + 'name'} >Name</label>
-                            <div className="avalaible" style={{display:enable=='yes'?'flex':'none'}}>
-                                <span></span> avalaible
+                            <label htmlFor={id + 'name'} >Store Name</label>
+                            <div className="available" style={{ display: enable == 'yes' ? 'flex' : 'none' }}>
+                                <span></span> available
                             </div>
-                            <div className="not-avalaible" style={{display:enable=='no'?'flex':'none'}}>
-                                <span></span> not avalaible
+                            <div className="not-available" style={{ display: enable == 'no' ? 'flex' : 'none' }}>
+                                <span></span> not available
                             </div>
                         </div>
                         <input type="text" id={id + 'name'} value={collected.name || ''} placeholder="Name" onChange={(e) => {
-                            const name = e.currentTarget.value.toLocaleLowerCase();
-                            if(name.trim().length < 3) setEnable('no')
+                            const name = e.currentTarget.value
+                            if (name.trim().length < 3) setEnable('no')
                             else exist(name)?.then((deja_pris) => {
-                                setEnable(deja_pris?'no':'yes')
-                                console.log(name,enable, deja_pris, deja_pris?'no':'yes');
+                                setEnable(deja_pris ? 'no' : 'yes')
+                                console.log(name, enable, deja_pris, deja_pris ? 'no' : 'yes');
                             })
-                            
+
                             setCollected({
-                                ...collected, 
+                                ...collected,
                                 ['name']: name
                             })
                         }} />
                     </div>
                     <div className="phone">
-                        <label htmlFor={id + 'phone'}>Phone</label>
+                        <div className="top">
+                            <label htmlFor={id + 'phone'}>Phone</label>
+                            <div className="optional">(optional)</div>
+                        </div>
                         <input type="text" id={id + 'phone'} value={collected.phone || ''} placeholder="Phone" onChange={(e) => {
                             setCollected({
                                 ...collected,
@@ -210,7 +218,10 @@ export function PageNewStore() {
                         }} />
                     </div>
                     <div className="store_email">
-                        <label htmlFor={id + 'store_email'}>Store Email</label>
+                        <div className="top">
+                            <label htmlFor={id + 'store_email'}>Store Email</label>
+                            <div className="optional">(optional)</div>
+                        </div>
                         <input type="email" id={id + 'store_email'} value={collected.store_email || ''} placeholder="Store email" onChange={(e) => {
                             setCollected({
                                 ...collected,
@@ -219,7 +230,10 @@ export function PageNewStore() {
                         }} />
                     </div>
                     <div className="website">
-                        <label htmlFor={id + 'website'}>Web Site</label>
+                        <div className="top">
+                            <label htmlFor={id + 'website'}>Web Site</label>
+                            <div className="optional">(optional)</div>
+                        </div>
                         <input type="text" id={id + 'website'} value={collected.website || ''} placeholder="Web Site" onChange={(e) => {
                             setCollected({
                                 ...collected,
@@ -228,7 +242,10 @@ export function PageNewStore() {
                         }} />
                     </div>
                     <div className="desciption">
-                        <label htmlFor={id + 'desciption'}>Description</label>
+                        <div className="top">
+                            <label htmlFor={id + 'desciption'}>Description</label>
+                            <div className="optional">(optional)</div>
+                        </div>
                         <input type="text" id={id + 'description'} value={collected.description || ''} placeholder="Description" onChange={(e) => {
                             setCollected({
                                 ...collected,
@@ -237,7 +254,10 @@ export function PageNewStore() {
                         }} />
                     </div>
                     <div className="address">
-                        <label htmlFor={id + 'address'}>Address</label>
+                        <div className="top">
+                            <label htmlFor={id + 'address'}>Address</label>
+                            <div className="optional">(optional)</div>
+                        </div>
                         <input type="text" id={id + 'address'} value={collected.address} placeholder="Address" onChange={(e) => {
                             setCollected({
                                 ...collected,
@@ -246,32 +266,40 @@ export function PageNewStore() {
                         }} />
                     </div>
                     <div className="btm">
-                        <div className="btn no-selectable" onClick={() => {
+                        <div className="btn no-selectable" style={{background:canEnd?'':'#345'}} onClick={() => {
+                            if(!canEnd || loading) return;
+                            setLoading(true)
                             edit ? (selectedStore && editStore({
                                 ...collected,
                                 banners: fileBanner,
                                 logo: fileLogo,
                                 store_id: selectedStore?.id
                             }).then((res) => {
+                                setLoading(false)
                                 res && setAbsPath(['store_list']);
                             })) : createStore({
                                 ...collected,
                                 banners: fileBanner,
                                 logo: fileLogo
                             }).then((res) => {
-                               if(!res?.id){
-                                openChild(<div style={{color:"#345"}}>
-                                    {
-                                        (res as any)?.stack || JSON.stringify(res||'{}')
-                                    }
-                                </div>, true, '#fff')
-                               }else{
-                                   res && setAbsPath(['store_list']);
-                               }
+                              setTimeout(() => {
+                                setLoading(false)
+                              }, 100);
+                                if (!res?.id) {
+                                    // openChild(<div style={{ color: "#345" }}>
+                                    //     {
+                                    //         (res as any)?.stack || JSON.stringify(res || '{}')
+                                    //     }
+                                    // </div>, true, '#fff')
+                                } else {
+                                    res && setAbsPath(['store_list']);
+                                }
                                 return;
                             })
                         }}>
-                            {edit ? 'Edit' : 'Create'} Store
+                            {
+                                loading ? <div className="loading"></div> : `${edit ? 'Edit' : 'Create'} Store`
+                            }
                         </div>
 
                     </div>

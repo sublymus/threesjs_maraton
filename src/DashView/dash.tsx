@@ -1,6 +1,7 @@
 
 import './index.css'
 import './Dash.css'
+// import '../css.css'
 import './Component/NavBar/NavBar.css'
 import { NavBar } from './Component/NavBar/NavBar'
 import { PageProduct } from './Layout/PageProduct/PageProduct'

@@ -25,7 +25,7 @@ export function DiscussionsCenter() {
     } = useMessageStore()
     const { user } = useRegisterStore();
     const { openChild } = useDashStore();
-    const { qs, json , navBack} = useDashRoute()
+    const { qs, json, navBack } = useDashRoute()
     const [scrollInit, setScrollInit] = useState(false)
     const [senderSize, setSenderSize] = useState(1)
     const [emijiOpen, setEmijiOpen] = useState(false)
@@ -161,18 +161,21 @@ export function DiscussionsCenter() {
 
                                     }} other={d.other as any as UserInterface} />)
                                 }}>
-                                    <div className="text">{
-                                        m.text && (m.text)
-                                            .split(' ')
-                                            .map((m, i) =>
-                                                (
-                                                    m.includes('\n')) ?
-                                                    m.split('\n').map((n, ni) =>
-                                                        <div key={i + "_" + ni}>
-                                                            <span style={{ marginRight: '4px' }}>{n}</span>
-                                                            <br />
-                                                        </div>
-                                                    ) : <span style={{ marginRight: '4px' }} key={i}>{m}</span>)}</div>
+                                    <div className="text" >
+                                    {
+                                            m.text
+                                            && (m.text)
+                                                .split(' ')
+                                                .map((m, i) =>
+                                                    m.split('\n').map((n,j) =>{
+                                                        return  !n ? <div style={{ width: '100%', height: '1em' }} key={i + "~"+j}></div> :
+                                                        <span style={{ marginRight: '4px' }} key={i+ "+"+j}>{n}</span>
+                                                    }
+                                                       
+                                                    )
+                                                )
+                                        }
+                                    </div>
                                     <div className="files">
                                         {
                                             m.files?.map(f => (

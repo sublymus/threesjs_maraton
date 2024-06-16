@@ -301,6 +301,10 @@
      /* .stores-page .sreach-stores .new-btn .label {
         display: none;
      } */
+     .stores-page .top-top .nav-back {
+       display: none;
+    }
+    
 }
 
 @media (width < 600px) {

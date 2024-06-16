@@ -67,6 +67,8 @@ export function SessionsCenter() {
         let v = Math.max(l, n, a);
         v = v > 10 ? 10 : (v - 1 >= 1 ? v - 1 : 1)
         setSenderSize(v)
+        console.log(v);
+        
     }
     useEffect(() => {
         calculTextareaSize()
@@ -199,8 +201,21 @@ export function SessionsCenter() {
 
                                         }} other={d.other as any as UserInterface} />)
                                     }}>
-                                        <div className="text">{
-                                            m.text && FormatText(m.text)}</div>
+                                        <div className="text">
+                                        {
+                                           m.text
+                                           && (m.text)
+                                               .split(' ')
+                                               .map((m, i) =>
+                                                   m.split('\n').map((n,j) =>{
+                                                       return  !n ? <div style={{ width: '100%', height: '1em' }} key={i + "~"+j}></div> :
+                                                       <span style={{ marginRight: '4px' }} key={i+ "+"+j}>{n}</span>
+                                                   }
+                                                      
+                                                   )
+                                               )
+                                        }
+                                        </div>
                                         <div className="files">
                                             {
                                                 m.files?.map(f => (
@@ -264,6 +279,12 @@ export function SessionsCenter() {
                                     setFiles(list.length > 0 ? (files ? [...files, ...list] : list) : null);
                                 }} />
                                 <label htmlFor={id + 'message_file'} className="add-file" onClick={Click()}></label>
+                                <div className="emoji-min" onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                Click()(e)
+                                setEmijiOpen(!emijiOpen)
+                            }}></div>
                             </>} {
                                 isNewSession && <div className="text-length">
                                     {text.length}{isNewSession ? ('/' + TITLE_LENGTH) : ''}
@@ -282,22 +303,15 @@ export function SessionsCenter() {
                                     </div>
                                 ))
                             }</div>
-                            <textarea autoFocus ref={textareaRef} value={text} name="session_sender" placeholder="Type a message here.." id="session_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
+                            <textarea autoFocus ref={textareaRef}  name="session_sender" placeholder="Type a message here.." id="session_sender" style={{ height: `${senderSize * 20}px` }} cols={30} rows={10} onChange={(_e) => {
                                 calculTextareaSize();
-                                setText(isNewSession && _e.currentTarget.value.length > TITLE_LENGTH ? _e.currentTarget.value.substring(0, TITLE_LENGTH) : _e.currentTarget.value)
+                                // setText(isNewSession && _e.currentTarget.value.length > TITLE_LENGTH ? _e.currentTarget.value.substring(0, TITLE_LENGTH) : _e.currentTarget.value)
                             }} onKeyDown={() => {
                                 setEmijiOpen(false);
                             }}></textarea>
 
                         </div>
                         <div className="right">
-                            <div className="emoji" onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                Click()(e)
-                                setEmijiOpen(!emijiOpen)
-                            }}></div>
-                            {/* <div className='audio' onClick={Click()}></div> */}
                             <div className="send" onClick={(e) => {
                                 Click()(e);
                                 if (isNewSession) {

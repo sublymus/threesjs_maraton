@@ -178,9 +178,6 @@
     box-shadow: var(--box-shadow);
 }
 
-.page-new-store .store .banner.void {
-    /* background: no-repeat center/50% url(/src/res/drag_and_drop.png); */
-}
 
 .page-new-store .store .banner {
     position: relative;
@@ -476,27 +473,60 @@
     width: 100%;
 }
 
-.page-new-store .center-content .center-right .name .top span {
+.page-new-store .center-content .center-right .top .optional {
+    margin-left: 10px;
+    opacity: 0.7;
+}
+
+.page-new-store .center-content .center-right span {
     display: inline-block;
     min-width: 20px;
     min-height: 20px;
     margin: 0 10px;
 }
 
-.page-new-store .center-content .center-right .name .top .avalaible {
+.page-new-store .center-content .center-right .available {
     color: #0f0;
 }
 
-.page-new-store .center-content .center-right .name .top .avalaible span {
+.page-new-store .center-content .center-right .available span {
     background: no-repeat center/80% url(/src/res/mark.png);
     filter: invert(67%) sepia(73%) saturate(5068%) hue-rotate(90deg) brightness(118%) contrast(133%);
 }
 
-.page-new-store .center-content .center-right .name .top .not-avalaible {
+.page-new-store .center-content .center-right .not-available {
     color: #f00;
 }
 
-.page-new-store .center-content .center-right .name .top .not-avalaible span {
+.page-new-store .center-content .center-right .not-available span {
     background: no-repeat center/contain url(/src/res/x.png);
     filter: invert(23%) sepia(87%) saturate(3899%) hue-rotate(351deg) brightness(96%) contrast(138%);
+}
+
+.page-new-store .center-content .center-right span {
+    background: no-repeat center/contain url(/src/res/x.png);
+    filter: invert(23%) sepia(87%) saturate(3899%) hue-rotate(351deg) brightness(96%) contrast(138%);
+}
+
+.page-new-store .center-content .center-right .imgs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.page-new-store .center-content .center-right .imgs label {
+ padding: 5px;
+    margin: 0 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+ height: 35px;
+ background: #345;
+ border-radius: 10px;
+}
+
+.page-new-store .btn .loading{
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/contain url(/src/res/loading.gif);
 }

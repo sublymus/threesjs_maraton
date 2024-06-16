@@ -19,9 +19,11 @@
 .discussion-center .top .open-nonav:hover {
     opacity: 0.7;
 }
-.sombre-mode-variable .discussion-center .top .open-nonav{
+
+.sombre-mode-variable .discussion-center .top .open-nonav {
     filter: invert();
 }
+
 .discussion-center .top .open-nonav {
     cursor: pointer;
     min-width: 40px;
@@ -153,8 +155,10 @@
 
 .discussion-center .messages .ctn .text {
     /* all:unset; */
-    overflow-wrap: break-word;
-
+    /* overflow-wrap: break-word; */
+    white-space: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .discussion-center .messages .ctn .files {
@@ -277,6 +281,15 @@
     align-items: flex-end;
 }
 
+@media (width < 550px) {
+    .discussion-center .sender .left {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .discussion-center .sender .left > *{
+        scale: 0.7;
+    }
+}
 .discussion-center .sender .left {
     min-width: 60px;
     height: 60px;
@@ -335,6 +348,12 @@
     background: no-repeat center/60% url(/src/res/x.png);
 }
 
+@media (width < 550px) {
+    #discussion_sender {
+        margin-bottom: 10px!important;
+    }
+
+}
 #discussion_sender {
     all: unset;
     width: 100%;
@@ -350,17 +369,6 @@
     justify-content: space-around;
 }
 
-.discussion-center .sender .emoji:hover {
-    opacity: 0.6;
-}
-
-.discussion-center .sender .emoji {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    opacity: 0.4;
-    background: no-repeat center/60% url(/src/res/laugh.png);
-}
 
 .discussion-center .sender .emoji-min:hover {
     opacity: 0.6;
@@ -386,6 +394,14 @@
     background: no-repeat center/70% url(/src/res/mic3.png);
 }
 
+@media (width < 550px) {
+
+    .discussion-center .sender .send,
+    .discussion-center .sender .send .icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
 .discussion-center .sender .send:hover {
     opacity: 0.8;
 }
@@ -530,6 +546,13 @@
     background: no-repeat center/90% url(/src/res/arrow-down-to-line.png);
 }
 
+@media (width > 1200px) {
+    .discussion-center .messages .ctn {
+        max-width: 600px;
+        overflow: hidden;
+    }
+}
+
 @media (width < 550px) {
     .discussion-center .messages .ctn {
         max-width: 300px;
@@ -543,20 +566,20 @@
     .discussion-center .sender .emoji-list {
         right: -10px;
     }
-
-    
 }
 
-@media (width <= 440px) {
+@media (width <=440px) {
     .discussion-center .top {
         padding: 5px 5px;
     }
+
     .discussion-center .top .open-nonav {
         display: block;
     }
 }
+
 @media (width < 320px) {
     .discussion-center .top .name {
-        display:none
+        display: none
     }
 }

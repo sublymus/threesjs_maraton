@@ -81,14 +81,6 @@
     height: 30px;
     background: no-repeat center/cover url(/src/res/chevron-down2.png);
 }
-
-.page-home .center-content .center-right {
-    height: 100%;
-    width: 50%;
-    min-height: 270px;
-    background: no-repeat center/contain url(/src/res/img/undraw_online_stats_0g94.svg);
-}
-
 .page-home .bottom-bar {
     width: 100%;
     display: flex;
