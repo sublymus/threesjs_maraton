@@ -37,6 +37,11 @@ export function Admin() {
     const { pathList, setAbsPath, } = useAdminRoute()
     const paths: string[] = []
     const ref = useRef<HTMLDivElement|null>(null)
+    
+    useEffect(()=>{
+        openChild(undefined)
+    },[pathList])
+
     pathList.forEach((p) => {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])

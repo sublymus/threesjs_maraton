@@ -38,9 +38,16 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
         const r = {} as ImageViewerMapper;
         for (let i = files.length - 1; i >= 0; i--) {
             const file = files[i];
-            console.log(file.type);
+           
             
-            if(!file.type.startsWith('image/')) continue;
+            if(!file.type.startsWith('image/')) {
+                if(!file.type){
+                    const ext = file.name?.substring(file.name.lastIndexOf('.'), file.name.length).replace('.','');
+                    
+                    if(!['jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'avif', 'apng', 'gif', "jpg", "png", "jpeg", "webp"].includes(ext)) continue
+                }else 
+                    continue
+            };
             const n = `${name}_${localLength + i}`;
             r[n] = { img: URL.createObjectURL(files[i]), index: -(localLength + i), file, isLocal: true, name: n };
         }
@@ -51,7 +58,6 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
             p[_k].index = i;
         });
         setImageMapper(p);
-        console.log(' blob', p);
         if (autosave) onSave?.(p)
         setCanSave(true)
         setLocalLength(localLength + files.length);
@@ -59,12 +65,14 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
     const receiverDropImage = (img: typeof currentDragImage) => {
         if (!img) return;
         if (img.isLocal && img.file) {
+            console.log('from input');
             newFiles([img.file]);
             ListenerCache[img.id](img.name);
             setCanSave(true);
             if (autosave) onSave?.(imageMapper)
         } else {
-            fetch(`${Host}${img.img}`).then(r => r.blob()).then((blob) => {
+            fetch(`${img.img.startsWith('/')?Host:''}${img.img}`).then(r => r.blob()).then((blob) => {
+                console.log('fromm image Viewer', blob);
                 newFiles([blob as File]);
                 ListenerCache[img.id](img.name);
                 setCanSave(true);
@@ -72,6 +80,8 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                 return
             });
         }
+        console.log(imageMapper);
+        
     }
     const dragLeave = (e: any) => {
         e.currentTarget.style.backgroundColor = '';
@@ -130,6 +140,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     const img = currentDragImage;
                     currentDragImage = null;
                     if (e.dataTransfer.files.length > 0) {
+                        console.log('DRAG_AND_DROP from Folder');
                         newFiles(e.dataTransfer.files);
                     } else if (img && Date.now() < img.expireAt && img.id !== id) {
                         receiverDropImage(img);
@@ -219,7 +230,7 @@ export function ImageViewer({ images = [], optionPosition = "bottom", onSave, na
                     }
                 </div>
                 <div className={"option " + optionPosition}>
-                    <input type="file" accept="image/*" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
+                    <input type="file" max={7} accept="image/*" multiple style={{ display: 'none' }} name="img" id={id + 'add'} onChange={(e) => {
                         if (cannotEdit) return
                         if (e.target.files && e.target.files[0]) {
                             newFiles(e.target.files);
@@ -310,7 +321,7 @@ function ImageViewerPage({ imagesMapper, selectedKey }: { imagesMapper: ImageVie
                 <div className="list-img">
                     {
                         Object.keys(imagesMapper).map((k) => (
-                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal ? '' : (imagesMapper[selected].img.startsWith('/') ? Host : '')}${`${imagesMapper[k].img}`})` }} onClick={() => {
+                            <div key={k} className={"min-img " + (selected == k ? 'selected' : '')} style={{ background: `no-repeat center/cover url(${imagesMapper[k].isLocal ? '' : (imagesMapper[k].img.startsWith('/') ? Host : '')}${`${imagesMapper[k].img}`})` }} onClick={() => {
                                 setSelected(k);
                             }}></div>
                         ))

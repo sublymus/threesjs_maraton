@@ -197,7 +197,9 @@
     background: no-repeat center/90% url(/src/res/x.png), #2224;
     transition: 100ms;
 }
-
+.sombre-mode-variable .viewer-images .close {
+    filter: invert();
+}
 .viewer-images .close {
     width: 30px;
     height: 30px;

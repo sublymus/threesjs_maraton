@@ -50,6 +50,7 @@ export const useCatalogueStore = create<AppState>((set) => ({
         /**
          * il ya un seul CatalogueWorld affiche la list de  produits d'un catalogue
          */
+        WorldManager.worldManager && CatalogueWorld.catalogueWorld?.init(WorldManager.worldManager._renderer)
         CatalogueWorld.catalogueWorld?.addListener('chance', (event) => {
             set(() => ({
                 selectedCategory: event.focusedModel?.userData.category,

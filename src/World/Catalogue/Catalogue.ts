@@ -167,9 +167,10 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         }
         window.addEventListener('resize', () => {
             this.updateCamera();
+            console.log(window.innerWidth);
+            
             (this.camera as any).aspect = window.innerWidth / window.innerHeight;
             (this.camera as any).updateProjectionMatrix();
-
         })
         renderer.domElement.tabIndex = 1;
         renderer.domElement.addEventListener('mousemove', mouse)

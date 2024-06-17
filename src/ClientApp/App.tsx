@@ -9,7 +9,7 @@ import { Summary } from "./Components/Summary/Summary";
 import './App.css'
 import { useEffect, useRef } from 'react'
 import { useRegisterStore } from './Layout/PageRegister/RegisterStore'
-import { useAppStore } from './AppStore'
+import { useAppRouter, useAppStore } from './AppStore'
 import { WorldManager } from '../World/WorldManager'
 
 const root = document.getElementById('root')!;
@@ -18,6 +18,12 @@ export function App() {
     const { authenticateUser } = useRegisterStore();
     const { openChild, currentChild, back_color, blur } = useAppStore();
     const ref = useRef<HTMLDivElement | null>(null)
+    const {pathList} = useAppRouter()
+    
+    useEffect(()=>{
+        openChild(undefined)
+    },[pathList])
+
     useEffect(() => {
         authenticateUser().then(() => {
             ref.current?.appendChild(WorldManager.tactil.getView())

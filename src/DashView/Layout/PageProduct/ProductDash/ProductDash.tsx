@@ -29,11 +29,7 @@ export function ProductDash() {
     const [commands, setCommands]  = useState<CommandInterface[]>([])
     const [error, setError] = useState('')
 
-    useEffect(() => {
-        // error && setTimeout(() => {
-        //     setError('');
-        // }, 5000); 
-    }, [error])
+
     
     useEffect(()=>{
         if(json?.product_id){
@@ -50,6 +46,9 @@ export function ProductDash() {
     }, [selectedProduct]);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
+
+    // console.log(selectedProduct);
+    
 
     const [collected] = useState<Record<string, any>>({});
     //TODO coder un composant d'error

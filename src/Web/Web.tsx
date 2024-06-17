@@ -3,12 +3,15 @@ import { PageHome } from "./Layout/PageHome/PageHome";
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
 import { StorePage } from "./Layout/PageStoreList/StorePage";
 import { TopBar } from './Component/TopBar/TopBar'
-import { useWebStore } from './WebStore';
+import { useWebRoute, useWebStore } from './WebStore';
 import { useEffect } from 'react';
 
 export function Web() {
     const { tryToken, blur, currentChild, openChild, back_color } = useWebStore();
-
+    const {pathList} = useWebRoute();
+    useEffect(()=>{
+        openChild(undefined)
+    },[pathList])
     useEffect(() => {
         tryToken();
     }, [])

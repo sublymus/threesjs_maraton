@@ -27,13 +27,15 @@ export function StorePage() {
                             owner_stores({ text: e.currentTarget.value })
                         }} />
                     </div>
-                    <div className="new-btn no-selectable" onClick={() => {
-                        setSelectedStore(undefined)
-                        setAbsPath(['new_store'])
-                    }}>
-                        <div className="icon"></div>
-                        <div className="label">Add New Store</div>
-                    </div>
+                    {
+                        owner && <div className="new-btn no-selectable" onClick={() => {
+                            setSelectedStore(undefined)
+                            setAbsPath(['new_store'])
+                        }}>
+                            <div className="icon"></div>
+                            <div className="label">Add New Store</div>
+                        </div>
+                    }
                 </div>
             </div>
             <div className="stores" ref={bindToParentScroll}>

@@ -86,6 +86,7 @@
 }
 
 .stores-page .store {
+    overflow: hidden;
     min-width: 260px;
     height: 360px;
     display: flex;

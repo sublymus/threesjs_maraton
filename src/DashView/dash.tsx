@@ -66,7 +66,9 @@ export function Dash() {
         //@ts-ignore
         if (PathMap[p]) paths.push(PathMap[p])
     })
-
+    useEffect(()=>{
+        openChild(undefined)
+    },[pathList])
     useEffect(() => {
         authenticateUser();
         window.addEventListener('blur', () => {

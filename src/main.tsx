@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { urlToPath } from './Tools/SRouter';
 import './css.css'
 const root = document.getElementById('root')!;
-
+import "../client";
 
 
 const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store indisponible
