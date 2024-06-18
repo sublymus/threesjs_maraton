@@ -5,21 +5,27 @@ import { getImg } from '../../../Tools/StringFormater';
 import { SearchProduct } from "../SearchProduct/SearchProduct";
 import { useProductStore } from '../Products/ProductStore';
 import { useProfileStore } from '../../Layout/PageProfile/ProfileStore';
+// import { useState } from 'react';
 
 export function TopBar() {
     const { setAbsPath, check } = useAppRouter();
     const { store } = useRegisterStore();
     const { selectProduct } = useProductStore()
     const { setLastPath } = useProfileStore()
-    const { openChild } = useAppStore();
-    console.log('Store', store?.logo, getImg(store?.logo[0] || ''));
+    const { openChild , setOpenNav} = useAppStore();
+    // const [openNav, setOpenNav] = useState();
 
     return check('top_bar') && (
         <div className="top-bar">
             <div className="top-bar-ctn">
-                <div style={{display:'flex', alignItems:'center'}}>
-                    <div className='options' onClick={()=>{
-                       setAbsPath(['profile']) 
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className='options' onClick={() => {
+                        setOpenNav('max')
+                        setAbsPath([check('profile')?'catalogue':'profile'])
+
+                        navigator.permissions.query({
+                            name: 'notifications'
+                        })
                     }}></div>
                     <div className="logo" onClick={() => {
                         setAbsPath(['catalogue'])

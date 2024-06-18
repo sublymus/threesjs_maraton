@@ -13,9 +13,7 @@ export function PageCommand() {
         store&&fetchCommands({})
     },[store])
     return (check('command') && <div className="page-command">
-         <div className="cart-top">
-            Your Commands
-        </div>
+         <div className="cart-top">Commands</div>
         <div className="products">
             {
                 commands?.list.map((p) =>(

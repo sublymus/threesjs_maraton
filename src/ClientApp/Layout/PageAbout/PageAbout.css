@@ -28,10 +28,10 @@
 }
 
 .page-about .name {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Caveat", cursive;
     font-weight: bold;
     font-size: 4em;
-    color: #fff;
+    color: #345;
 }
 
 .page-about .text {

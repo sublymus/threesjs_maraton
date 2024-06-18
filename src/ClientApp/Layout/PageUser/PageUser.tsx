@@ -22,7 +22,7 @@ const isNumber = (s: string, i?: number) => {
 let ctn: number[] = []
 
 export function PageUser() {
-    const { check } = useAppRouter();
+    const { check , current} = useAppRouter();
     const { user } = useRegisterStore();
     const { visites, fetchVisites } = useProductStore();
     const [index, setIndex] = useState(0)
@@ -119,7 +119,7 @@ export function PageUser() {
     
     if (phoneRef.current) {
     }
-    return (check('user') &&
+    return ((check('user')||current('profile')) &&
         <div className="user-page">
            <div className="user-info">
                 <div className="full-name" onClick={() => {

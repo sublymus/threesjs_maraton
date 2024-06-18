@@ -1,4 +1,4 @@
-import { useAppRouter } from '../../AppStore';
+import { useAppRouter, useAppStore } from '../../AppStore';
 import { PageRegister } from '../PageRegister/PageRegister';
 import { PageUser } from '../PageUser/PageUser';
 import './Profile.css';
@@ -10,78 +10,73 @@ import { PageService } from "../Session/PageService";
 import { PageCommand } from "../../Layout/PageCommand/PageCommand";
 import { PageCart } from "../../Layout/PageCart/PageCart";
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
-import { Host } from '../../../Config';
 
 export function Profile() {
-    const { setPath, check } = useAppRouter();
+    const { setAbsPath, check, current } = useAppRouter();
+    const { openNav, setOpenNav } = useAppStore()
     const { openPhoto, photo: bigPhoto, lastPath } = useProfileStore();
     const { user, updateUser, disconnection } = useRegisterStore()
     const updateProfilePhoto = (photos: FileList | null) => {
         if (user && photos) updateUser({ id: user.id, photos })
     }
     return check('profile') && (
-        <div className="page-profile"onClick={() => {
+        <div className={"page-profile " + openNav} onClick={() => {
             bigPhoto && openPhoto('');
-            lastPath == 1 ? setPath('../','product'):setPath('../','catalogue')
+            lastPath == 1 ? setAbsPath(['product']) : setAbsPath(['catalogue'])
         }}>
             <div className="profile-background" ></div>
-            <div className="ctn-profile" onClick={(e)=>{
+            <div className="ctn-profile" onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation()
             }}>
-                {/* <div ref={bubbleCtnRef} className='back-profile-nav'></div> */}
-
-                <div className="show-photo" style={{ display: bigPhoto ? 'block' : 'none' }}>
-                    <div className="back" onClick={() => {
-                        openPhoto('')
-                    }}>
-                        <div className="photo" style={{ backgroundImage: `url('${bigPhoto.startsWith('/') ? Host : ''}${bigPhoto}')` }}></div>
-                    </div>
-                </div>
-                {/* <div className="profile-top">
-                    <div className={'resizer ' + (isMin ? 'min' : '')} onClick={() => {
-                        setIsMin(!isMin);
-                    }}></div>
-                    <div className="page-title">{'Profile'}</div>
-                </div> */}
-                <div className="close" onClick={() => {
-                     bigPhoto && openPhoto('');
-                     lastPath == 1 ? setPath('../','product'):setPath('../','catalogue')
+                <div className="nav-back" onClick={() => {
+                    setOpenNav(openNav == 'max' ? 'min' : 'max')
                 }}></div>
-                <div className='profile-nav'>
+
+                <div className="profile-back" onClick={()=>{
+                    setOpenNav('min')
+                }}></div>
+                <div className="close" onClick={() => {
+                    bigPhoto && openPhoto('');
+                    lastPath == 1 ? setAbsPath(['product']) : setAbsPath(['catalogue'])
+                }}></div>
+                <div className='profile-nav' >
+
                     <ProfilePhoto photo={user?.photos[0]} canEdit={!!user} canOpen onChange={updateProfilePhoto} onOpen={(photo) => openPhoto(photo)} />
                     <div className="info">
                         {user?.name}
                     </div>
                     <div className="img"></div>
                     <ul>
-                        <li className={(check('user') || check('login') || check('create')) && 'active'} onClick={() => {
-                            // setIsMin(true)
-                            setPath('user')
+                        <li className={(current('profile') || check('user') || check('login') || check('create')) && 'active'} onClick={() => {
+                            setOpenNav('min');
+                            setAbsPath(['profile', 'user'])
                         }}><span className='profile'></span> Profile</li>
                         <li className={check('command') && 'active'} onClick={() => {
-                            // setIsMin(true)
-                            setPath('command')
+                            setOpenNav('min');
+                            setAbsPath(['profile', 'command'])
                         }}><span className='command'></span> Command</li>
                         <li className={check('cart') && 'active'} onClick={() => {
-                            // setIsMin(true)
-                            setPath('cart')
+                            setOpenNav('min');
+                            setAbsPath(['profile', 'cart'])
                         }}><span className='cart'></span> Cart</li>
                         <li className={check('service') && 'active'} onClick={() => {
-                            // setIsMin(true)
-                            setPath('service')
+                            setOpenNav('min');
+                            setAbsPath(['profile', 'service'])
                         }}><span className='service'></span> Customer service</li>
                         <li className={check('about') && 'active'} onClick={() => {
-                            // setIsMin(true)
-                            setPath('about')
+                            setOpenNav('min');
+                            setAbsPath(['profile', 'about'])
                         }}><span className='about'></span> About us</li>
                     </ul>
-                    <div className='logout' onClick={() => {
-                        disconnection().then(() => {
-                            // setIsMin(true)
-                            setPath('user')
-                        })
-                    }}><span className='about'></span> Logout</div>
+                    {
+                        user && <div className='logout' onClick={() => {
+                            disconnection().then(() => {
+                                setOpenNav('min');
+                                setAbsPath(['profile', 'user'])
+                            })
+                        }}><span className='about'></span> Logout</div>
+                    }
                 </div>
                 <div className="ctn-pages">
                     {(check('user') && !user) ? <PageRegister login /> : (

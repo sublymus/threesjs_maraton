@@ -82,33 +82,21 @@ interface UnUseAppState<T extends PageType> {
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
-    // history.pushState(self?.store.getState().pathList,self?.store.getState().pathList.join('/')||'')
-    // console.log(history.length);
-
-    // if(hash.includes('cart')){
-    //     // history.go(0)
-    // }
-    // 
-    // console.log('ert',history.state);
-
     if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
-    let h = '';
     let h_json = ''
     let json = undefined
     if (hash.includes('=')) {
         const index = hash.indexOf('=');
-        h = hash.substring(0, index);
+        hash = hash.substring(0, index);
         h_json = hash.substring(index + 1, hash.length);
         try {
             json = h_json && JSON.parse(h_json);
         } catch (error) {
             console.warn("Url to JSON error");
         }
-    } else {
-        h = hash
     }
-    const pathList = ['/', ...h.split('/')] as any;
+    const pathList = ['/', ...hash.split('/')] as any;
     // const l = self.store.getState().exist(pathList);
     // console.log('l',l);
 

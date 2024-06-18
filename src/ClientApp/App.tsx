@@ -18,10 +18,14 @@ export function App() {
     const { authenticateUser } = useRegisterStore();
     const { openChild, currentChild, back_color, blur } = useAppStore();
     const ref = useRef<HTMLDivElement | null>(null)
-    const {pathList} = useAppRouter()
+    const {pathList, check} = useAppRouter()
     
     useEffect(()=>{
-        openChild(undefined)
+        openChild(undefined);
+        const t = document.querySelector('.tactil') as HTMLDivElement;
+        if(t)  {
+             t.style.display = check('profile') ? 'none':''
+        }
     },[pathList])
 
     useEffect(() => {

@@ -9,7 +9,7 @@ import { getImg } from "../../../Tools/StringFormater";
 export function PageCart() {
     const { check, setAbsPath } = useAppRouter();
     const { carts, fetchCarts,confirmCommand } = useCommandStore();
-    const { store } = useRegisterStore()
+    const { store, user } = useRegisterStore()
     useEffect(() => {
         store && fetchCarts({})
     }, [store])
@@ -27,19 +27,21 @@ export function PageCart() {
                 carts?.list?.map((p) => <Card cart={p} key={p.id} />)
             }
         </div>
-        <div className="btm">
-            <div className="resume">
-                <div className="count"><span>{i}</span> {(i || 0) > 1 ? 'Items' : 'Item'}</div>
-                <div className="total">Total : <span>{Math.trunc(total * 100) / 100}</span> ₽</div>
-            </div>
-            <div className="command" onClick={()=>{
-                confirmCommand().then((ok)=>{   
-                    if(ok){
-                        setAbsPath(['profile','command'])
-                    }
-                })
-            }}> COMMAND</div>
+       {
+        user &&  <div className="btm">
+        <div className="resume">
+            <div className="count"><span>{i}</span> {(i || 0) > 1 ? 'Items' : 'Item'}</div>
+            <div className="total">Total : <span>{Math.trunc(total * 100) / 100}</span> ₽</div>
         </div>
+        <div className="command" onClick={()=>{
+            confirmCommand().then((ok)=>{   
+                if(ok){
+                    setAbsPath(['profile','command'])
+                }
+            })
+        }}> COMMAND</div>
+    </div>
+       }
     </div>
     )
 }

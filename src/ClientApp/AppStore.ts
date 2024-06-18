@@ -30,7 +30,7 @@ const Pages = {
             service: {
             },
             // profile_nav: null,
-            // top_bar: null,
+            top_bar: null,
         },
     }
 } 
@@ -40,6 +40,8 @@ interface AppState{
     back_color: string;
     blur:boolean,
     T: string | undefined | null,
+    openNav:'max'|'min',
+    setOpenNav(nav:'max'|'min'):void
     setT(T: string | undefined): void,
     currentChild: JSX.Element | undefined,
     openChild: (child: JSX.Element | undefined, blur?:boolean,back_color?: string) => any,
@@ -51,6 +53,10 @@ export const useAppStore = create<AppState>((set)=>({
     usersVar: undefined,
     back_color: '',
     blur:false,
+    openNav:'max',
+    setOpenNav(nav){
+        set(()=>({openNav:nav}))
+    },
     setT(T) {
         T && localStorage.setItem('theme', T);
         set(() => ({ T }))

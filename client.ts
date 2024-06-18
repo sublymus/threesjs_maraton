@@ -1,4 +1,4 @@
-// import { Host } from "./src/Config";
+import { Host } from "./src/Config";
 
 // VapidKey
 const publicVapidKey = 'BDwYyNLBYIyNOBFX3M27uTAUXLrUxgHVyBJPjxJj3aQR7ghxC_MetHpzgTspdk4e4Iq9E0LCzeAtbCPOcdclxCk';
@@ -25,7 +25,7 @@ async function send()
     });
     console.log("Push Registered...");
     // Send Push Notification
-    await fetch('/subscribe', {
+    await fetch(`${Host}/subscribe`, {
         method: 'POST',
         body: JSON.stringify(subscription),
         headers: {

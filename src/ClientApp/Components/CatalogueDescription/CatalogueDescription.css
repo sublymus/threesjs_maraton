@@ -20,26 +20,21 @@
     
 }
 .see-all {
-    background: rgba(51, 68, 85, 0.542);
+    background: rgba(255, 255, 255, 0.542);
     color: #345;
-    font-size:large;
-    border: 1px #345 solid;
+    /* font-size:large; */
+    /* border: 1px rgb(23, 58, 92) solid; */
+    box-shadow: 0px 0px 10px #3455;
     border-radius: 20px;
     padding: 20px 30px;
     transition: 200ms;
+    cursor: pointer;
 }
 
 .description{
     margin: 0 30px;
 }
 .see-all:hover {
-    cursor: pointer;
-    background: rgba(91, 106, 122, 0.542);
-    color: #345;
-    font-size:large;
-    border: 1px #345 solid;
-    border-radius: 20px;
-    padding: 20px 30px;
     transition: 200ms;
 }
 

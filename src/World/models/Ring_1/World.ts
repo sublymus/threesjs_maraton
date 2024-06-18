@@ -4,7 +4,7 @@ import Addons from 'three/examples/jsm/Addons.js'
 class World {
     scene;
     camera;
-    controls = null;
+    controls:Addons.OrbitControls;
     localLoader;
 
     dependencies = {
@@ -12,13 +12,15 @@ class World {
             THREE: Three,
             WorldManager: null,
             ADDON: Addons,
-        }
+        },
+        path: {}
     }
     WorldManager;
     constructor() {
         this.localLoader = new LocalLoader();
     }
     getDependencies() {
+
         this.dependencies.path = {
             ...this.dependencies.path,
             ...this.localLoader.getDependencies().path
@@ -65,7 +67,7 @@ class World {
         this.controls.enabled = true;
         this.controls.maxDistance = 20;
         this.controls.minDistance = 7;
-        // this.controls.
+        this.controls.enablePan = false
     }
 
     getScene() {

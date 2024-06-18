@@ -10,7 +10,6 @@ const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store in
   const first = window.location.pathname.split('/')[1]?.toLocaleLowerCase()
   const scond = window.location.pathname.split('/')[2]?.toLocaleLowerCase()
   let view;
-console.log({first, scond});
 
   if (first && reservedStoreName.includes(first)) {
     view = (await import('./Web/WebView')).WebView;
@@ -29,6 +28,5 @@ console.log({first, scond});
   }  else {
     view = (await import('./Web/WebView')).WebView;
   }
-
   ReactDOM.createRoot(root).render(view)
 })()
