@@ -15,8 +15,11 @@ const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store in
     view = (await import('./Web/WebView')).WebView;
   } else if (first == 'auth') {
     const userJson = urlToPath().json;
+    console.log({userJson});
+    
     localStorage.setItem('user', JSON.stringify(userJson));
-    return window.close()
+    document.body.append(JSON.stringify(userJson))
+    // return window.close()
   } if (scond == 'dash') {
     localStorage.setItem('store_name', first)
     view = (await import('./DashView/dash_view')).DashView;

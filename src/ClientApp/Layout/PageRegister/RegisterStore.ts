@@ -77,8 +77,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             const user = userJson && JSON.parse(userJson);
             if (user) {
                 console.log('getAccess', { token: user.token });
-
-                // set(() => ({ user: user }))
+                 set(() => ({ user: user }))
                 clearInterval(id);
                 useRegisterStore.getState().authenticateUser()
             }

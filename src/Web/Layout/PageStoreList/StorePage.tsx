@@ -14,7 +14,7 @@ export function StorePage() {
     
     useEffect(() => {
         owner && check('store_list') && owner_stores({text: ''})
-    }, [pathList])
+    }, [pathList,owner])
     
     return current('store_list') && (
         <div className='stores-page'>

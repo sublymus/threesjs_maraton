@@ -84,19 +84,22 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
     let hash = window.location.hash;
     if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
     hash = decodeURIComponent(hash.slice(1, hash.length));
+    let h = '';
     let h_json = ''
     let json = undefined
     if (hash.includes('=')) {
         const index = hash.indexOf('=');
-        hash = hash.substring(0, index);
+        h = hash.substring(0, index);
         h_json = hash.substring(index + 1, hash.length);
         try {
             json = h_json && JSON.parse(h_json);
         } catch (error) {
             console.warn("Url to JSON error");
         }
+    } else {
+        h = hash
     }
-    const pathList = ['/', ...hash.split('/')] as any;
+    const pathList = ['/', ...h.split('/')] as any;
     // const l = self.store.getState().exist(pathList);
     // console.log('l',l);
 
