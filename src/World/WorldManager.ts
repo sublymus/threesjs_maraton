@@ -148,6 +148,7 @@ export class WorldManager {
     }
 
     setWorld(world: AbstractWorld) {
+        this.currentWorl?.close()
         world.open();
         this.currentWorl = world;
         world.getScene().backgroundBlurriness = params.blurriness;

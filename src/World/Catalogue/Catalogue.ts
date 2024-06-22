@@ -4,6 +4,7 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { Feature } from "../../DataBase";
 import { Emitter } from "../../Tools/Emitter";
+import VirtualScroll from "virtual-scroll";
 
 const BOX_SIZE = 6.4;
 
@@ -20,12 +21,13 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
     public static Info = {
         product: null,
     }
-    
+
     public static catalogueWorld: CatalogueWorld | null = null;
     scene: THREE.Scene;
     camera: THREE.Camera;
     collected: { [key: string]: any } = {};
     controls: OrbitControls | null = null;
+    isOpen = false;
     mouse = {
         x: 0,
         y: 0
@@ -45,20 +47,25 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
             chance: []
         })
         CatalogueWorld.catalogueWorld = this;
-        // WorldManager.tactil.addListener('step', (step) => {
-        //     this.indexBeforLastRemove = -1
-        //     if (step.x != 0) {
-        //         clearTimeout(this.outId)
-        //         let s = step.x / 60;
-        //         const l = 0.2;
-        //         s = s > l ? l : (s < -l ? -l : s)
-        //         this.setIndex(this.index + s);
-        //         this.outId = setTimeout(() => {
-        //             this.setIndex(Math.round(this.index));
-        //         }, 500);
-        //     }
-        // })
-        // WorldManager.tactil.visibility(true);
+        const scroller = new VirtualScroll({
+            el: WorldManager.tactil.getView()
+        })
+        scroller.on(event => {
+            if (this.isOpen) {
+                console.log(event.deltaX);
+                this.indexBeforLastRemove = -1
+                if (event.deltaX != 0) {
+                    clearTimeout(this.outId)
+                    let s = event.deltaX / (window.innerWidth / 2);
+                    // const l = 0.2;
+                    // s = s > l ? l : (s < -l ? -l : s)
+                    this.setIndex(this.index - s);
+                    this.outId = setTimeout(() => {
+                        this.setIndex(Math.round(this.index));
+                    }, 500);
+                }
+            }
+        })
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.01, 300)
         this.camera.lookAt(0, 0, 0);
@@ -66,7 +73,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         this.scene = new THREE.Scene();
         this.scene.add(this.groupe.model);
         const path = '/src/World/images/royal_esplanade_1k.hdr';
-        
+
         const setTexture = (texture: THREE.DataTexture) => {
             texture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.background = texture;
@@ -75,7 +82,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
 
         WorldManager.loadCache(new RGBELoader(), path, setTexture)
         //@ts-ignore
-        this.localLoader =  null;
+        this.localLoader = null;
     }
     getDependencies(): Dependencies {
         throw new Error("Method not implemented.");
@@ -90,7 +97,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         throw new Error("Method not implemented.");
     }
     addModel(model: THREE.Object3D) {
-       
+
         this.groupe.model.add(model);
         this.disposeChildren();
     }
@@ -107,7 +114,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
             this.groupe.model.remove(c)
             c.removeFromParent()
         });
-        this.groupe.model.children =[] //TODO 
+        this.groupe.model.children = [] //TODO 
     }
     getScene(): THREE.Scene {
         return this.scene;
@@ -128,21 +135,24 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         })
     }
     open(): void {
-        // WorldManager.tactil.visibility(true);
+        this.isOpen = true;
+        (WorldManager.tactil.getView()).style.touchAction = ""
     }
-    close(): void {}
+    close(): void {
+        this.isOpen = false;
+    }
 
     setIndex(i: number) {
-        if(this.indexBeforLastRemove>=0){
-            i  = this.indexBeforLastRemove
+        if (this.indexBeforLastRemove >= 0) {
+            i = this.indexBeforLastRemove
         }
         this.index = i < 0 ? 0 : (i >= this.groupe.model.children.length - 1 ? this.groupe.model.children.length - 1 : i);
-        
+
         this.groupe.position.x = -this.getPositionX();
         if (this.index % 1 === 0) {
-            this.register.chance.forEach((cb)=>{
+            this.register.chance.forEach((cb) => {
                 cb({
-                    focusedModel:this.groupe.model.children[this.index]
+                    focusedModel: this.groupe.model.children[this.index]
                 })
             })
 
@@ -168,7 +178,7 @@ export class CatalogueWorld extends Emitter<CatalogueEvent, typeof events> imple
         window.addEventListener('resize', () => {
             this.updateCamera();
             console.log(window.innerWidth);
-            
+
             (this.camera as any).aspect = window.innerWidth / window.innerHeight;
             (this.camera as any).updateProjectionMatrix();
         })

@@ -81,10 +81,12 @@ class World {
 
     open() {
         if (this.controls) this.controls.enabled = true;
-    //    console.log('this.dependencies.obj.WorldManager',this.WorldManager);
+        console.log('Open',this.scene.id);
+        (this.WorldManager.tactil.getView()).style.touchAction = "none"
         this.WorldManager.tactil.visibility(false);
     }
     close() {
+        console.log('Close',this.scene.id);
         if (this.controls) this.controls.enabled = false;
     }
 }

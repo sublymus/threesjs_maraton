@@ -5,7 +5,7 @@ const root = document.getElementById('root')!;
 import "../client";
 
 
-const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store indisponible
+const reservedStoreName = ['web', 'dash', 'sublymus', 'admin', 'noga'];//nom de store indisponible
 (async () => {
   const first = window.location.pathname.split('/')[1]?.toLocaleLowerCase()
   const scond = window.location.pathname.split('/')[2]?.toLocaleLowerCase()
@@ -15,11 +15,8 @@ const reservedStoreName = ['web', 'dash', 'sublymus', 'admin'];//nom de store in
     view = (await import('./Web/WebView')).WebView;
   } else if (first == 'auth') {
     const userJson = urlToPath().json;
-    console.log({userJson});
-    
     localStorage.setItem('user', JSON.stringify(userJson));
-    document.body.append(JSON.stringify(userJson))
-    // return window.close()
+    return window.close()
   } if (scond == 'dash') {
     localStorage.setItem('store_name', first)
     view = (await import('./DashView/dash_view')).DashView;

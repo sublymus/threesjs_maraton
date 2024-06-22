@@ -10,6 +10,7 @@
     box-shadow: 0px 0px 10px  #3455 ;
     position: relative;
 }
+
 .session-nav .close {
     position: absolute;
     top: 0px;
@@ -21,10 +22,10 @@
     transition: 200ms;
     cursor: pointer;
 }
+
 .session-nav .close:hover {
     background: no-repeat center/70% url(/src/res/x.png), rgba(187, 187, 187, 0.658);
 }
-
 
 .session-nav .title {
     width: 100%;
@@ -37,7 +38,7 @@
 }
 
 .session-nav .title .label {
-    font-size: 32px;
+    font-size: 32px; 
     font-weight: bold;
 } 
 

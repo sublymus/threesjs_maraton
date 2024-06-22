@@ -43,13 +43,6 @@ export function App() {
     }, []);
     useEffect(() => {
         if (ref.current) {
-            // const scroller = new VirtualScroll({
-
-            // })
-            // scroller.on(event => {
-            //     // wrapper.style.transform = `translateY(${event.y}px)`
-            //     console.log(event);
-            // })
             ref.current.appendChild(WorldManager.tactil.getView())
         }
     }, [ref])

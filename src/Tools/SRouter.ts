@@ -100,9 +100,6 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
         h = hash
     }
     const pathList = ['/', ...h.split('/')] as any;
-    // const l = self.store.getState().exist(pathList);
-    // console.log('l',l);
-
     return { pathList, json };
 }
 

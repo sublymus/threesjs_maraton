@@ -19,23 +19,22 @@
     border-radius: 20px;
     
 }
+.see-all:hover{
+    background:  linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+    transition: 200ms;
+}
 .see-all {
-    background: rgba(255, 255, 255, 0.542);
+    background: linear-gradient(rgba(255, 255, 255, 0.542), rgb(255, 255, 255));
     color: #345;
-    /* font-size:large; */
-    /* border: 1px rgb(23, 58, 92) solid; */
     box-shadow: 0px 0px 10px #3455;
     border-radius: 20px;
-    padding: 20px 30px;
+    padding: 10px 30px;
     transition: 200ms;
     cursor: pointer;
 }
 
 .description{
     margin: 0 30px;
-}
-.see-all:hover {
-    transition: 200ms;
 }
 
 @media (1000px <=width) {

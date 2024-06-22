@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build:{
-    // outDir:'../sublymus_server/public',
+    outDir:'../sublymus_server/public',
     emptyOutDir:false,
   }
 })
+ 
