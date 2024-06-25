@@ -1,60 +1,110 @@
 import { useEffect, useState } from 'react'
 import './TopBar.css'
 import { useWebRoute, useWebStore } from '../../WebStore';
-import { Host } from '../../../Config';
+import { Host, Local } from '../../../Config';
+import { useWindowSize } from '../../../Hooks';
+import { getImg } from '../../../Tools/StringFormater';
+
+const navs = [{
+    u: 'home',
+    n: 'Home',
+    i: '/src/res/application.png'
+}, {
+    u: 'store_list',
+    n: 'Stores',
+    i: '/src/res/store.png'
+}, {
+    u: 'tutorial',
+    n: 'Tutorial',
+    i: '/src/res/catalog.png'
+}, {
+    u: 'pricing',
+    n: 'Pricing',
+    i: '/src/res/shopping-cart.png'
+}, {
+    u: 'contact',
+    n: 'Contact us',
+    i: '/src/res/services.png'
+}, {
+    u: 'updates',
+    n: 'Updates',
+    i: '/src/res/jigsaw.png'
+}, {
+    u: 'forum',
+    n: 'Forum',
+    i: '/src/res/multiple-users-silhouette.png'
+}]
 
 export function TopBar() {
 
     const { setAbsPath, pathList } = useWebRoute();
-    const [active, setActive] = useState(pathList[1] || 'home');
-    const [disco, openDisco] = useState(false);
-    const { owner, createOwner, disconnection, openChild } = useWebStore();
+    const [active, setActive] = useState(pathList[1] as string || 'home');
+    const [liteMode, setLiteMode] = useState(false);
+    const [openMoreNavs, setOpenMoreNavs ] = useState(false);
+    const { owner, createOwner } = useWebStore();
+    const size = useWindowSize();
     const update = (active: any) => {
         setAbsPath([active])
         setActive(active)
     }
     useEffect(() => {
-        setActive(pathList[1] || 'home')
+        setActive((pathList[1]) || 'home')
     }, [pathList])
+    useEffect(() => {
+        window.addEventListener('click',()=>{
+            const c = document.querySelector('.top-bar .more-navs ul')
+            if(c?.className == '') setOpenMoreNavs(false)   
+        })
+    }, [])
 
     return (
         <div className="top-bar">
             <div className="left">
                 <div className="options" onClick={() => {
-                    openChild(<ul className='vert-nav'>
-                        <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME<span></span></li>
-                        <li className={(active == 'store_list' || active == 'edit_store' || active == 'new_store') ? 'active' : ''} onClick={() => update('store_list')}>STORES <span></span></li>
-                        <li className={active == 'about' ? 'active' : ''} onClick={() => update('about')}>ABOUT US <span></span></li>
-                        <li className={active == 'contact' ? 'active' : ''} onClick={() => update('contact')}>CONTACT US <span></span></li>
-                    </ul>, true, '#1129')
+
                 }}>
                 </div>
-                <div className="logo-ctn" onClick={() => {
+                <a href={`${Local}/web#home`} className="logo-ctn" onClick={() => {
                     update('home');
                 }}>
-                </div>
+                    <div className="icon"></div>
+                </a>
             </div>
             <ul className='top-bar-center'>
-                <li className={active == 'home' ? 'active' : ''} onClick={() => update('home')}>HOME <span></span></li>
-                <li className={(active == 'store_list' || active == 'edit_store' || active == 'new_store') ? 'active' : ''} onClick={() => update('store_list')}>STORES <span></span></li>
-                <li className={active == 'about' ? 'active' : ''} onClick={() => update('about')}>ABOUT US <span></span></li>
-                <li className={active == 'contact' ? 'active' : ''} onClick={() => update('contact')}>CONTACT US <span></span></li>
+                {
+                    navs.map((d, i) => i * 150 < size.width - 500 ? (
+                        <li className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '80%') }}></span>{d.n}</li>
+                    ) : <></>)
+                }
             </ul>
+            <div className='more-navs' onClick={(e)=>{
+                 e.preventDefault();
+                 e.stopPropagation();
+            }}>
+                <div className="ctn-icon" onClick={()=>setOpenMoreNavs(!openMoreNavs)}>
+                    <div className="icon"></div>
+                </div>
+                <ul className={openMoreNavs ?'':'close'}>
+                    {
+                        navs.map((d, i) => i * 150 >= size.width - 500 ? (
+                            <li className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '80%') }}></span>{d.n}</li>
+                        ) : <></>)
+                    }
+                    <li className={active == 'mode-lite' ? 'active' : ''} onClick={e => {
+                        setLiteMode(!liteMode)
+                    }}><span style={{ background: getImg('/src/res/mark.png', '70%') }} ></span>{liteMode ? 'Lite mode off' : 'Lite mode on'}</li>
+                </ul>
+            </div>
             {owner ? (
                 <div className="profile-ctn" onClick={() => {
-                    openDisco(!disco);
+                    // openDisco(!disco);
                 }}>
-                    <div className="user-name">
-                        {owner.name}
-                    </div>
+
                     <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
-                        {disco && <div className="disco" onClick={() => {
-                            disconnection();
-                            update('home')
-                        }}> Disconnection</div>}
                     </div>
                 </div>
             ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
         </div>
     )
 }
+document.querySelector

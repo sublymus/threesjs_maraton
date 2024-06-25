@@ -25,8 +25,8 @@ body{
     height: 100%;
     z-index: -1;
     height: 100%;
-    background: url(/src/res/img/noise.png);
-    opacity: 0.4;
+    /* background: url(/src/res/img/noise.png); */
+    /* opacity: 0.4; */
 }
 .web .page-ctn{
     width: 95%;

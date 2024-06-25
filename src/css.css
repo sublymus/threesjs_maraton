@@ -77,3 +77,75 @@
     src: url(/src/res/font/Roboto/Roboto-BlackItalic.ttf);
   }
   
+  * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-optical-sizing: auto;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family:Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+a:active, a:hover {
+  outline-width: 0;
+}
+
+#world {
+  position: absolute;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+/*    scrollbar **/
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background: #b6b6b630;
+  transition: 200ms;
+}
+
+*::-webkit-scrollbar-track {
+  background: #b6b6b630;
+  border-radius: 20px;
+  transition: 200ms;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #b6b6b631;
+  border-radius: 20px;
+  transition: 200ms;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #15132548;
+  transition: 200ms;
+}
+
+.no-selectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
