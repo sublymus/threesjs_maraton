@@ -4,15 +4,18 @@ body{
     height: 100vh;
 }
 .web {
+    padding-top: 80px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 .web .web-ctn{
     width: 100%;
-    height:100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,19 +28,18 @@ body{
     height: 100%;
     z-index: -1;
     height: 100%;
+    background: linear-gradient(rgb(31, 31, 71),rgb(31, 31, 71) );
     /* background: url(/src/res/img/noise.png); */
     /* opacity: 0.4; */
 }
+
 .web .page-ctn{
     width: 95%;
     max-width: 2000px;
-    height:  calc(100% - 70px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-
 
 .web .child-viewer{
     z-index:9999;
@@ -54,11 +56,48 @@ body{
     height: 100%;
 }
 
+.search .icon{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/70% url(/src/res/search.png);
+    filter: invert();
+ }
+ .search input {
+    all: unset;
+    height: 40px;
+    padding-left: 42px;
+    background: linear-gradient(rgba(99, 106, 150, 0.4) 0%, rgba(182, 186, 214, 0.25) 100%);
+    border: none;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    box-sizing: border-box;
+    /* padding: 10px 42px; */
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: rgb(255, 255, 255);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+ }
+
+ .search input:focus{
+    outline: none;
+    padding-left: 42px;
+    box-shadow: rgba(47, 184, 255, 0.3) 0px 10px 40px, rgb(47, 184, 255) 0px 0px 0px 1px inset;
+    background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.25) 100%);
+ }
+ .search {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+   
+}
+
+
 @media (width < 750px) {
-    /*    scrollbar **/
-    *::-webkit-scrollbar {
-        display: none;
-    }
+    
 }
 
 @media (width < 650px) {

@@ -1,12 +1,19 @@
 .top-bar {
-    width: 95%;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    position: absolute;
+}
+.top-bar-ctn {
+    width: 100%;
+    padding: 0 20px ;
     max-width: 2000px;
-    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 80px;
     min-height: 50px;
+    backdrop-filter: blur(40px) brightness(80%) saturate(150%);
 }
 
 .top-bar .left {
@@ -49,30 +56,32 @@
     align-items: center;
     cursor: pointer;
     /* font-weight: bold; */
+    filter: invert(0%);
     color: var(--text-color-annex);
     border-radius: 10px;
     border: 1px solid #fff0;
     transition: 200ms;
 }
 
-.top-bar li.active span{
-    opacity: 0.7;
+.top-bar li.active span,
+.top-bar li:hover span{
+    opacity: 1;
 }
 .top-bar li span {
     display: inline-block;
     width: 30px;
-    height: 30px;
     filter: invert();
-    opacity: 0.3;
+    height: 30px;
+    opacity: 0.5;
     margin-right: 10px;
     transition: 200ms;
 }
 
-.more-navs .ctn-icon:hover{
+.top-bar .ctn-icon:hover{
     border: 1px solid #fff5;
     background: #fff1;
 }
-.more-navs .ctn-icon{
+.top-bar .ctn-icon{
     border: 1px solid #fff0;
     border-radius: 10px;
     display: flex;
@@ -80,16 +89,14 @@
     width: 50px;
 }
 
-.more-navs .icon{
+.top-bar .ctn-icon .icon{
     width: 30px;
     height: 30px;
     filter: invert();
-    opacity: 0.3;
+    opacity: 0.7;
     background: no-repeat center/100% url('/src/res/ellipsis.png');
 }
 .more-navs{
-    width: 40px;
-    height: 40px;
     position: relative;
 }
 .more-navs ul li {
@@ -137,7 +144,7 @@
 
 @media (width < 550px) {
     .more-navs ul{
-        right: -80px;
+        right: 0px;
     }
 }
 
