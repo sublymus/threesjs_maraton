@@ -3,26 +3,24 @@
   margin: 0;
   box-sizing: border-box;
   font-optical-sizing: auto;
-  font-style: normal;
-  
+  font-style: normal; 
 }
-
 #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 h1 {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 1.8em;
 }
-
 body, html{
   overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 body {
-  font-size: rem;
+  font-size: 1rem;
   width: 100vw;
   height: 100vh;
   color: #fff;

@@ -88,12 +88,7 @@ export function TopBar() {
                     <div className="icon"></div>
                 </div>
                 {owner ? (
-                    <div className="profile-ctn" onClick={() => {
-                        // openDisco(!disco);
-                    }}>
-
-                        <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
-                        </div>
+                    <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
                     </div>
                 ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
             </div>
@@ -103,7 +98,7 @@ export function TopBar() {
             }}>
                 <ul className={openMoreNavs ? '' : 'close'}>
                     {
-                        navs.map((d, i) => i * 150 >= size.width - 500 ? (
+                        navs.map((d, i) => i * 200 >= size.width - 400 ? (
                             <li className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '80%') }}></span>{d.n}</li>
                         ) : <></>)
                     }

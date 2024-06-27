@@ -1,7 +1,10 @@
 import "./PageHome.css";
-import { useWebRoute, useWebStore } from '../../WebStore'
+import { useWebRoute } from '../../WebStore'
 import { getImg } from "../../../Tools/StringFormater";
 import { CardFlyer } from "../../Component/CardFlyer/CardFlyer";
+import { useEffect, useState } from "react";
+import { SolarySystem } from "./Solary_system";
+import { ClientChat } from "./ClientChat";
 const subjects = [{
     u: 'products',
     i: '/src/res/add-product.png'
@@ -18,15 +21,30 @@ const subjects = [{
     u: 'statistics',
     i: '/src/res/stats.png'
 },]
-
 // `Do you want to offer your customers an immersive and modern online shopping experience? Transform your store into a virtual storefront with interactive 3D product presentations! Allow your customers to discover and explore every detail of your products as if they were in-store. Contact us today to learn more about creating your 3D virtual store and providing your customers with a unique, cutting-edge experience`
 // .split(' ').map((m,i)=>(
 //     <span key={i}>{m+' '}</span>
 // ))
+let i = 0;
 export function PageHome() {
 
-    const { check, current, setAbsPath } = useWebRoute();
-    const { owner } = useWebStore();
+    const [count, setCount] = useState(1);
+    const [id, setId] = useState<number | undefined>();
+    useEffect(() => {
+        if (!id) {
+            setId(
+                setInterval(() => {
+                    setCount((i++) % 4 +1)
+                }, 3000)
+            )
+            return ()=>{
+                clearInterval(id)
+            }
+        }
+        
+    }, [id]);
+
+    const { check } = useWebRoute();
     return check('home') && (
         <div className="page-home">
             <div className="page-text">
@@ -60,7 +78,7 @@ export function PageHome() {
                     },]}
                     text="make your products accessible online, for your customers."
                     title="Add new Products"
-                    link="products"
+                // link="products"
                 />
                 <div className="cadre">
 
@@ -79,7 +97,7 @@ export function PageHome() {
                     },]}
                     text="view orders, track and adjust order status"
                     title="Manage customer orders"
-                    link="products"
+                // link="products"
                 />
                 <div className="cadre">
 
@@ -95,13 +113,52 @@ export function PageHome() {
                     }, {
                         icon: '/src/res/customer.png',
                         text: 'client, owner, collaborator, moderator'
-                    },]}
+                    }]}
                     text="follow your customers, add chat collaborators with everyone, organize your team"
                     title="Store user types"
-                    link="products"
+                // link="products"
                 />
                 <div className="cadre">
-{/* chat with client text in the session and with your collaborators in the discussion or in a group */}
+                    <div className="p-access">
+                        <div className="ctn-threejs"></div>
+                        <div className="infos">
+                        <div className="title">accessibility</div>
+                            <div className={"info " + (count == 1 ? 'open' : '')}>
+                                <div className="count">1</div>
+                                <div className="text">
+                                    <h3>compatibility with all stores</h3>
+                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                </div>
+                            </div>
+                            <div className={"info " + (count == 2 ? 'open' : '')}>
+                                <div className="count">2</div>
+                                <div className="text">
+                                    <h3>compatibility with all stores</h3>
+                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                </div>
+                            </div>
+                            <div className={"info " + (count == 3 ? 'open' : '')}>
+                                <div className="count">3</div>
+                                <div className="text">
+                                    <h3>compatibility with all stores</h3>
+                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                </div>
+                            </div>
+                            <div className={"info " + (count == 4 ? 'open' : '')}>
+                                <div className="count">4</div>
+                                <div className="text">
+                                    <h3>compatibility with all stores</h3>
+                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="access-world"> 
+                        <SolarySystem/>
+                        </div>
+                    </div>
+                    <div className="p-users">
+                        <ClientChat/>
+                    </div>
                 </div>
             </div>
             <div className="prettier">
@@ -117,7 +174,7 @@ export function PageHome() {
                     },]}
                     text="the platform has several interfaces to best meet your needs"
                     title="Change your store interface"
-                    link="products"
+                // link="products"
                 />
                 <div className="cadre">
 
@@ -136,7 +193,7 @@ export function PageHome() {
                     },]}
                     text="increase your sales using statistical data from your store"
                     title="Statistical table"
-                    link="products"
+                // link="products"
                 />
                 <div className="cadre">
 
@@ -145,3 +202,4 @@ export function PageHome() {
         </div>
     )
 }
+// {/* chat with client text in the session and with your collaborators in the discussion or in a group */}

@@ -1,0 +1,169 @@
+.solary-system {
+    padding-bottom: 70%;
+}
+
+.solary-system .ctn {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+.solary-system .ctn div[class^='circle'] {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    stroke-dasharray: 5 10;
+    border: 2px dashed #fff6;
+}
+
+.solary-system .ctn div.circle1 {
+    scale: 0.5;
+    animation: turn-left 100s infinite;
+}
+
+.solary-system .ctn div.circle2 {
+    scale: 0.7;
+    animation: turn-right 450s infinite;
+}
+
+.solary-system .ctn div.circle3 {
+    scale: 0.9;
+    animation: turn-left 450s infinite;
+}
+
+.solary-system .ctn div.circle4 {
+    scale: 1.15;
+    animation: turn-right 450s infinite;
+}
+
+.solary-system .ctn div.circle5 {
+    scale: 1.4;
+    animation: turn-left 450s infinite;
+}
+
+.solary-system .ctn div.circle6 {
+    scale: 1.65;
+    animation: turn-right 450s infinite;
+}
+
+.solary-system .ctn div.circle7 {
+    scale: 2;
+    animation: turn-left 420s infinite;
+}
+
+@keyframes turn-right {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes turn-left {
+    0% {
+        transform: rotateZ(360deg);
+    }
+    25% {
+        transform: rotateZ(270deg);
+    }
+    50% {
+        transform: rotateZ(180deg);
+    }
+    70% {
+        transform: rotateZ(90deg);
+    }
+
+    100% {
+        transform: rotateZ(0deg);
+    }
+}
+
+.solary-system .ctn div[class^='planet'],
+.solary-system .ctn .sun {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: calc(50% - 25px);
+    right: -25px;
+    transition: none;
+}
+
+.solary-system .sun {
+    right: none;
+    left: calc(50% - 25px);
+    animation: turn-left-planet 10s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/sun-star-illustration-by-Vexels.png);
+}
+
+
+.solary-system .ctn div.planet1 {
+    transform-origin: -25px 25px;
+    animation: turn-left-planet 30s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/mercury-planet-illustration-by-Vexels.png);
+    right: 25px;
+}
+
+.solary-system .ctn div.planet2 {
+    transform-origin: -45px 25px;
+    animation: turn-right-planet 60s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/earth-planet-illustration-earth-by-Vexels.png);
+    right: 5px;
+}
+
+.solary-system .ctn div.planet3 {
+    transform-origin: -65px 25px;
+    animation: turn-left-planet 65s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/mars-planet-illustration-by-Vexels.png);
+    right: -15px;
+}
+
+.solary-system .ctn div.planet4 {
+    transform-origin: -90px 25px;
+    animation: turn-right-planet 70s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/venus-planet-illustration-by-Vexels.png);
+    right: -40px;
+}
+
+.solary-system .ctn div.planet5 {
+    transform-origin: -115px 25px;
+    animation: turn-left-planet 75s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/saturn-planet-illustration-by-Vexels.png);
+    right: -65px;
+}
+
+.solary-system .ctn div.planet6 {
+    transform-origin: -140px 25px;
+    animation: turn-right-planet 80s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/jupiter-planet-illustration-by-Vexels.png);
+    right: -90px;
+}
+
+.solary-system .ctn div.planet7 {
+    transform-origin: -175px 25px;
+    animation: turn-left-planet 90s infinite;
+    background: no-repeat center/cover url(/src/res/iloveimg-resized/neptune-planet-illustration-by-Vexels.png);
+    right: -125px;
+}
+
+@keyframes turn-right-planet {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes turn-left-planet {
+    0% {
+        transform: rotateZ(360deg);
+    }
+
+    100% {
+        transform: rotateZ(0deg);
+    }
+}

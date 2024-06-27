@@ -1,7 +1,8 @@
 body{
-    background: linear-gradient(40deg ,#111,#112);
+    /* background: linear-gradient(40deg ,#111,#112); */
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 .web {
     padding-top: 80px;
@@ -24,8 +25,8 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100;
     z-index: -1;
     height: 100%;
     background: linear-gradient(rgb(31, 31, 71),rgb(31, 31, 71) );
@@ -44,8 +45,8 @@ body{
 .web .child-viewer{
     z-index:9999;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 .web.sombre-mode-variable .child-viewer-ctn{
     background: var(--backgroung-white);
@@ -93,11 +94,6 @@ body{
     height: 100%;
     width: 100%;
    
-}
-
-
-@media (width < 750px) {
-    
 }
 
 @media (width < 650px) {

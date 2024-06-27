@@ -5,8 +5,6 @@ export const bindToParentScroll = (ref:HTMLDivElement|null)=>{
         const set = ref.scrollTop - Number(ref.dataset.lastScrollTop);
         ref.dataset.lastScrollTop = `${ref.scrollTop}`; 
         ref.parentElement!.scrollTop +=set*2; 
-        
-        
     })
 }
 
@@ -34,7 +32,6 @@ export const bindTopToParentScroll = (height:number, parent:string)=>{
             ref.dataset.lastScrollTop = parentElement.scrollTop+'';
             // const y = ref.getBoundingClientRect().y;
             const s  = step + y > height ? height :step + y <0 ?0 : step + y ;
-            console.log(y, step , s);
             y = s
             ref.style.top = `${-s}px` ; 
             

@@ -1,4 +1,5 @@
 import './Web.css';
+import './index.css'
 import { PageHome } from "./Layout/PageHome/PageHome";
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
 import { StorePage } from "./Layout/PageStoreList/StorePage";
@@ -16,7 +17,6 @@ export function Web() {
         tryToken();
     }, [])
 
- 
     return (
         <div className="web">
             <div className="web-ctn" style={{filter :blur ? `blur(10px)`:''}}>

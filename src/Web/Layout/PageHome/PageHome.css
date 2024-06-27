@@ -20,7 +20,7 @@
 .page-home .page-text .stores-count {
     font-style: normal;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 1em;
     line-height: 18px;
     text-transform: uppercase;
     color: #fff;
@@ -30,7 +30,7 @@
 .page-home .page-text .title {
     font-style: normal;
     font-weight: bold;
-    font-size: 40px;
+    font-size: 2.2em;
     margin: 0px;
 }
 
@@ -49,11 +49,12 @@
     transition: 500ms;
 }
 
-.page-home .page-text .title .c-3d:hover{
+.page-home .page-text .title .c-3d:hover {
     animation: turnaround 3s infinite;
     animation-delay: 0ms;
     transition: 500ms;
 }
+
 /* skewY(8deg) */
 @keyframes turnaround {
     0% {
@@ -68,7 +69,6 @@
 .page-home .page-text .sub-title {
     font-style: normal;
     font-weight: normal;
-    font-size: 17px;
     line-height: 130%;
     margin: 0px;
 }
@@ -86,16 +86,19 @@
     display: flex;
 }
 
-.page-home .subjects a:hover{
+.page-home .subjects a:hover {
     scale: 1.1;
     transition: 200ms;
 }
+
 .page-home .subjects a {
     display: inline-block;
     width: 45px;
     height: 45px;
     margin: 5px;
-    transition: 200ms
+    transition: 200ms;
+    box-shadow: 0px 10px 15px #0005, 0px 0px 5px #fff8;
+    border-radius: 50px;
 }
 
 .page-home .page-text .search {
@@ -120,9 +123,142 @@
 
 .page-home .prettier .cadre {
     width: 100%;
-    height: 500px;
-    background: #fff3;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+
+    backdrop-filter: blur(40px);
+    box-shadow: 0px 0px 1px #fff9;
+    border-radius: 20px;
+    background: rgba(15, 14, 71, 0.3);
 }
+
+@media (width <450px) {
+    .page-home .card-flyer {
+        width: 200px;
+    }
+}
+
+/*  PRETTIER ACCESS */
+
+.page-home .cadre .p-access {
+    width: 100%;
+    /* min-width: 380px; */
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.page-home .cadre .p-access .title {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-home .cadre .p-access .infos {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 10px;
+    flex-direction: column;
+}
+
+.page-home .cadre .p-access .infos .info {
+    display: flex;
+    margin-top: 20px;
+    background: #0006;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.page-home .cadre .p-access .infos .count {
+    min-width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0003;
+    border-radius: 50px;
+}
+
+.page-home .cadre .p-access .infos .info .text{
+    margin-top: 5px;
+}
+/* .page-home .cadre .p-access .infos .info .text h3{
+    
+} */
+.page-home .cadre .p-access .infos .info p {
+    height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    max-width: 300px;
+    transition: 600ms;
+}
+
+.page-home .cadre .p-access .infos .info:hover p,
+.page-home .cadre .p-access .infos .info.open p {
+    /* scale: 1; */
+    height: 100px;
+    padding-top: 20px;
+    opacity: 0.8;
+    transition: 600ms;
+}
+
+.page-home .access-world{
+    /* position: absolute; */
+    top: 0;
+    height: 100%;
+    width: 200%;
+    /* transform:  translateX(-50%); */
+    z-index: -1;
+}
+@media (width <1210px) {
+    .page-home .access-world{
+        width: 150%;
+    }
+}
+
+/*  PRETTIER USERs */
+
+.page-home .cadre .p-users {
+    width: 100%;
+    min-width: 380px;
+    height: 500px;
+    /* background: #fff5; */
+}
+
+
+@media (width <1210px) {
+    .page-home .cadre {
+        flex-wrap: wrap;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (width <550px) {
     .page-home .page-text {
