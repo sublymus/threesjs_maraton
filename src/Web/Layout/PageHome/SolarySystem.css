@@ -93,6 +93,7 @@
 
 .solary-system .sun {
     right: none;
+    scale: 1.6;
     left: calc(50% - 25px);
     animation: turn-left-planet 10s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/sun-star-illustration-by-Vexels.png);
@@ -104,6 +105,8 @@
     animation: turn-left-planet 30s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/mercury-planet-illustration-by-Vexels.png);
     right: 25px;
+    width: 20px;
+    height: 20px;
 }
 
 .solary-system .ctn div.planet2 {
@@ -111,6 +114,8 @@
     animation: turn-right-planet 60s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/earth-planet-illustration-earth-by-Vexels.png);
     right: 5px;
+    width: 40px;
+    height: 40px;
 }
 
 .solary-system .ctn div.planet3 {
@@ -125,6 +130,8 @@
     animation: turn-right-planet 70s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/venus-planet-illustration-by-Vexels.png);
     right: -40px;
+    width: 40px;
+    height: 40px;
 }
 
 .solary-system .ctn div.planet5 {
@@ -132,6 +139,8 @@
     animation: turn-left-planet 75s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/saturn-planet-illustration-by-Vexels.png);
     right: -65px;
+    width: 70px;
+    height: 70px;
 }
 
 .solary-system .ctn div.planet6 {
@@ -139,6 +148,8 @@
     animation: turn-right-planet 80s infinite;
     background: no-repeat center/cover url(/src/res/iloveimg-resized/jupiter-planet-illustration-by-Vexels.png);
     right: -90px;
+    width: 40px;
+    height: 40px;
 }
 
 .solary-system .ctn div.planet7 {

@@ -47,6 +47,7 @@ export function PageHome() {
     const { check } = useWebRoute();
     return check('home') && (
         <div className="page-home">
+            <div className="back-home"></div>
             <div className="page-text">
                 <div className="text-top">
                     <div className="stores-count">{34} Stores</div>

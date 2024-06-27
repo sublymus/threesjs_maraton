@@ -35,9 +35,8 @@ export function SolarySystem() {
     //         data.stop();
     //     }
     // }, [data, pathList]);
-    const planetScale = (s: number) => {
+    const planetScale = (s: number, w=50) => {
         const ref = 100;
-        const w = 50;
         const a = ref * s - w * 0.5
         const b = ref - (a + w);
         return {
@@ -61,11 +60,11 @@ export function SolarySystem() {
             <div className="circle6" style={scale(a*1.65)}></div>
             <div className="circle7" style={scale(a*2)}></div>
             <div className="sun"></div>
-            <div className="planet1" style={planetScale(a*0.3)}></div>
-            <div className="planet2" style={planetScale(a*0.6)}></div>
+            <div className="planet1" style={planetScale(a*0.3,20)}></div>
+            <div className="planet2" style={planetScale(a*0.6,40)}></div>
             <div className="planet3" style={planetScale(a*0.9)}></div>
-            <div className="planet4" style={planetScale(a*1.15)}></div>
-            <div className="planet5" style={planetScale(a*1.4)}></div>
+            <div className="planet4" style={planetScale(a*1.15,40)}></div>
+            <div className="planet5" style={planetScale(a*1.4, 70)}></div>
             <div className="planet6" style={planetScale(a*1.65)}></div>
             <div className="planet7" style={planetScale(a*2)}></div>
         </div>

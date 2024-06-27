@@ -6,6 +6,16 @@
     max-width: 2000px;
 }
 
+/* BACH HOME */
+
+.page-home {
+    background:
+        no-repeat -400px -200px/150% url(/src/res/img/certificate-lines.svg),
+        no-repeat -400px 200px/150% url(/src/res/img/certificate-lines.svg),
+        no-repeat -400px 800px/150% url(/src/res/img/certificate-lines.svg);
+}
+
+/*  */
 .page-home .page-text {
     width: 100%;
     display: flex;
@@ -126,11 +136,11 @@
     min-height: 500px;
     position: relative;
     display: flex;
-
-    backdrop-filter: blur(40px);
+    overflow: hidden;
+    backdrop-filter: blur(5px);
     box-shadow: 0px 0px 1px #fff9;
     border-radius: 20px;
-    background: rgba(15, 14, 71, 0.3);
+    /* background: rgba(15, 14, 71, 0.3); */
 }
 
 @media (width <450px) {
@@ -138,6 +148,12 @@
         width: 200px;
     }
 }
+
+/* BACK HOME  */
+
+
+
+
 
 /*  PRETTIER ACCESS */
 
@@ -148,6 +164,7 @@
     position: relative;
     overflow: hidden;
     padding: 20px;
+    background: rgba(15, 14, 71, 0.3);
 }
 
 .page-home .cadre .p-access .title {
@@ -185,9 +202,10 @@
     border-radius: 50px;
 }
 
-.page-home .cadre .p-access .infos .info .text{
+.page-home .cadre .p-access .infos .info .text {
     margin-top: 5px;
 }
+
 /* .page-home .cadre .p-access .infos .info .text h3{
     
 } */
@@ -208,7 +226,7 @@
     transition: 600ms;
 }
 
-.page-home .access-world{
+.page-home .access-world {
     /* position: absolute; */
     top: 0;
     height: 100%;
@@ -216,8 +234,9 @@
     /* transform:  translateX(-50%); */
     z-index: -1;
 }
+
 @media (width <1210px) {
-    .page-home .access-world{
+    .page-home .access-world {
         width: 150%;
     }
 }
@@ -226,7 +245,6 @@
 
 .page-home .cadre .p-users {
     width: 100%;
-    min-width: 380px;
     height: 500px;
     /* background: #fff5; */
 }
