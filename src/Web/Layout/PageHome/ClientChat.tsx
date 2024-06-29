@@ -35,12 +35,30 @@ export function ClientChat() {
                     <div className="collaborator user">
                         <div className="label">Collaborator</div>
                     </div>
-
-
-
                 </div>
             </div>
-            <div className={"ctn-discussion " + (active == 'discussion' ? 'active' : '')}></div>
+            <div className={"ctn-discussion " + (active == 'discussion' ? 'active' : '')}>
+                <div className="view-discussion">
+                    <div className="collabo1 user">
+                        <div className="label">Collaborator</div>
+                        <div className="collabo1-c conect">
+                            <div className="message-c1 message"></div>
+                        </div>
+                    </div>
+                    <div className="collabo1-collabo2 conect">
+                        <div style={{position:'relative'}}><div className="message-c3 message"></div></div>
+                    </div>
+                    <div className="collabo2 user">
+                        <div className="label">Collaborator</div>
+                        <div className="collabo2-c conect">
+                            <div className="message-c2 message"></div>
+                        </div>
+                    </div>
+                    <div className="admin user">
+                        <div className="label">Admin</div>
+                    </div>
+                </div>
+            </div>
             <div className={"ctn-group " + (active == 'group' ? 'active' : '')}></div>
         </div>
     </div>

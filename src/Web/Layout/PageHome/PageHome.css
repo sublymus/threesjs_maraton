@@ -186,10 +186,11 @@
 .page-home .cadre .p-access .infos .info {
     display: flex;
     margin-top: 20px;
-    background: #0006;
+    background: #0003;
     border-radius: 20px;
     backdrop-filter: blur(5px);
 }
+
 
 .page-home .cadre .p-access .infos .count {
     min-width: 35px;
@@ -198,7 +199,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0003;
+    background: #0006;
     border-radius: 50px;
 }
 
@@ -206,9 +207,6 @@
     margin-top: 5px;
 }
 
-/* .page-home .cadre .p-access .infos .info .text h3{
-    
-} */
 .page-home .cadre .p-access .infos .info p {
     height: 0px;
     overflow: hidden;
@@ -245,7 +243,7 @@
 
 .page-home .cadre .p-users {
     width: 100%;
-    height: 500px;
+    /* height: 500px; */
     /* background: #fff5; */
 }
 
@@ -256,16 +254,20 @@
     }
 }
 
+/*  PRETTIER Interface */
+
+.page-home .cadre .p-users{
+    width: 100%;
+    min-height: 500px;
+    /* background: #fff5;*/
+}
 
 
-
-
-
-
-
-
-
-
+@media (width <1210px) {
+    .page-home .cadre {
+        flex-wrap: wrap;
+    }
+}
 
 
 

@@ -17,8 +17,22 @@ export function Web() {
         tryToken();
     }, [])
 
+    // const ref = useRef<HTMLDivElement|null>(null)
+    // useEffect(()=>{
+    //     if (ref.current?.requestFullscreen) {
+    //         ref.current?.requestFullscreen();
+    //         //@ts-ignore
+    //     } else if (ref.current?.webkitRequestFullscreen) { /* Safari */
+    //         //@ts-ignore
+    //         ref.current?.webkitRequestFullscreen?.();
+    //         //@ts-ignore
+    //     } else if (ref.current?.msRequestFullscreen) { /* IE11 */
+    //         //@ts-ignore
+    //         ref.current?.msRequestFullscreen?.();
+    //     }
+    // },[pathList])
     return (
-        <div className="web">
+        <div className="web unselectable" /* ref={ref} */>
             <div className="web-ctn" style={{filter :blur ? `blur(10px)`:''}}>
                 <div className="background"></div>
                 <TopBar />

@@ -144,6 +144,7 @@
 .top-bar .login {
     min-width: 100px;
     border-radius: 100%;
+    text-decoration: underline;
 }
 
 @media (width < 550px) {

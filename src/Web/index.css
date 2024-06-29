@@ -63,6 +63,15 @@ body {
   --box-shadow: 0 0 10px rgba(182, 182, 182, 0.322);
 }
 
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /*    scrollbar **/
 
 *::-webkit-scrollbar {

@@ -5,6 +5,8 @@ import { CardFlyer } from "../../Component/CardFlyer/CardFlyer";
 import { useEffect, useState } from "react";
 import { SolarySystem } from "./Solary_system";
 import { ClientChat } from "./ClientChat";
+import { InterfaceChange } from './InterfaceChange'
+import { BarChart } from "../../Component/BarChart/BarChart";
 const subjects = [{
     u: 'products',
     i: '/src/res/add-product.png'
@@ -34,14 +36,14 @@ export function PageHome() {
         if (!id) {
             setId(
                 setInterval(() => {
-                    setCount((i++) % 4 +1)
+                    setCount((i++) % 4 + 1)
                 }, 3000)
             )
-            return ()=>{
+            return () => {
                 clearInterval(id)
             }
         }
-        
+
     }, [id]);
 
     const { check } = useWebRoute();
@@ -123,7 +125,7 @@ export function PageHome() {
                     <div className="p-access">
                         <div className="ctn-threejs"></div>
                         <div className="infos">
-                        <div className="title">accessibility</div>
+                            <div className="title">accessibility</div>
                             <div className={"info " + (count == 1 ? 'open' : '')}>
                                 <div className="count">1</div>
                                 <div className="text">
@@ -153,12 +155,12 @@ export function PageHome() {
                                 </div>
                             </div>
                         </div>
-                        <div className="access-world"> 
-                        <SolarySystem/>
+                        <div className="access-world">
+                            <SolarySystem />
                         </div>
                     </div>
                     <div className="p-users">
-                        <ClientChat/>
+                        <ClientChat />
                     </div>
                 </div>
             </div>
@@ -178,7 +180,7 @@ export function PageHome() {
                 // link="products"
                 />
                 <div className="cadre">
-
+                    <InterfaceChange />
                 </div>
             </div>
             <div className="prettier">
@@ -197,7 +199,7 @@ export function PageHome() {
                 // link="products"
                 />
                 <div className="cadre">
-
+                    <BarChart/>
                 </div>
             </div>
         </div>
