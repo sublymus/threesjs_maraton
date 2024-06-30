@@ -41,21 +41,19 @@ export function InterfaceChange() {
         }
     }, [data, pathList]);
 
-    return <div className="interface-change" onMouseMove={(e) => {
+    return <div className="interface-change">
+        <div className="left-side"  onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
-        const centerx = rect.x + rect.width / 2;
         const centery = rect.y + rect.height / 2;
-        setX((e.clientX - centerx) / (rect.width / 2));
-        setY(-(e.clientY - centery) / (rect.height / 2));
+        setX((e.clientX - rect.x) / (rect.width / 2));
+        setY((e.clientY - centery) / (rect.height / 2));
     }} onTouchMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
-        const centerx = rect.x + rect.width / 2;
         const centery = rect.y + rect.height / 2;
-        setX((e.touches[0].clientX - centerx) / (rect.width / 2));
-        setY(-(e.touches[0].clientY - centery) / (rect.height / 2));
+        setX((e.touches[0].clientX - rect.x) / (rect.width/2));
+        setY((e.touches[0].clientY - centery) / (rect.height / 2));
     }}>
-        <div className="left-side">
-            <div className="ctn-monitor" style={{ transform: `rotateY(${Math.PI * x * 0.05}rad) rotateX(${Math.PI * y * 0.05}rad)` }}>
+            <div className="ctn-monitor" style={{ transform: `rotateY(${-Math.PI * x * 0.1}rad) rotateX(${Math.PI * y * 0.1}rad)` }}>
                 <div className="monitor"></div>
                 <div className="interfaces-ctn">
                     <div className="interfaces">
@@ -75,35 +73,23 @@ export function InterfaceChange() {
             </div>
         </div>
         <div className="infos">
-            <h2>e currentTarget getBounding ClientRect()</h2>
+            <h2>Choose the interface that suits you</h2>
             <div className="info">
-                <h3 className="title"><span>1</span> Info Tiltle Let see</h3>
+                <h3 className="title"><span>1</span> 3D or standard interface</h3>
                 <p className="text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem officiis natus necessitatibus dolores aperiam reiciendis doloribus,
+                We have two (2) types of interface, 3D and standard. each available in several ranges
                 </p>
             </div>
             <div className="info">
-                <h3 className="title"><span>2</span> Info Tiltle Let see</h3>
+                <h3 className="title"><span>2</span> How to have your store</h3>
                 <p className="text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem officiis natus necessitatibus dolores aperiam reiciendis doloribus,
+                you to create several stores with the same account. to create your store, fill in the required information (name, logo, etc.)
                 </p>
             </div>
             <div className="info">
-                <h3 className="title"><span>3</span> Info Tiltle Let see</h3>
+                <h3 className="title"><span>3</span> Interface update</h3>
                 <p className="text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem officiis natus necessitatibus dolores aperiam reiciendis doloribus,
-                </p>
-            </div>
-            <div className="info">
-                <h3 className="title"><span>4</span> Info Tiltle Let see</h3>
-                <p className="text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem officiis natus necessitatibus dolores aperiam reiciendis doloribus,
-                </p>
-            </div>
-            <div className="info">
-                <h3 className="title"><span>5</span> Info Tiltle Let see</h3>
-                <p className="text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem officiis natus necessitatibus dolores aperiam reiciendis doloribus,
+                you will be notified of interface improvements. We continually update the platform to meet your expectations
                 </p>
             </div>
         </div>

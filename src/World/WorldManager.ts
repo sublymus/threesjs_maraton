@@ -169,7 +169,7 @@ export class WorldManager {
         const t = time * 0.001;
         // this.stats.update();
         if (this.currentWorl) {
-            this.currentWorl.update(t)
+            this.currentWorl.update(t)  // TODO  if( .. update(t)) renderer... 
             this._renderer.render(this.currentWorl.getScene(), this.currentWorl.getCamera())
         }
 

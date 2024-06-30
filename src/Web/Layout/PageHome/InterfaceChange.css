@@ -95,7 +95,7 @@
 }
 
 .interface-change .interface4 {
-    background: no-repeat center/cover url(/src/res/screen/Screenshot_20240618_094739.png);
+    background: no-repeat center/cover url(/src/res/screen/Screenshot_20240618_094739.jpg);
 }
 
 /*  Interface icons  */
@@ -127,14 +127,20 @@
     width: 100%;
     height: 100%;
     padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .interface-change .infos > h2{
+    max-width: 600px;
     color: #345;
 }
 
 .interface-change .info{
     margin-top: 15px;
+    max-width: 600px;
 }
 
 .interface-change .info .title{
@@ -149,6 +155,7 @@
     width: 20px;
     height: 20px;
     border-radius: 20px;
+    margin-right: 5px;
     background: #1c1c69;
 }
 

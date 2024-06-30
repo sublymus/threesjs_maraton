@@ -1,4 +1,4 @@
-import {world_config} from './world_config.js'
+//@ts-nocheck
 export class LocalLoader {
   static testWorld = {
     scene: 0x334455,
@@ -26,8 +26,7 @@ export class LocalLoader {
 
   dependencies = {
     path: {
-      THREE: '/three/build/three.module.js',
-      GLTFLoader: '/three/examples/jsm/loaders/GLTFLoader.js'
+      THREE: '/three/build/three.module.js',  
     },
     obj: {
       THREE: null,
@@ -68,7 +67,7 @@ export class LocalLoader {
       base.add(root);
       this.ring.add(base);
       root.rotation.x = Math.PI * (85 / 180);
-      root.scale.set(0.5, 0.5, 0.5)
+      root.scale.set(0.1, 0.1, 0.1)
       updateMetal(root, 'metalness', LocalLoader.testMetal.metalness)
       updateMetal(root, 'roughness', LocalLoader.testMetal.roughness)
       updateMetal(root, 'color', new this.dependencies.obj.THREE.Color(LocalLoader.testMetal.color))
@@ -84,7 +83,8 @@ export class LocalLoader {
       return this.ring
     }
     this.modelPromise = new Promise((rev) => {
-      new this.dependencies.obj.GLTFLoader().load(`${world_config.url}/model.glb`, (gltf) => {
+      
+      new this.dependencies.obj.GLTFLoader().load(`${location.host.includes('localhost')?`http://localhost:3333`:''}/fs/products_scene_dir_05e7dc8e-f409-46ae-91cc-6a125add8c5b/Ring_1/model.glb`, (gltf) => {
         rev(seTmodel(gltf))
       });
     })
@@ -107,8 +107,8 @@ export class LocalLoader {
       }
     }
   }
-  getModel() {
-    return this.modelPromise
+  async getModel() {
+    return await this.modelPromise
   }
 
   showFeature(_id) {

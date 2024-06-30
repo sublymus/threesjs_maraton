@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 60px;
     min-height: 50px;
     backdrop-filter: blur(40px) brightness(80%) saturate(150%);
 }
@@ -150,6 +150,12 @@
 @media (width < 550px) {
     .more-navs ul{
         right: 0px;
+    }
+}
+
+@media (width < 400px) {
+    .top-bar-ctn {
+        height: 50px;
     }
 }
 

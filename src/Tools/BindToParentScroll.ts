@@ -38,3 +38,4 @@ export const bindTopToParentScroll = (height:number, parent:string)=>{
         })
     }
 }
+

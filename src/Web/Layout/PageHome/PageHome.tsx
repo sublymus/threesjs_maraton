@@ -7,6 +7,7 @@ import { SolarySystem } from "./Solary_system";
 import { ClientChat } from "./ClientChat";
 import { InterfaceChange } from './InterfaceChange'
 import { BarChart } from "../../Component/BarChart/BarChart";
+import { Producd3d } from "./Producd3d";
 const subjects = [{
     u: 'products',
     i: '/src/res/add-product.png'
@@ -59,7 +60,7 @@ export function PageHome() {
                 <div className="right">
                     <div className="subjects">
                         {
-                            subjects.map(s => <a href={`#home/${s.u}`} style={{ background: getImg(s.i) }} />)
+                            subjects.map(s => <a key={s.u} href={`#home/${s.u}`} style={{ background: getImg(s.i) }} />)
                         }
                     </div>
                     <label htmlFor="home-search" className="search">
@@ -84,7 +85,7 @@ export function PageHome() {
                 // link="products"
                 />
                 <div className="cadre">
-
+                    <Producd3d/>
                 </div>
             </div>
             <div className="prettier">
@@ -129,31 +130,32 @@ export function PageHome() {
                             <div className={"info " + (count == 1 ? 'open' : '')}>
                                 <div className="count">1</div>
                                 <div className="text">
-                                    <h3>compatibility with all stores</h3>
-                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                    <h3>Accessible all over the world 24/7</h3>
+                                    <p>You and your customers will be able to access the content of your store at any time.</p>
                                 </div>
                             </div>
                             <div className={"info " + (count == 2 ? 'open' : '')}>
                                 <div className="count">2</div>
                                 <div className="text">
-                                    <h3>compatibility with all stores</h3>
-                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
-                                </div>
-                            </div>
-                            <div className={"info " + (count == 3 ? 'open' : '')}>
-                                <div className="count">3</div>
-                                <div className="text">
-                                    <h3>compatibility with all stores</h3>
-                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                    <h3>Mobile or desktop</h3>
+                                    <p>The Sublymus platform is available on the web in Mobile, tablet and desktop versions</p>
                                 </div>
                             </div>
                             <div className={"info " + (count == 4 ? 'open' : '')}>
                                 <div className="count">4</div>
                                 <div className="text">
-                                    <h3>compatibility with all stores</h3>
-                                    <p>follow your customers, add chat collaborators with everyone, organize your team compatibility with all stores</p>
+                                    <h3>report issues to customer service</h3>
+                                    <p>to help us improve the platform, report any problems you encounter.</p>
                                 </div>
                             </div>
+                            <div className={"info " + (count == 3 ? 'open' : '')}>
+                                <div className="count">3</div>
+                                <div className="text">
+                                    <h3>quick correction and maintenance</h3>
+                                    <p>We are attentive to your comments and we are working to correct or improve them as quickly as possible.</p>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div className="access-world">
                             <SolarySystem />
@@ -202,6 +204,9 @@ export function PageHome() {
                     <BarChart/>
                 </div>
             </div>
+            <footer>
+                
+            </footer>
         </div>
     )
 }

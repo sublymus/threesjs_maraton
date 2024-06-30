@@ -33,7 +33,7 @@
     font-size: 1em;
     line-height: 18px;
     text-transform: uppercase;
-    color: #fff;
+    color: #345;
     opacity: 0.7;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .page-home .page-text .search {
-    width: 200px;
+    width: 240px;
     height: 40px;
     margin-top: 20px;
 }
@@ -130,6 +130,11 @@
     margin: 50px;
     cursor: pointer;
 }
+@media (width <450px) {
+    .page-home .card-flyer {
+        width: 200px;
+    }
+}
 
 .page-home .prettier .cadre {
     width: 100%;
@@ -143,19 +148,23 @@
     /* background: rgba(15, 14, 71, 0.3); */
 }
 
-@media (width <450px) {
-    .page-home .card-flyer {
-        width: 200px;
-    }
+
+.page-home footer{
+    width: 100%;
+    height: 500px;
+    margin-top: 30px;
+    background: #3344;
 }
 
-/* BACK HOME  */
+/*  PRETTIER USERs */
 
+.page-home .cadre .p-users {
+    width: 100%;
+    /* height: 500px; */
+    /* background: #fff5; */
+}
 
-
-
-
-/*  PRETTIER ACCESS */
+/* PRETTIER ACCESS  /  CADRE ACCESSIBILITY  */
 
 .page-home .cadre .p-access {
     width: 100%;
@@ -186,9 +195,10 @@
 .page-home .cadre .p-access .infos .info {
     display: flex;
     margin-top: 20px;
-    background: #0003;
+    background: #fffc;
     border-radius: 20px;
-    backdrop-filter: blur(5px);
+    color: #345;
+    /* width: 100%; */
 }
 
 
@@ -199,8 +209,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0006;
+    background: rgba(31, 31, 71);
     border-radius: 50px;
+    color: #fff;
+    box-shadow: 0px 0px 10px #0005;
 }
 
 .page-home .cadre .p-access .infos .info .text {
@@ -211,7 +223,7 @@
     height: 0px;
     overflow: hidden;
     opacity: 0;
-    max-width: 300px;
+    max-width: 350px;
     transition: 600ms;
 }
 
@@ -219,7 +231,7 @@
 .page-home .cadre .p-access .infos .info.open p {
     /* scale: 1; */
     height: 100px;
-    padding-top: 20px;
+    padding-top: 10px;
     opacity: 0.8;
     transition: 600ms;
 }
@@ -233,19 +245,13 @@
     z-index: -1;
 }
 
+
 @media (width <1210px) {
     .page-home .access-world {
         width: 150%;
     }
 }
 
-/*  PRETTIER USERs */
-
-.page-home .cadre .p-users {
-    width: 100%;
-    /* height: 500px; */
-    /* background: #fff5; */
-}
 
 
 @media (width <1210px) {
@@ -253,32 +259,6 @@
         flex-wrap: wrap;
     }
 }
-
-/*  PRETTIER Interface */
-
-.page-home .cadre .p-users{
-    width: 100%;
-    min-height: 500px;
-    /* background: #fff5;*/
-}
-
-
-@media (width <1210px) {
-    .page-home .cadre {
-        flex-wrap: wrap;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
 
 @media (width <550px) {
     .page-home .page-text {
