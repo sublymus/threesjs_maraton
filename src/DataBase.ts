@@ -12,11 +12,11 @@ export interface CommandInterface {
     updated_at: string,
     quantity: number,
     price: number,
-    user_id:string,
-    payment_id: string|null,
+    user_id: string,
+    payment_id: string | null,
     images: string[],
     title: string,
-    stock:number,
+    stock: number,
     product_id: string
 }
 
@@ -45,9 +45,9 @@ export interface Session {
 };
 export interface Discussion {
     "id": string,
-    from_id?:string,
-    to_id?:string,
-    store?:StoreInterface,
+    from_id?: string,
+    to_id?: string,
+    store?: StoreInterface,
     "creator_id": string,
     "receiver_id": string,
     "deleted"?: string,
@@ -172,7 +172,7 @@ export type BinderComponent = {
     store_id: string,
     price: number,
     unity: string,
-    is_default?:boolean,
+    is_default?: boolean,
     devise: string,
     created_at: string,
     updated_at: string,
@@ -252,121 +252,222 @@ export interface ProductInterface {
     updated_at: string
 }
 
-// const gemFeature: Feature = {
-//     id: 'gem_id',
-//     name: 'gem',
-//     collect_type: 'string',
-//     icon: '/src/World/images/gem/gem.png',
-//     view: 'icon',
-//     // default_value: 'blue_garnet',
-//     components: [{
-//         id: 'blue_garnet',
-//         name: 'Grenat bleu',
-//         feature_id: 'gem_id',
-//         icon: ['/src/World/images/gem/blue_garnet.png'],
-//         code: '2d3563'
+const gemFeature: Feature = {
+    id: 'gem_id',
+    name: 'gem',
+    collect_type: 'string',
+    icon: '/src/World/images/gem/gem.png',
+    view: 'icon',
+    default_value: {
+        id: 'blue_garnet',
+        name: 'Grenat bleu',
+        feature_id: 'gem_id',
+        icon: ['/src/World/images/gem/blue_garnet.png'],
+        code: '2d3563'
+    } as Component,
+    components: [{
+        id: 'blue_garnet',
+        name: 'Grenat bleu',
+        feature_id: 'gem_id',
+        icon: ['/src/World/images/gem/blue_garnet.png'],
+        code: '2d3563'
+    }, {
+        name: 'Taaffeite',
+        id: 'taaffeite',
+        icon: ['/src/World/images/gem/taaffeite.png'],
+        code: '9575ab',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Grandidierite',
+        id: 'grandidierite',
+        icon: ['/src/World/images/gem/grandidierite.png'],
+        code: '3f7269',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Serendibite',
+        id: 'serendibite',
+        icon: ['/src/World/images/gem/serendibite.png'],
+        code: '024a3d',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Diamant',
+        id: 'diamond',
+        icon: ['/src/World/images/gem/diamond.png'],
+        code: 'abdcf9',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Rubis',
+        id: 'ruby',
+        icon: ['/src/World/images/gem/ruby.png'],
+        code: 'c24a4a',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Alexandrite',
+        id: 'alexandrite',
+        icon: ['/src/World/images/gem/alexandrite.png'],
+        code: '0d5a4c',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Béryl rouge',
+        id: 'red_beryl',
+        icon: ['/src/World/images/gem/red_beryl.png'],
+        code: '6f4060',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Padparadscha Saphire',
+        id: 'padparadscha_saphire',
+        icon: ['/src/World/images/gem/padparadscha_saphire.png'],
+        code: '98485d',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Musgravite',
+        id: 'musgravite',
+        icon: ['/src/World/images/gem/musgravite.png'],
+        code: 'b2acad',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Saphir',
+        id: 'sapphire',
+        icon: ['/src/World/images/gem/sapphire.png'],
+        code: '288fc3',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Benitoite',
+        id: 'benitoite',
+        icon: ['/src/World/images/gem/benitoite.png'],
+        code: '286bc3',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Opale noire',
+        id: 'black_opal',
+        icon: ['/src/World/images/gem/black_opal.png'],
+        code: '4c415e',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Grenat démantoïde',
+        id: 'demantoid_garnet',
+        icon: ['/src/World/images/gem/demantoid_garnet.png'],
+        code: '5cb065',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Poudretteite',
+        id: 'poudretteite',
+        icon: ['/src/World/images/gem/poudretteite.png'],
+        code: 'a770b5',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Opale de feu',
+        id: 'fire_opal',
+        icon: ['/src/World/images/gem/fire_opal.png'],
+        code: 'b38a3c',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Jeremejevite',
+        id: 'jeremejevite',
+        icon: ['/src/World/images/gem/jeremejevite.png'],
+        code: '99a1ca',
+        feature_id: 'gem_id',
+    }, {
+        name: 'Tanzanite',
+        id: 'tanzanite',
+        icon: ['/src/World/images/gem/tanzanite.png'],
+        code: '46518a',
+        feature_id: 'gem_id',
+    }] as any
+}
 
-//     }, {
-//         name: 'Taaffeite',
-//         id: 'taaffeite',
-//         icon: ['/src/World/images/gem/taaffeite.png'],
-//         code: '9575ab',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Grandidierite',
-//         id: 'grandidierite',
-//         icon: ['/src/World/images/gem/grandidierite.png'],
-//         code: '3f7269',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Serendibite',
-//         id: 'serendibite',
-//         icon: ['/src/World/images/gem/serendibite.png'],
-//         code: '024a3d',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Diamant',
-//         id: 'diamond',
-//         icon: ['/src/World/images/gem/diamond.png'],
-//         code: 'abdcf9',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Rubis',
-//         id: 'ruby',
-//         icon: ['/src/World/images/gem/ruby.png'],
-//         code: 'c24a4a',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Alexandrite',
-//         id: 'alexandrite',
-//         icon: ['/src/World/images/gem/alexandrite.png'],
-//         code: '0d5a4c',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Béryl rouge',
-//         id: 'red_beryl',
-//         icon: ['/src/World/images/gem/red_beryl.png'],
-//         code: '6f4060',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Padparadscha Saphire',
-//         id: 'padparadscha_saphire',
-//         icon: ['/src/World/images/gem/padparadscha_saphire.png'],
-//         code: '98485d',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Musgravite',
-//         id: 'musgravite',
-//         icon: ['/src/World/images/gem/musgravite.png'],
-//         code: 'b2acad',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Saphir',
-//         id: 'sapphire',
-//         icon: ['/src/World/images/gem/sapphire.png'],
-//         code: '288fc3',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Benitoite',
-//         id: 'benitoite',
-//         icon: ['/src/World/images/gem/benitoite.png'],
-//         code: '286bc3',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Opale noire',
-//         id: 'black_opal',
-//         icon: ['/src/World/images/gem/black_opal.png'],
-//         code: '4c415e',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Grenat démantoïde',
-//         id: 'demantoid_garnet',
-//         icon: ['/src/World/images/gem/demantoid_garnet.png'],
-//         code: '5cb065',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Poudretteite',
-//         id: 'poudretteite',
-//         icon: ['/src/World/images/gem/poudretteite.png'],
-//         code: 'a770b5',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Opale de feu',
-//         id: 'fire_opal',
-//         icon: ['/src/World/images/gem/fire_opal.png'],
-//         code: 'b38a3c',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Jeremejevite',
-//         id: 'jeremejevite',
-//         icon: ['/src/World/images/gem/jeremejevite.png'],
-//         code: '99a1ca',
-//         feature_id: 'gem_id',
-//     }, {
-//         name: 'Tanzanite',
-//         id: 'tanzanite',
-//         icon: ['/src/World/images/gem/tanzanite.png'],
-//         code: '46518a',
-//         feature_id: 'gem_id',
-//     }] as any
-// }
+const metalFeature: Feature = {
+    id: 'metal_id',
+    collect_type: 'string',
+    name: 'metal',
+    icon: '/src/World/images/metal/metal.png',
+    view: 'icon',
+    default_value: {
+        "id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:59:07",
+            "updated_at": "2024-05-20 07:59:07",
+            "name": "Silver",
+            "description": "silver",
+            "images": "[]",
+            "icon": [
+                '/src/World/images/metal/silver.png'
+            ],
+            "scene": null,
+            "code": "eeeeee",
+            "key": "silver"
+    },
+    components: [
+        {
+            "id": "6bd884a0-82be-414a-ac45-9ef47a866bf8",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "6bd884a0-82be-414a-ac45-9ef47a866bf8",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:58:13",
+            "updated_at": "2024-05-20 07:58:13",
+            "name": "Gold",
+            "description": "gold",
+            "images": "[]",
+            "icon": [
+                '/src/World/images/metal/gold.png'
+            ],
+            "scene": null,
+            "code": "bead2e",
+            "key": "gold"
+        },
+        {
+            "id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:59:07",
+            "updated_at": "2024-05-20 07:59:07",
+            "name": "Silver",
+            "description": "silver",
+            "images": "[]",
+            "icon": [
+                '/src/World/images/metal/silver.png'
+            ],
+            "scene": null,
+            "code": "eeeeee",
+            "key": "silver"
+        },
+        {
+            "id": "0af71216-5c1f-40f7-823f-8b25afb20984",
+            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+            "component_id": "0af71216-5c1f-40f7-823f-8b25afb20984",
+            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+            "price": 12345,
+            "unity": "Kg",
+            "devise": "$",
+            "created_at": "2024-05-20 07:59:57",
+            "updated_at": "2024-05-20 08:01:09",
+            "name": "Bronze",
+            "description": "bronz",
+            "images": "[]",
+            "icon": [
+                '/src/World/images/metal/bronz.png'
+            ],
+            "scene": null,
+            "code": "ffaa55",
+            "key": "bronz"
+        }
+    ]
+}
+
+export const features: ListType<Feature> = { limit: 25, total: 2, page: 1, list: [metalFeature, gemFeature] }

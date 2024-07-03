@@ -14,7 +14,8 @@ const navs = [{
     u: 'store_list',
     n: 'Stores',
     i: '/src/res/store.png'
-}, {
+}
+, {
     u: 'tutorial',
     n: 'Tutorial',
     i: '/src/res/catalog.png'
@@ -34,7 +35,29 @@ const navs = [{
     u: 'forum',
     n: 'Forum',
     i: '/src/res/multiple-users-silhouette.png'
-}]
+}
+]
+
+export function Footer(){
+
+    const { setAbsPath } = useWebRoute();
+    return (
+        <footer className="footer">
+             <ul className='links'>
+                    {
+                        navs.map((d, i) => (
+                            <li key={i}style={{pointerEvents:'initial'}}onClick={()=>setAbsPath([d.u as any])}>
+                                <span  style={{background: getImg(d.i, '80%') }}></span>{d.n}
+                            </li>
+                        ))
+                    }
+                </ul>
+            <div className="more-info">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam nobis fugiat maiores. Velit reiciendis dolor facere explicabo autem dolore nostrum omnis. Recusandae deserunt modi ad accusantium iste dolore esse pariatur!
+            </div>
+        </footer>
+    )
+} 
 
 export function TopBar() {
 

@@ -165,7 +165,8 @@
 @media (width <1210px) {
     .bar-chart {
         height: inherit;
-        flex-direction: column;
+        /* flex-direction: column; */
+        display: block;
     }
 }
 

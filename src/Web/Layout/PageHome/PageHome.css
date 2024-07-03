@@ -12,7 +12,7 @@
     background:
         no-repeat -400px -200px/150% url(/src/res/img/certificate-lines.svg),
         no-repeat -400px 200px/150% url(/src/res/img/certificate-lines.svg),
-        no-repeat -400px 800px/150% url(/src/res/img/certificate-lines.svg);
+        no-repeat -400px 800px/150% url(/src/res/img/certificate-lines.svg),
 }
 
 /*  */
@@ -33,7 +33,6 @@
     font-size: 1em;
     line-height: 18px;
     text-transform: uppercase;
-    color: #345;
     opacity: 0.7;
 }
 
@@ -83,6 +82,40 @@
     margin: 0px;
 }
 
+.page-home .btn-stores{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.page-home .btn-stores .create-store:hover{
+    background: #eee0;
+    color: #fff;
+    transition: 400ms;
+}
+.page-home .btn-stores .create-store{
+    padding: 10px 10px;
+    border-radius: 50px;
+    background: #eee;
+    margin: 10px;
+    color: #345;
+    transition: 400ms;
+    cursor: pointer;
+}
+.page-home .btn-stores .manage-stores:hover{
+    background: #ae00ff55;
+    transition: 400ms;
+}
+.page-home .btn-stores .manage-stores{
+    cursor: pointer;
+    padding: 10px 10px;
+    border-radius: 50px;
+    /* background: #ae00ff; */
+    box-shadow: 0px 0px 2px #fff;
+    margin: 10px;
+    transition: 400ms;
+}
+
 .page-home .right {
     width: 100%;
     display: flex;
@@ -97,8 +130,9 @@
 }
 
 .page-home .subjects a:hover {
-    scale: 1.1;
+    scale: 1;
     transition: 200ms;
+    box-shadow: 0px 10px 15px #0005, 0px 0px 5px #fff8;
 }
 
 .page-home .subjects a {
@@ -106,8 +140,9 @@
     width: 45px;
     height: 45px;
     margin: 5px;
+    scale: 0.8;
     transition: 200ms;
-    box-shadow: 0px 10px 15px #0005, 0px 0px 5px #fff8;
+    box-shadow: 0px 0px 5px #fff8;
     border-radius: 50px;
 }
 
@@ -128,8 +163,8 @@
 
 .page-home .card-flyer {
     margin: 50px;
-    cursor: pointer;
 }
+
 @media (width <450px) {
     .page-home .card-flyer {
         width: 200px;
@@ -145,16 +180,10 @@
     backdrop-filter: blur(5px);
     box-shadow: 0px 0px 1px #fff9;
     border-radius: 20px;
+    display: none!important;
     /* background: rgba(15, 14, 71, 0.3); */
 }
 
-
-.page-home footer{
-    width: 100%;
-    height: 500px;
-    margin-top: 30px;
-    background: #3344;
-}
 
 /*  PRETTIER USERs */
 
@@ -198,6 +227,7 @@
     background: #fffc;
     border-radius: 20px;
     color: #345;
+    pointer-events: initial;
     /* width: 100%; */
 }
 
@@ -227,7 +257,6 @@
     transition: 600ms;
 }
 
-.page-home .cadre .p-access .infos .info:hover p,
 .page-home .cadre .p-access .infos .info.open p {
     /* scale: 1; */
     height: 100px;
@@ -245,6 +274,27 @@
     z-index: -1;
 }
 
+.page-home .close-cadre:hover {
+    opacity: 1;
+    background: no-repeat center/90% url(/src/res/x.png);
+    transition: 200ms;
+}
+
+.page-home .close-cadre {
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/x.png);
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 2px #000;
+    filter: invert();
+    opacity: 0.8;
+    transition: 200ms;
+    display: none;
+}
 
 @media (width <1210px) {
     .page-home .access-world {
@@ -270,4 +320,28 @@
     .page-home .prettier {
         flex-wrap: wrap;
     }
+
+    .page-home .prettier .cadre {
+        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        /* background: #eee; */
+        background: linear-gradient(rgb(31, 31, 71), rgb(31, 31, 71));
+        color: #fff;
+        z-index: 1;
+    }
+
+    .page-home .close-cadre {
+        display: block;
+    }
+
+    .page-home .prettier .cadre.open {
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
 }

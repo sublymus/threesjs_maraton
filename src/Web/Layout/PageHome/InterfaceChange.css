@@ -36,7 +36,7 @@
     /* 50% */
     width: 300px;
     height: 300px;
-    background: no-repeat center/cover url(/src/res/monitor.png);
+    background: no-repeat center/cover url(/src/res/monitor.webp);
     filter: drop-shadow(0px 0px 10px #fff9);
 }
 
@@ -60,15 +60,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color:  #345;
+    color: #345;
     font-size: 4em;
 }
 
 .interface-change .interfaces>div.hide {
     animation: hide-anim 1s;
 }
+
 .interface-change .interfaces>div.active {
-    animation:  active-anim 1s;
+    animation: active-anim 1s;
     visibility: visible;
     opacity: 1;
 }
@@ -100,30 +101,112 @@
 
 /*  Interface icons  */
 
-.interface-change .icons{
-    width: 100%;
-    max-width: 300px;
+.interface-change .icons {
+    width: 220px;
     height: 60px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    position: relative;
 }
-.interface-change .icons > div.active{
-    transition: 400ms;
-    background: #fff;
-    scale: 1.2;
+
+
+.interface-change .icons>div:hover{
+    background: #aaa; 
+    transition: 200ms;
 }
-.interface-change .icons > div{
+.interface-change .icons>div {
     width: 20px;
     height: 20px;
     background: rgba(255, 255, 255, 0.333);
     border-radius: 50px;
-    transition: 400ms;
-    transition: 400ms;
+    cursor: pointer;
+    transition: 200ms;
 }
+.interface-change .icons>div.round{
+    background: #fff;
+    position: absolute;
+    left: 0;
+    transition: 1000ms;
+    scale: 1.3;
+}
+
+.interface-change .icons>div.round.r-0 {
+    animation: interface-round 1000ms;
+    transition: 1000ms;
+}
+
+.interface-change .icons>div.round.r-1 {
+    animation: interface-round1 1000ms;
+    transition: 1000ms;
+}
+
+.interface-change .icons>div.round.r-2 {
+    animation: interface-round2 1000ms;
+    transition: 1000ms;
+}
+
+.interface-change .icons>div.round.r-3 {
+    animation: interface-round3 1000ms;
+    transition: 1000ms;
+}
+
+@keyframes interface-round0 {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    50% {
+        transform: scaleX(2) scaleY(0.5);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+@keyframes interface-round1 {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    50% {
+        transform: scaleX(2) scaleY(0.5);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+@keyframes interface-round2 {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    50% {
+        transform: scaleX(2) scaleY(0.5);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+@keyframes interface-round3 {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    50% {
+        transform: scaleX(2) scaleY(0.5);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+
 /* Right side INFO */
 
-.interface-change .infos{
+.interface-change .infos {
     width: 100%;
     height: 100%;
     padding: 20px;
@@ -133,21 +216,21 @@
     justify-content: center;
 }
 
-.interface-change .infos > h2{
+.interface-change .infos>h2 {
     max-width: 600px;
     color: #345;
 }
 
-.interface-change .info{
+.interface-change .info {
     margin-top: 15px;
     max-width: 600px;
 }
 
-.interface-change .info .title{
+.interface-change .info .title {
     margin-top: 15px;
 }
 
-.interface-change .info .title > span {
+.interface-change .info .title>span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -159,7 +242,7 @@
     background: #1c1c69;
 }
 
-.interface-change .info  p {
+.interface-change .info p {
     opacity: 0.9;
 }
 
@@ -176,15 +259,16 @@
         visibility: hidden;
     }
 }
+
 @keyframes active-anim {
     0% {
-        transform:translate3d(100px,-100px , 100px);
+        transform: translate3d(100px, -100px, 100px);
         opacity: 0;
         visibility: hidden;
     }
 
     100% {
-        transform:  translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
         opacity: 1;
         visibility: visible;
     }
@@ -197,7 +281,7 @@
 }
 
 @media (width <1210px) {
-    .interface-change  {
+    .interface-change {
         height: inherit;
         flex-direction: column;
     }

@@ -5,7 +5,7 @@ export class LocalLoader {
     ground: 0x4ffcf9e,
   }
   static testGem = {
-    color: 0x84d5dc,//pc
+    color: '#2d3563',//pc
     metalness: 0,
     roughness: 0,
     reflectivity: 0,
@@ -15,7 +15,7 @@ export class LocalLoader {
     transmission: 1,
   }
   static testMetal = {
-    color: 0xbead2e,//pc
+    color: '#eeeeee',//pc
     metalness: 1,
     roughness: 0,
   }

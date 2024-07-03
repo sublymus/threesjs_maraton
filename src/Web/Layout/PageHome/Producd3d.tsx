@@ -7,6 +7,8 @@ import { LocalLoader } from "../../../World/models/Ring_1/LocalLoader";
 import { useEffect, useRef, useState } from 'react';
 import { checkVisibility } from '../../../Hooks';
 import { useWebRoute } from '../../WebStore';
+import { type Feature, features, Component } from '../../../DataBase';
+import { getImg } from '../../../Tools/StringFormater';
 
 export function Producd3d() {
 
@@ -17,19 +19,20 @@ export function Producd3d() {
 		}
 	})
 	const { pathList, check } = useWebRoute();
-	const ref = useRef<HTMLCanvasElement | null>(null)
+	const canvas = useRef<HTMLCanvasElement | null>(null)
+	const canvas_ctn = useRef<HTMLDivElement | null>(null)
 	useEffect(() => {
-		if (!data.product3d && ref.current) {
-			data.init(ref.current);
-		} else if (ref.current) {
-			data.product3d?.setCanvas(ref.current);
+		if (!data.product3d && canvas.current) {
+			data.init(canvas.current);
+		} else if (canvas.current) {
+			data.product3d?.setCanvas(canvas.current);
 		}
 		return () => {
 			data.product3d?.setVisible(false);
 		}
-	}, [ref])
+	}, [canvas])
 
-	const visible = checkVisibility(ref, 500, !!check('home'))
+	const visible = checkVisibility(canvas_ctn, 500, !!check('home'))
 	useEffect(() => {
 		data.product3d?.setVisible(visible);
 		return () => {
@@ -37,43 +40,94 @@ export function Producd3d() {
 		}
 	}, [pathList, visible])
 
+	const [selectedFeature, setSelectedFeature] = useState<Feature | undefined>(undefined);
+	const [selectedComponent, setSelectedComponent] = useState<Component | undefined>(undefined);
+	const [collected, setCollected] = useState<Record<string, Component | undefined>>({})
 	return <div className='product-3d'>
-		<div className="canvas-ctn">
-			<canvas id="home-canvas-product-3d" ref={ref}></canvas>
-			<div className="features-ctn">
-				<div className="values"></div>
-				<div className="features"></div>
+		<div className="canvas-ctn" ref={canvas_ctn}>
+			<canvas id="home-canvas-product-3d" ref={canvas}></canvas>
+			<div className="features-ctn" style={{ width: selectedComponent ? '100%' : '' }}>
+				<div className="values">
+					<div className="ctn">
+						{
+							selectedFeature?.components?.map((c, i) => {
+								return <div key={i} className={"value " + (selectedComponent?.id == c.id ? 'active' : '')} style={{ background: getImg(c.icon[0], selectedComponent?.id == c.id ? '80%' : '70%') }} onClick={() => {
+									if (selectedComponent?.id == c.id) {
+										setSelectedComponent(selectedFeature.default_value);
+										setCollected({
+											...collected,
+											[selectedFeature.name]: selectedFeature.default_value
+										})
+										data.product3d?.loader.updateFeature(selectedFeature, selectedFeature.default_value?.code)
+									} else {
+										setSelectedComponent(c);
+										setCollected({
+											...collected,
+											[selectedFeature.name]: c
+										})
+										data.product3d?.loader.updateFeature(selectedFeature, c.code)
+									}
+								}}></div>
+							})
+						}
+					</div>
+				</div>
+				<div className="name">
+					<h4>{collected[selectedFeature?.name || '']?.name || selectedFeature?.default_value?.name}</h4>
+				</div>
+				<div className="features">
+					{features.list.map((f, i) => {
+						return <div key={i} className={"feature " + (selectedFeature?.id == f.id ? 'active' : '')} style={{ background: getImg(f.icon, selectedFeature?.id == f.id ? '70%' : '60%') }} onClick={() => {
+							if (selectedFeature?.id == f.id) {
+								setSelectedFeature(undefined);
+								setSelectedComponent(undefined)
+							} else {
+								setSelectedFeature(f);
+								const c = collected[f.name] || f.default_value;
+								setCollected({
+									...collected,
+									[f.name]: c
+								})
+								setSelectedComponent(c)
+							}
+						}}></div>
+					})}
+				</div>
 			</div>
 		</div>
 		<div className="infos">
 			<h2>Choose the interface that suits you</h2>
 			<div className="info">
-				<h3 className="title"><span>1</span> 3D or standard interface</h3>
+				<h3 className="title"><span>1</span>Product Presentation</h3>
 				<p className="text">
-					We have two (2) types of interface, 3D and standard. each available in several ranges
+					The presentation of the product depends on the interface you choose, standard, 3D or mixed (standard + 3D)
 				</p>
 			</div>
 			<div className="info">
-				<h3 className="title"><span>2</span> How to have your store</h3>
+				<h3 className="title"><span>2</span> Create your product </h3>
 				<p className="text">
-					you to create several stores with the same account. to create your store, fill in the required information (name, logo, etc.)
+					To create your 3d product you must fill in the necessary information. Then add a 3D file of the product (see more).
 				</p>
 			</div>
 			<div className="info">
-				<h3 className="title"><span>3</span> Interface update</h3>
+				<h3 className="title"><span>3</span> Dashboard</h3>
 				<p className="text">
-					you will be notified of interface improvements. We continually update the platform to meet your expectations
+					The Dashboard of your store is fully equipped to manage your products as you wish
 				</p>
 			</div>
 		</div>
 	</div>
 }
 
-const Cache: any = {}
+const Cache: {
+	model?: any,
+	loader?: LocalLoader
+} = {}
 class WorldProduct3D {
 	controls: OrbitControls;
 	renderer: THREE.WebGLRenderer;
 	private visible = false;
+	loader: LocalLoader
 	render: (time: number) => any;
 	setCanvas(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
@@ -82,7 +136,6 @@ class WorldProduct3D {
 	}
 	setVisible(visible: boolean) {
 		this.visible = visible;
-
 		if (visible) {
 			requestAnimationFrame(this.render)
 		}
@@ -114,45 +167,23 @@ class WorldProduct3D {
 		this.controls.enablePan = false
 		this.controls.dampingFactor = 0.03;
 		this.controls.enabled = true;
-		// controls.target.z = 0;
 
 		const scene = new THREE.Scene();
 
-		{
-
-			// // const color = 0xFFFFFF;
-			// // const intensity = 1;
-			// // const l1 = new THREE.DirectionalLight(color, intensity);
-			// // l1.position.set(1, 1, 1);
-			// // scene.add(l1);
-
-			// // const l2 = new THREE.DirectionalLight(color, intensity);
-			// // l2.position.set(-1, 1, -1);
-			// // scene.add(l2);
-
-			// // const l3 = new THREE.DirectionalLight(color, intensity);
-			// // l3.position.set(0, -1,0);
-			// // scene.add(l3);
-
-			// const l = new THREE.AmbientLight(color, 2);
-			// scene.add(l);
-
-		}
-
-
 		if (Cache.model) {
 			console.log('last Cache.model', Cache.model);
-
+			this.loader = Cache.loader!;
 			scene.add(Cache.model);
 		} else {
-			const loader = new LocalLoader();
-			loader.init({
+			this.loader = new LocalLoader();
+			Cache.loader = this.loader;
+			this.loader.init({
 				GLTFLoader,
 				THREE
 			})
-			loader.getModel().then((v: THREE.Mesh) => {
-				const textureLoader = new RGBELoader();
-				textureLoader.load('/src/World/images/royal_esplanade_1k.hdr', (texture) => {
+			this.loader.getModel().then((v: THREE.Mesh) => {
+				const textureLoader = new THREE.TextureLoader();
+				textureLoader.load('/src/World/images/royal_esplanade_1k3.jpg', (texture) => {
 					texture.mapping = THREE.EquirectangularReflectionMapping;
 					const list = v.children[0].children[0].children;
 					for (const m of list) {
@@ -160,9 +191,17 @@ class WorldProduct3D {
 						m.material.envMap = texture;
 
 					}
-
-					// scene.background = texture;
-					// scene.environment = texture;
+					setTimeout(() => {
+						const textureLoader = new RGBELoader();
+						textureLoader.load('/src/World/images/royal_esplanade_1k.hdr', (texture) => {
+							texture.mapping = THREE.EquirectangularReflectionMapping;
+							const list = v.children[0].children[0].children;
+							for (const m of list) {
+								//@ts-ignore
+								m.material.envMap = texture;
+							}
+						});
+					}, 5000);
 				});
 				scene.add(v);
 				Cache.model = v;
@@ -171,47 +210,21 @@ class WorldProduct3D {
 			})
 		}
 
-
-		// const boxWidth = 1;
-		// const boxHeight = 1;
-		// const boxDepth = 1;
-		// const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-		// function makeInstance(geometry: any, color: any, x: any) {
-
-		// 	const material = new THREE.MeshPhongMaterial({
-		// 		color,
-		// 		opacity: 0.5,
-		// 		// envMap
-		// 	});
-
-		// 	const cube = new THREE.Mesh(geometry, material);
-		// 	scene.add(cube);
-
-		// 	cube.position.x = x;
-
-		// 	return cube;
-
-		// }
-
-		// const cubes = [
-		// 	makeInstance(geometry, 0x44aa88, 0),
-		// 	makeInstance(geometry, 0x8844aa, - 2),
-		// 	makeInstance(geometry, 0xaa8844, 2),
-		// ];
-
 		let lastW = 0;
 		let lastH = 0;
 		function resizeRendererToDisplaySize(renderer: THREE.Renderer) {
 
 			const rect = parent.getBoundingClientRect();
-			const needResize = lastW !== rect.width || lastH !== rect.height;
+			const w = Math.min(rect.width, 400);
+			const h = Math.min(rect.height, 400);
+			const needResize = lastW !== w || lastH !== h;
 			if (needResize) {
-				lastH = rect.height;
-				lastW = rect.width;
+				lastH = h
+				lastW = w;
 				// canvas.height = rect.height;
 				// canvas.width = rect.width;
 				renderer.setSize(rect.width, rect.height, false);
+				// console.log({lastH,lastW,rect,});
 
 			}
 
@@ -220,7 +233,6 @@ class WorldProduct3D {
 		}
 		const self = this;
 		this.render = function (time: number) {
-			if (!self.visible) return
 			time *= 0.001;
 
 			if (resizeRendererToDisplaySize(self.renderer)) {
@@ -230,10 +242,12 @@ class WorldProduct3D {
 				camera.updateProjectionMatrix();
 
 			}
+			if (!self.visible) return
 
 			self.controls.update();
 			self.renderer.render(scene, camera);
 			requestAnimationFrame(self.render);
+			// console.log('@@@@@@@@@@');
 
 		}
 		requestAnimationFrame(self.render);

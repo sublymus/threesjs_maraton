@@ -23,6 +23,8 @@ interface WebState {
     owner: UserInterface | undefined,
     stores: ListType<StoreInterface> | undefined,
     selectedStore: StoreInterface | undefined,
+    // topBarFollow:true,
+    // setTopBarFollow(follow:boolean):void
     setSelectedStore(store: StoreInterface | undefined): void
     owner_stores(filter: {
         page?: number,
@@ -53,6 +55,10 @@ export const useWebStore = create<WebState>((set) => ({
     currentChild: undefined,
     back_color: '',
     blur: false,
+    // topBarFollow:true,
+    // setTopBarFollow(follow:boolean){
+
+    // },
     async exist(store_name) {
         const response = await fetch(`${Host}/check_store/?store_name=${store_name}`);
         const json = await response.json();

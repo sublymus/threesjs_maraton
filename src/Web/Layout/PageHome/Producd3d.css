@@ -2,45 +2,82 @@
     width: 100%;
     height: 500px;
     display: flex;
+    align-items: center;
 }
 
 .product-3d .canvas-ctn {
     width: 100%;
     height: 100%;
+    max-width: 400px;
+    max-height: 400px;
     position: relative;
+    display: flex;
+    justify-content: center;
+
 }
 
-#home-canvas-product-3d {
+/* #home-canvas-product-3d {
     width: 100%;
     height: 100%;
-}
+} */
 
 .product-3d .features-ctn {
-    width: 100%;
-    height: 0%;
-    background: rgba(186, 207, 176, 0.575);
     margin-bottom: 0px;
-    display: flex;
     flex-direction: column;
     position: absolute;
     align-items: center;
     bottom: 0px;
+    display: inline-flex;
 }
 
 .product-3d .values {
-    background: #574;
     width: 100%;
-    min-height: 60px;
     max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
 }
 
+.product-3d .values .ctn{
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: calc(100% - 100px);
+    /* padding: 5px 20px; */
+}
+.product-3d .value:hover, .product-3d .value.active{
+    box-shadow: 0px 0px 3px #fff
+}
+.product-3d .value{
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    margin: 0 3px;
+    border-radius: 100%;
+    transition: 300ms;
+}
 .product-3d .features {
-    background: rgba(102, 218, 44, 0.493);
     max-width: 500px;
     height: 60px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
+.product-3d .feature:hover, .product-3d .feature.active{
+    box-shadow: 0px 0px 3px #000
+}
+.product-3d .feature{
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+    filter: invert();
+    border-radius: 100%;
+    transition: 300ms;
+}
 /* Right side INFO */
 
 .product-3d .infos {
@@ -55,7 +92,7 @@
 
 .product-3d .infos>h2 {
     max-width: 600px;
-    color: #345;
+    /* color: #345; */
 }
 
 .product-3d .info {
@@ -90,7 +127,17 @@
     }
 
     .product-3d .canvas-ctn {
-        min-height: 300px
+        min-height: 400px;
+        max-width: 400px;
     }
+}
 
+@media (width <780px ) {
+    /* .product-3d .feature{
+        filter: invert(0);
+    } */
+    
+}
+.product-3d .values .ctn::-webkit-scrollbar{
+    display: none;
 }

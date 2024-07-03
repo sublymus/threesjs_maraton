@@ -82,7 +82,7 @@ interface UnUseAppState<T extends PageType> {
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
-    if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] })
+    if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] , json:{}})
     hash = decodeURIComponent(hash.slice(1, hash.length));
     let h = '';
     let h_json = ''

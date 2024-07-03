@@ -3,21 +3,21 @@ import './index.css'
 import { PageHome } from "./Layout/PageHome/PageHome";
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
 import { StorePage } from "./Layout/PageStoreList/StorePage";
-import { TopBar } from './Component/TopBar/TopBar'
+import { /* Footer, */ TopBar } from './Component/TopBar/TopBar'
 import { useWebRoute, useWebStore } from './WebStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function Web() {
     const { tryToken, blur, currentChild, openChild, back_color } = useWebStore();
-    const {pathList} = useWebRoute();
-    useEffect(()=>{
+    const { pathList } = useWebRoute();
+    useEffect(() => {
         openChild(undefined)
-    },[pathList])
+    }, [pathList])
+    const [canGo, setCanGo] = useState(false)
     useEffect(() => {
         tryToken();
     }, [])
-
-    // const ref = useRef<HTMLDivElement|null>(null)
+    const [web, setWeb] = useState<HTMLDivElement | null>(null)
     // useEffect(()=>{
     //     if (ref.current?.requestFullscreen) {
     //         ref.current?.requestFullscreen();
@@ -32,9 +32,25 @@ export function Web() {
     //     }
     // },[pathList])
     return (
-        <div className="web unselectable" /* ref={ref} */>
-            <div className="web-ctn" style={{filter :blur ? `blur(10px)`:''}}>
-                <div className="background"></div>
+        <div className="web unselectable" ref={ref => {
+            setWeb(ref);
+            if (!ref) return;
+            if (ref.dataset.init) return;
+            ref.dataset.init = 'init'
+            ref.addEventListener('scroll', () => {
+                ref
+                console.log(ref.scrollTop);
+                setCanGo((ref.scrollTop || 0) > 200)
+            })
+        }}>
+            {canGo && <div className="go-top" onClick={() => {
+                web && (web.scrollTop = 0)
+            }}>
+                <div className="icon"></div>
+            </div>}
+            <div className="web-ctn" style={{ filter: blur ? `blur(10px)` : '' }}>
+                <div className="background">
+                </div>
                 <TopBar />
                 <div className="page-ctn">
                     <PageHome />
@@ -56,6 +72,8 @@ export function Web() {
                 </div>
             </div>
             }
+
+            {/* <Footer /> */}
         </div>
     )
 }

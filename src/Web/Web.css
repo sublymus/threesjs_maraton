@@ -30,8 +30,35 @@ body{
     z-index: -1;
     height: 100%;
     background: linear-gradient(rgb(31, 31, 71),rgb(31, 31, 71) );
-    /* background: url(/src/res/img/noise.png); */
+    /* background: url(/src/res/img/captuss.svg); */
     /* opacity: 0.4; */
+}
+
+.web .go-top:hover{
+    box-shadow: 0px 0px 2px #fff, 0px 5px 10px #0005;
+    transition: 500ms;
+}
+.web .go-top{
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+    border-radius: 100%;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px #fff;
+    background:  linear-gradient(180deg, #0084ff63 0%, #ae00ff70 100%);;
+    transition: 500ms;
+}
+
+.web .go-top .icon{
+    width: 60px;
+    height: 60px;
+    background: no-repeat center/40% url(/src/res/arrow-left.png);
+    filter: invert(100);
+    backdrop-filter:invert(100) blur(5px);
+    rotate: 90deg;
 }
 
 .web .page-ctn{

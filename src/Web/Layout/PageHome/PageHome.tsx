@@ -33,6 +33,7 @@ export function PageHome() {
 
     const [count, setCount] = useState(1);
     const [id, setId] = useState<number | undefined>();
+    const { qs, json, check } = useWebRoute();
     useEffect(() => {
         if (!id) {
             setId(
@@ -44,10 +45,13 @@ export function PageHome() {
                 clearInterval(id)
             }
         }
-
     }, [id]);
+    useEffect(() => {
+        !json?.open && setOpened('');
+    }, [json])
+    const [opened, setOpened] = useState('');
+    const [openInfo, setOpenInfo] = useState(0);
 
-    const { check } = useWebRoute();
     return check('home') && (
         <div className="page-home">
             <div className="back-home"></div>
@@ -56,6 +60,10 @@ export function PageHome() {
                     <div className="stores-count">{34} Stores</div>
                     <div className="title">Discover the <span className="shopping">Shopping</span> Revolution in <span className="c-3d">3D</span></div>
                     <div className="sub-title">Create, Personalize and Sell your Products presented in 3D and offer your customers a unique interactive experience.</div>
+                    <div className="btn-stores">
+                        <div className="create-store">Create you store</div>
+                        <div className="manage-stores">Manage you stores</div>
+                    </div>
                 </div>
                 <div className="right">
                     <div className="subjects">
@@ -69,8 +77,19 @@ export function PageHome() {
                     </label>
                 </div>
             </div>
+            {
+                opened && <div className="close-cadre" onClick={() => {
+                    setOpened('');
+                    qs({}).apply()
+                }}></div>
+            }
             <div className="prettier">
                 <CardFlyer
+                    onClick={() => {
+                        setOpened('products');
+                        qs({ open: true }).apply()
+                        // setTopBarFollow(false);
+                    }}
                     id='home/products'
                     icon="/src/res/add-product.png"
                     infos={[{
@@ -84,12 +103,16 @@ export function PageHome() {
                     title="Add new Products"
                 // link="products"
                 />
-                <div className="cadre">
-                    <Producd3d/>
+                <div className={"cadre " + ((opened == 'products' && json?.open) ? 'open' : '')}>
+                    <Producd3d />
                 </div>
             </div>
             <div className="prettier">
                 <CardFlyer
+                    onClick={() => {
+                        setOpened('commands')
+                        qs({ open: true }).apply()
+                    }}
                     id='home/commands'
                     icon="/src/res/shopping-bag.png"
                     infos={[{
@@ -103,12 +126,16 @@ export function PageHome() {
                     title="Manage customer orders"
                 // link="products"
                 />
-                <div className="cadre">
-
+                <div className={"cadre " + ((opened == 'commands' && json?.open) ? 'open' : '')} style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    order management
                 </div>
             </div>
             <div className="prettier">
                 <CardFlyer
+                    onClick={() => {
+                        setOpened('users')
+                        qs({ open: true }).apply()
+                    }}
                     id='home/users'
                     icon="/src/res/customer.png"
                     infos={[{
@@ -122,40 +149,52 @@ export function PageHome() {
                     title="Store user types"
                 // link="products"
                 />
-                <div className="cadre">
+                <div className={"cadre " + ((opened == 'users' && json?.open) ? 'open' : '')}>
                     <div className="p-access">
                         <div className="ctn-threejs"></div>
                         <div className="infos">
                             <div className="title">accessibility</div>
-                            <div className={"info " + (count == 1 ? 'open' : '')}>
+                            <div className={"info " + (openInfo == 1 ? 'open' : ((count == 1 && !openInfo) ? 'open' : ''))} onClick={() => {
+                                if (openInfo == 1) { setOpenInfo(0); setCount(0) }
+                                else setOpenInfo(1)
+                            }}>
                                 <div className="count">1</div>
                                 <div className="text">
                                     <h3>Accessible all over the world 24/7</h3>
                                     <p>You and your customers will be able to access the content of your store at any time.</p>
                                 </div>
                             </div>
-                            <div className={"info " + (count == 2 ? 'open' : '')}>
+                            <div className={"info " + (openInfo == 2 ? 'open' : ((count == 2 && !openInfo) ? 'open' : ''))} onClick={() => {
+                                if (openInfo == 2) { setOpenInfo(0); setCount(0) }
+                                else setOpenInfo(2)
+                            }}>
                                 <div className="count">2</div>
                                 <div className="text">
                                     <h3>Mobile or desktop</h3>
                                     <p>The Sublymus platform is available on the web in Mobile, tablet and desktop versions</p>
                                 </div>
                             </div>
-                            <div className={"info " + (count == 4 ? 'open' : '')}>
-                                <div className="count">4</div>
+                            <div className={"info " + (openInfo == 3 ? 'open' : ((count == 3 && !openInfo) ? 'open' : ''))} onClick={() => {
+                                if (openInfo == 3) { setOpenInfo(0); setCount(0) }
+                                else setOpenInfo(3)
+                            }}>
+                                <div className="count">3</div>
                                 <div className="text">
                                     <h3>report issues to customer service</h3>
                                     <p>to help us improve the platform, report any problems you encounter.</p>
                                 </div>
                             </div>
-                            <div className={"info " + (count == 3 ? 'open' : '')}>
-                                <div className="count">3</div>
+                            <div className={"info " + (openInfo == 4 ? 'open' : ((count == 4 && !openInfo) ? 'open' : ''))} onClick={() => {
+                                if (openInfo == 4) { setOpenInfo(0); setCount(0) }
+                                else setOpenInfo(4)
+                            }}>
+                                <div className="count">4</div>
                                 <div className="text">
                                     <h3>quick correction and maintenance</h3>
                                     <p>We are attentive to your comments and we are working to correct or improve them as quickly as possible.</p>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="access-world">
                             <SolarySystem />
@@ -168,6 +207,10 @@ export function PageHome() {
             </div>
             <div className="prettier">
                 <CardFlyer
+                    onClick={() => {
+                        setOpened('interfaces')
+                        qs({ open: true }).apply()
+                    }}
                     id='home/interfaces'
                     icon="/src/res/software-testing.png"
                     infos={[{
@@ -181,12 +224,16 @@ export function PageHome() {
                     title="Change your store interface"
                 // link="products"
                 />
-                <div className="cadre">
+                <div className={"cadre " + ((opened == 'interfaces' && json?.open) ? 'open' : '')}>
                     <InterfaceChange />
                 </div>
             </div>
             <div className="prettier">
                 <CardFlyer
+                    onClick={() => {
+                        setOpened('statistics')
+                        qs({ open: true }).apply()
+                    }}
                     id='home/statistics'
                     icon="/src/res/stats.png"
                     infos={[{
@@ -200,13 +247,10 @@ export function PageHome() {
                     title="Statistical table"
                 // link="products"
                 />
-                <div className="cadre">
-                    <BarChart/>
+                <div className={"cadre " + ((opened == 'statistics' && json?.open) ? 'open' : '')}>
+                    <BarChart />
                 </div>
             </div>
-            <footer>
-                
-            </footer>
         </div>
     )
 }
