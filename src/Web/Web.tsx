@@ -1,9 +1,10 @@
 import './Web.css';
 import './index.css'
 import { PageHome } from "./Layout/PageHome/PageHome";
+import { PageEditStore } from "./Layout/PageEditStore/PageEditStore";
+import { PageTutorial } from "./Layout/PageTutorial/PageTutorial";
+import { /* Footer, */ Footer, TopBar } from './Component/TopBar/TopBar'
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
-import { StorePage } from "./Layout/PageStoreList/StorePage";
-import { /* Footer, */ TopBar } from './Component/TopBar/TopBar'
 import { useWebRoute, useWebStore } from './WebStore';
 import { useEffect, useState } from 'react';
 
@@ -54,8 +55,9 @@ export function Web() {
                 <TopBar />
                 <div className="page-ctn">
                     <PageHome />
-                    <PageNewStore />
-                    <StorePage />
+                    <PageEditStore />
+                    <PageTutorial />
+                    <PageNewStore/>
                 </div>
             </div>
             {currentChild && <div className="child-viewer" onContextMenu={(e) => {
@@ -73,7 +75,7 @@ export function Web() {
             </div>
             }
 
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 }

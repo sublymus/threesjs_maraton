@@ -4,12 +4,12 @@ import './FilterSwitch.css'
 
 
 
-export const FilterSwitch = (active?: boolean): FilterMapper => {
+export const FilterSwitch = (active?: boolean, simple?:boolean): FilterMapper => {
 
     return {
         getView(name, _onChange) {
 
-            return <div className="filter-switch" ref={(ref) => {
+            return <div className="filter-switch" style={{all:simple?'unset':'initial'}} ref={(ref) => {
                 if (!ref) return;
                 if (ref.dataset.init) return;
                 ref.dataset.init = 'filter-switch';

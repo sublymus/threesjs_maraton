@@ -15,7 +15,7 @@ const navs = [{
     n: 'Stores',
     i: '/src/res/store.png'
 }
-, {
+    , {
     u: 'tutorial',
     n: 'Tutorial',
     i: '/src/res/catalog.png'
@@ -27,37 +27,29 @@ const navs = [{
     u: 'contact',
     n: 'Contact us',
     i: '/src/res/services.png'
-}, {
-    u: 'updates',
-    n: 'Updates',
-    i: '/src/res/jigsaw.png'
-}, {
-    u: 'forum',
-    n: 'Forum',
-    i: '/src/res/multiple-users-silhouette.png'
 }
 ]
 
-export function Footer(){
+export function Footer() {
 
     const { setAbsPath } = useWebRoute();
     return (
         <footer className="footer">
-             <ul className='links'>
-                    {
-                        navs.map((d, i) => (
-                            <li key={i}style={{pointerEvents:'initial'}}onClick={()=>setAbsPath([d.u as any])}>
-                                <span  style={{background: getImg(d.i, '80%') }}></span>{d.n}
-                            </li>
-                        ))
-                    }
-                </ul>
+            <ul className='links'>
+                {
+                    navs.map((d, i) => (
+                        <li key={i} style={{ pointerEvents: 'initial' }} onClick={() => setAbsPath([d.u as any])}>
+                            <span style={{ background: getImg(d.i, '80%') }}></span>{d.n}
+                        </li>
+                    ))
+                }
+            </ul>
             <div className="more-info">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam nobis fugiat maiores. Velit reiciendis dolor facere explicabo autem dolore nostrum omnis. Recusandae deserunt modi ad accusantium iste dolore esse pariatur!
             </div>
         </footer>
     )
-} 
+}
 
 export function TopBar() {
 
@@ -103,17 +95,19 @@ export function TopBar() {
                     }
                 </ul>
 
-                <div className="ctn-icon" onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setOpenMoreNavs(!openMoreNavs)
-                }}>
-                    <div className="icon"></div>
-                </div>
-                {owner ? (
-                    <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
+                <div className="right">
+                    <div className="ctn-icon" onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOpenMoreNavs(!openMoreNavs)
+                    }}>
+                        <div className="icon"></div>
                     </div>
-                ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
+                    {owner ? (
+                        <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
+                        </div>
+                    ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
+                </div>
             </div>
             <div className='more-navs' onClick={(e) => {
                 e.preventDefault();

@@ -5,13 +5,14 @@ import { UserInterface, StoreInterface, type ListType } from '../DataBase'
 
 const Pages = {
     '/': {
+        home: {},
+        store_list: {},
         new_store: {},
         edit_store: {},
-        home: {},
         about: {},
-        stores: {},
+        // stores: {},
+        tutorial:{},
         contact: {},
-        store_list: {}
     }
 }
 
@@ -26,12 +27,6 @@ interface WebState {
     // topBarFollow:true,
     // setTopBarFollow(follow:boolean):void
     setSelectedStore(store: StoreInterface | undefined): void
-    owner_stores(filter: {
-        page?: number,
-        limit?: number,
-        order_by?: string,
-        text?: string,
-    }): Promise<ListType<StoreInterface> | undefined>
     createStore(data: Record<string, any>): Promise<StoreInterface | undefined>
     editStore(data: Record<string, any>): Promise<StoreInterface | undefined>
     createOwner(): Promise<void>
@@ -44,6 +39,10 @@ interface WebState {
         limit?: number,
         order_by?: string,
         text?: string,
+        name?:string, email?:string,
+        description?:string,
+        only_owner?:boolean,
+        phone?:string,
     }): Promise<ListType<StoreInterface> | undefined>
     exist(store_id: string): Promise<boolean> | undefined
 }
@@ -79,7 +78,7 @@ export const useWebStore = create<WebState>((set) => ({
         const owner = useWebStore.getState().owner
         if (!owner) return
         //@ts-ignore
-        filter.owner_id = owner.id
+        if(filter.only_owner)filter.owner_id = owner.id
         console.log({ filter });
 
         const searchParams = new URLSearchParams({});
@@ -114,7 +113,7 @@ export const useWebStore = create<WebState>((set) => ({
         const response = await fetch(`${Host}/delete_store/${store_id}`, requestOptions);
         try {
             const json = await response.json();
-            useWebStore.getState().owner_stores({});
+            useWebStore.getState().fetchStores({});
             return json?.deleted;
         } catch (error) {
             return false;
@@ -153,32 +152,11 @@ export const useWebStore = create<WebState>((set) => ({
         const response = await fetch(`${Host}/me`, requestOptions);
         let js = await response.json();
         if (!js?.id) return localStorage.removeItem('user');
-        useWebStore.getState().owner_stores({});
+        useWebStore.getState().fetchStores({});
         js = { token: owner.token, ...js }
 
         set(() => ({ owner: js }))
         localStorage.setItem('user', JSON.stringify(js));
-    },
-    async owner_stores(filter) {
-        const owner = useWebStore.getState().owner
-        if (!owner) return
-        //@ts-ignore
-        filter.owner_id = owner.id
-        const searchParams = new URLSearchParams({});
-        for (const key in filter) {
-            const value = (filter as any)[key];
-            searchParams.set(key, value);
-        }
-        const headers = new Headers();
-        headers.append("Authorization", `Bearer ${owner.token}`);
-        const response = await fetch(`${Host}/get_stores/?${searchParams}`, {
-            headers
-        })
-        const json = await response.json();
-        if (!json?.list) return
-        console.log(json.list);
-        set(() => ({ stores: json }))
-        return json
     },
     async editStore(data) {
 
@@ -225,7 +203,7 @@ export const useWebStore = create<WebState>((set) => ({
 
         try {
             const store = await response.json();
-            useWebStore.getState().owner_stores({})
+            useWebStore.getState().fetchStores({})
             return store
         } catch (error: any) {
             console.log(error.message);
@@ -266,7 +244,7 @@ export const useWebStore = create<WebState>((set) => ({
 
             const response = await fetch(`${Host}/create_store`, requestOptions)
             const store = await response.json();
-            useWebStore.getState().owner_stores({})
+            useWebStore.getState().fetchStores({})
             return store
         } catch (error) {
             return error
@@ -284,7 +262,7 @@ export const useWebStore = create<WebState>((set) => ({
             if (user) {
                 set(() => ({ owner: user }))
                 clearInterval(id);
-                useWebStore.getState().owner_stores({});
+                useWebStore.getState().fetchStores({});
                 useWebRoute.getState().setAbsPath(['store_list']);
             }
             // console.log(new Date().getMilliseconds());

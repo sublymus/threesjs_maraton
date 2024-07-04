@@ -1,5 +1,10 @@
+
+
+
+
 .page-home {
     width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,26 +13,28 @@
 
 /* BACH HOME */
 
-.page-home {
-    background:
-        no-repeat -400px -200px/150% url(/src/res/img/certificate-lines.svg),
-        no-repeat -400px 200px/150% url(/src/res/img/certificate-lines.svg),
-        no-repeat -400px 800px/150% url(/src/res/img/certificate-lines.svg),
+.page-home .back-home {
+    width: 100%;
+    height: 100%;
+    background:#566
 }
 
 /*  */
-.page-home .page-text {
+.page-home .top-ctn {
     width: 100%;
     display: flex;
+    align-items: center;
     margin-top: 30px;
 }
 
-.page-home .page-text .text-top {
+.page-home .top-ctn .left-side {
     display: flex;
+    height: 100%;
+    min-height: 500px;
     flex-direction: column;
 }
 
-.page-home .page-text .stores-count {
+.page-home .top-ctn .left-side .stores-count {
     font-style: normal;
     font-weight: 600;
     font-size: 1em;
@@ -36,312 +43,311 @@
     opacity: 0.7;
 }
 
-.page-home .page-text .title {
+.page-home .top-ctn .left-side .title {
     font-style: normal;
     font-weight: bold;
     font-size: 2.2em;
     margin: 0px;
 }
 
-.page-home .page-text .title .shopping {
+.page-home .top-ctn  .left-side .title .store {
     color: rgb(255, 203, 61);
 }
 
-.page-home .page-text .title .c-3d {
+.page-home .top-ctn .left-side .title .business {
     display: inline-block;
     background: linear-gradient(180deg, #0084ffe0 0%, #ae00ff 100%);
     background-clip: text;
     -webkit-background-clip: text;
-    color: rgb(255, 203, 61);
     color: transparent;
     position: relative;
-    transition: 500ms;
 }
 
-.page-home .page-text .title .c-3d:hover {
-    animation: turnaround 3s infinite;
-    animation-delay: 0ms;
-    transition: 500ms;
-}
-
-/* skewY(8deg) */
-@keyframes turnaround {
-    0% {
-        transform: rotateY(0deg);
-    }
-
-    100% {
-        transform: rotateY(360deg);
-    }
-}
-
-.page-home .page-text .sub-title {
+.page-home .top-ctn .left-side .sub-title {
     font-style: normal;
     font-weight: normal;
     line-height: 130%;
     margin: 0px;
+    opacity: 0.8;
 }
 
-.page-home .btn-stores{
+.page-home .top-ctn .left-side  .mobile-video{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+
+.page-home  .top-ctn .left-side .btn-stores {
     display: flex;
     width: 100%;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-top: auto;
+    margin-bottom: auto;
 }
-.page-home .btn-stores .create-store:hover{
-    background: #eee0;
-    color: #fff;
-    transition: 400ms;
+
+.page-home  .top-ctn .left-side .btn-stores .add-new-store:hover {
+    box-shadow: 0px 4px 20px #0009;
+    transform: translateY(-3px);
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 }
-.page-home .btn-stores .create-store{
+
+.page-home  .top-ctn .left-side .btn-stores .add-new-store {
     padding: 10px 10px;
-    border-radius: 50px;
+    border-radius:20px;
     background: #eee;
     margin: 10px;
     color: #345;
-    transition: 400ms;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
     cursor: pointer;
-}
-.page-home .btn-stores .manage-stores:hover{
-    background: #ae00ff55;
-    transition: 400ms;
-}
-.page-home .btn-stores .manage-stores{
-    cursor: pointer;
-    padding: 10px 10px;
-    border-radius: 50px;
-    /* background: #ae00ff; */
-    box-shadow: 0px 0px 2px #fff;
-    margin: 10px;
-    transition: 400ms;
-}
-
-.page-home .right {
-    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: flex-end;
-    align-content: flex-end;
+    align-items: center;
 }
 
-.page-home .subjects {
-    display: flex;
+.page-home .top-ctn .left-side  .left-side .btn-stores .add-new-store .label{
+    margin-left: 20px;
+    font-weight: bold;
 }
 
-.page-home .subjects a:hover {
-    scale: 1;
-    transition: 200ms;
-    box-shadow: 0px 10px 15px #0005, 0px 0px 5px #fff8;
+.page-home  .top-ctn .left-side .btn-stores .add-new-store:hover .icon{
+    scale: 1.2;
+}
+.page-home  .top-ctn .left-side .btn-stores .add-new-store .icon{
+    width: 40px;
+    height: 40px;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    background: no-repeat center/100% url(/src/res/plus-round.png);
 }
 
-.page-home .subjects a {
-    display: inline-block;
-    width: 45px;
-    height: 45px;
-    margin: 5px;
-    scale: 0.8;
-    transition: 200ms;
-    box-shadow: 0px 0px 5px #fff8;
-    border-radius: 50px;
-}
-
-.page-home .page-text .search {
+.page-home .top-ctn .left-side  .search {
     width: 240px;
     height: 40px;
     margin-top: 20px;
 }
 
-/* PRETTIER  */
-.page-home .prettier {
-    width: 100%;
-    margin-top: 30px;
+.page-home .top-ctn .left-side  .only-my-store {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
 }
 
-.page-home .card-flyer {
-    margin: 50px;
+.page-home .top-ctn .left-side  .check-only-my-store.true {
+    background: no-repeat center/50% url(/src/res/mark.png);
 }
 
-@media (width <450px) {
-    .page-home .card-flyer {
-        width: 200px;
+.page-home .top-ctn .left-side  .check-only-my-store {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+    filter: invert();
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 2px #000;
+}
+
+.page-home .top-ctn .right {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.page-home .video{
+    border-radius: 50px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.page-home .home-stores{
+    width: 100%;
+    padding: 0px;
+    overflow-y:hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 20px;
+    margin-top: 20px;
+    background: #0001;
+    background: rgba(15, 14, 71, 0.3);
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+    backdrop-filter: blur(40px) saturate(120%) brightness(100%);
+}
+
+
+@media (width <750px) {
+    .page-home .top-ctn {
+        flex-wrap: wrap;
+    }
+    .page-home .top-ctn  .left-side .mobile-video{
+        display: flex;
+    }
+    .page-home .top-ctn  .right{
+        display: none;
     }
 }
 
-.page-home .prettier .cadre {
-    width: 100%;
-    min-height: 500px;
-    position: relative;
-    display: flex;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Store Card */
+
+
+
+.store-card:hover{
+    mask-image: linear-gradient(rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%);
+}
+.store-card {
+    mask-image: linear-gradient(rgb(255, 255, 255) 90%, rgba(255, 255, 255, 0) 100%);
     overflow: hidden;
-    backdrop-filter: blur(5px);
-    box-shadow: 0px 0px 1px #fff9;
-    border-radius: 20px;
-    display: none!important;
-    /* background: rgba(15, 14, 71, 0.3); */
-}
-
-
-/*  PRETTIER USERs */
-
-.page-home .cadre .p-users {
-    width: 100%;
-    /* height: 500px; */
-    /* background: #fff5; */
-}
-
-/* PRETTIER ACCESS  /  CADRE ACCESSIBILITY  */
-
-.page-home .cadre .p-access {
-    width: 100%;
-    /* min-width: 380px; */
-    height: 500px;
-    position: relative;
-    overflow: hidden;
-    padding: 20px;
-    background: rgba(15, 14, 71, 0.3);
-}
-
-.page-home .cadre .p-access .title {
-    text-transform: uppercase;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.page-home .cadre .p-access .infos {
-    display: flex;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 10px;
+    vertical-align: middle;
+    width: 260px;
+    height: 360px;
+    display: inline-flex;
     flex-direction: column;
-}
-
-.page-home .cadre .p-access .infos .info {
-    display: flex;
-    margin-top: 20px;
-    background: #fffc;
+    box-shadow: var(--box-shadow);
+    margin: 10px;
     border-radius: 20px;
-    color: #345;
-    pointer-events: initial;
-    /* width: 100%; */
 }
 
-
-.page-home .cadre .p-access .infos .count {
-    min-width: 35px;
-    height: 35px;
-    margin-right: 20px;
+.store-card:hover .banner{
+    min-height: 80px;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+.store-card .banner {
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(31, 31, 71);
-    border-radius: 50px;
-    color: #fff;
-    box-shadow: 0px 0px 10px #0005;
 }
 
-.page-home .cadre .p-access .infos .info .text {
-    margin-top: 5px;
-}
 
-.page-home .cadre .p-access .infos .info p {
-    height: 0px;
-    overflow: hidden;
-    opacity: 0;
-    max-width: 350px;
-    transition: 600ms;
-}
-
-.page-home .cadre .p-access .infos .info.open p {
-    /* scale: 1; */
-    height: 100px;
-    padding-top: 10px;
-    opacity: 0.8;
-    transition: 600ms;
-}
-
-.page-home .access-world {
-    /* position: absolute; */
-    top: 0;
-    height: 100%;
-    width: 200%;
-    /* transform:  translateX(-50%); */
-    z-index: -1;
-}
-
-.page-home .close-cadre:hover {
-    opacity: 1;
-    background: no-repeat center/90% url(/src/res/x.png);
-    transition: 200ms;
-}
-
-.page-home .close-cadre {
-    width: 30px;
-    height: 30px;
-    background: no-repeat center/80% url(/src/res/x.png);
+.store-card .more {
     position: absolute;
-    z-index: 2;
-    top: 10px;
-    right: 10px;
-    border-radius: 100%;
-    box-shadow: 0px 0px 2px #000;
-    filter: invert();
-    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    bottom: 0px;
+    color: #fff;
+    width: 100%;
+    height: 80px;
     transition: 200ms;
+    background: linear-gradient(#0000, #000);
+}
+
+.store-card .more .logo {
+    min-width: 80px;
+    height: 80px;
+    border-radius: 50px;
+}
+
+.store-card .more .text {
+    margin-left: 10px;
+    padding-top: 10px;
+}
+
+.store-card .more .text .name {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.store-card .more .text .owner-email {
+    opacity: 0.9;
+    font-size: 0.85em;
+}
+
+.store-card .more .text .id {
+    margin-top: 5px;
+    font-size: 0.8em;
+}
+
+.store-card .store-products{
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.store-card .store-products::-webkit-scrollbar{
     display: none;
 }
 
-@media (width <1210px) {
-    .page-home .access-world {
-        width: 150%;
-    }
+.store-card .store-product, .store-card .more-product{
+    height: 100px;
+    width: 120px;
+    margin: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 
-
-
-@media (width <1210px) {
-    .page-home .cadre {
-        flex-wrap: wrap;
-    }
+.store-card .more-product .more-icon{
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    background: #0006;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@media (width <550px) {
-    .page-home .page-text {
-        flex-wrap: wrap;
-    }
+.store-card:hover .see-all{
+    min-height:40px;
+    scale: 1;
+    height: 40px;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+.store-card .see-all{
+    scale: 0;
+    height: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 }
 
-@media (width <780px) {
-    .page-home .prettier {
-        flex-wrap: wrap;
-    }
-
-    .page-home .prettier .cadre {
-        display: none;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        /* background: #eee; */
-        background: linear-gradient(rgb(31, 31, 71), rgb(31, 31, 71));
-        color: #fff;
-        z-index: 1;
-    }
-
-    .page-home .close-cadre {
-        display: block;
-    }
-
-    .page-home .prettier .cadre.open {
-        display: block;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
+.store-card .see-all .btn{
+    background: #345;
+    padding: 5px 20px;
+    border-radius: 10px;
 }

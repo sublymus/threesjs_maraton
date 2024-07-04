@@ -1,0 +1,207 @@
+
+/* PRETTIER  */
+.page-home .prettier {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.page-home .card-flyer {
+    margin: 50px;
+}
+
+@media (width <450px) {
+    .page-home .card-flyer {
+        width: 200px;
+    }
+}
+
+
+.page-home .prettier .cadre {
+    width: 100%;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 1px #fff9;
+    border-radius: 20px;
+    display: none !important;
+    /* background: rgba(15, 14, 71, 0.3); */
+}
+
+
+/*  PRETTIER USERs */
+
+.page-home .cadre .p-users {
+    width: 100%;
+    /* height: 500px; */
+    /* background: #fff5; */
+}
+
+/* PRETTIER ACCESS  /  CADRE ACCESSIBILITY  */
+
+.page-home .cadre .p-access {
+    width: 100%;
+    /* min-width: 380px; */
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    background: rgba(15, 14, 71, 0.3);
+}
+
+.page-home .cadre .p-access .title {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-home .cadre .p-access .infos {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 10px;
+    flex-direction: column;
+}
+
+.page-home .cadre .p-access .infos .info {
+    display: flex;
+    margin-top: 20px;
+    background: #fffc;
+    border-radius: 20px;
+    color: #345;
+    pointer-events: initial;
+    /* width: 100%; */
+}
+
+
+.page-home .cadre .p-access .infos .count {
+    min-width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(31, 31, 71);
+    border-radius: 50px;
+    color: #fff;
+    box-shadow: 0px 0px 10px #0005;
+}
+
+.page-home .cadre .p-access .infos .info .text {
+    margin-top: 5px;
+}
+
+.page-home .cadre .p-access .infos .info p {
+    height: 0px;
+    overflow: hidden;
+    opacity: 0;
+    max-width: 350px;
+    transition: 600ms;
+}
+
+.page-home .cadre .p-access .infos .info.open p {
+    /* scale: 1; */
+    height: 100px;
+    padding-top: 10px;
+    opacity: 0.8;
+    transition: 600ms;
+}
+
+.page-home .access-world {
+    /* position: absolute; */
+    top: 0;
+    height: 100%;
+    width: 200%;
+    /* transform:  translateX(-50%); */
+    z-index: -1;
+}
+
+.page-home .close-cadre:hover {
+    opacity: 1;
+    background: no-repeat center/90% url(/src/res/x.png);
+    transition: 200ms;
+}
+
+.page-home .close-cadre {
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/x.png);
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 2px #000;
+    filter: invert();
+    opacity: 0.8;
+    transition: 200ms;
+    display: none;
+}
+
+@media (width <1210px) {
+    .page-home .access-world {
+        width: 150%;
+    }
+}
+
+
+
+@media (width <1210px) {
+    .page-home .cadre {
+        flex-wrap: wrap;
+    }
+}
+
+@media (width <750px) {
+    .page-home .top-ctn {
+        flex-wrap: wrap;
+    }
+    .page-home .mobile-video{
+      display: flex;
+    }
+    .page-home .right{
+        display: none;
+    }
+}
+/* 
+@media (width <400px) {
+    .page-home .mobile-video{
+        height: 250px;
+    }
+} */
+
+@media (width <780px) {
+    .page-home .prettier {
+        flex-wrap: wrap;
+    }
+
+    .page-home .prettier .cadre {
+        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        /* background: #eee; */
+        background: linear-gradient(rgb(31, 31, 71), rgb(31, 31, 71));
+        color: #fff;
+        z-index: 1;
+    }
+
+    .page-home .close-cadre {
+        display: block;
+    }
+
+    .page-home .prettier .cadre.open {
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+}
