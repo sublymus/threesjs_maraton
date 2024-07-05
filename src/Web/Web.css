@@ -121,7 +121,6 @@ body{
     display: flex;
     height: 100%;
     width: 100%;
-   
 }
 
 @media (width < 650px) {
@@ -129,3 +128,4 @@ body{
         font-size: 0.9em !important;
     }
 }
+

@@ -2,8 +2,9 @@ import "./PageHome.css";
 import { useWebRoute, useWebStore } from '../../WebStore'
 import { useEffect, useState } from "react";
 import { getImg } from '../../../Tools/StringFormater'
-import { bindToParentScroll } from '../../../Tools/BindToParentScroll';
-import { StoreInterface } from "../../../DataBase";
+import { ListType, StoreInterface, UserInterface } from "../../../DataBase";
+import { TutorialCard } from "../PageTutorial/PageTutorial";
+import { Local } from "../../../Config";
 
 export function PageHome() {
 
@@ -11,15 +12,18 @@ export function PageHome() {
     useEffect(() => {
         fetchStores({})
     }, [])
-    const { check, pathList , setAbsPath} = useWebRoute()
-    const { owner, stores, fetchStores } = useWebStore()
+    const { check, pathList, setAbsPath } = useWebRoute()
+    const { owner, fetchStores } = useWebStore()
+    const [stores, setStores] = useState<ListType<StoreInterface> | undefined>()
     const [searchValue, setSearchValue] = useState('')
     useEffect(() => {
         owner && check('home') && fetchStores({
             name: searchValue,
-            only_owner:onlyMyStore
+            only_owner: onlyMyStore
+        }).then((res) => {
+            setStores(res)
         })
-    }, [pathList, owner,onlyMyStore,searchValue])
+    }, [pathList, owner, onlyMyStore, searchValue])
 
     return check('home') && (
         <div className="page-home">
@@ -51,7 +55,7 @@ export function PageHome() {
                         </div>
                     </div>
                     <div className="btn-stores">
-                        <div className="add-new-store" onClick={()=>{
+                        <div className="add-new-store" onClick={() => {
                             setAbsPath(['new_store'])
                         }}>
                             <div className="icon"></div>
@@ -63,7 +67,7 @@ export function PageHome() {
                         <div className="section-search">
                             <label htmlFor="home-search" className="search">
                                 <div className="icon"></div>
-                                <input id="home-search" type="text" placeholder="Store name" onChange={(e)=>{
+                                <input id="home-search" type="text" placeholder="Store name" onChange={(e) => {
                                     setSearchValue(e.currentTarget.value)
                                 }} />
                             </label>
@@ -102,71 +106,82 @@ export function PageHome() {
 
             </div>
             <div className="home-stores">
-
                 <div className="list">
-                    <div className="stores" ref={bindToParentScroll}>
-                        {stores?.list.map((s) => <StoreCard setSelectedStore={() => { }} store={s} />)}
+                    <div className="stores">
+                        {stores?.list.map((s) => <StoreCard owner={owner} key={s.id} setSelectedStore={() => { }} store={s} />)}
                     </div>
                 </div>
             </div>
-
+            <TutorialCard/>
 
         </div>
     )
 }
 
 const products = [{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},{
-    icon:'/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
-    name:'Lanoda'
-},]
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}, {
+    icon: '/src/res/screen/167814d2-d7c5-4c13-9baa-a26bbba58283.jpg',
+    name: 'Lanoda'
+}]
 
-export function StoreCard({ setSelectedStore, store }: { store: StoreInterface, setSelectedStore: () => any }) {
+export function StoreCard({ setSelectedStore, store, owner, isNew }: { isNew?:boolean,owner?: UserInterface, store: StoreInterface, setSelectedStore: () => any }) {
 
-
-    return <div className="store-card">
+    return <div className={"store-card "+(isNew?'new':'')}>
         <div className="banner" style={{ background: getImg(store.banners[0]) }} onClick={() => {
-            setSelectedStore()
+            setSelectedStore();
         }}>
             <div className="more">
                 <div className="logo" style={{ background: getImg(store.logo[0]) }}></div>
                 <div className="text">
                     <div className="name">{store.name}</div>
-                    <div className="store_email">{store.store_email||'sublymus@gmail.com'}</div>
+                    <div className="store_email">{store.store_email || 'sublymus@gmail.com'}</div>
                 </div>
             </div>
         </div>
         <div className="store-products">
             {
-                products.map((p)=>(
-                    <div className="store-product" style={{background:getImg(p.icon)}}></div>
+                products.map((p) => (
+                    <div className="store-product" style={{ background: getImg(p.icon) }}></div>
                 ))
             }
             {
-                products.length >1 && <div className="more-product" style={{background:getImg(products[products.length-1].icon)}}>
+                products.length > 1 && <div className="more-product" style={{ background: getImg(products[products.length - 1].icon) }}>
                     <div className="more-icon">+ see all</div>
                 </div>
             }
         </div>
         <div className="see-all">
-           <div className="btn"> See All</div>
+            <div className="btn" onClick={() => {
+                localStorage.setItem('store', JSON.stringify(store));
+                window.open(
+                    `${Local}/${store.name}`
+                );
+            }}> Open {'>'} </div>
+            {
+                owner && owner.id == store.owner_id && <div className="btn" onClick={() => {
+                    localStorage.setItem('store', JSON.stringify(store));
+                    window.open(
+                        `${Local}/${store.name}/dash`
+                    );
+                }}> Manage {'>'} </div>
+            }
         </div>
     </div>
 }

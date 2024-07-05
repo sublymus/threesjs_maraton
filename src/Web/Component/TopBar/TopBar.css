@@ -74,7 +74,7 @@
     width: 30px;
     filter: invert();
     height: 30px;
-    opacity: 0.5;
+    opacity: 0.7;
     margin-right: 10px;
     transition: 200ms;
 }
@@ -182,24 +182,35 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    align-content: center;
 }
 
 .footer .links{
-    max-width: 350px;
+    max-width: 450px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 
 .footer .links li{
-    width: 120px;
     margin:10px 10px;
     opacity: 0.8;
+    width: 150px;
 }
 
 .footer .more-info{
-    width: 300px;
+    max-width: 300px;
+    margin: 30px;
 }
+.footer .more-info div{
+    margin: 15px;
+}
+.footer .more-info div p{
+    display: inline;
+    opacity: 0.7;
+}
+
 
 

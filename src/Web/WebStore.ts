@@ -11,7 +11,7 @@ const Pages = {
         edit_store: {},
         about: {},
         // stores: {},
-        tutorial:{},
+        tutorial: {},
         contact: {},
     }
 }
@@ -39,10 +39,10 @@ interface WebState {
         limit?: number,
         order_by?: string,
         text?: string,
-        name?:string, email?:string,
-        description?:string,
-        only_owner?:boolean,
-        phone?:string,
+        name?: string, email?: string,
+        description?: string,
+        only_owner?: boolean,
+        phone?: string,
     }): Promise<ListType<StoreInterface> | undefined>
     exist(store_id: string): Promise<boolean> | undefined
 }
@@ -78,7 +78,7 @@ export const useWebStore = create<WebState>((set) => ({
         const owner = useWebStore.getState().owner
         if (!owner) return
         //@ts-ignore
-        if(filter.only_owner)filter.owner_id = owner.id
+        if (filter.only_owner) filter.owner_id = owner.id
         console.log({ filter });
 
         const searchParams = new URLSearchParams({});
@@ -170,23 +170,19 @@ export const useWebStore = create<WebState>((set) => ({
         Object.keys(data).forEach((k, i) => {
             console.log('data', i, k, data[k]);
 
-            if (k == 'banners') {
-                if (data[k].file) {
-                    console.log('new File', data[k].file);
-                    form.append(k, JSON.stringify(['banners_0']));
-                    form.append('banners_0', data[k].file)
-                } else if (data[k].url) {
-                    form.append(k, JSON.stringify([data[k].url]));
-                    console.log('keep same', JSON.stringify(data[k]));
+            if (k == 'banners' || k == 'banner') {
+                if (data['banners'] instanceof Blob) {
+                    form.append('banners', JSON.stringify(['banners_0']));
+                    form.append('banners_0', data['banner'])
+                } else if (data['banners']) {
+                    form.append('banners', JSON.stringify([data['banner']]));
                 }
             } else if (k == 'logo') {
-                if (data[k].file) {
-                    console.log('new File', data[k].file);
+                if (data[k] instanceof Blob) {
                     form.append(k, JSON.stringify(['logo_0']));
-                    form.append('logo_0', data[k].file)
+                    form.append('logo_0', data[k])
                 } else if (data[k].url) {
-                    form.append(k, JSON.stringify([data[k].url]));
-                    console.log('keep same', JSON.stringify(data[k]));
+                    form.append(k, JSON.stringify([data[k]]));
                 }
             }
             else {
@@ -211,10 +207,7 @@ export const useWebStore = create<WebState>((set) => ({
         }
     },
     async createStore(data) {
-
-
         try {
-
             const owner = useWebStore.getState().owner;
             if (!owner) return;
             const myHeaders = new Headers();
@@ -226,11 +219,11 @@ export const useWebStore = create<WebState>((set) => ({
             Object.keys(data).forEach(k => {
                 if (k == 'logo') {
                     form.append(k, JSON.stringify(['logo_0']));
-                    form.append('logo_0', data[k].file);
+                    form.append('logo_0', data[k]);
                 }
-                if (k == 'banners') {
-                    form.append(k, JSON.stringify(['banners_0']));
-                    form.append('banners_0', data[k].file);
+                if (k == 'banners' || k == 'banner') {
+                    form.append('banners', JSON.stringify(['banners_0']));
+                    form.append('banners_0', data['banner']);
                 }
                 else {
                     form.append(k, data[k])

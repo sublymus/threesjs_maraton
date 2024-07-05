@@ -10,11 +10,13 @@ const navs = [{
     u: 'home',
     n: 'Home',
     i: '/src/res/application.png'
-}, {
-    u: 'store_list',
-    n: 'Stores',
-    i: '/src/res/store.png'
 }
+    //     ,
+    // {
+    //     u: 'store_list',
+    //     n: 'Stores',
+    //     i: '/src/res/store.png'
+    // }
     , {
     u: 'tutorial',
     n: 'Tutorial',
@@ -45,7 +47,12 @@ export function Footer() {
                 }
             </ul>
             <div className="more-info">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam nobis fugiat maiores. Velit reiciendis dolor facere explicabo autem dolore nostrum omnis. Recusandae deserunt modi ad accusantium iste dolore esse pariatur!
+                <div> <p>Site to create your own customizable store online. </p><a href="/#tutorial"> Learn how</a>.</div>
+
+                <div><p>Sublymus © 2024</p></div>
+
+                <div><a href="/#about">Terms of Service</a> - <a href="/#about">Privacy Policy</a></div>
+                <div><p>Need help?</p> <a href="/#contact">Contact Us</a></div>
             </div>
         </footer>
     )

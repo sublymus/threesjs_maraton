@@ -7,6 +7,7 @@ import { Producd3d } from '../PageHome/Producd3d';
 import { SolarySystem } from '../PageHome/Solary_system';
 import './PageTutorial.css'
 import { useWebRoute } from '../../WebStore';
+import { getImg } from '../../../Tools/StringFormater';
 
 let i = 0;
 
@@ -207,6 +208,41 @@ export function PageTutorial() {
             <div className={"cadre " + ((opened == 'statistics' && json?.open) ? 'open' : '')}>
                 <BarChart />
             </div>
+        </div>
+    </div>
+}
+
+export function TutorialCard() {
+
+
+    return <div className="tutorial-card">
+        <div className="anim-card">
+            <div className="card-c5">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/stats.png')+',#fffb' }}></div>
+            </div>
+            <div className="card-c4">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/software-testing.png')+',#fffb' }}></div>
+            </div>
+            <div className="card-c3">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/customer.png')+',#fffb' }}></div>
+            </div>
+            <div className="card-c2">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/shopping-bag.png')+',#fffb' }}></div>
+            </div>
+            <div className="card-c1">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/add-product.png')+',#fffb' }}></div>
+            </div>
+        </div>
+        <div className="info">
+            <h1 className="title">Go to tutorial</h1>
+            <p>We have provided you with a list of videos and illustrations as a tutorial.
+                 We invite you to <a href="/#contact">contact us</a> if you need assistance.</p>
+            <a href='/#tutorial' className='tuto-btn'><span></span>Start tutorial now</a>
         </div>
     </div>
 }

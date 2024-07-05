@@ -1,4 +1,3 @@
-
 /* PRETTIER  */
 .page-home .prettier {
     width: 100%;
@@ -162,13 +161,16 @@
     .page-home .top-ctn {
         flex-wrap: wrap;
     }
-    .page-home .mobile-video{
-      display: flex;
+
+    .page-home .mobile-video {
+        display: flex;
     }
-    .page-home .right{
+
+    .page-home .right {
         display: none;
     }
 }
+
 /* 
 @media (width <400px) {
     .page-home .mobile-video{
@@ -204,4 +206,221 @@
         overflow-x: hidden;
     }
 
+}
+
+
+
+
+/* TutorialCard  */
+
+.tutorial-card {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    margin: 200px 0 ;
+    align-items: center;
+    justify-content: center;
+    /* perspective: 5000px; */
+}
+
+.tutorial-card .anim-card:hover {
+    transform: translate(-30px, 30px) skewX(-10deg) rotateZ(-10deg) scaleX(0.9);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.tutorial-card .anim-card {
+    max-width: 600px;
+    min-width: 600px;
+    position: relative;
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+    height: 300px;
+}
+
+.tutorial-card .anim-card>div {
+    position: absolute;
+    width: 335px;
+    height: 220px;
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: 20px;
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.tutorial-card .anim-card .icon {
+    width: 40px;
+    height: 40px;
+    background: #456;
+    border-radius: 100%;
+
+}
+
+.tutorial-card .anim-card .card-c1 {
+    top: 0px;
+    left: 0px;
+    background: radial-gradient(218.51% 281.09% at 100% 100%, rgba(253, 63, 51, 0.6) 0%, rgba(76, 0, 200, 0.6) 45.83%, rgba(76, 0, 200, 0.6) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .anim-card:hover .card-c2 {
+    transform: translateX(-20px);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.tutorial-card .anim-card .card-c2 {
+    top: 20px;
+    left: 100px;
+    background: radial-gradient(100% 128.38% at 100% 100%, rgba(51, 168, 253, 0.2) 0%, rgba(76, 0, 200, 0.2) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .anim-card .card-c3 {
+    top: 40px;
+    left: 160px;
+    background: radial-gradient(120% 154.37% at 100% 100%, rgba(51, 253, 241, 0.1) 0%, rgba(200, 96, 0, 0.1) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .anim-card:hover .card-c4 {
+    transform: translateX(30px);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.tutorial-card .anim-card .card-c4 {
+    top: 60px;
+    left: 200px;
+    background: linear-gradient(rgb(117, 224, 230) 0%, rgb(57, 19, 184) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .anim-card:hover .card-c5 {
+    transform: translateX(60px);
+    transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.tutorial-card .anim-card .card-c5 {
+    top: 70px;
+    left: 230px;
+    background: radial-gradient(100% 128.38% at 100% 100%, rgba(51, 168, 253, 0.2) 0%, rgba(76, 0, 200, 0.2) 100%);
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .anim-card:hover>div:hover {
+    top: -50px;
+    transform-origin: 100% 0%;
+}
+
+
+.tutorial-card .info {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.tutorial-card .info .title {
+    max-width: 400px;
+    padding: 30px 0;
+}
+
+.tutorial-card .info .tuto-btn {
+    border-radius: 50px;
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    padding: 0px 20px;
+    background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.4) 100%);;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+}
+
+.tutorial-card .info .tuto-btn span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    filter: invert();
+    opacity: 0.8;
+    margin-right: 10px;
+    background: no-repeat center/70% url(/src/res/catalog.png);
+}
+
+@media (width < 950px) {
+
+    .tutorial-card {
+        flex-wrap: wrap-reverse;
+        height: initial;
+    }
+    
+    .tutorial-card .info .title {
+        text-align: center;
+    }
+    
+    .tutorial-card .info {
+        margin-bottom: 50px;
+        align-items: center;
+    }
+
+    .tutorial-card .info p {
+        text-align: center;
+    }
+}
+
+@media (width < 650px) {
+    .tutorial-card .anim-card{
+        font-size: 1.5em;
+    }
+    .tutorial-card .anim-card .icon{
+        scale: 1.2;
+    }
+    .tutorial-card .anim-card{
+        scale: 0.7;
+        transform: translateY(-50px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+        top: 0px;
+    }
+    .tutorial-card .anim-card:hover{
+        top: -100px;
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+    }
+}
+@media (width < 450px) {
+
+    .tutorial-card .anim-card{
+        font-size: 2em;
+    }
+    .tutorial-card .anim-card .icon{
+        scale: 1.5;
+    }
+    .tutorial-card .anim-card{
+        scale: 0.5;
+        transform: translateY(-100px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+        top: 0px;
+    }
+    .tutorial-card .anim-card:hover{
+        top: -100px;
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+    }
+}
+@media (width < 330px) {
+
+    .tutorial-card .anim-card{
+        font-size: 2em;
+    }
+    .tutorial-card .anim-card .icon{
+        scale: 1.5;
+    }
+    .tutorial-card .anim-card{
+        scale: 0.45;
+        transform: translateY(-150px);
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+        top: 0px;
+    }
+    .tutorial-card .anim-card:hover{
+        top: -100px;
+        transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+        /* transform: translateY(-150px); */
+    }
 }

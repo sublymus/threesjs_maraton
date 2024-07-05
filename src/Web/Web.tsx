@@ -5,6 +5,7 @@ import { PageEditStore } from "./Layout/PageEditStore/PageEditStore";
 import { PageTutorial } from "./Layout/PageTutorial/PageTutorial";
 import { /* Footer, */ Footer, TopBar } from './Component/TopBar/TopBar'
 import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
+import { StorePage } from "./Layout/PageStoreList/StorePage";
 import { useWebRoute, useWebStore } from './WebStore';
 import { useEffect, useState } from 'react';
 
@@ -39,8 +40,6 @@ export function Web() {
             if (ref.dataset.init) return;
             ref.dataset.init = 'init'
             ref.addEventListener('scroll', () => {
-                ref
-                console.log(ref.scrollTop);
                 setCanGo((ref.scrollTop || 0) > 200)
             })
         }}>
@@ -57,6 +56,7 @@ export function Web() {
                     <PageHome />
                     <PageEditStore />
                     <PageTutorial />
+                    <StorePage/>
                     <PageNewStore/>
                 </div>
             </div>
