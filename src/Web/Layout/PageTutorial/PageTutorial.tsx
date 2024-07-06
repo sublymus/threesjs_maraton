@@ -9,105 +9,79 @@ import './PageTutorial.css'
 import { useWebRoute } from '../../WebStore';
 import { getImg } from '../../../Tools/StringFormater';
 
-let i = 0;
+import { ProductTuto } from "./ProductTuto";
 
 export function PageTutorial() {
-    const [count, setCount] = useState(1);
-    const [id, setId] = useState<number | undefined>();
-    const { qs, json, check } = useWebRoute();
-    useEffect(() => {
-        if (!id) {
-            setId(
-                setInterval(() => {
-                    setCount((i++) % 4 + 1)
-                }, 3000)
-            )
-            return () => {
-                clearInterval(id)
-            }
-        }
-    }, [id]);
-    useEffect(() => {
-        !json?.open && setOpened('');
-    }, [json])
-    const [opened, setOpened] = useState('');
-    const [openInfo, setOpenInfo] = useState(0);
-
-    return check('tutorial') && <div className="tutorial">
+    const { qs, check, current } = useWebRoute();
+   // const [id, setId] = useState<number | undefined>();
+    // const [count, setCount] = useState(1);
+    // useEffect(() => {
+    //     if (!id) {
+    //         setId(
+    //             setInterval(() => {
+    //                 setCount((i++) % 4 + 1)
+    //             }, 3000)
+    //         )
+    //         return () => {
+    //             clearInterval(id)
+    //         }
+    //     }
+    // }, [id]);
+    
+    return check('tutorial') &&( current('tutorial') ? <div className="page-tutorial">
 
         {
-            opened && <div className="close-cadre" onClick={() => {
-                setOpened('');
-                qs({}).apply()
-            }}></div>
+             
         }
-        <div className="prettier">
-            <CardFlyer
-                onClick={() => {
-                    setOpened('products');
-                    qs({ open: true }).apply()
-                    // setTopBarFollow(false);
-                }}
-                id='home/products'
-                icon="/src/res/add-product.png"
-                infos={[{
-                    icon: '/src/res/add-product.png',
-                    text: 'add product 3D file'
-                }, {
-                    icon: '/src/res/add-product.png',
-                    text: 'catalog, category, product, feature'
-                },]}
-                text="make your products accessible online, for your customers."
-                title="Add new Products"
-            // link="products"
-            />
-            <div className={"cadre " + ((opened == 'products' && json?.open) ? 'open' : '')}>
-                <Producd3d />
+       
+    </div> : <>
+        <ProductTuto/>
+    </>)
+}
+
+export function TutorialCard() {
+    return <div className="tutorial-card">
+        <div className="anim-card">
+            <div className="card-c5">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/stats.png') + ',#fffb' }}></div>
+            </div>
+            <div className="card-c4">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/software-testing.png') + ',#fffb' }}></div>
+            </div>
+            <div className="card-c3">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/customer.png') + ',#fffb' }}></div>
+            </div>
+            <div className="card-c2">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/shopping-bag.png') + ',#fffb' }}></div>
+            </div>
+            <div className="card-c1">
+                <div className="title">PRODUCTS</div>
+                <div className="icon" style={{ background: getImg('/src/res/add-product.png') + ',#fffb' }}></div>
             </div>
         </div>
-        <div className="prettier">
-            <CardFlyer
-                onClick={() => {
-                    setOpened('commands')
-                    qs({ open: true }).apply()
-                }}
-                id='home/commands'
-                icon="/src/res/shopping-bag.png"
-                infos={[{
-                    icon: '/src/res/shopping-bag.png',
-                    text: 'auto or manual validation'
-                }, {
-                    icon: '/src/res/shopping-bag.png',
-                    text: 'cart, cancel, deliver, on_the_way, return '
-                },]}
-                text="view orders, track and adjust order status"
-                title="Manage customer orders"
-            // link="products"
-            />
+        <div className="info">
+            <h1 className="title">Go to tutorial</h1>
+            <p>We have provided you with a list of videos and illustrations as a tutorial.
+                We invite you to <a href="/#contact">contact us</a> if you need assistance.</p>
+            <a href='/#tutorial' className='tuto-btn'><span></span>Start tutorial now</a>
+        </div>
+    </div>
+}
+
+/* 
+
+<div className={"cadre " + ((opened == 'products' && json?.open) ? 'open' : '')}>
+                <Producd3d />
+            </div>
+
             <div className={"cadre " + ((opened == 'commands' && json?.open) ? 'open' : '')} style={{ alignItems: 'center', justifyContent: 'center' }}>
                 order management
             </div>
-        </div>
-        <div className="prettier">
-            <CardFlyer
-                onClick={() => {
-                    setOpened('users')
-                    qs({ open: true }).apply()
-                }}
-                id='home/users'
-                icon="/src/res/customer.png"
-                infos={[{
-                    icon: '/src/res/customer.png',
-                    text: 'chose the role of collaborator'
-                }, {
-                    icon: '/src/res/customer.png',
-                    text: 'client, owner, collaborator, moderator'
-                }]}
-                text="follow your customers, add chat collaborators with everyone, organize your team"
-                title="Store user types"
-            // link="products"
-            />
-            <div className={"cadre " + ((opened == 'users' && json?.open) ? 'open' : '')}>
+<div className={"cadre " + ((opened == 'users' && json?.open) ? 'open' : '')}>
                 <div className="p-access">
                     <div className="ctn-threejs"></div>
                     <div className="infos">
@@ -162,87 +136,10 @@ export function PageTutorial() {
                     <ClientChat />
                 </div>
             </div>
-        </div>
-        <div className="prettier">
-            <CardFlyer
-                onClick={() => {
-                    setOpened('interfaces')
-                    qs({ open: true }).apply()
-                }}
-                id='home/interfaces'
-                icon="/src/res/software-testing.png"
-                infos={[{
-                    icon: '/src/res/software-testing.png',
-                    text: 'automatically updates store information'
-                }, {
-                    icon: '/src/res/software-testing.png',
-                    text: 'compatibility with all stores'
-                },]}
-                text="the platform has several interfaces to best meet your needs"
-                title="Change your store interface"
-            // link="products"
-            />
-            <div className={"cadre " + ((opened == 'interfaces' && json?.open) ? 'open' : '')}>
+         <div className={"cadre " + ((opened == 'interfaces' && json?.open) ? 'open' : '')}>
                 <InterfaceChange />
             </div>
-        </div>
-        <div className="prettier">
-            <CardFlyer
-                onClick={() => {
-                    setOpened('statistics')
-                    qs({ open: true }).apply()
-                }}
-                id='home/statistics'
-                icon="/src/res/stats.png"
-                infos={[{
-                    icon: '/src/res/stats.png',
-                    text: 'Statistical analysis of data'
-                }, {
-                    icon: '/src/res/stats.png',
-                    text: 'visit, command, yield, period'
-                },]}
-                text="increase your sales using statistical data from your store"
-                title="Statistical table"
-            // link="products"
-            />
             <div className={"cadre " + ((opened == 'statistics' && json?.open) ? 'open' : '')}>
                 <BarChart />
             </div>
-        </div>
-    </div>
-}
-
-export function TutorialCard() {
-
-
-    return <div className="tutorial-card">
-        <div className="anim-card">
-            <div className="card-c5">
-                <div className="title">PRODUCTS</div>
-                <div className="icon" style={{ background: getImg('/src/res/stats.png')+',#fffb' }}></div>
-            </div>
-            <div className="card-c4">
-                <div className="title">PRODUCTS</div>
-                <div className="icon" style={{ background: getImg('/src/res/software-testing.png')+',#fffb' }}></div>
-            </div>
-            <div className="card-c3">
-                <div className="title">PRODUCTS</div>
-                <div className="icon" style={{ background: getImg('/src/res/customer.png')+',#fffb' }}></div>
-            </div>
-            <div className="card-c2">
-                <div className="title">PRODUCTS</div>
-                <div className="icon" style={{ background: getImg('/src/res/shopping-bag.png')+',#fffb' }}></div>
-            </div>
-            <div className="card-c1">
-                <div className="title">PRODUCTS</div>
-                <div className="icon" style={{ background: getImg('/src/res/add-product.png')+',#fffb' }}></div>
-            </div>
-        </div>
-        <div className="info">
-            <h1 className="title">Go to tutorial</h1>
-            <p>We have provided you with a list of videos and illustrations as a tutorial.
-                 We invite you to <a href="/#contact">contact us</a> if you need assistance.</p>
-            <a href='/#tutorial' className='tuto-btn'><span></span>Start tutorial now</a>
-        </div>
-    </div>
-}
+*/

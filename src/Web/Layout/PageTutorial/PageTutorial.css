@@ -1,40 +1,51 @@
 /* PRETTIER  */
-.page-home .prettier {
+.page-tutorial {
+    width: 100%;
+    min-height: 100%;
+}
+.page-tutorial .prettier {
     width: 100%;
     margin-top: 30px;
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
-.page-home .card-flyer {
+.page-tutorial .card-flyer {
     margin: 50px;
 }
 
 @media (width <450px) {
-    .page-home .card-flyer {
+    .page-tutorial .card-flyer {
         width: 200px;
     }
 }
 
 
-.page-home .prettier .cadre {
+.page-tutorial .prettier .cadre {
     width: 100%;
     min-height: 500px;
-    position: relative;
-    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: none;
     overflow: hidden;
     backdrop-filter: blur(5px);
     box-shadow: 0px 0px 1px #fff9;
     border-radius: 20px;
-    display: none !important;
-    /* background: rgba(15, 14, 71, 0.3); */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.page-tutorial .prettier .cadre.open {
+    display: flex;
 }
 
 
 /*  PRETTIER USERs */
 
-.page-home .cadre .p-users {
+.page-tutorial .cadre .p-users {
     width: 100%;
     /* height: 500px; */
     /* background: #fff5; */
@@ -42,7 +53,7 @@
 
 /* PRETTIER ACCESS  /  CADRE ACCESSIBILITY  */
 
-.page-home .cadre .p-access {
+.page-tutorial .cadre .p-access {
     width: 100%;
     /* min-width: 380px; */
     height: 500px;
@@ -52,14 +63,14 @@
     background: rgba(15, 14, 71, 0.3);
 }
 
-.page-home .cadre .p-access .title {
+.page-tutorial .cadre .p-access .title {
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
 }
 
-.page-home .cadre .p-access .infos {
+.page-tutorial .cadre .p-access .infos {
     display: flex;
     position: absolute;
     z-index: 1;
@@ -68,7 +79,7 @@
     flex-direction: column;
 }
 
-.page-home .cadre .p-access .infos .info {
+.page-tutorial .cadre .p-access .infos .info {
     display: flex;
     margin-top: 20px;
     background: #fffc;
@@ -79,7 +90,7 @@
 }
 
 
-.page-home .cadre .p-access .infos .count {
+.page-tutorial .cadre .p-access .infos .count {
     min-width: 35px;
     height: 35px;
     margin-right: 20px;
@@ -92,11 +103,11 @@
     box-shadow: 0px 0px 10px #0005;
 }
 
-.page-home .cadre .p-access .infos .info .text {
+.page-tutorial .cadre .p-access .infos .info .text {
     margin-top: 5px;
 }
 
-.page-home .cadre .p-access .infos .info p {
+.page-tutorial .cadre .p-access .infos .info p {
     height: 0px;
     overflow: hidden;
     opacity: 0;
@@ -104,7 +115,7 @@
     transition: 600ms;
 }
 
-.page-home .cadre .p-access .infos .info.open p {
+.page-tutorial .cadre .p-access .infos .info.open p {
     /* scale: 1; */
     height: 100px;
     padding-top: 10px;
@@ -112,7 +123,7 @@
     transition: 600ms;
 }
 
-.page-home .access-world {
+.page-tutorial .access-world {
     /* position: absolute; */
     top: 0;
     height: 100%;
@@ -121,13 +132,13 @@
     z-index: -1;
 }
 
-.page-home .close-cadre:hover {
+.page-tutorial .close-cadre:hover {
     opacity: 1;
     background: no-repeat center/90% url(/src/res/x.png);
     transition: 200ms;
 }
 
-.page-home .close-cadre {
+.page-tutorial .close-cadre {
     width: 30px;
     height: 30px;
     background: no-repeat center/80% url(/src/res/x.png);
@@ -144,7 +155,7 @@
 }
 
 @media (width <1210px) {
-    .page-home .access-world {
+    .page-tutorial .access-world {
         width: 150%;
     }
 }
@@ -152,38 +163,38 @@
 
 
 @media (width <1210px) {
-    .page-home .cadre {
+    .page-tutorial .cadre {
         flex-wrap: wrap;
     }
 }
 
 @media (width <750px) {
-    .page-home .top-ctn {
+    .page-tutorial .top-ctn {
         flex-wrap: wrap;
     }
 
-    .page-home .mobile-video {
+    .page-tutorial .mobile-video {
         display: flex;
     }
 
-    .page-home .right {
+    .page-tutorial .right {
         display: none;
     }
 }
 
 /* 
 @media (width <400px) {
-    .page-home .mobile-video{
+    .page-tutorial .mobile-video{
         height: 250px;
     }
 } */
 
 @media (width <780px) {
-    .page-home .prettier {
+    .page-tutorial .prettier {
         flex-wrap: wrap;
     }
 
-    .page-home .prettier .cadre {
+    .page-tutorial .prettier .cadre {
         display: none;
         position: fixed;
         width: 100%;
@@ -196,15 +207,11 @@
         z-index: 1;
     }
 
-    .page-home .close-cadre {
+    .page-tutorial .close-cadre {
         display: block;
     }
 
-    .page-home .prettier .cadre.open {
-        display: block;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
+    
 
 }
 
@@ -220,7 +227,6 @@
     margin: 200px 0 ;
     align-items: center;
     justify-content: center;
-    /* perspective: 5000px; */
 }
 
 .tutorial-card .anim-card:hover {

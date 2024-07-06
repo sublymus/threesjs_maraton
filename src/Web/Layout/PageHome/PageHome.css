@@ -226,20 +226,17 @@
 
 
 .store-card:hover {
-    /* mask-image: linear-gradient(rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%); */
     box-shadow: var(--box-shadow);
 }
 .store-card.new {
-    /* mask-image: linear-gradient(rgb(255, 255, 255) 100%, rgba(255, 255, 255, 0) 100%); */
     height: 260px;
     margin: 30px;
-    background: radial-gradient(100% 128.38% at 100% 100%, rgba(51, 168, 253, 0.2) 0%, rgba(76, 0, 200, 0.2) 100%);
-    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
 }
 
 .store-card {
-    background: #eee;
     /* mask-image: linear-gradient(rgb(255, 255, 255) 90%, rgba(255, 255, 255, 0) 100%); */
+    box-shadow: rgba(39, 77, 153, 0.2) 0px 30px 60px, rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset;
+    background: radial-gradient(100% 128.38% at 100% 100%, rgba(51, 168, 253, 0.2) 0%, rgba(76, 0, 200, 0.2) 100%);
     overflow: hidden;
     vertical-align: middle;
     width: 260px;
@@ -332,7 +329,7 @@
     height: 100px;
     width: 120px;
     margin: 5px;
-    margin-top: 10px;
+    margin-top: 5px;
     border-radius: 10px;
 }
 

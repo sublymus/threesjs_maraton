@@ -3,7 +3,9 @@ import './CardFlyer.css'
 let i = 0;
 export function CardFlyer({ icon, infos, text, title, id , onClick}: {onClick?:()=>any,id?:string,link?:string ,title?: string, icon?: string, text?: string, infos?: { icon: string, text: string }[] }) {
 
-    return <div id={id} className="card-flyer">
+    return <div id={id} className="card-flyer" onClick={()=>{
+        onClick?.()
+    }}>
         <div className="back-flyer" style={{   background: `linear-gradient(${Math.trunc(Math.random()*180 + (i++)*20)}deg, #408DD5 0%, #630B8C 100%)`}}></div>
         <div className="front-flyer">
             {
@@ -19,11 +21,6 @@ export function CardFlyer({ icon, infos, text, title, id , onClick}: {onClick?:(
                     </div>
                 )
             }
-            <div className="btn-tuto" onClick={()=>{
-                onClick?.()
-            }}>
-                <span></span>More Tutoriel
-            </div>
         </div>
     </div>
 }

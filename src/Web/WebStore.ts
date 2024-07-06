@@ -11,7 +11,13 @@ const Pages = {
         edit_store: {},
         about: {},
         // stores: {},
-        tutorial: {},
+        tutorial: {
+            product_tuto:{},
+            command_tuto:{},
+            users_tuto:{},
+            interface_tuto:{},
+            statistic_tuto:{},
+        },
         contact: {},
     }
 }

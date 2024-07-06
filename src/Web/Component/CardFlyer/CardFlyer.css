@@ -3,7 +3,8 @@
     position: relative;
     width: 100%;
     max-width: 240px;
-    min-height: 100px;
+    /* height: 300px; */
+    /* min-height: 320px; */
 }
 
 .card-flyer .front-flyer > .icon {
@@ -17,7 +18,7 @@
 .card-flyer .front-flyer {
     width: 100%;
     height: 100%;
-    padding: 40px 20px 10px 20px;
+    padding: 40px 20px 30px 20px;
     background: linear-gradient(180deg, #18528867 0%, #37044e73 100%);
     backdrop-filter: blur(40px);
     border-radius: 0px 30px 40px 40px;
@@ -76,27 +77,3 @@
     font-size: 0.9em;
 }
 
-.card-flyer .btn-tuto{
-    all: unset;
-    height: 40px;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    box-shadow: 0px 0px 2px #fff5, 0px 0px 10px #0005;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: initial;
-    cursor: pointer;
-}
-
-.card-flyer .btn-tuto span{
-    display: block;
-    width: 30px;
-    height: 30px;
-    background: #0005;
-    margin-right: 10px;
-    filter: invert();
-    opacity: 0.8;
-    background: no-repeat center/80% url(/src/res/catalog.png);
-}

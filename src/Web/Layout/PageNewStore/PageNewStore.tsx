@@ -70,7 +70,6 @@ export function PageNewStore() {
         return false
     }
     const stepBtn = (step == 0 && enable == 'yes') ? 'next' : (step == 1 && collected.logo && collected.banner) ? 'next' : (step == 2) ? 'create' : 'wait'
-    console.log(newStore);
     
     return current('new_store') && <div className="page-new-store">
         <div className="page-top">
