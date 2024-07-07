@@ -8,7 +8,8 @@ import { PageNewStore } from "./Layout/PageNewStore/PageNewStore";
 import { StorePage } from "./Layout/PageStoreList/StorePage";
 import { useWebRoute, useWebStore } from './WebStore';
 import { useEffect, useState } from 'react';
-
+import { PagePricing } from "./Layout/PagePricing/PagePricing";
+import { PageForum } from "./Layout/PageForum/PageForum";
 export function Web() {
     const { tryToken, blur, currentChild, openChild, back_color } = useWebStore();
     const { pathList } = useWebRoute();
@@ -34,7 +35,7 @@ export function Web() {
     //     }
     // },[pathList])
     return (
-        <div className="web unselectable" ref={ref => {
+        <div className="web unselectable sombre-mode-variable" ref={ref => {
             setWeb(ref);
             if (!ref) return;
             if (ref.dataset.init) return;
@@ -58,6 +59,8 @@ export function Web() {
                     <PageTutorial />
                     <StorePage/>
                     <PageNewStore/>
+                    <PagePricing/>
+                    <PageForum/>
                 </div>
             </div>
             {currentChild && <div className="child-viewer" onContextMenu={(e) => {

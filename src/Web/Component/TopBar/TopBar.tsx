@@ -26,9 +26,9 @@ const navs = [{
     n: 'Pricing',
     i: '/src/res/shopping-cart.png'
 }, {
-    u: 'contact',
-    n: 'Contact us',
-    i: '/src/res/services.png'
+    u: 'forum',
+    n: 'Forum',
+    i: '/src/res/chat.png'
 }
 ]
 
@@ -41,7 +41,7 @@ export function Footer() {
                 {
                     navs.map((d, i) => (
                         <li key={i} style={{ pointerEvents: 'initial' }} onClick={() => setAbsPath([d.u as any])}>
-                            <span style={{ background: getImg(d.i, '80%') }}></span>{d.n}
+                            <span style={{ background: getImg(d.i, '60%') }}></span>{d.n}
                         </li>
                     ))
                 }
@@ -97,7 +97,7 @@ export function TopBar() {
                 <ul className='top-bar-center'>
                     {
                         navs.map((d, i) => i * 200 < size.width - 400 ? (
-                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '80%') }}></span>{d.n}</li>
+                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
                         ) : null)
                     }
                 </ul>
@@ -123,7 +123,7 @@ export function TopBar() {
                 <ul className={openMoreNavs ? '' : 'close'}>
                     {
                         navs.map((d, i) => i * 200 >= size.width - 400 ? (
-                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '80%') }}></span>{d.n}</li>
+                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
                         ) : null)
                     }
                     <li className={active == 'mode-lite' ? 'active' : ''} onClick={() => {

@@ -10,7 +10,7 @@ const Pages = {
         new_store: {},
         edit_store: {},
         about: {},
-        // stores: {},
+        pricing: {},
         tutorial: {
             product_tuto:{},
             command_tuto:{},
@@ -18,7 +18,9 @@ const Pages = {
             interface_tuto:{},
             statistic_tuto:{},
         },
-        contact: {},
+        forum: {
+            subject:{}
+        },
     }
 }
 

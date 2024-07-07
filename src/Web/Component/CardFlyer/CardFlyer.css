@@ -1,5 +1,6 @@
 .card-flyer {
     all: unset;
+    display: inline-flex;
     position: relative;
     width: 100%;
     max-width: 240px;

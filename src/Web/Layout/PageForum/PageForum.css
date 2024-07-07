@@ -1,0 +1,8 @@
+.page-forum{
+    width: 100%;
+    background: #456;
+}
+
+.page-forum .list a{
+    text-decoration: none;
+}

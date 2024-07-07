@@ -1,4 +1,209 @@
-.sublym-tuto{
+.sublym-tuto {
     width: 100%;
-    background: #455;
+    height: 100%;
+}
+
+.sublym-tuto  > h1{
+
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px #fff4 solid;
+    margin-bottom: 30px;
+}
+.sublym-tuto .video-section {
+    width: 100%;
+    display: flex;
+    /* justify-content: space-around; */
+}
+
+.sublym-tuto .summary.small {
+    width: 100%;
+}
+
+
+.sublym-tuto .summary {
+    width: 400px;
+    backdrop-filter: blur(40px) brightness(80%) saturate(150%);
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.sublym-tuto .summary .top {
+    padding: 20px 20px;
+}
+
+
+
+/* .sublym-tuto .summary .list{
+
+} */
+
+
+.sublym-tuto .summary .list .title:hover {
+    color: #6ed1ff;
+    transition: 400ms;
+    background: #21266b;
+}
+
+.sublym-tuto .summary .list .title {
+    padding: 0px 20px;
+    transition: 400ms;
+    display: flex;
+    align-items: center;
+
+}
+
+.sublym-tuto .summary .list .progress {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    scale: 0.7;
+    margin-right: 20px;
+    border-radius: 100%;
+    background: #6ed1ff;
+}
+
+.sublym-tuto .summary .list .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background: no-repeat 60% 50%/50% url(/src/res/play.png), #131752;
+}
+
+.sublym-tuto .summary .list .minut {
+    margin-left: auto;
+    color: #fff9;
+}
+
+.sublym-tuto .onglet {
+    width: 100%;
+}
+
+.sublym-tuto .onglet>div.active {
+    transition: 400ms;
+    filter: invert(55%) sepia(95%) saturate(1343%) hue-rotate(188deg) brightness(93%) contrast(94%);
+}
+
+.sublym-tuto .onglet>div {
+    transition: 400ms;
+    padding: 10px 10px;
+    font-size: 1.3em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.sublym-tuto .onglet>div .icon {
+    width: 40px;
+    height: 40px;
+    filter: invert();
+}
+
+.sublym-tuto .onglet>div.onglet-description .icon {
+    background: no-repeat 60% 50%/50% url(/src/res/write.png);
+}
+
+.sublym-tuto .onglet>div.onglet-summary .icon {
+    background: no-repeat 60% 50%/50% url(/src/res/align-left.png);
+}
+
+.sublym-tuto .descriptions {
+    width: 100%;
+    padding: 20px;
+}
+
+.sublym-tuto .descriptions h1 {
+    margin: 20px 0;
+}
+
+.sublym-tuto .descriptions p {
+    margin: 10px 0;
+}
+.sublym-tuto nav {
+    width: 300px;
+}
+.sublym-tuto nav h2 {
+    padding: 15px 0;
+    border-bottom: 1px #6570ff55 solid;
+}
+.sublym-tuto nav p {
+    padding: 15px 0;
+    border-bottom: 1px #6570ff55 solid;
+}
+.sublym-tuto nav .author {
+    padding: 30px 0;
+    display: flex;
+}
+.sublym-tuto nav .author .photo {
+    min-width: 50px;
+    height: 50px;
+    margin-right: 30px;
+    border-radius: 100%;
+}
+.sublym-tuto nav .author .name{
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.sublym-tuto nav .author .follows{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.sublym-tuto nav .author a:hover{
+    scale: 1.1;
+}
+.sublym-tuto nav .author a{
+    all: unset;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: #171933;
+    margin: 5px;
+    position: inherit;
+    cursor: pointer;
+}
+.sublym-tuto nav .suggest:hover{
+    background: #394283;
+    transition: 400ms;
+}
+.sublym-tuto nav .suggest{
+    text-decoration: none;
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    background: #323970;
+    transition: 400ms;
+    position: inherit;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.sublym-tuto nav .suggest:hover span{
+    opacity: 1;
+}
+.sublym-tuto nav .suggest span{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    filter: invert();
+    opacity: 0.8;
+    background: no-repeat center/70% url(/src/res/write.png);
+}
+@media (width > 1100px) {
+    .sublym-tuto nav{
+        min-width: 300px;
+
+    }
+    .sublym-tuto .main{
+        display: flex;
+    }
 }

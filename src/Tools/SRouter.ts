@@ -71,18 +71,18 @@ interface UnUseAppState<T extends PageType> {
         X extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W],
         Y extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X],
         _Z extends keyof T[A][B][C][D][E][F][G][H][I][J][K][L][M][N][O][P][Q][R][S][_T][U][V][W][X][Y],
-    >(page: [B, C?, D?, E?, F?, G?, H?, I?, J?]): undefined,
+    >(page: [B, C?, D?, E?, F?, G?, H?, I?, J?], cancel?: boolean): string|undefined,
     check(...page: V<AllComponents<T>>[]): true | undefined;
     setPath(...page: (V<AllComponents<T>> | './' | '../')[]): undefined,
     init(): void;
     current(...page: V<AllComponents<T>>[]): true | undefined;
     exist(...page: string[]): true | undefined,
-    qs(json?: Record<string, any>|undefined): UnUseAppState<T>&{apply():void}
+    qs(json?: Record<string, any> | undefined): UnUseAppState<T> & { apply(): void, get(): string}
 }
 
 export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Record<string, any> } => {
     let hash = window.location.hash;
-    if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[] , json:{}})
+    if (!hash) return ({ pathList: (self?.defaultPath || ['/']) as string[], json: {} })
     hash = decodeURIComponent(hash.slice(1, hash.length));
     let h = '';
     let h_json = ''
@@ -142,9 +142,13 @@ export class SRouter<T extends PageType = PageType>{
                 _qs = json;
                 return {
                     ...self.store.getState(),
-                    apply(){
+                    apply() {
                         //@ts-ignore
                         self.store.getState().setAbsPath(self.store.getState().pathList.slice(1))
+                    },
+                    get() {
+                        //@ts-ignore
+                        return self.store.getState().setAbsPath(self.store.getState().pathList.slice(1), true) as string
                     }
                 }
             },
@@ -153,7 +157,7 @@ export class SRouter<T extends PageType = PageType>{
                 return;
             },
             setPath(...paths) {
-                 self.editPath(paths);
+                self.editPath(paths);
                 _qs = undefined;
             },
             exist(...paths) {
@@ -172,7 +176,7 @@ export class SRouter<T extends PageType = PageType>{
                 }
                 return true
             },
-            setAbsPath(paths) {
+            setAbsPath(paths, cancel) {
 
                 let nav: string[] = ['/'];
                 let currentPage = pages['/'];
@@ -180,15 +184,15 @@ export class SRouter<T extends PageType = PageType>{
                     // @ts-ignore
                     const c = currentPage[path]
                     if (!c) {
-                        self.navHistoryUpdate(nav);
+                        self.navHistoryUpdate(nav, cancel);
                         return;
                     }
                     currentPage = c;
                     nav.push(path as string);
                 }
-                self.navHistoryUpdate(nav);
+                const p = self.navHistoryUpdate(nav, cancel);
                 _qs = undefined;
-                return
+                return p;
             },
             check(...paths) {
 
@@ -206,15 +210,14 @@ export class SRouter<T extends PageType = PageType>{
         this.store.getState().init();
         return this.store
     }
-    navHistoryUpdate(pathList: string[]) {
+    navHistoryUpdate(pathList: string[], cancel?: boolean) {
 
         console.log('navHistoryUpdate');
         let path = pathList.join('/').replace('//', '');
         try {
             if (_qs) path += '=' + JSON.stringify(_qs);
         } catch (error) { }
-        console.log(window.location.hash = path);
-        
+        if (cancel) return path
         if (window.location.hash !== path) window.location.hash = path;
     }
     editPath(paths: string[]) {

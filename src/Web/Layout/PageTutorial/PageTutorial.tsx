@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
-import { BarChart } from '../../Component/BarChart/BarChart';
-import { CardFlyer } from '../../Component/CardFlyer/CardFlyer';
-import { ClientChat } from '../PageHome/ClientChat';
-import { InterfaceChange } from '../PageHome/InterfaceChange';
-import { Producd3d } from '../PageHome/Producd3d';
-import { SolarySystem } from '../PageHome/Solary_system';
+// import { BarChart } from '../../Component/BarChart/BarChart';
+// import { ClientChat } from '../PageHome/ClientChat';
+// import { InterfaceChange } from '../PageHome/InterfaceChange';
+// import { Producd3d } from '../PageHome/Producd3d';
+// import { SolarySystem } from '../PageHome/Solary_system';
+// import {useState } from 'react';
 import './PageTutorial.css'
+import { CardFlyer } from '../../Component/CardFlyer/CardFlyer';
 import { useWebRoute } from '../../WebStore';
 import { getImg } from '../../../Tools/StringFormater';
 
-import { ProductTuto } from "./ProductTuto";
+import { Tuto } from "./Tuto";
 
+// let i = 0;
 export function PageTutorial() {
-    const { qs, check, current } = useWebRoute();
-   // const [id, setId] = useState<number | undefined>();
     // const [count, setCount] = useState(1);
+    // const [id, setId] = useState<number | undefined>();
+    const { qs,current ,check } = useWebRoute();
     // useEffect(() => {
     //     if (!id) {
     //         setId(
@@ -27,16 +28,103 @@ export function PageTutorial() {
     //         }
     //     }
     // }, [id]);
+    // useEffect(() => {
+    //     !json?.open && 
     
-    return check('tutorial') &&( current('tutorial') ? <div className="page-tutorial">
-
+    return check('tutorial') && <div className="page-tutorial">
         {
-             
+            !current('tutorial')?<Tuto/>:
+
+        <div className="prettier">
+        <CardFlyer
+            onClick={() => {
+                qs().setAbsPath(['tutorial','product_tuto'])
+                // setTopBarFollow(false);
+            }}
+            id='home/products'
+            icon="/src/res/add-product.png"
+            infos={[{
+                icon: '/src/res/add-product.png',
+                text: 'add product 3D file'
+            }, {
+                icon: '/src/res/add-product.png',
+                text: 'catalog, category, product, feature'
+            },]}
+            text="make your products accessible online, for your customers."
+            title="Add new Products"
+        // link="products"
+        />
+        <CardFlyer
+            onClick={() => {
+                qs().setAbsPath(['tutorial','command_tuto'])
+            }}
+            id='home/commands'
+            icon="/src/res/shopping-bag.png"
+            infos={[{
+                icon: '/src/res/shopping-bag.png',
+                text: 'auto or manual validation'
+            }, {
+                icon: '/src/res/shopping-bag.png',
+                text: 'cart, cancel, deliver, on_the_way, return '
+            },]}
+            text="view orders, track and adjust order status"
+            title="Manage customer orders"
+        // link="products"
+        />
+        <CardFlyer
+            onClick={() => {
+                qs().setAbsPath(['tutorial','users_tuto'])
+            }}
+            id='home/users'
+            icon="/src/res/customer.png"
+            infos={[{
+                icon: '/src/res/customer.png',
+                text: 'chose the role of collaborator'
+            }, {
+                icon: '/src/res/customer.png',
+                text: 'client, owner, collaborator, moderator'
+            }]}
+            text="follow your customers, add chat collaborators with everyone, organize your team"
+            title="Store user types"
+        // link="products"
+        />
+        <CardFlyer
+            onClick={() => {
+                qs().setAbsPath(['tutorial','interface_tuto'])
+            }}
+            id='home/interfaces'
+            icon="/src/res/software-testing.png"
+            infos={[{
+                icon: '/src/res/software-testing.png',
+                text: 'automatically updates store information'
+            }, {
+                icon: '/src/res/software-testing.png',
+                text: 'compatibility with all stores'
+            },]}
+            text="the platform has several interfaces to best meet your needs"
+            title="Change your store interface"
+        // link="products"
+        />
+        <CardFlyer
+            onClick={() => {
+                qs().setAbsPath(['tutorial','statistic_tuto'])
+            }}
+            id='home/statistics'
+            icon="/src/res/stats.png"
+            infos={[{
+                icon: '/src/res/stats.png',
+                text: 'Statistical analysis of data'
+            }, {
+                icon: '/src/res/stats.png',
+                text: 'visit, command, yield, period'
+            },]}
+            text="increase your sales using statistical data from your store"
+            title="Statistical table"
+        // link="products"
+        />
+    </div>
         }
-       
-    </div> : <>
-        <ProductTuto/>
-    </>)
+    </div>
 }
 
 export function TutorialCard() {
@@ -75,7 +163,7 @@ export function TutorialCard() {
 /* 
 
 <div className={"cadre " + ((opened == 'products' && json?.open) ? 'open' : '')}>
-                <Producd3d />
+                
             </div>
 
             <div className={"cadre " + ((opened == 'commands' && json?.open) ? 'open' : '')} style={{ alignItems: 'center', justifyContent: 'center' }}>

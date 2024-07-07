@@ -1,0 +1,172 @@
+.page-pricing{
+    width: 100%;
+}
+
+.page-pricing > .back {
+    width: 100%;
+    height: 100%;
+    background: #566
+}
+
+.page-pricing .top-ctn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+
+.page-pricing .top-ctn .title {
+    font-style: normal;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 2.2em;
+    margin: 0px;
+}
+
+.page-pricing .top-ctn .title .store {
+    color: rgb(255, 203, 61);
+}
+
+.page-pricing .top-ctn .title .business {
+    display: inline-block;
+    background: linear-gradient(180deg, #0084ffe0 0%, #ae00ff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
+}
+
+.page-pricing .top-ctn .sub-title {
+    font-style: normal;
+    font-weight: normal;
+    max-width: 400px;
+    text-align: center;
+    line-height: 130%;
+    margin-top: 30px;
+    opacity: 0.8;
+}
+
+.page-pricing .period {
+ position: relative;
+ width: 213px;
+ height: 43px;
+ margin-top: 100px;
+ margin-bottom: 30px;
+}
+.page-pricing .period .ctn{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    width: 213px;
+    height: 43px;
+    cursor: pointer;
+    background: linear-gradient(rgba(24, 32, 79, 0.4) 0%, rgba(24, 32, 79, 0.25) 100%);
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(0, 0, 0, 0.3) 0px 0px 0px 0.5px inset;
+    transition: all 0.5s ease-in-out 0s;
+    padding: 12.5px 24px;
+}
+
+.page-pricing .period p {
+    color: #fff;
+    transition: 500ms;
+
+}
+.page-pricing .period.year p.y, .page-pricing .period.month p.m {
+    color: #111;
+    transition: 500ms;
+}
+.page-pricing .period span{
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100px;
+    height: 90%;
+    background: #eee;
+    left: 2.5px;
+    border-radius: 100px;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.page-pricing .period.year span{
+    transition: all 0.5s ease-in-out 0s;
+    left: 110px;
+}
+
+.page-pricing .center {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-pricing .card-flyer .icon{
+    filter: invert();
+    opacity: 0.8;
+}
+.page-pricing .card-flyer{
+    align-items: center;
+    text-align: center;
+    width: 280px;
+    margin: 0 100px;
+}
+
+.page-pricing .infos{
+    max-width:400px ;
+}
+
+
+.page-pricing .infos h1{
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.page-pricing .btn-stores {
+    display: inline-flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 20px;
+    margin-top: 80px;
+}
+
+.page-pricing .add-new-store:hover {
+    box-shadow: 0px 4px 20px #0009;
+    transform: translateY(-3px);
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.page-pricing .add-new-store {
+    padding: 10px 10px;
+    border-radius: 20px;
+    background: #eee;
+    color: #345;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.page-pricing .add-new-store .label {
+    margin-left: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.page-pricing .add-new-store:hover .icon {
+    scale: 1.2;
+}
+
+.page-pricing .add-new-store .icon {
+    width: 40px;
+    height: 40px;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    background: no-repeat center/100% url(/src/res/plus-round.png);
+}

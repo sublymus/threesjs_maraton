@@ -27,7 +27,7 @@ export function PageHome() {
 
     return check('home') && (
         <div className="page-home">
-            <div className="back-home"></div>
+            <div className="back"></div>
             <div className="top-ctn">
                 <div className="left-side">
                     <div className="stores-count">{34} Stores</div>
