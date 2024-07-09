@@ -19,7 +19,8 @@ const Pages = {
             statistic_tuto:{},
         },
         forum: {
-            subject:{}
+            subject:{},
+            new_subject:{}
         },
     }
 }

@@ -16,6 +16,8 @@
     "emoji.json": "^15.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
     "three": "^0.161.0",
     "ts-node": "^10.9.2",
     "virtual-scroll": "^2.2.1",

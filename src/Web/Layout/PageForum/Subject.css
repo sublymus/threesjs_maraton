@@ -1,4 +1,165 @@
-.page-subject{
+.page-subject {
     width: 100%;
-    background: #950;
+}
+
+.page-subject>.top {
+    padding: 30px 0;
+}
+
+.page-subject>.top .info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.page-subject>.top .photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    margin-right: 10px;
+}
+
+.page-subject .date {
+    color: #8491c7;
+}
+
+.page-subject .report:hover {
+    scale: 1.2;
+    transition: 200ms;
+    opacity: 1;
+}
+
+.page-subject .report {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    filter: invert(100%);
+    opacity: 0.7;
+    margin-left: auto;
+    pointer-events: initial;
+    cursor: pointer;
+    background: no-repeat center / 100% url(/src/res/exclamation.png);
+    transition: 200ms;
+}
+
+.page-subject>.top .info .targs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.page-subject>.top .targ {
+    display: flex;
+    margin: 3px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.page-subject>.top .targ>div {
+    padding: 3px;
+    font-size: 0.8em;
+    background: #121429
+}
+
+.page-subject>.message {
+    /* background: #345; */
+    padding: 40px 0;
+    font-size: 1.1em;
+}
+
+.page-subject .count-response {
+    border-bottom: 1px #8491c799 solid;
+    padding: 20px 0 10px 0;
+}
+
+/* .page-subject .responses{
+
+} */
+
+.page-subject .responses .response {
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.page-subject .responses .photo {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    margin-right: 10px;
+}
+
+.page-subject .responses .photo.p2 {
+    display: none;
+}
+
+.page-subject .responses .top {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* margin-bottom: 10px; */
+}
+
+.page-subject .responses .message {
+    padding: 20px;
+    background: #2a2e5e;
+    margin-top: 5px;
+}
+
+
+.page-subject .prompt {
+    margin-top: 30px;
+}
+
+.page-subject .zone{
+    width: 100%;
+    height:150px;
+    background: #345;
+}
+
+.page-subject .notif{
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    pointer-events: inherit;
+}
+.page-subject .notif.ok .box{
+    background: no-repeat center/60% url(/src/res/mark.png) , rgb(153, 133, 68);
+    filter: invert();
+}
+.page-subject .notif .box{
+    width: 20px;
+    height: 20px;
+    margin:0 5px;
+    border-radius: 5px;
+    background: #8491c7;
+}
+.page-subject .answer:hover{
+    background: #62a6f8;
+}
+.page-subject .answer{
+    max-width: 140px;
+    height: 40px;
+    display: flex;
+    background: #5396e7;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 7px;
+    cursor: pointer;
+    pointer-events: initial;
+}
+@media (width <700px) {
+    
+    .page-subject .top-top{
+        display: flex;
+        align-items: center;
+    }
+    .page-subject .responses .photo.p2 {
+        display: block;
+        width: 50px;
+    }
+    .page-subject .responses .photo.p1{
+        display: none;
+    }
 }

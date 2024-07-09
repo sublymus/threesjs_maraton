@@ -72,11 +72,11 @@ export function PageHome() {
                                 }} />
                             </label>
                         </div>
-                        <div className="only-my-store" style={{ pointerEvents: 'initial' }} onClick={() => {
+                       {owner && <div className="only-my-store" style={{ pointerEvents: 'initial' }} onClick={() => {
                             setOnlyMystore(!onlyMyStore)
                         }} >
                             <span className={"check-only-my-store " + (onlyMyStore ? 'true' : '')}></span>My stores only
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 <div className="right">

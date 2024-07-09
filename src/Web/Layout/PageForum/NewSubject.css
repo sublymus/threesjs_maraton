@@ -1,0 +1,346 @@
+.new-subject {
+    display: flex;
+    width: 100%;
+    pointer-events: initial;
+}
+
+.new-subject .left {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    font-size: 1.2em;
+}
+
+
+.new-subject .left .title {
+    font-size: 3em;
+    margin: 20px 0;
+}
+
+.new-subject .left p {
+    margin-top: 10px;
+}
+.new-subject .left .info {
+    background: #121429;
+    padding: 20px;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.new-subject .right {
+    width: 100%;
+}
+
+.new-subject .right>.top {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+}
+.new-subject .label{
+    display: flex;
+}
+.new-subject .label span.error{
+    opacity: 0.8;
+    margin-left: 10px;
+    color: #fa6b6b;
+}
+.new-subject .label span.count{
+    margin-left: auto;
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+.new-subject .right>.top>div {
+    width: 50%;
+    position: relative;
+    margin: 0 10px;
+}
+
+.new-subject .right>.top>div input {
+    all: unset;
+    width: 100%;
+    padding: 10px;
+    border: #2a2e5e 2px solid;
+    padding-left: 12px;
+    box-sizing: border-box;
+}
+
+.new-subject .right>.top>div .list {
+    width: 100%;
+    height: 40px;
+    border: #2a2e5e 2px solid;
+    padding-left: 12px;
+    box-sizing: content-box;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.new-subject .right>.top>div .list .promt{
+    opacity: 0.8;
+    margin-top: 7px;
+}
+
+.new-subject .right .collected-targ {
+    display: inline-flex;
+    align-items: center;
+    margin: 3px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.new-subject .right .collected-targ>div {
+    padding: 3px;
+    font-size: 0.9em;
+    background: #121429
+}
+
+.new-subject .right .collected-targ>div span{
+    width: 16px;
+    height: 16px;
+    filter: invert();
+    display: inline-flex;
+    align-items: center;
+    background: no-repeat center/80% url(/src/res/x.png);
+}
+
+.new-subject .right .top .label {
+    padding: 10px 0;
+}
+
+
+
+.new-subject .right .create {
+    width: 100%;
+    display: flex;
+
+}
+
+.new-subject .right .create .btn {
+    padding: 15px 20px;
+    background: #5396e7;
+    border-radius: 5px;
+    font-weight: bold;
+    /* margin: 20px 0; */
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+
+.new-subject .targ-ctn ul.open {
+    visibility: visible;
+    opacity: 1;
+    transform: rotateZ(0deg) rotateY(0deg);
+}
+
+.new-subject .targ-ctn ul.close {
+    visibility: hidden;
+    opacity: 0;
+    transform: rotateZ(-10deg) rotateY(20deg);
+}
+
+.new-subject .targ-ctn ul {
+    position: absolute;
+    min-width: 200px;
+    padding-left: 20px;
+    top: 70px;
+    background: #456;
+    z-index: 1;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 10px;
+    right: 0px;
+    background: rgba(15, 14, 71, 0.3);
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+    backdrop-filter: blur(40px) brightness(80%) saturate(150%);
+    border-radius: 20px;
+    visibility: visible;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    transform-origin: right top;
+    transform: translateX(-10px)
+}
+
+.new-subject .targ-ctn ul li:hover {
+    transition: 200ms;
+    color: #6ed1ff;
+}
+
+.new-subject .targ-ctn ul li {
+    transition: 200ms;
+    all: unset;
+    display: block;
+    padding: 7px;
+    padding-left: 40px;
+    pointer-events: inherit;
+    cursor: pointer;
+
+}
+
+.new-subject .targ-ctn ul .targ:hover {
+    transition: 200ms;
+    color: #6ed1ff;
+}
+
+.new-subject .targ-ctn ul .targ {
+
+    transition: 200ms;
+    display: flex;
+    pointer-events: inherit;
+    cursor: pointer;
+}
+
+.new-subject .targ-ctn ul .targ .icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    border-radius: 100%;
+}
+
+
+.new-subject .targ-ctn ul li.active , 
+.new-subject .targ-ctn ul .targ.active{
+    opacity: 0.5;
+}
+
+
+.new-subject .notif{
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    pointer-events: inherit;
+}
+.new-subject .notif.ok .box{
+    background: no-repeat center/60% url(/src/res/mark.png) , rgb(153, 133, 68);
+    filter: invert();
+}
+.new-subject .notif .box{
+    width: 20px;
+    height: 20px;
+    margin:0 5px;
+    border-radius: 5px;
+    background: #8491c7;
+}
+
+
+
+/* zone-area */
+
+.zone-area {
+    /* width: 100%; */
+    /* max-width: 600px; */
+    /* display: flex; */
+    background: #0000;
+    border: #2a2e5e 2px solid;
+}
+
+.zone-area .top {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: rgb(26, 25, 66);
+}
+.zone-area span.error{
+    opacity: 0.8;
+    margin-left: 10px;
+    color: #fa6b6b;
+}
+.zone-area .top .count {
+    opacity: 0.8;
+    font-size: 0.9;
+    margin-left: auto;
+}
+
+.zone-area .top div {
+    width: 30px;
+    height: 30px;
+    filter: invert();
+    scale: 0.9;
+    opacity: 0.7;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.zone-area .top div.active{
+    opacity: 1;
+    background-color: #0002;
+
+}
+.zone-area .top div.write {
+    background-image: url(/src/res/write.png);
+}
+.zone-area .top div.preview {
+    background-image: url(/src/res/eye.png);
+}
+.zone-area .top div.splite {
+    background-image: url(/src/res/middle.png);
+}
+.zone-area .top div.splite-reverse {
+    rotate: 90deg;
+    background-image: url(/src/res/middle.png);
+}
+
+.zone-area .ctn.reverse{
+    flex-wrap: wrap;
+    height: initial;
+    max-height: 800px;
+}
+.zone-area .ctn {
+    /* height: 100%; */
+    height: 400px;
+    display: flex;
+    background: #0000;
+    position: relative;
+}
+
+.zone-area textarea {
+    all: unset;
+    color: #fff;
+    /* font-size: 1em; */
+    background: #0000;
+    padding: 0 20px;
+    width: 100%;
+    background: #0002;
+}
+.zone-area .ctn .text{
+    width: 100%;
+    padding: 20px;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.zone-area .ctn .text.write{
+    display: none;
+} 
+.zone-area .ctn .text.preview {
+    display: initial;
+} 
+.zone-area .ctn .text.splite{
+    display: initial;
+    border-left: 10px #fff9 solid;
+} 
+.zone-area .ctn .text.splite-reverse{
+    display: initial;
+    max-height: 400px;
+    overflow: auto;
+
+    border-top: 10px #fff9 solid;
+}
+
+.zone-area .ctn textarea.write{
+    display: initial;
+} 
+.zone-area .ctn textarea.preview {
+    display: none;
+} 
+.zone-area .ctn textarea.splite-reverse{
+    display: initial;
+    max-height: 400px;
+}

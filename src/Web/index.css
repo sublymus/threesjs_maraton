@@ -3,7 +3,8 @@
   margin: 0;
   box-sizing: border-box;
   font-optical-sizing: auto;
-  font-style: normal; 
+  font-style: normal;
+  font-size: 1em; 
 }
 #root {
   width: 100%;
@@ -14,7 +15,9 @@ h1 {
   font-weight: bold;
   font-size: 1.8em;
 }
-
+h4{
+  min-height: 1em;
+}
 a:hover{
   color: #6ed1ff;
 }
@@ -25,6 +28,21 @@ a {
   cursor: pointer;
 }
 
+em{
+  font-style: oblique;
+}
+em > strong{
+  font-style: oblique;
+}
+p  {
+  display: block;
+}
+blockquote{
+  background: #fff2;
+  color: #fff;
+  padding: 10px;
+  border-left: 2px #fff solid;
+}
 body, html{
   overflow: hidden;
   padding: 0;
