@@ -23,7 +23,7 @@
     color: #8491c7;
 }
 
-.page-subject .report:hover {
+/* .page-subject .report:hover {
     scale: 1.2;
     transition: 200ms;
     opacity: 1;
@@ -36,11 +36,10 @@
     filter: invert(100%);
     opacity: 0.7;
     margin-left: auto;
-    pointer-events: initial;
     cursor: pointer;
     background: no-repeat center / 100% url(/src/res/exclamation.png);
     transition: 200ms;
-}
+} */
 
 .page-subject>.top .info .targs {
     display: flex;
@@ -100,6 +99,30 @@
     /* margin-bottom: 10px; */
 }
 
+.page-subject .responses .top .author{
+    padding: 0px 5px;
+    border-radius: 4px;
+    background: #657;
+    margin: 0 10px;
+}
+.page-subject .responses .top .reply:hover{
+    scale: 1.4;
+    transition: 200ms;
+}
+.page-subject .responses .response:hover .top .reply{
+    display: block;
+}
+.page-subject .responses .top .reply{
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    margin-right: 20px;
+    filter: invert();
+    background: no-repeat center/80% url(/src/res/reply.png);   
+    transition: 200ms;
+    cursor: pointer;
+    display: none;
+}
 .page-subject .responses .message {
     padding: 20px;
     background: #2a2e5e;
@@ -121,7 +144,6 @@
     display: flex;
     width: 100%;
     margin: 10px;
-    pointer-events: inherit;
 }
 .page-subject .notif.ok .box{
     background: no-repeat center/60% url(/src/res/mark.png) , rgb(153, 133, 68);
@@ -147,7 +169,6 @@
     font-weight: 700;
     border-radius: 7px;
     cursor: pointer;
-    pointer-events: initial;
 }
 @media (width <700px) {
     

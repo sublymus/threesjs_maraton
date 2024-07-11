@@ -2,6 +2,8 @@
     z-index: 100;
     width: 100vw;
     height: 100vh;
+    top: 0;
+    left: 0;
     position: absolute;
     background: rgba(177, 177, 177, 0.322);
     display: flex;

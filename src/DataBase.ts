@@ -71,7 +71,8 @@ export interface Message {
     "survey_id": string | undefined,
     "user_id": string,
     "created_at": string,
-    "updated_at": string
+    "updated_at": string,
+    user?: UserInterface
 };
 
 type Status = 'PAUSE' | 'VISIBLE' | 'TRASH'

@@ -28,8 +28,21 @@ export function useWindowSize() {
   return windowSize;
 }
 
+export function notifPermission() {
+  const [permission, setPermission] = useState<PermissionStatus['state']>();
 
-export function checkVisibility(/* id: string, */ ref: { current: HTMLElement |null|undefined}, interval: number, check: boolean) {
+  useEffect(() => {
+    navigator.permissions.query({ name: 'notifications' }).then((result) => {
+      result.addEventListener('change', () => {
+        setPermission(result.state)
+      })
+      setPermission(result.state)
+    })
+  },[])
+  return permission
+}
+
+export function checkVisibility(/* id: string, */ ref: { current: HTMLElement | null | undefined }, interval: number, check: boolean) {
 
   const [visible, setVisible] = useState(false)
 
@@ -42,13 +55,13 @@ export function checkVisibility(/* id: string, */ ref: { current: HTMLElement |n
       clearInterval(this.id);
 
       const id = setInterval(() => {
-        if(!ref.current) return;
+        if (!ref.current) return;
         const rect = ref.current.getBoundingClientRect();
-        const widthVisible = rect.x < (window.innerWidth) && (rect.x +rect.width )> 0
-        const heightVisible = rect.y < (window.innerHeight) && (rect.y+rect.height) > 0
+        const widthVisible = rect.x < (window.innerWidth) && (rect.x + rect.width) > 0
+        const heightVisible = rect.y < (window.innerHeight) && (rect.y + rect.height) > 0
         const visible = heightVisible && widthVisible;
         setVisible(visible)
-       }, interval)
+      }, interval)
 
       return () => clearInterval(id);
 
@@ -57,12 +70,12 @@ export function checkVisibility(/* id: string, */ ref: { current: HTMLElement |n
       clearInterval(this.id)
     }
   });
-  
+
   useEffect(() => {
-    if(check)data.init();
+    if (check) data.init();
     else data.remove();
     return data.remove()
   }, [check]);
-  
+
   return visible;
 }

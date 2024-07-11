@@ -7,6 +7,7 @@ import { StoreInterface } from '../../../DataBase';
 import { StoreCard } from '../PageHome/PageHome';
 import { Local } from '../../../Config';
 import { TutorialCard } from '../PageTutorial/PageTutorial';
+import { PageAuth } from '../PageAuth/PageAuth';
 
 const steps = [{
     icon: '',
@@ -29,7 +30,7 @@ export function PageNewStore() {
 
     const [id] = useState(generateUid());
     const { current, qs, json, pathList } = useWebRoute();
-    const { createStore, owner, exist } = useWebStore();
+    const { createStore, owner, exist,openChild } = useWebStore();
 
     const [step, setStep] = useState(json?.step || 0)
     const [collected, setCollected] = useState<Record<string, any>>({});
@@ -38,17 +39,18 @@ export function PageNewStore() {
 
     const [enable, setEnable] = useState('')
     const [loading, setLoading] = useState(false);
+
     // useEffect(() => {
     //     owner && json?.store_id && setStoreById(json.store_id)
     // }, [json, owner])
     useEffect(() => {
-
         let step = Number(json?.step || 0);
         step = (step > 0 && enable != 'yes') ? 0 : (step > 1 && (!collected.logo || !collected.banner)) ? 1 : step
         setStep(step);
         collected.name?.length >= 3 ? exist(collected.name)?.then((deja_pris) => {
             setEnable(deja_pris ? 'no' : 'yes')
-        }) : setEnable('no')
+        }) : setEnable('no');
+        if(step != 2) setNewStore(undefined)
     }, [json])
     useEffect(() => {
         setEnable('')
@@ -73,9 +75,9 @@ export function PageNewStore() {
     
     return current('new_store') && <div className="page-new-store">
         <div className="page-top">
-            <h1 className="title">{newStore ? '🎉 congratulations on your new online store 🎉' : 'Create You New Store'}</h1>
+            <h1 className="title">{newStore && (json?.step ==2) ? '🎉 congratulations on your new online store 🎉' : 'Create You New Store'}</h1>
         </div>
-        <div className="steps" style={{ display: newStore ? 'none' : '' }}>
+        <div className="steps" style={{ display: newStore && (json?.step ==2) ? 'none' : '' }}>
             {
                 steps.map((s, i) => (
                     <>
@@ -93,12 +95,12 @@ export function PageNewStore() {
                 ))
             }
         </div>
-        <div className="step-prompt" style={{ display: newStore ? 'none' : '' }}>
+        <div className="step-prompt" style={{ display: newStore && (json?.step ==2) ? 'none' : '' }}>
             <div className="count">step {step + 1} / {steps.length}</div>
             <h1 className="title">{steps[step].title}</h1>
             {/* <p className="message">{steps[step].message}</p> */}
         </div>
-        <div className="step-forms" style={{ display: newStore ? 'none' : '' }}>
+        <div className="step-forms" style={{ display: newStore && (json?.step ==2) ? 'none' : '' }}>
             <div className={"step-name " + (step == 0 ? 'visible' : '')}>
                 <div className="name">
                     <div className="top">
@@ -223,12 +225,13 @@ export function PageNewStore() {
             </div>
 
         </div>
-        <div className="btn-ctn" style={{ display: newStore ? 'none' : '' }}>
+        <div className="btn-ctn" style={{ display: newStore && (json?.step ==2) ? 'none' : '' }}>
             <div className={"btn " + (stepBtn)} onClick={() => {
                 if (stepBtn == 'next') {
                     qs({ step: step + 1, id: Math.trunc(Math.random() * 100) }).apply();
                 } else if (stepBtn == 'create') {
                     if (!canEnd || loading) return;
+                    !owner && openChild(<PageAuth/>)
                     setLoading(true);
                     createStore({
                         ...collected,
@@ -239,6 +242,8 @@ export function PageNewStore() {
                         
                         if (res?.id) {
                             setNewStore(res);
+                            setCollected({});
+                            setEnable('')
                         }
                         else {
                             //Error
@@ -251,7 +256,7 @@ export function PageNewStore() {
                 }
             </div>
         </div>
-        {newStore && <div className="mini-tuto">
+        {newStore && (json?.step ==2) && <div className="mini-tuto">
             <div className="card-side">
                 <StoreCard isNew owner={owner} key={newStore.id} setSelectedStore={() => { }} store={newStore} />
             </div>
@@ -292,7 +297,7 @@ export function PageNewStore() {
         </div>}
 
         {
-            newStore && <TutorialCard/>
+            newStore && (json?.step == 2) && <TutorialCard/>
         }
     </div>
 } 

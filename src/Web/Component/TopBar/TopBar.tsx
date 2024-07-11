@@ -5,6 +5,7 @@ import { Host, Local } from '../../../Config';
 import { useWindowSize } from '../../../Hooks';
 import { getImg } from '../../../Tools/StringFormater';
 import { bindTopToParentScroll } from '../../../Tools/BindToParentScroll';
+import { disableNotifications, enableNotifications, getUserBrowser, removeUserBrowser } from '../../../Tools/Notification';
 
 const navs = [{
     u: 'home',
@@ -78,58 +79,69 @@ export function TopBar() {
             const c = document.querySelector('.top-bar .more-navs ul')
             if (c?.className == '') setOpenMoreNavs(false)
         })
-    }, [])
+    }, []);
 
     return (
         <div className="top-bar" ref={bindTopToParentScroll(80, '.web')}>
-            <div className="top-bar-ctn">
-                <div className="left">
-                    <div className="options" onClick={() => {
+            <div className="relative">
+                <div className="back-top"></div>
+                <div className="top-bar-ctn">
+                    <div className="left">
+                        <div className="options" onClick={() => {
 
-                    }}>
-                    </div>
-                    <a href={`${Local}/web#home`} className="logo-ctn" onClick={() => {
-                        update('home');
-                    }}>
-                        <div className="icon"></div>
-                    </a>
-                </div>
-                <ul className='top-bar-center'>
-                    {
-                        navs.map((d, i) => i * 200 < size.width - 400 ? (
-                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
-                        ) : null)
-                    }
-                </ul>
-
-                <div className="right">
-                    <div className="ctn-icon" onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setOpenMoreNavs(!openMoreNavs)
-                    }}>
-                        <div className="icon"></div>
-                    </div>
-                    {owner ? (
-                        <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }}>
+                        }}>
                         </div>
-                    ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
+                        <a href={`${Local}/web#home`} className="logo-ctn" onClick={() => {
+                            update('home');
+                        }}>
+                            <div className="icon"></div>
+                        </a>
+                    </div>
+                    <ul className='top-bar-center'>
+                        {
+                            navs.map((d, i) => i * 200 < size.width - 400 ? (
+                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
+                            ) : null)
+                        }
+                    </ul>
+
+                    <div className="right">
+                        <div className="ctn-icon" onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setOpenMoreNavs(!openMoreNavs)
+                        }}>
+                            <div className="icon"></div>
+                        </div>
+                        {owner ? (
+                            <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }} 
+                            onClick={()=>disableNotifications({
+                                user:owner,
+                                target:'all'
+                                // user_browser_id:'e8e34d4f-3e3e-4dc4-9ecd-7cf8d2f16922'
+                            }).then(res=>{
+                                console.log(res);
+                                
+                            })}>
+                            </div>
+                        ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
+                    </div>
                 </div>
-            </div>
-            <div className='more-navs' onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }}>
-                <ul className={openMoreNavs ? '' : 'close'}>
-                    {
-                        navs.map((d, i) => i * 200 >= size.width - 400 ? (
-                            <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
-                        ) : null)
-                    }
-                    <li className={active == 'mode-lite' ? 'active' : ''} onClick={() => {
-                        setLiteMode(!liteMode)
-                    }}><span style={{ background: getImg('/src/res/mark.png', '70%') }} ></span>{liteMode ? 'Lite mode off' : 'Lite mode on'}</li>
-                </ul>
+                <div className='more-navs' onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}>
+                    <ul className={openMoreNavs ? '' : 'close'}>
+                        {
+                            navs.map((d, i) => i * 200 >= size.width - 400 ? (
+                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
+                            ) : null)
+                        }
+                        <li className={active == 'mode-lite' ? 'active' : ''} onClick={() => {
+                            setLiteMode(!liteMode)
+                        }}><span style={{ background: getImg('/src/res/mark.png', '70%') }} ></span>{liteMode ? 'Lite mode off' : 'Lite mode on'}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     )

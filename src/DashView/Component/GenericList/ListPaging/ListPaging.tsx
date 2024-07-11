@@ -40,7 +40,7 @@ export function ListPaging({setPage , limit ,page ,total}:{setPage:(page:number)
             setPage(page+2)
         }}>{ page+2}</div>) 
     }
-    if(page+4<pages){
+    if(page+4<=pages){
         list.push(<div key={'h'} className='page'>...</div>)    
     }
     if(page < pages)list.push(<div key={'i'} className='page' onClick={()=>{

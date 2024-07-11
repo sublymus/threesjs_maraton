@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { SRouter } from "../Tools/SRouter";
 import { Host } from "../Config";
 import { UserInterface, StoreInterface, type ListType } from '../DataBase'
+import { sendNotificationData } from "../Tools/Notification";
 
 const Pages = {
     '/': {
@@ -163,7 +164,6 @@ export const useWebStore = create<WebState>((set) => ({
         if (!js?.id) return localStorage.removeItem('user');
         useWebStore.getState().fetchStores({});
         js = { token: owner.token, ...js }
-
         set(() => ({ owner: js }))
         localStorage.setItem('user', JSON.stringify(js));
     },
@@ -221,6 +221,7 @@ export const useWebStore = create<WebState>((set) => ({
             if (!owner) return;
             const myHeaders = new Headers();
             myHeaders.append("Authorization", `Bearer ${owner.token}`);
+            myHeaders.append("sublymus_id", `Sublymus_id00`);
 
             const form = new FormData();
             console.log(data);
@@ -246,13 +247,13 @@ export const useWebStore = create<WebState>((set) => ({
 
             const response = await fetch(`${Host}/create_store`, requestOptions)
             const store = await response.json();
-            useWebStore.getState().fetchStores({})
             return store
         } catch (error) {
             return error
         }
     },
     async createOwner() {
+
         window.open(
             `${Host}/google_connexion`,
             undefined,
@@ -264,11 +265,9 @@ export const useWebStore = create<WebState>((set) => ({
             if (user) {
                 set(() => ({ owner: user }))
                 clearInterval(id);
+                sendNotificationData(user)
                 useWebStore.getState().fetchStores({});
-                useWebRoute.getState().setAbsPath(['store_list']);
             }
-            // console.log(new Date().getMilliseconds());
-
         }, 100);
 
     },

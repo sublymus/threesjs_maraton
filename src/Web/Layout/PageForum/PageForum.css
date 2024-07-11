@@ -4,7 +4,7 @@
 
 
 .page-forum .top {
-    height: 150px;
+    padding: 10px 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -50,15 +50,15 @@
 
 .page-forum .top .search-section div:hover {
     color: #fff;
-    background: #22295e;
+    background: #323970;
     transition: 300ms;
 }
 
 .page-forum .top .search-section div {
     min-width: 120px;
     padding: 20px;
-    background: #323970;
     font-weight: 700;
+    background: #22295e;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -72,7 +72,6 @@
     color: #fffc;
     transition: 300ms;
     cursor: pointer;
-    pointer-events: inherit;
 }
 
 .page-forum .center {
@@ -100,7 +99,6 @@
     background: #5396e7;
     color: #fff;
     transition: 400ms;
-    pointer-events: initial;
     cursor: pointer;
 }
 
@@ -131,11 +129,15 @@
     height: 48px;
     border-radius: 100px;
     margin-left: 20px;
-    color: #fffc;
+    color: #fff;
     transition: 300ms;
     cursor: pointer;
-    pointer-events: inherit;
     display: none;
+}
+
+.page-forum .center nav .filter span{
+    color: #fffa;
+    margin-left: 10px;
 }
 
 .page-forum .center nav .targ.all {
@@ -151,13 +153,15 @@
     color: #6ed1ff;
 }
 
+.page-forum .center nav ul li.active{
+    background: #323970;
+}
 .page-forum .center nav ul li {
     transition: 200ms;
     all: unset;
     display: block;
     padding: 7px;
     padding-left: 40px;
-    pointer-events: inherit;
     cursor: pointer;
 
 }
@@ -167,12 +171,15 @@
     color: #6ed1ff;
 }
 
+.page-forum .center nav ul .targ.active{
+    background: #323970;
+}
 .page-forum .center nav ul .targ {
 
     transition: 200ms;
     display: flex;
-    pointer-events: inherit;
     cursor: pointer;
+    padding: 7px;
 }
 
 .page-forum .center nav ul .targ .icon {
@@ -183,6 +190,9 @@
     border-radius: 100%;
 }
 
+.page-forum .center .list{
+    width: 100%;
+}
 .page-forum .center .list a:hover {
     color: inherit;
     background: #32397055;
@@ -213,6 +223,10 @@
 .page-forum .center .list a:hover .title {
     color: #6ed1ff
 }
+.page-forum .center .list a .title  span{
+    background: rgb(136, 136, 0);
+}
+
 
 .page-forum .center .list .info {
     display: flex;
@@ -225,6 +239,9 @@
     margin-top: 10px;
     font-weight: 500;
     color: #d4dcff;
+}
+.page-forum .center .list a .message  span{
+    background: rgb(136, 136, 0);
 }
 
 .page-forum .center .list .count {
@@ -260,6 +277,24 @@
     padding: 3px;
     font-size: 0.8em;
     background: #121429
+}
+
+.page-forum .center .list .nothing{
+    font-size: 1.5em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.page-forum .center .list .nothing span{
+    color: rgb(201, 201, 0);
+    margin: 0 10px;
 }
 
 @media (width < 800px) {
@@ -377,7 +412,6 @@
         filter: invert();
         opacity: 0.8;
         cursor: pointer;
-        pointer-events: initial;
         background: no-repeat center/contain url(/src/res/ellipsis.png);
     }
 }

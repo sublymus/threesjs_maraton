@@ -2,130 +2,43 @@ import './Subject.css';
 import { useWebRoute, useWebStore } from "../../WebStore";
 import { useEffect, useState } from 'react';
 
-import { subjects } from "./PageForum";
 import { getImg } from '../../../Tools/StringFormater';
+import { SubjectInterface, useForumStore } from './ForumStore';
+import { ZoneArea } from './NewSubject';
+import { ListType, Message } from '../../../DataBase';
+import { PageAuth } from '../PageAuth/PageAuth';
+import { addNotifContext, removeNotifContext, requiredNotification, sendNotificationData } from '../../../Tools/Notification';
 
-const responses = {
-    page: 1,
-    limit: 15,
-    total: 4,
-    list: [{
-        id: '1',
-        created_at: '2024-06-16 09:01:57',
-        user: {
-            email: "sublymus@gmail.com",
-            id: "f37b0fd8-35a8-412f-8183-b00910de2957",
-            name: "Opus Opus",
-            photos: ["https://lh3.googleusercontent.com/a/ACg8ocKBUk529kp5YE4tF1KOY9WnKIoj5wjFsoQA6RiQcstmXc0j5aU=s96-c"],
-            follow: [{
-                name: 'linkedin',
-                icon: 'src/res/social/linkedin.png',
-                link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-            }, {
-                name: 'github',
-                icon: 'src/res/social/github.png',
-                link: 'https://github.com/sublymus',
-            }, {
-                name: 'twitter',
-                icon: 'src/res/social/twitter.png',
-                link: 'https://x.com/sublymus',
-            }],
-        },
-        text: `Hello :)
-    
-        Alors par défaut Symfony enregistre la session en fichier, il faudrait modifier la valeur handler_id pour enregistrer la session sur Redis, la database ou DynamoDB
-        
-        Si tu es en SPA (front React par exemple) regarde si le site controle bien l'état de la session et pas seulement un état front`
-    }, {
-        id: '2',
-        created_at: '2024-06-16 09:01:57',
-        user: {
-            email: "sublymus@gmail.com",
-            id: "f37b0fd8-35a8-412f-8183-b00910de2957",
-            name: "Opus Opus",
-            photos: ["https://lh3.googleusercontent.com/a/ACg8ocKBUk529kp5YE4tF1KOY9WnKIoj5wjFsoQA6RiQcstmXc0j5aU=s96-c"],
-            follow: [{
-                name: 'linkedin',
-                icon: 'src/res/social/linkedin.png',
-                link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-            }, {
-                name: 'github',
-                icon: 'src/res/social/github.png',
-                link: 'https://github.com/sublymus',
-            }, {
-                name: 'twitter',
-                icon: 'src/res/social/twitter.png',
-                link: 'https://x.com/sublymus',
-            }],
-        },
-        text: `Hello :)
-    
-        Alors par défaut Symfony enregistre la session en fichier, il faudrait modifier la valeur handler_id pour enregistrer la session sur Redis, la database ou DynamoDB
-        
-        Si tu es en SPA (front React par exemple) regarde si le site controle bien l'état de la session et pas seulement un état front`
-    }, {
-        id: '3',
-        created_at: '2024-06-16 09:01:57',
-        user: {
-            email: "sublymus@gmail.com",
-            id: "f37b0fd8-35a8-412f-8183-b00910de2957",
-            name: "Opus Opus",
-            photos: ["https://lh3.googleusercontent.com/a/ACg8ocKBUk529kp5YE4tF1KOY9WnKIoj5wjFsoQA6RiQcstmXc0j5aU=s96-c"],
-            follow: [{
-                name: 'linkedin',
-                icon: 'src/res/social/linkedin.png',
-                link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-            }, {
-                name: 'github',
-                icon: 'src/res/social/github.png',
-                link: 'https://github.com/sublymus',
-            }, {
-                name: 'twitter',
-                icon: 'src/res/social/twitter.png',
-                link: 'https://x.com/sublymus',
-            }],
-        },
-        text: `Hello :)
-    
-        Alors par défaut Symfony enregistre la session en fichier, il faudrait modifier la valeur handler_id pour enregistrer la session sur Redis, la database ou DynamoDB
-        
-        Si tu es en SPA (front React par exemple) regarde si le site controle bien l'état de la session et pas seulement un état front`
-    }, {
-        id: '4',
-        created_at: '2024-06-16 09:01:57',
-        user: {
-            email: "sublymus@gmail.com",
-            id: "f37b0fd8-35a8-412f-8183-b00910de2957",
-            name: "Opus Opus",
-            photos: ["https://lh3.googleusercontent.com/a/ACg8ocKBUk529kp5YE4tF1KOY9WnKIoj5wjFsoQA6RiQcstmXc0j5aU=s96-c"],
-            follow: [{
-                name: 'linkedin',
-                icon: 'src/res/social/linkedin.png',
-                link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-            }, {
-                name: 'github',
-                icon: 'src/res/social/github.png',
-                link: 'https://github.com/sublymus',
-            }, {
-                name: 'twitter',
-                icon: 'src/res/social/twitter.png',
-                link: 'https://x.com/sublymus',
-            }],
-        },
-        text: `Hello :)
-    
-        Alors par défaut Symfony enregistre la session en fichier, il faudrait modifier la valeur handler_id pour enregistrer la session sur Redis, la database ou DynamoDB
-        
-        Si tu es en SPA (front React par exemple) regarde si le site controle bien l'état de la session et pas seulement un état front`
-    }]
-}
+const default_message = `
+write your message here,
+
+*Italic*
+**Bold**
+***Italic + Bold***
+~Optional~
+> A important note
+#### 
+new line
+`
 export function Subject() {
     const { current, json } = useWebRoute();
-    const [subject, setSubject] = useState<(typeof subjects)['list'][number] | undefined>();
-    // const {} = useWebStore()
+    const { owner, openChild } = useWebStore()
+    const { getSubjectById, send_message, fetchMessage } = useForumStore()
+    const [messages, setMessages] = useState<ListType<Message>>()
+    const [subject, setSubject] = useState<SubjectInterface>();
+    const [message, setMessage] = useState(default_message);
+    const [notif, setNotif] = useState(false);
+    const [reply_id] = useState<string | undefined>();
     useEffect(() => {
-        console.log(json, json?.subject_id, subjects.list[json?.subject_id]);
-        setSubject(subjects.list[json?.subject_id]);
+        current('subject') && json?.subject_id && getSubjectById(json.subject_id).then((subject) => {
+            setSubject(subject)
+            console.log({ subject });
+        })
+        current('subject') && json?.subject_id && fetchMessage({ context_id: json.subject_id, context_name: 'subjects' }).then(list => {
+            setMessages(list);
+            console.log({ list });
+
+        })
     }, [json])
     return current('subject') && subject && <div className="page-subject">
         <div className="top">
@@ -155,18 +68,20 @@ export function Subject() {
                 subject.message
             }
         </div>
-        <h2 className="count-response">{responses.total} Respons{responses.list.length > 1 ? 'es' : ''}</h2>
+        <h2 className="count-response">{messages?.total || 0} Response{(messages?.list.length || 0) > 1 ? 's' : ''}</h2>
         <div className="responses">
             {
-                responses.list.map(r => (
+                messages?.list.map(r => (
                     <div key={r.id} className="response">
-                        <div className="photo p1" style={{ background: getImg(subject.user.photos[0]) }}></div>
+                        <div className="photo p1" style={r.user && { background: getImg(r.user.photos[0]) }}></div>
                         <div className="right">
                             <div className="top-top">
-                                <div className="photo p2" style={{ background: getImg(subject.user.photos[0]) }}></div>
+                                <div className="photo p2" style={r.user && { background: getImg(r.user.photos[0]) }}></div>
                                 <div className="top">
-                                    <div className="name">{r.user.name}</div>
-                                    <div className="date">, {new Date(subject.created_at).toLocaleDateString()}</div>
+                                    <div className="name">{r.user?.name}</div>
+                                    <div className="date">, {new Date(r.created_at).toLocaleDateString()}</div>
+                                    {(r.user?.id == r.user_id) && <div className="author">author</div>}
+                                    <div className="reply"></div>
                                     <div className="report"></div>
                                 </div>
                             </div>
@@ -178,19 +93,45 @@ export function Subject() {
         </div>
         <div className="new-response">
             <div className="prompt">YOUR MESSGAE</div>
-            <div className="zone">
-
-            </div>
-            <div className="notif" onClick={(e)=>{
-                if(e.currentTarget.className.includes('ok')){
+            <ZoneArea value={message} onChange={(text) => {
+                setMessage(text);
+            }} />
+            <div className="notif" onClick={(e) => {
+                if (e.currentTarget.className.includes('ok')) {
                     e.currentTarget.classList.remove('ok')
-                }else{
+                    owner && removeNotifContext({
+                        user: owner,
+                        context_id: subject.id,
+                        context_name: 'subjects'
+                    })
+                } else {
                     e.currentTarget.classList.add('ok')
+                    requiredNotification().then(() => {
+                        if (owner) {
+                            addNotifContext({
+                                user: owner,
+                                context_id: subject.id,
+                                context_name: 'subjects'
+                            });
+                            sendNotificationData(owner);
+                        }
+                    })
+
                 }
             }}>
                 <div className="box"></div>BE NOTIFIED IN CASE OF RESPONSE
             </div>
-            <div className="answer">Answer</div>
+            <div className="answer" onClick={() => {
+                if (!owner) {
+                    return openChild(<PageAuth />, true)
+                }
+                send_message({
+                    context_id: subject.id,
+                    context_name: 'subjects',
+                    text: message,
+                    reply_id,
+                })
+            }}>Answer</div>
         </div>
     </div>
 }

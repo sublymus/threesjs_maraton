@@ -1,7 +1,6 @@
 .new-subject {
     display: flex;
     width: 100%;
-    pointer-events: initial;
 }
 
 .new-subject .left {
@@ -113,7 +112,6 @@
 .new-subject .right .create {
     width: 100%;
     display: flex;
-
 }
 
 .new-subject .right .create .btn {
@@ -126,6 +124,12 @@
     margin-top: 20px;
 }
 
+.new-subject .right .create .btn span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: no-repeat center/ 80% url(/src/res/loading.gif);
+}
 
 .new-subject .targ-ctn ul.open {
     visibility: visible;
@@ -175,7 +179,6 @@
     display: block;
     padding: 7px;
     padding-left: 40px;
-    pointer-events: inherit;
     cursor: pointer;
 
 }
@@ -189,7 +192,6 @@
 
     transition: 200ms;
     display: flex;
-    pointer-events: inherit;
     cursor: pointer;
 }
 
@@ -212,18 +214,23 @@
     display: flex;
     width: 100%;
     margin: 10px;
-    pointer-events: inherit;
 }
 .new-subject .notif.ok .box{
     background: no-repeat center/60% url(/src/res/mark.png) , rgb(153, 133, 68);
     filter: invert();
 }
 .new-subject .notif .box{
-    width: 20px;
+    min-width: 20px;
     height: 20px;
     margin:0 5px;
     border-radius: 5px;
     background: #8491c7;
+}
+
+@media (width < 600px) {
+    .new-subject {
+        flex-wrap: wrap;
+    }
 }
 
 

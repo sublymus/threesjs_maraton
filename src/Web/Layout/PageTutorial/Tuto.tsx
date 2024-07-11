@@ -301,7 +301,7 @@ export function Tuto() {
     const [theme, setTheme] = useState<keyof typeof sublym_tuto | undefined>()
     const [tuto, setTuto] = useState(0)
     const [onglet, setOngle] = useState('desc');
-    const { current, pathList } = useWebRoute()
+    const { pathList } = useWebRoute()
     useEffect(() => {
         setTheme(pathList[2] as any)
     }, [pathList])

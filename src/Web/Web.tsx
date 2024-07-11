@@ -11,8 +11,12 @@ import { useEffect, useState } from 'react';
 import { PagePricing } from "./Layout/PagePricing/PagePricing";
 import { PageForum } from "./Layout/PageForum/PageForum";
 import { NewSubject } from "./Layout/PageForum/NewSubject";
+import { notifPermission } from '../Hooks';
+import { sendNotificationData } from '../Tools/Notification';
+
+
 export function Web() {
-    const { tryToken, blur, currentChild, openChild, back_color } = useWebStore();
+    const { tryToken, blur, currentChild, openChild, back_color,owner } = useWebStore();
     const { pathList } = useWebRoute();
     useEffect(() => {
         openChild(undefined)
@@ -21,6 +25,12 @@ export function Web() {
     useEffect(() => {
         tryToken();
     }, [])
+   const permission =  notifPermission()
+    useEffect(()=>{
+        console.log(permission);
+        
+        (owner && permission =='granted') && sendNotificationData(owner);
+    },[permission,owner])
     const [web, setWeb] = useState<HTMLDivElement | null>(null)
     // useEffect(()=>{
     //     if (ref.current?.requestFullscreen) {
@@ -36,7 +46,7 @@ export function Web() {
     //     }
     // },[pathList])
     return (
-        <div className="web sombre-mode-variable" /* unselectable */ref={ref => {
+        <div className="web sombre-mode-variable" /*  */ref={ref => {
             setWeb(ref);
             if (!ref) return;
             if (ref.dataset.init) return;

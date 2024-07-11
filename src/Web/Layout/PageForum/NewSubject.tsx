@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { PageAuth } from "../PageAuth/PageAuth";
 import './NewSubject.css'
-import { useWebRoute } from "../../WebStore";
+import { useWebRoute, useWebStore } from "../../WebStore";
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { nav_targs } from './PageForum';
 import { useForumStore } from "./ForumStore";
+import { addNotifContext, requiredNotification, sendNotificationData } from '../../../Tools/Notification';
 const markdown = `
 Describe your problem or what you are looking to do here.
 
@@ -16,20 +18,25 @@ Describe your problem or what you are looking to do here.
 
 export function NewSubject() {
     const [targs, setTargs] = useState<any[]>([]);
-    const { current } = useWebRoute();
+    const { current, qs } = useWebRoute();
+    const { owner, openChild } = useWebStore()
     const [targError, setTargError] = useState<string | undefined>();
     const [titleError, setTitleError] = useState<string | undefined>();
     const [title, setTitle] = useState<string>('');
     const [area, setArea] = useState<string>(markdown);
-    const [isPrivate,setPrivate] = useState(false);
+    const [isPrivate, setPrivate] = useState(false);
     const [notif, setNotif] = useState(false);
     const [openNav, setOpenNav] = useState(false);
-    const { create_store } = useForumStore()
+    const { create_subject } = useForumStore();
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         window.addEventListener('click', () => {
             setOpenNav(false)
         })
     }, [])
+    useEffect(() => {
+        owner && openChild(undefined)
+    }, [owner])
     return current('new_subject') && <div className="new-subject">
         <div className="left">
             <h1 className="title">Créer un sujet</h1>
@@ -49,10 +56,10 @@ export function NewSubject() {
                         <span className='error'>
                             {titleError}
                         </span>
-                        <span className='count'>{title?.length}/256</span>
+                        <span className='count'>{title.trim()?.length}/256</span>
                     </div>
                     <input type="text" autoFocus placeholder='Subject Title' value={title} onChange={(e) => {
-                        const v = e.currentTarget.value.trim();
+                        const v = e.currentTarget.value;
                         if (v.length > 256) {
                             setTitleError('maximum length is 256')
                         } else if (v.length < 3) {
@@ -95,7 +102,10 @@ export function NewSubject() {
                                     <span className={'targ ' + (targs.find(t => t.name == n.name) ? 'active' : '')} onClick={() => {
                                         if (targs.length < 3) {
                                             setTargError('');
-                                            setTargs([n, ...targs])
+                                            setTargs([{
+                                                name: n.name,
+                                                icon: n.icon,
+                                            }, ...targs])
                                         } else if (targs.length < 1) {
                                             setTargError('at least one targ required')
                                         } else {
@@ -135,23 +145,25 @@ export function NewSubject() {
             </div>
             <ZoneArea value={area} onChange={(t) => {
                 console.log(t);
+                setArea(t);
             }} />
-            <div className="notif" onClick={(e)=>{
-                if(e.currentTarget.className.includes('ok')){
+            <div className="notif" onClick={(e) => {
+                if (e.currentTarget.className.includes('ok')) {
                     e.currentTarget.classList.remove('ok')
                     setNotif(false)
-                }else{
+                } else {
                     e.currentTarget.classList.add('ok')
                     setNotif(true)
+                    requiredNotification()
                 }
             }}>
                 <div className="box"></div>Be notified in case of response.
             </div>
-            <div className="notif" onClick={(e)=>{
-                if(e.currentTarget.className.includes('ok')){
+            <div className="notif" onClick={(e) => {
+                if (e.currentTarget.className.includes('ok')) {
                     setPrivate(false)
                     e.currentTarget.classList.remove('ok')
-                }else{
+                } else {
                     e.currentTarget.classList.add('ok')
                     setPrivate(true)
                 }
@@ -160,7 +172,13 @@ export function NewSubject() {
             </div>
             <div className="create">
                 <div className="btn" onClick={() => {
+                    if (!owner) {
+                        return openChild(<PageAuth />, true)
+                    }
+                    if (loading) return;
                     let error = false;
+                    console.log('$$$$$$$$$');
+
                     if (targs.length > 3) {
                         setTargError('maximum targs length is 3')
                         error = true;
@@ -168,35 +186,57 @@ export function NewSubject() {
                         setTargError('at least one targ required')
                         error = true;
                     }
-                    if (title.length > 256) {
+                    const t = title.trim();
+                    if (t.length > 256) {
                         setTitleError('maximum length is 256')
                         error = true;
-                    } else if (title.length < 3) {
+                    } else if (t.length < 3) {
                         setTitleError('minimum length is 3')
                         error = true;
                     }
-                    if(error) return;
-                    create_store({
-                        title,
+                    if (error) return console.log('error');
+                    setLoading(true);
+                    create_subject({
+                        title: t,
                         targs,
-                        message:area,
+                        message: area,
                         notif,
                         isPrivate
+                    }).then((subject) => {
+                        setLoading(false);
+                        console.log(subject);
+
+                        if (subject?.id) {
+                            if (notif) {
+                                addNotifContext({
+                                    user:owner,
+                                    context_id:subject.id,
+                                    context_name:'subjects'
+                                });
+                                sendNotificationData(owner);
+                            }
+                            setArea(markdown);
+                            setNotif(false);
+                            setPrivate(false);
+                            setTargs([]);
+                            setTitle('');
+                            qs({ subject_id: subject?.id }).setAbsPath(['forum', 'subject'])
+                        }
                     })
                 }}>
-                    Create the subject
+                    {
+                        loading ? <span></span> : 'Create the subject'}
                 </div>
             </div>
         </div>
     </div>
 }
 
-
 export function ZoneArea({ onChange, value }: { onChange?: (text: string) => any, value?: string }) {
 
-    const [md, setMd] = useState(value || '');
+    // const [md, setMd] = useState(value || '');
     const [mdError, setMdError] = useState('');
-    const [mode, setMode] = useState('w');
+    const [mode, setMode] = useState('splite');
 
     return (
         <div className="zone-area">
@@ -214,22 +254,22 @@ export function ZoneArea({ onChange, value }: { onChange?: (text: string) => any
                     setMode('splite-reverse')
                 }}></div>
                 <span className='error'>{mdError}</span>
-                <span className='count'>{md.length}/512</span>
+                <span className='count'>{value?.length || 0}/512</span>
             </div>
             <div className={"ctn " + (mode == 'splite-reverse' ? 'reverse' : '')}>
 
-                <textarea spellCheck={'false'} className={mode} name="new_subject" id="new_subject" cols={30} rows={10} value={md} onChange={(e) => {
+                <textarea spellCheck={'false'} className={mode} name="new_subject" id="new_subject" cols={30} rows={10} value={value} onChange={(e) => {
                     const v = e.currentTarget.value
                     if (v.length >= 512) {
                         setMdError('maximun length is 512')
                     } else {
                         setMdError('')
-                        setMd(v);
+                        // setMd(v);
                         onChange?.(v);
                     }
                 }}></textarea>
                 <div className={"text " + mode}>
-                    <Markdown remarkPlugins={[remarkGfm]}>{md}</Markdown>
+                    <Markdown remarkPlugins={[remarkGfm]}>{value}</Markdown>
                 </div>
             </div>
 
