@@ -1,4 +1,4 @@
-// import React from 'react'
+//@ts-nocheck
 import { useDashRoute, useDashStore } from '../../dashStore'
 import './NavBar.css'
 import { useRegisterStore } from '../../Layout/PageAuth/RegisterStore';
@@ -32,12 +32,12 @@ export function NavBar({ blur, className }: { blur: boolean, className?: string 
                     <li className={((active == 'chat') ? 'active' : 'no')} onClick={() => {
                         setAbsPath(['chat'])
                     }}><span className='chat'></span><label>{'CHAT'}</label></li>
-                    <li className={((active == 'interface') ? 'active' : 'no')} onClick={() => {
+                    {/* <li className={((active == 'interface') ? 'active' : 'no')} onClick={() => {
                         setAbsPath(['interface'])
                     }}><span className='interface'></span><label>{'INTERFACE'}</label></li>
                     <li className={((active == 'statistic') ? 'active' : 'no')} onClick={() => {
                         setAbsPath(['statistic'])
-                    }}><span className='state'></span><label>{'STATISTIC'}</label></li>
+                    }}><span className='state'></span><label>{'STATISTIC'}</label></li> */}
                 </ul>
             </div>
             <div className="nav-profile">

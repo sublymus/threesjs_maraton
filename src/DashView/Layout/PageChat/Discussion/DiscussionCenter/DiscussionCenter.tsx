@@ -59,7 +59,9 @@ export function DiscussionsCenter() {
             emijiOpen && setEmijiOpen(false)
         })
     }, [])
-
+    useEffect(()=>{
+        (messagesRef.current) && (messagesRef.current.scrollTop = messagesRef.current.scrollHeight)
+    },[ms])
     const photo = d?.other.photos[0];
 
     const current = (m: any, i: number) => {

@@ -1,0 +1,75 @@
+.app {
+    width: 100%;
+    height: 100%;
+}
+
+.app .tactil {
+    width: 100%;
+    height: 100%;
+    /* z-index: -1; */
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    /* background: #f006; */
+}
+
+.app-ctn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.search {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    position: relative;
+}
+
+.search .icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/70% url(/src/res/search.png);
+    opacity: 0.5;
+}
+
+.search .clear:active {
+    scale: 1.2;
+}
+
+.search .clear {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/50% url(/src/res/x.png);
+    opacity: 0.5;
+    right: 0;
+}
+
+.search input {
+    all: unset;
+    height: 40px;
+    width: 100%;
+    padding-left: 42px;
+    padding-right: 42px;
+    background: var(--back-item);
+    border: none;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: var(--color);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.search input:focus {
+    outline: none;
+    padding-left: 60px;
+    box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;
+    background: rgba(var(--impact-var), 0.1);
+}

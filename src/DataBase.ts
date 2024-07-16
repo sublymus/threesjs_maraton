@@ -1,3 +1,4 @@
+import { AbstractWorld } from "./World/WorldManager";
 
 export type Features = { [key: string]: Feature }
 
@@ -185,6 +186,18 @@ export type BinderComponent = {
     code: string,
     key: string
 }
+export type CollectedFeatures = { [key: string]: Component | undefined }
+
+export type FeaturesCollector = {
+    collectFeature(feature: Feature, value: Component | undefined): void
+    getCollectedFeatures(key: string): Component | undefined
+    allCollectedFeatures(): CollectedFeatures
+};
+
+export interface ProductScenus extends ProductInterface {
+    featuresCollector?: FeaturesCollector,
+    scene?: AbstractWorld
+}
 
 type CollectType =
     'number' |
@@ -248,9 +261,30 @@ export interface ProductInterface {
     engineer_id: string,
     scene_dir: string,
     features: ListType<Feature>
-
     created_at: string;
+    note?:{
+        value:number,
+        vote:number,
+    },
     updated_at: string
+}
+
+export interface ProductComment{
+    id: string,
+    user_id: string,
+    user?: {
+        id: string,
+        name: string,
+        email: string,
+        photos: string[],
+        country?:string,
+        country_icon?:string
+    },
+    files: string[],
+    note: number,
+    message: string,
+    response: string,
+    created_at: string
 }
 
 const gemFeature: Feature = {
@@ -263,14 +297,14 @@ const gemFeature: Feature = {
         id: 'blue_garnet',
         name: 'Grenat bleu',
         feature_id: 'gem_id',
-        icon: ['/src/World/images/gem/blue_garnet.png'],
+        icon: ['/fs/1hv1lpqtk_27y870_products_model_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg'],
         code: '2d3563'
     } as Component,
     components: [{
         id: 'blue_garnet',
         name: 'Grenat bleu',
         feature_id: 'gem_id',
-        icon: ['/src/World/images/gem/blue_garnet.png'],
+        icon: ['/fs/1hv1lpqtk_27y870_products_model_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg'],
         code: '2d3563'
     }, {
         name: 'Taaffeite',

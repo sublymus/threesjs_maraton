@@ -144,7 +144,7 @@ export const useDashStore = create<DashState>((set) => ({
 
     },
     setT(T) {
-        T && localStorage.setItem('theme', T);
+        localStorage.setItem('theme', T||'');
         set(() => ({ T }))
     },
     currentChild: undefined,

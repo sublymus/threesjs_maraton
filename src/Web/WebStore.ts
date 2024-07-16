@@ -265,7 +265,7 @@ export const useWebStore = create<WebState>((set) => ({
             if (user) {
                 set(() => ({ owner: user }))
                 clearInterval(id);
-                sendNotificationData(user)
+                sendNotificationData(user);
                 useWebStore.getState().fetchStores({});
             }
         }, 100);

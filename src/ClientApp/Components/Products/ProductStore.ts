@@ -1,17 +1,10 @@
 
 import { create } from 'zustand'
-import { Feature, ProductInterface, Component, ListType, ClientVisites } from '../../../DataBase'
+import {  ListType, ClientVisites, ProductScenus, FeaturesCollector, CollectedFeatures } from '../../../DataBase'
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 
-export type CollectedFeatures = { [key: string]: Component | undefined }
-
-export type FeaturesCollector = {
-    collectFeature(feature: Feature, value: Component | undefined): void
-    getCollectedFeatures(key: string): Component | undefined
-    allCollectedFeatures(): CollectedFeatures
-};
 
 export interface Filter {
     page?: number,
@@ -24,10 +17,6 @@ export interface Filter {
     } & Record<string, any>
 }
 
-interface ProductScenus extends ProductInterface {
-    featuresCollector?: FeaturesCollector,
-    scene?: AbstractWorld
-}
 export interface ProductState {
     visites:ListType<ClientVisites>|undefined
     products: ListType<ProductScenus>|undefined,

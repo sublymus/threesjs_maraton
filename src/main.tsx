@@ -15,6 +15,9 @@ const reservedStoreName = ['web', 'dash', 'sublymus', 'admin', 'noga'];//nom de 
     // const userJson = urlToPath().json;
     // localStorage.setItem('user', JSON.stringify(userJson));
     
+  } else if (scond == 'demo') {
+    localStorage.setItem('store_name', first)
+    view = (await import('./ClientApp2/client_view')).ClientView;
   } else if (scond == 'dash') {
     localStorage.setItem('store_name', first)
     view = (await import('./DashView/dash_view')).DashView;

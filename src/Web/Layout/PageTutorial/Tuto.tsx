@@ -21,11 +21,11 @@ const sublym_tuto = {
                     name: 'linkedin',
                     icon: 'src/res/social/linkedin.png',
                     link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-                },{
+                }, {
                     name: 'github',
                     icon: 'src/res/social/github.png',
                     link: 'https://github.com/sublymus',
-                },{
+                }, {
                     name: 'twitter',
                     icon: 'src/res/social/twitter.png',
                     link: 'https://x.com/sublymus',
@@ -95,11 +95,11 @@ const sublym_tuto = {
                     name: 'linkedin',
                     icon: 'src/res/social/linkedin.png',
                     link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-                },{
+                }, {
                     name: 'github',
                     icon: 'src/res/social/github.png',
                     link: 'https://github.com/sublymus',
-                },{
+                }, {
                     name: 'twitter',
                     icon: 'src/res/social/twitter.png',
                     link: 'https://x.com/sublymus',
@@ -164,11 +164,11 @@ const sublym_tuto = {
                     name: 'linkedin',
                     icon: 'src/res/social/linkedin.png',
                     link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-                },{
+                }, {
                     name: 'github',
                     icon: 'src/res/social/github.png',
                     link: 'https://github.com/sublymus',
-                },{
+                }, {
                     name: 'twitter',
                     icon: 'src/res/social/twitter.png',
                     link: 'https://x.com/sublymus',
@@ -233,11 +233,11 @@ const sublym_tuto = {
                     name: 'linkedin',
                     icon: 'src/res/social/linkedin.png',
                     link: 'https://www.linkedin.com/in/wilfried-noga-kouassi-774500236/',
-                },{
+                }, {
                     name: 'github',
                     icon: 'src/res/social/github.png',
                     link: 'https://github.com/sublymus',
-                },{
+                }, {
                     name: 'twitter',
                     icon: 'src/res/social/twitter.png',
                     link: 'https://x.com/sublymus',
@@ -303,7 +303,10 @@ export function Tuto() {
     const [onglet, setOngle] = useState('desc');
     const { pathList } = useWebRoute()
     useEffect(() => {
-        setTheme(pathList[2] as any)
+        setTheme(pathList[2] as any);
+
+        //@ts-ignore
+        // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia ;if (navigator.getUserMedia) {navigator.getUserMedia({ audio: true },function onSuccess(stream) {console.log(stream);},function onError(error) {console.log({error}); })} else {}
     }, [pathList])
     const size = useWindowSize();
     const small = size.width < 1100;
@@ -316,7 +319,10 @@ export function Tuto() {
             ))
         }
     </div>
-    return !(theme && sublym_tuto[theme]?.tutos[tuto]) ? <TutorialCard /> : <div className="product-tuto sublym-tuto">
+    return !(theme && sublym_tuto[theme]?.tutos[tuto]) ? <div className='no-tuto'>
+        <h1>this tutorial section is not yet available</h1>
+        <TutorialCard />
+    </div> : <div className="product-tuto sublym-tuto">
         <h1 className='title'>{sublym_tuto[theme].title}</h1>
         <div className="video-section">
             <div className="video" ref={ref => {
@@ -348,7 +354,7 @@ export function Tuto() {
                 }, 100)
                 rest();
             }}>
-                <video /* autoPlay */ loop controls src="/src/res/video/videoplayback.mp4"></video>
+                <video autoPlay controls src="/src/res/video/videoplayback.mp4"></video>
                 {/* <video autoPlay src={sublym_tuto[theme].tutos[tuto].video.url}></video> */}
             </div>
             <div className='summary' style={{ display: small ? 'none' : '' }}>
@@ -404,30 +410,30 @@ export function Tuto() {
                 }
             </div>
             <nav>
-            <h2 className="top">Current theme</h2>
-            <p>{sublym_tuto[theme].theme}</p>
-            <div className="author">
-                <div className="photo" style={{ background: getImg(sublym_tuto[theme].tutos[tuto].author.photos[0]) }}></div>
-                <div className="text">
+                <h2 className="top">Current theme</h2>
+                <p>{sublym_tuto[theme].theme}</p>
+                <div className="author">
+                    <div className="photo" style={{ background: getImg(sublym_tuto[theme].tutos[tuto].author.photos[0]) }}></div>
+                    <div className="text">
 
-                    <h3>Author :</h3>
-                    <div className="name"> {sublym_tuto[theme].tutos[tuto].author.name}</div>
-                    <h3>Social :</h3>
-                    {sublym_tuto[theme].tutos[tuto].author.follow && <div className="follows">
-                        {
-                            [...sublym_tuto[theme].tutos[tuto].author.follow,...sublym_tuto[theme].tutos[tuto].author.follow]?.map(f => (
-                                <a href={f.link}target='_blank' style={{ background: getImg(f.icon, '60%') }}></a>
-                            ))
-                        }
-                    </div>}
+                        <h3>Author :</h3>
+                        <div className="name"> {sublym_tuto[theme].tutos[tuto].author.name}</div>
+                        <h3>Social :</h3>
+                        {sublym_tuto[theme].tutos[tuto].author.follow && <div className="follows">
+                            {
+                                [...sublym_tuto[theme].tutos[tuto].author.follow, ...sublym_tuto[theme].tutos[tuto].author.follow]?.map(f => (
+                                    <a href={f.link} target='_blank' style={{ background: getImg(f.icon, '60%') }}></a>
+                                ))
+                            }
+                        </div>}
+                    </div>
                 </div>
-            </div>
-            <a className="suggest">
-                <span></span>suggest a correction
-            </a>
-        </nav>
+                <a className="suggest">
+                    <span></span>suggest a correction
+                </a>
+            </nav>
         </div>
-        
+
 
     </div>
 }

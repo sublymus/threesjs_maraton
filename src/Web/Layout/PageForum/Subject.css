@@ -123,10 +123,14 @@
     cursor: pointer;
     display: none;
 }
+.page-subject .responses .right{
+    width: 100%;
+}
 .page-subject .responses .message {
     padding: 20px;
     background: #2a2e5e;
     margin-top: 5px;
+    width: 100%;
 }
 
 
@@ -169,6 +173,18 @@
     font-weight: 700;
     border-radius: 7px;
     cursor: pointer;
+    margin-left: auto;
+}
+
+.page-subject .answer.disable{
+    background: #284d7a3a;
+    cursor: not-allowed;
+}
+.page-subject .answer span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: no-repeat center/ 80% url(/src/res/loading.gif);
 }
 @media (width <700px) {
     

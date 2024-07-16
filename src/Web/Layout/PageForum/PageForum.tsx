@@ -100,8 +100,8 @@ export function PageForum() {
 
     useEffect(() => {
         setSearch(json?.text || '')
-        current('forum') && fetchSubjects(json as any || {})
-    }, [json])
+        current('forum') && fetchSubjects(json as any || {text:''})
+    }, [json]);
     useEffect(() => {
         window.addEventListener('click', () => {
             setOpenNav(false)
@@ -146,7 +146,6 @@ export function PageForum() {
                 i = e
 
             }
-
         }
         else jsx.push(limit(value, 150))
         return jsx
@@ -205,7 +204,13 @@ export function PageForum() {
             <div className="list">
                 {
                     !((subjects?.list.length || 0) > 0) && <div className="nothing">
-                        no subject matches the search <span>{json?.text||'undefined'}</span> in the targ <span>{json?.targ_name ||'all subject'}</span>
+                        {
+                            search ? <>
+                                no subject matches the search <span>{json?.text || 'undefined'}</span> in the tag <span>{json?.targ_name || 'all subject'}</span>
+                            </> : <>
+                                there is no subjects in the tag <span>{json?.targ_name || 'all subject'}</span>
+                            </>
+                        }
                     </div>
                 }
                 {
@@ -251,7 +256,7 @@ export function PageForum() {
                                             ))
                                         }
                                     </div>
-                                    <div className="count"><span></span>{s.comment_count || 0}</div>
+                                    <div className="count"><span></span>{s.count || 0}</div>
                                 </div>
                             </div>
                         </a>

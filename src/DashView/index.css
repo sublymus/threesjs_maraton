@@ -4,7 +4,6 @@
   margin: 0;
   box-sizing: border-box;
   font-optical-sizing: auto;
-  font-weight: 100;
   font-style: normal;
 }
 
@@ -21,11 +20,11 @@ h2 {
 }
 
 body {
-
+  
   width: 100vw;
   height: 100vh;
   color: #010747;
-  font-family:'Roboto';
+  font-family:  Cantarell, sans-serif;
   /* font-family: "Edu NSW ACT Foundation", cursive; */
   /* font-family:  "Gothic Medium", "Arial Narrow", Arial, sans-serif; */
 }

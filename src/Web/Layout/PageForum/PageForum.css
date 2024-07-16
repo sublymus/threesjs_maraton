@@ -206,11 +206,12 @@
     align-items: flex-start;
     padding: 20px;
     margin: 10px 0;
-
+    
 }
 
 .page-forum .center .list .right {
     display: flex;
+    width: 100%;
 }
 
 .page-forum .center .list .photo {
@@ -264,6 +265,7 @@
     flex-direction: column;
     align-items: flex-end;
     width: 200px;
+    margin-left: auto;
 }
 
 .page-forum .center .list .targ {

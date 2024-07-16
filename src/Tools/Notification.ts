@@ -9,6 +9,11 @@ const publicVapidKey = 'BDwYyNLBYIyNOBFX3M27uTAUXLrUxgHVyBJPjxJj3aQR7ghxC_MetHpz
 export interface UserBrowser {
 
 }
+export interface UserNotifContext {
+  user_id:string,
+  context_name:string,
+  context_id:string,
+}
 
 export async function removeNotifContext(data: {
   context_name:string, 
@@ -19,12 +24,17 @@ export async function removeNotifContext(data: {
   headers.append("Authorization", `Bearer ${data.user.token}`);
   console.log('....remove Notif Context');
   
-  const response = await fetch(`${Host}/add_notif_context/?context_id=${data.context_id}`, {
+  const response = await fetch(`${Host}/remove_notif_context/${data.context_id}`, {
     headers,
-    method: 'POST',
+    method: 'DELETE',
   });
   try {
-    return await response.json() as UserBrowser[]
+    const j =await response.json() as {
+      deleted:boolean
+    }
+    console.log({log:j},data);
+    
+    return j;
   } catch (error) {
   }
 }
@@ -41,6 +51,8 @@ export async function addNotifContext(data: {
 
   form.append('context_id', data.context_id)
   form.append('context_name', data.context_name)
+  
+  console.log(data, form);
   
   const response = await fetch(`${Host}/add_notif_context`, {
     headers,
@@ -60,23 +72,17 @@ export async function get_notif_contexts(data: {
 }) {
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${data.user.token}`);
-  console.log('....add Notif Context');
-  const form = new FormData();
-
-  form.append('context_id', data.context_id)
-  form.append('context_name', data.context_name)
-  
+  console.log('....get Notif Context');
   const searchParams = new URLSearchParams({});
   searchParams.set('context_id', data.context_id);
   searchParams.set('context_name', data.context_name);
   
-  const response = await fetch(`${Host}/add_notif_context/?${searchParams}`, {
-    headers,
-    body: form
+  const response = await fetch(`${Host}/get_notif_contexts/?${searchParams}`, {
+    headers
   });
   
   try {
-    return await response.json() as UserBrowser[]
+    return await response.json() as UserNotifContext[]
   } catch (error) {
   }
 }
@@ -185,8 +191,6 @@ export async function requiredNotification() {
 }
 
 export async function sendNotificationData(user: UserInterface) {
-  console.log('....=>');
-
   const result = await navigator.permissions.query({ name: 'notifications' })
   if (result.state == 'granted') {
     const form = new FormData();
@@ -195,7 +199,7 @@ export async function sendNotificationData(user: UserInterface) {
     headers.append("Authorization", `Bearer ${user.token}`);
     console.log('....Send notif data');
 
-    fetch(`${Host}/set_notification_data/`, {
+    fetch(`${Host}/set_notification_data`, {
       method: 'PUT',
       body: form,
       headers
@@ -206,21 +210,14 @@ export async function sendNotificationData(user: UserInterface) {
 
 }
 
-export function addContextNotifier(context: {
-  context_id: string,
-  context_name: string
-}) {
+export function testNotifier() {
   if ('serviceWorker' in navigator) {
-    navigator.userAgent
-    send(context).catch(err => console.error(err));
+    send().catch(err => console.error(err));
   }
 }
 
 // Register SW, Register Push, Send Push
-async function send(context: {
-  context_id: string,
-  context_name: string
-}) {
+async function send() {
   // Register Service Worker
   console.log("Registering service worker...");
   const register = await navigator.serviceWorker.register(`/worker.js`, {
@@ -235,7 +232,7 @@ async function send(context: {
   });
   console.log("Push Registered...");
   // Send Push Notification
-  await fetch(`${Host}/add_context_notifier/?context_name=${context.context_name}&context_id=${context.context_id}`, {
+  await fetch(`${Host}/add_context_notifier`, {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {

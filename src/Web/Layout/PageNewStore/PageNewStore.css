@@ -189,6 +189,7 @@
     display: inline-flex;
     width: 200px;
     height: 200px;
+    padding: 20px;
     align-items: center;
     justify-content: center;
     border: 2px #fff8 dashed;
@@ -207,8 +208,9 @@
 
 .page-new-store .step-forms .step-images label.top {
     display: inline-flex;
-    width: 120px;
+    /* width: 120px; */
     height: 40px;
+    padding-right: 10px;
     align-items: center;
     border-radius: 10px;
     margin: 10px;

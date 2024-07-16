@@ -10,6 +10,12 @@
     font-size: 1.2em;
 }
 
+@media (width < 1200px) {
+
+    .new-subject .left {
+        width: 350px;
+    }
+}
 
 .new-subject .left .title {
     font-size: 3em;
@@ -18,12 +24,6 @@
 
 .new-subject .left p {
     margin-top: 10px;
-}
-.new-subject .left .info {
-    background: #121429;
-    padding: 20px;
-    padding-top: 10px;
-    margin-top: 20px;
 }
 
 .new-subject .right {
@@ -35,15 +35,19 @@
     display: flex;
     margin-bottom: 20px;
 }
-.new-subject .label{
+
+
+.new-subject .label {
     display: flex;
 }
-.new-subject .label span.error{
+
+.new-subject .label span.error {
     opacity: 0.8;
     margin-left: 10px;
     color: #fa6b6b;
 }
-.new-subject .label span.count{
+
+.new-subject .label span.count {
     margin-left: auto;
     opacity: 0.8;
     font-size: 0.9em;
@@ -75,7 +79,7 @@
     white-space: nowrap;
 }
 
-.new-subject .right>.top>div .list .promt{
+.new-subject .right>.top>div .list .promt {
     opacity: 0.8;
     margin-top: 7px;
 }
@@ -94,7 +98,7 @@
     background: #121429
 }
 
-.new-subject .right .collected-targ>div span{
+.new-subject .right .collected-targ>div span {
     width: 16px;
     height: 16px;
     filter: invert();
@@ -122,9 +126,14 @@
     /* margin: 20px 0; */
     margin-left: auto;
     margin-top: 20px;
+    cursor: pointer;
 }
 
-.new-subject .right .create .btn span{
+.new-subject .right .create .btn.disable{
+    background: #284d7a3a;
+    cursor: not-allowed;
+}
+.new-subject .right .create .btn span {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -146,7 +155,7 @@
 .new-subject .targ-ctn ul {
     position: absolute;
     min-width: 200px;
-    padding-left: 20px;
+    padding: 20px 20px 20px 20px;
     top: 70px;
     background: #456;
     z-index: 1;
@@ -204,33 +213,51 @@
 }
 
 
-.new-subject .targ-ctn ul li.active , 
-.new-subject .targ-ctn ul .targ.active{
+.new-subject .targ-ctn ul li.active,
+.new-subject .targ-ctn ul .targ.active {
     opacity: 0.5;
 }
 
 
-.new-subject .notif{
+.new-subject .notif {
     display: flex;
     width: 100%;
     margin: 10px;
 }
-.new-subject .notif.ok .box{
-    background: no-repeat center/60% url(/src/res/mark.png) , rgb(153, 133, 68);
+
+.new-subject .notif.ok .box {
+    background: no-repeat center/60% url(/src/res/mark.png), rgb(153, 133, 68);
     filter: invert();
 }
-.new-subject .notif .box{
+
+.new-subject .notif .box {
     min-width: 20px;
     height: 20px;
-    margin:0 5px;
+    margin: 0 5px;
     border-radius: 5px;
     background: #8491c7;
 }
 
-@media (width < 600px) {
+@media (width < 800px) {
     .new-subject {
         flex-wrap: wrap;
+        justify-content: center;
     }
+
+    .new-subject .left {
+        width: auto;
+    }
+}
+@media (width < 500px) {
+
+    .new-subject .right>.top {
+        flex-wrap: wrap;
+    }
+
+.new-subject .right>.top>div {
+    width: 100%;
+}
+
 }
 
 
@@ -246,25 +273,27 @@
 }
 
 .zone-area .top {
-    height: 30px;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     background: rgb(26, 25, 66);
 }
-.zone-area span.error{
+
+.zone-area span.error {
     opacity: 0.8;
     margin-left: 10px;
     color: #fa6b6b;
 }
+
 .zone-area .top .count {
     opacity: 0.8;
     font-size: 0.9;
     margin-left: auto;
 }
 
-.zone-area .top div {
-    width: 30px;
+.zone-area .top>div {
+    min-width: 30px;
     height: 30px;
     filter: invert();
     scale: 0.9;
@@ -274,36 +303,84 @@
     background-repeat: no-repeat;
 }
 
-.zone-area .top div.active{
+.zone-area .top>.info-icon {
+    margin-left: 20px;
+    opacity: 1;
+    position: relative;
+    background: no-repeat center/80% url(/src/res/circle-help2.png);
+}
+
+.zone-area .top>.info-icon:hover .info:hover {
+    display: block;
+}
+
+.zone-area .top>.info-icon:hover .info-text {
+    display: block;
+}
+
+.zone-area .top>.info-icon .info-text {
+    background: #121429;
+    display: none;
+    width: 200px;
+    position: absolute;
+    right: -50px;
+    top: 20px;
+    z-index: 10000;
+    padding: 10px;
+}
+
+
+.zone-area .top>.info-icon .info-text .italic {
+    font-style: oblique;
+}
+
+.zone-area .top>.info-icon .info-text .bold {
+    font-weight: bold;
+}
+
+.zone-area .top>.info-icon .info-text .italic_bold {
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.zone-area .top>.info-icon .info-text .optional {
+    text-decoration: line-through
+}
+
+.zone-area .top div.active {
     opacity: 1;
     background-color: #0002;
 
 }
+
 .zone-area .top div.write {
     background-image: url(/src/res/write.png);
 }
+
 .zone-area .top div.preview {
     background-image: url(/src/res/eye.png);
 }
+
 .zone-area .top div.splite {
     background-image: url(/src/res/middle.png);
 }
+
 .zone-area .top div.splite-reverse {
     rotate: 90deg;
     background-image: url(/src/res/middle.png);
 }
 
-.zone-area .ctn.reverse{
+.zone-area .ctn.reverse {
     flex-wrap: wrap;
     height: initial;
     max-height: 800px;
 }
+
 .zone-area .ctn {
     /* height: 100%; */
     height: 400px;
     display: flex;
     background: #0000;
-    position: relative;
 }
 
 .zone-area textarea {
@@ -315,7 +392,8 @@
     width: 100%;
     background: #0002;
 }
-.zone-area .ctn .text{
+
+.zone-area .ctn .text {
     width: 100%;
     padding: 20px;
     height: 100%;
@@ -323,17 +401,20 @@
 }
 
 
-.zone-area .ctn .text.write{
+.zone-area .ctn .text.write {
     display: none;
-} 
+}
+
 .zone-area .ctn .text.preview {
     display: initial;
-} 
-.zone-area .ctn .text.splite{
+}
+
+.zone-area .ctn .text.splite {
     display: initial;
     border-left: 10px #fff9 solid;
-} 
-.zone-area .ctn .text.splite-reverse{
+}
+
+.zone-area .ctn .text.splite-reverse {
     display: initial;
     max-height: 400px;
     overflow: auto;
@@ -341,13 +422,15 @@
     border-top: 10px #fff9 solid;
 }
 
-.zone-area .ctn textarea.write{
+.zone-area .ctn textarea.write {
     display: initial;
-} 
+}
+
 .zone-area .ctn textarea.preview {
     display: none;
-} 
-.zone-area .ctn textarea.splite-reverse{
+}
+
+.zone-area .ctn textarea.splite-reverse {
     display: initial;
     max-height: 400px;
 }

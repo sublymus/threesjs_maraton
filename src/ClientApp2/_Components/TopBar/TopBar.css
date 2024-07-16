@@ -1,0 +1,143 @@
+.top-bar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding:5px 20px;
+    margin: 0;
+    box-shadow: 0px 0px 10px #3455;
+    background: #8d8d8d4f;
+}
+
+.top-bar-ctn {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    /* min-width: 620px; */
+    max-width: 1200px;
+    /* margin: 20px 0; */
+}
+
+.top-bar-ctn .options{
+    width: 30px;
+    height: 30px;
+    border-radius:5px;
+    margin-right: 10px;
+    filter: invert();
+    background: no-repeat center/70% url(/src/res/align-left.png), #0003;
+}
+
+.top-bar .logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.top-bar .logo .img{
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 10px;
+} 
+
+.top-bar .logo .name {
+    top: 30px;
+    left: 20px;
+    font-size: 2.5em;
+    margin-left: 20px;
+    font-family: "Caveat", cursive;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+@media (width < 400px) {
+    .top-bar .logo .name{
+        font-size: 2em;
+        margin-left: 5px;
+    }    
+}
+
+.top-bar .research {
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    transition: 200ms;
+    height: 40px;
+    width: 40%;
+    max-width: 400px;
+    background: #fffa;
+    border-radius: 20px;
+}
+
+.top-bar input {
+    all: unset;
+    /* background: #345; */
+    width: 100%;
+    height: 40px;
+    margin: 0 10px;
+    color: rgb(37, 49, 61);
+}
+
+.top-bar .icon-research {
+    background: no-repeat center/70% url(/src/res/search.png);
+    filter: invert(30%);
+    width: 40px;
+    height: 40px;
+    /* margin: 0 10px; */
+}
+.top-bar .cart:hover{
+    transition: 300ms;
+    background: no-repeat center/50% url(/src/res/shopping-cart.png), #ffffff;
+}
+
+.top-bar .cart {
+    background: no-repeat center/50% url(/src/res/shopping-cart.png), #ffffff5d;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 40px;
+    min-height: 40px;
+    /* margin: 0 10px; */
+    transition: 300ms;
+}
+
+.top-bar .myprofile {
+    background: no-repeat center/70% url(/src/res/circle-user-round.png), #ffffff5d;
+    /* filter: invert(30%); */
+    border-radius: 15px;
+    min-width: 40px;
+    min-height: 40px;
+    margin: 0 10px;
+    transition: 300ms;
+}
+.top-bar .myprofile:hover{
+    transition: 300ms;
+    background:no-repeat center/70% url(/src/res/circle-user-round.png), #ffffff;
+}
+.top-bar .right{
+    display: flex;
+}
+@media (width<=700px){
+    .top-bar .research {
+        width: 50px;
+        /* display: none; */
+    }
+    .top-bar input{
+        display: none;
+    }
+}
+@media (width>700px){
+    .top-bar .logo .img{
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (width<=620px){
+    .top-bar .research {
+        display: none;
+    }
+    .top-bar .right{
+        display: none;
+    }
+}

@@ -137,9 +137,9 @@ export const useMessageStore = create<DiscussionState>((_set) => ({
             headers: h.headers,
         });
         try {
-            const json = await response.json();
+            const json = await response.json() as ListType<Message>;
             if (!json?.list) return;
-            return json;
+            return {...json, list:json.list.reverse()};
         } catch (error) {
 
         }

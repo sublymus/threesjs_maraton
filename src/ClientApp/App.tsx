@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Products } from './Components/Products/Products'
 import { Editer } from './Components/Editer/Editer'
 import { Catalogue } from './Components/Catalogue/Catalogue'
@@ -50,7 +51,6 @@ export function App() {
     return (<div className='app' style={{ width: '100%', height: '100%' }} ref={_ => {
         // if (!ref) return;
         // console.log(document.fullscreenEnabled);
-        
         // if (document.body.requestFullscreen) {
         //     document.body.requestFullscreen().then(()=>console.log('ok')).catch(()=>console.log('lol'));
         //     //@ts-ignore

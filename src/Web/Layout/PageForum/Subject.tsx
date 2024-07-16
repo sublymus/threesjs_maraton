@@ -1,15 +1,16 @@
 import './Subject.css';
 import { useWebRoute, useWebStore } from "../../WebStore";
 import { useEffect, useState } from 'react';
-
 import { getImg } from '../../../Tools/StringFormater';
-import { SubjectInterface, useForumStore } from './ForumStore';
+import { useForumStore } from './ForumStore';
 import { ZoneArea } from './NewSubject';
-import { ListType, Message } from '../../../DataBase';
 import { PageAuth } from '../PageAuth/PageAuth';
-import { addNotifContext, removeNotifContext, requiredNotification, sendNotificationData } from '../../../Tools/Notification';
+import { addNotifContext, get_notif_contexts, removeNotifContext, requiredNotification, sendNotificationData } from '../../../Tools/Notification';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { notifPermission } from '../../../Hooks';
 
-const default_message = `
+const default_text = `
 write your message here,
 
 *Italic*
@@ -23,23 +24,34 @@ new line
 export function Subject() {
     const { current, json } = useWebRoute();
     const { owner, openChild } = useWebStore()
-    const { getSubjectById, send_message, fetchMessage } = useForumStore()
-    const [messages, setMessages] = useState<ListType<Message>>()
-    const [subject, setSubject] = useState<SubjectInterface>();
-    const [message, setMessage] = useState(default_message);
-    const [notif, setNotif] = useState(false);
+    const { setSubjectById, send_message, fetchMessages, messages, subject } = useForumStore()
+    const [message, setMessage] = useState(default_text);
     const [reply_id] = useState<string | undefined>();
+    const [loading, setLoading] = useState(false);
+    const [mdError, setMdError] = useState('');
+    const [notif, setNotif] = useState(false);
+    const e = notifPermission()
     useEffect(() => {
-        current('subject') && json?.subject_id && getSubjectById(json.subject_id).then((subject) => {
-            setSubject(subject)
-            console.log({ subject });
-        })
-        current('subject') && json?.subject_id && fetchMessage({ context_id: json.subject_id, context_name: 'subjects' }).then(list => {
-            setMessages(list);
-            console.log({ list });
-
-        })
+        current('subject') && json?.subject_id && setSubjectById(json.subject_id)
+        current('subject') && json?.subject_id && fetchMessages({ context_id: json.subject_id, context_name: 'subjects' })
     }, [json])
+
+    useEffect(() => {
+        current('subject') && owner && subject && get_notif_contexts({
+            context_id: subject.id,
+            context_name: 'subjects',
+            user: owner
+        }).then((b) => {
+            const c = b?.find(f => f.context_id == subject.id)
+            console.log(c,b, subject);  
+            if(c && e){
+                setNotif(true);
+            }else{
+                setNotif(false);
+            }
+        })
+
+    }, [json, subject, owner])
     return current('subject') && subject && <div className="page-subject">
         <div className="top">
             <h1 className="title">{subject.title}</h1>
@@ -80,12 +92,14 @@ export function Subject() {
                                 <div className="top">
                                     <div className="name">{r.user?.name}</div>
                                     <div className="date">, {new Date(r.created_at).toLocaleDateString()}</div>
-                                    {(r.user?.id == r.user_id) && <div className="author">author</div>}
+                                    {(r.user_id == subject.user_id) && <div className="author">author</div>}
                                     <div className="reply"></div>
                                     <div className="report"></div>
                                 </div>
                             </div>
-                            <div className="message">{r.text}</div>
+                            <div className="message">
+                                <Markdown remarkPlugins={[remarkGfm]}>{r.text}</Markdown>
+                            </div>
                         </div>
                     </div>
                 ))
@@ -93,45 +107,72 @@ export function Subject() {
         </div>
         <div className="new-response">
             <div className="prompt">YOUR MESSGAE</div>
-            <ZoneArea value={message} onChange={(text) => {
-                setMessage(text);
-            }} />
-            <div className="notif" onClick={(e) => {
-                if (e.currentTarget.className.includes('ok')) {
-                    e.currentTarget.classList.remove('ok')
+            <ZoneArea value={message} onChange={(t) => {
+                console.log(t);
+                if (t.length > 512) {
+                    setMdError('maximun length is 512')
+                } else if (t.length < 3) {
+                    setMdError('minimum length is 3')
+                    setMessage(t);
+                } else {
+                    setMdError('')
+                    setMessage(t);
+                }
+            }} mdError={mdError} />
+            <div className={"notif " + (notif ? 'ok' : '')} onClick={() => {
+                if (!owner) {
+                    return openChild(<PageAuth />, true)
+                }
+                const n = !notif;
+                
+                if (!n) {
                     owner && removeNotifContext({
                         user: owner,
                         context_id: subject.id,
                         context_name: 'subjects'
+                    }).then(e=>{
+                        setNotif(!!e?.deleted);
                     })
                 } else {
-                    e.currentTarget.classList.add('ok')
                     requiredNotification().then(() => {
                         if (owner) {
+                            sendNotificationData(owner);
                             addNotifContext({
                                 user: owner,
                                 context_id: subject.id,
                                 context_name: 'subjects'
                             });
-                            sendNotificationData(owner);
+                            setNotif(true);
                         }
                     })
-
                 }
             }}>
                 <div className="box"></div>BE NOTIFIED IN CASE OF RESPONSE
             </div>
-            <div className="answer" onClick={() => {
+            <div className={"answer " + ((loading || message.trim().length > 512 || message.trim().length < 3) ? 'disable' : '')} onClick={() => {
                 if (!owner) {
                     return openChild(<PageAuth />, true)
                 }
+                if (loading || message.trim().length > 512 || message.trim().length < 3) {
+                    return
+                }
+                setLoading(true);
                 send_message({
                     context_id: subject.id,
                     context_name: 'subjects',
                     text: message,
                     reply_id,
+                }).then(() => {
+                    setTimeout(() => {
+                        setMessage('')
+                        setLoading(false);
+                    }, 1000);
                 })
-            }}>Answer</div>
+            }}>{
+                    loading ? <span></span> : 'Answer'
+                }</div>
         </div>
     </div>
 }
+
+

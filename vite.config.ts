@@ -7,6 +7,7 @@ export default defineConfig({
   build:{
     outDir:'../sublymus_server/public',
     emptyOutDir:false,
+    // assetsDir:'/noga'
   }
 })
  

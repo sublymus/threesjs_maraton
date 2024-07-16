@@ -24,13 +24,13 @@ export function Web() {
     const [canGo, setCanGo] = useState(false)
     useEffect(() => {
         tryToken();
+        // testNotifier()
     }, [])
    const permission =  notifPermission()
     useEffect(()=>{
-        console.log(permission);
-        
         (owner && permission =='granted') && sendNotificationData(owner);
-    },[permission,owner])
+    },[permission,owner]);
+
     const [web, setWeb] = useState<HTMLDivElement | null>(null)
     // useEffect(()=>{
     //     if (ref.current?.requestFullscreen) {

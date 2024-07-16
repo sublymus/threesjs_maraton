@@ -19,6 +19,8 @@ import { PageModerator } from "./Layout/PageModerator/pageModerator";
 import { PageRole } from './Layout/PageRole/PageRole'
 import { PageCollaborator } from './Layout/PageCollaborator/PageCollaborator'
 import { useRoleStore } from './Layout/PageRole/RoleStore'
+// import { TopBar } from '../Web/Component/TopBar/TopBar'
+// import { NavBar } from '../Admin/Components/NavBar/NavBar'
 // import React from 'react'
 
 const PathMap = {

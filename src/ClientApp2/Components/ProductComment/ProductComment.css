@@ -1,0 +1,84 @@
+.product-comment{
+    width: 100%;
+    min-height: 150px;
+    background: #3452;
+    margin: 10px 0;
+    border-radius: 20px;
+    padding: 10px;
+}
+.product-comment .top{
+    width: 100%;
+    display: flex;
+}
+.product-comment .top .photo{
+    min-width: 60px;
+    height: 60px;
+    border-radius: 100%;   
+    position: relative;
+    margin-right: 10px;
+}
+.product-comment .top .photo span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0%;   
+}
+.product-comment .coment-right{
+    width: 100%;
+}
+.product-comment .coment-right .name {
+    font-weight: bold;
+}
+.product-comment .coment-right .flex{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.product-comment .coment-right .date {
+    color: var(--discret);
+}
+.product-comment .coment-right .note-stars {
+    color: var(--discret);
+    margin-left: auto;
+}
+.product-comment .message{
+    margin: 10px 0;
+}
+.product-comment .open-response{
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--discret);
+    transition: 200ms;
+    margin-bottom: 5px;
+}
+.product-comment .open-response.open{
+    color: var(--item-color);
+    transition: 200ms;
+}
+.product-comment .open-response.open span{
+    transition: 200ms;
+    rotate: 180deg;
+    filter: invert(0%);
+}
+.product-comment .open-response span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    transition: 200ms;
+    rotate: 0deg;
+    filter: invert(50%);
+    background: no-repeat center/cover url(/src/res/chevron-down.png);    
+}
+
+.product-comment .response{
+    display: none;
+}
+.product-comment .response.open{
+    display: initial;
+    margin: 10px 0px;
+}

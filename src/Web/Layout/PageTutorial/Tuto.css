@@ -3,13 +3,23 @@
     height: 100%;
 }
 
-.sublym-tuto  > h1{
+.no-tuto{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.sublym-tuto>h1 {
 
     padding-top: 10px;
     padding-bottom: 20px;
     border-bottom: 1px #fff4 solid;
     margin-bottom: 30px;
 }
+
 .sublym-tuto .video-section {
     width: 100%;
     display: flex;
@@ -125,41 +135,49 @@
 .sublym-tuto .descriptions p {
     margin: 10px 0;
 }
+
 .sublym-tuto nav {
-    width: 300px;
+    width: 100%;
 }
+
 .sublym-tuto nav h2 {
     padding: 15px 0;
     border-bottom: 1px #6570ff55 solid;
 }
+
 .sublym-tuto nav p {
     padding: 15px 0;
     border-bottom: 1px #6570ff55 solid;
 }
+
 .sublym-tuto nav .author {
     padding: 30px 0;
     display: flex;
 }
+
 .sublym-tuto nav .author .photo {
     min-width: 50px;
     height: 50px;
     margin-right: 30px;
     border-radius: 100%;
 }
-.sublym-tuto nav .author .name{
+
+.sublym-tuto nav .author .name {
     padding-top: 10px;
     margin-bottom: 20px;
 }
 
-.sublym-tuto nav .author .follows{
+.sublym-tuto nav .author .follows {
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
 }
-.sublym-tuto nav .author a:hover{
+
+.sublym-tuto nav .author a:hover {
     scale: 1.1;
 }
-.sublym-tuto nav .author a{
+
+.sublym-tuto nav .author a {
     all: unset;
     display: block;
     width: 40px;
@@ -169,11 +187,13 @@
     position: inherit;
     cursor: pointer;
 }
-.sublym-tuto nav .suggest:hover{
+
+.sublym-tuto nav .suggest:hover {
     background: #394283;
     transition: 400ms;
 }
-.sublym-tuto nav .suggest{
+
+.sublym-tuto nav .suggest {
     text-decoration: none;
     padding: 10px;
     display: inline-flex;
@@ -186,10 +206,11 @@
 }
 
 
-.sublym-tuto nav .suggest:hover span{
+.sublym-tuto nav .suggest:hover span {
     opacity: 1;
 }
-.sublym-tuto nav .suggest span{
+
+.sublym-tuto nav .suggest span {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -198,12 +219,14 @@
     opacity: 0.8;
     background: no-repeat center/70% url(/src/res/write.png);
 }
-@media (width > 1100px) {
-    .sublym-tuto nav{
-        min-width: 300px;
 
+@media (width > 1100px) {
+    .sublym-tuto nav {
+        min-width: 300px;
+        max-width: 300px;
     }
-    .sublym-tuto .main{
+
+    .sublym-tuto .main {
         display: flex;
     }
 }

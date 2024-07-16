@@ -5,7 +5,7 @@ import { Host, Local } from '../../../Config';
 import { useWindowSize } from '../../../Hooks';
 import { getImg } from '../../../Tools/StringFormater';
 import { bindTopToParentScroll } from '../../../Tools/BindToParentScroll';
-import { disableNotifications, enableNotifications, getUserBrowser, removeUserBrowser } from '../../../Tools/Notification';
+import { disableNotifications} from '../../../Tools/Notification';
 
 const navs = [{
     u: 'home',
@@ -100,11 +100,12 @@ export function TopBar() {
                     <ul className='top-bar-center'>
                         {
                             navs.map((d, i) => i * 200 < size.width - 400 ? (
-                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
+                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => {
+                                    update(d.u);
+                                }}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
                             ) : null)
                         }
                     </ul>
-
                     <div className="right">
                         <div className="ctn-icon" onClick={(e) => {
                             e.preventDefault();
@@ -134,7 +135,10 @@ export function TopBar() {
                     <ul className={openMoreNavs ? '' : 'close'}>
                         {
                             navs.map((d, i) => i * 200 >= size.width - 400 ? (
-                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => update(d.u)}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
+                                <li key={i} className={active == d.u ? 'active' : ''} onClick={() => {
+                                    update(d.u)
+                                    setOpenMoreNavs(!openMoreNavs);
+                                }}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
                             ) : null)
                         }
                         <li className={active == 'mode-lite' ? 'active' : ''} onClick={() => {

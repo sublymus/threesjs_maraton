@@ -121,8 +121,10 @@
 
 .page-pricing .infos{
     max-width:400px ;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
-
 
 .page-pricing .infos h1{
     padding: 10px 0;

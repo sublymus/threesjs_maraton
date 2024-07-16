@@ -30,7 +30,7 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter, onF
             </div>
             <div>
                 <div className="filter-btn" onClick={() => {
-                    setIsFilterOpen(!isFilterOpen);
+                    // setIsFilterOpen(!isFilterOpen);
                 }}>
                     <div className="icon"></div>
                     <div className="label">Filter</div>
@@ -39,8 +39,10 @@ export function ListSearchBar({ sortBy, onSortChange, onInputChange, filter, onF
                     <div className={"icon " + (isDesc ? 'desc' : 'asc')} onClick={() => {
                         setIsDesc(!isDesc);
                     }}></div>
-                    <Selector placeholder={`sort by ${_sortBy}`} list={sortBy} selected={[_sortBy]} setSelectedColumns={(s) => {
-                        setSortBy(s[0]);
+                    <Selector multiple={false} placeholder={`sort by ${_sortBy}`} list={sortBy} selected={[_sortBy]} setSelectedColumns={(s) => {
+                       console.log(s);
+                       
+                       setSortBy(s.reverse()[0]||'id');
                     }} />
                 </div>
             </div>

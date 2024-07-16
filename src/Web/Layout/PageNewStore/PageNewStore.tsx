@@ -128,7 +128,7 @@ export function PageNewStore() {
             </div>
             <div className={"step-images " + (step == 1 ? 'visible' : '')}>
                 <div className="banner">
-                    <label className={'top ' + (collected.banner ? 'available' : 'not-available')} htmlFor={id + 'banner'} ><span></span> Banner </label>
+                    <label className={'top ' + (collected.banner ? 'available' : 'not-available')} htmlFor={id + 'banner'} ><span></span> Cover Image  </label>
                     <input type="file" accept="image/*" id={id + 'banner'} style={{ display: 'none' }} onChange={(e) => {
                         const file = e.currentTarget.files?.[0];
                         file && setCollected({
@@ -138,7 +138,7 @@ export function PageNewStore() {
                     }} />
                     <label htmlFor={id + 'banner'} className="img" style={{ background: collected.banner && getImg(URL.createObjectURL(collected.banner)) }}>
                         {
-                            !collected.banner && '+ add Banner'
+                            !collected.banner && '+ Add Cover Image '
                         }
                     </label>
                 </div>

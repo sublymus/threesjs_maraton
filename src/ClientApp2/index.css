@@ -1,0 +1,140 @@
+body,
+html {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-size: 1rem;
+  width: 100vw;
+  height: 100vh;
+  font-family: Cantarell, sans-serif;
+  color: var(--color);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* font-size: 1em; */
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 1.8em;
+}
+
+h4 {
+  min-height: 1em;
+}
+
+a:hover {
+  color: #6ed1ff;
+}
+
+a {
+  all: unset;
+  text-decoration: underline;
+  position: inherit;
+  cursor: pointer;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#world {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  z-index: -100;
+}
+
+:root {
+  --background: #fff;
+  --color: #345;
+  --filter: invert(0);
+  --back-item: #fff;
+  --impact: #358f27;
+  --impact-var: 53, 143, 39;
+  --impact-color: #fff;
+  --discret: #7F817E;
+  --discret-var: 127, 129, 126;
+  --discret-color: #fff;
+  --item-color: #123;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #b6b6b6;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #696969a5;
+  border-radius: 10px;
+  transition: 200ms;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #b38a3c;
+  transition: 200ms;
+}
+
+
+.child-viewer {
+  z-index: 9999;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+sombre-mode-variable .child-viewer-ctn {
+  background: var(--backgroung-white);
+}
+
+.child-viewer-ctn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.sombre-mode-variable .editor {
+  background: #0002 !important;
+}
+
+.not-found {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.not-found .img {
+  margin-top: 100px;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  width: 60%;
+  height: 60%;
+  background: no-repeat center/cover url(/src/res/not_found.jpg);
+}
+
+@media (width < 700px) {
+  body {
+    font-size: 0.9em;
+  }
+}

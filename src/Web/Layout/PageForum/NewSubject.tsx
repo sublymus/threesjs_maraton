@@ -6,7 +6,7 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { nav_targs } from './PageForum';
 import { useForumStore } from "./ForumStore";
-import { addNotifContext, requiredNotification, sendNotificationData } from '../../../Tools/Notification';
+import { addNotifContext, requiredNotification } from '../../../Tools/Notification';
 const markdown = `
 Describe your problem or what you are looking to do here.
 
@@ -28,6 +28,7 @@ export function NewSubject() {
     const [notif, setNotif] = useState(false);
     const [openNav, setOpenNav] = useState(false);
     const { create_subject } = useForumStore();
+    const [mdError, setMdError] = useState('');
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         window.addEventListener('click', () => {
@@ -36,18 +37,49 @@ export function NewSubject() {
     }, [])
     useEffect(() => {
         owner && openChild(undefined)
-    }, [owner])
+    }, [owner]);
+
+
+    const canSend = (edit?: boolean) => {
+
+        if (loading) return false;
+        let error = false;
+        console.log('$$$$$$$$$');
+
+        if (targs.length > 3) {
+            edit && setTargError('maximum targs length is 3')
+            error = true;
+        } else if (targs.length < 1) {
+            edit && setTargError('at least one targ required')
+            error = true;
+        }
+        const t = title.trim();
+        if (t.length > 256) {
+            edit && setTitleError('maximum length is 256')
+            error = true;
+        } else if (t.length < 3) {
+            edit && setTitleError('minimum length is 3')
+            error = true;
+        }
+        const a = area.trim();
+        if (a.length > 512) {
+            edit && setMdError('maximum length is 512')
+            error = true;
+        } else if (a.length < 3) {
+            edit && setMdError('minimum length is 3')
+            error = true;
+        }
+        if (error) {
+            return false
+        }
+        return true
+    }
     return current('new_subject') && <div className="new-subject">
         <div className="left">
             <h1 className="title">Créer un sujet</h1>
             <p>Welcome to the Forum section, here you can contact us. You will send us a response as soon as possible. </p>
             <p>The forum uses markdown syntax.</p>
-            <div className="info">
-                <p>Italic: *<span className='italic'>Sublymus</span>*</p>
-                <p>Bold: **<span className='bold'>Sublymus</span>**</p>
-                <p>Italic + Bold: ***<span className='italic_bold'>Sublymus</span>***</p>
-                <p>Optional: ~<span className='optional'>Sublymus</span>~</p>
-            </div>
+
         </div>
         <div className="right">
             <div className="top">
@@ -100,7 +132,8 @@ export function NewSubject() {
                             nav_targs.map((n, i) => (
                                 <div key={n.name + i}>
                                     <span className={'targ ' + (targs.find(t => t.name == n.name) ? 'active' : '')} onClick={() => {
-                                        if (targs.length < 3) {
+                                        if (targs.find(f => f.name == n.name)) setTargs(targs.filter(t => t.name != n.name))
+                                        else if (targs.length < 3) {
                                             setTargError('');
                                             setTargs([{
                                                 name: n.name,
@@ -118,7 +151,8 @@ export function NewSubject() {
                                     {
                                         n.sections.map(s => (
                                             <li className={targs.find(t => t.name == s.name) ? 'active' : ''} key={s.name + n.name + i} onClick={() => {
-                                                if (targs.length < 3) {
+                                                if (targs.find(f => f.name == s.name)) setTargs(targs.filter(t => t.name != s.name))
+                                                else if (targs.length < 3) {
                                                     setTargError('');
                                                     setTargs([{
                                                         name: s.name,
@@ -145,8 +179,16 @@ export function NewSubject() {
             </div>
             <ZoneArea value={area} onChange={(t) => {
                 console.log(t);
-                setArea(t);
-            }} />
+                if (t.length >= 512) {
+                    setMdError('maximun length is 512')
+                } else if (t.length < 3) {
+                    setMdError('minimum length is 3')
+                    setArea(t);
+                } else {
+                    setMdError('')
+                    setArea(t);
+                }
+            }} mdError={mdError} />
             <div className="notif" onClick={(e) => {
                 if (e.currentTarget.className.includes('ok')) {
                     e.currentTarget.classList.remove('ok')
@@ -171,71 +213,56 @@ export function NewSubject() {
                 <div className="box"></div>Make private, unavailable to the community only to the admin.
             </div>
             <div className="create">
-                <div className="btn" onClick={() => {
+                <div className={"btn " + (!canSend() ? 'disable' : '')} onClick={() => {
                     if (!owner) {
-                        return openChild(<PageAuth />, true)
+                        openChild(<PageAuth />, true)
+                        return
                     }
-                    if (loading) return;
-                    let error = false;
-                    console.log('$$$$$$$$$');
+                    if (!canSend(true)) return;
+                    console.log('send ...');
 
-                    if (targs.length > 3) {
-                        setTargError('maximum targs length is 3')
-                        error = true;
-                    } else if (targs.length < 1) {
-                        setTargError('at least one targ required')
-                        error = true;
-                    }
-                    const t = title.trim();
-                    if (t.length > 256) {
-                        setTitleError('maximum length is 256')
-                        error = true;
-                    } else if (t.length < 3) {
-                        setTitleError('minimum length is 3')
-                        error = true;
-                    }
-                    if (error) return console.log('error');
                     setLoading(true);
                     create_subject({
-                        title: t,
+                        title: title,
                         targs,
                         message: area,
                         notif,
                         isPrivate
                     }).then((subject) => {
-                        setLoading(false);
-                        console.log(subject);
-
-                        if (subject?.id) {
-                            if (notif) {
-                                addNotifContext({
-                                    user:owner,
-                                    context_id:subject.id,
-                                    context_name:'subjects'
-                                });
-                                sendNotificationData(owner);
+                        
+                        setTimeout(() => {
+                            console.log(subject);
+                            setLoading(false);
+                            if (subject?.id) {
+                                if (notif) {
+                                    addNotifContext({
+                                        user: owner,
+                                        context_id: subject.id,
+                                        context_name: 'subjects'
+                                    });
+                                }
+                                setArea(markdown);
+                                setNotif(false);
+                                setPrivate(false);
+                                setTargs([]);
+                                setTitle('');
+                                qs({ subject_id: subject?.id }).setAbsPath(['forum', 'subject'])
                             }
-                            setArea(markdown);
-                            setNotif(false);
-                            setPrivate(false);
-                            setTargs([]);
-                            setTitle('');
-                            qs({ subject_id: subject?.id }).setAbsPath(['forum', 'subject'])
-                        }
+                        }, 500);
                     })
                 }}>
                     {
-                        loading ? <span></span> : 'Create the subject'}
+                        loading ? <span></span> : 'Create the subject'
+                    }
                 </div>
             </div>
         </div>
     </div>
 }
 
-export function ZoneArea({ onChange, value }: { onChange?: (text: string) => any, value?: string }) {
+export function ZoneArea({ onChange, value, mdError }: { mdError?: string, onChange?: (text: string) => any, value?: string }) {
 
     // const [md, setMd] = useState(value || '');
-    const [mdError, setMdError] = useState('');
     const [mode, setMode] = useState('splite');
 
     return (
@@ -253,6 +280,14 @@ export function ZoneArea({ onChange, value }: { onChange?: (text: string) => any
                 <div className={"splite-reverse " + (mode == 'splite-reverse' ? 'active' : '')} onClick={() => {
                     setMode('splite-reverse')
                 }}></div>
+                <div className="info-icon">
+                    <div className="info-text">
+                        <p>Italic: *<span className='italic'>Text</span>*</p>
+                        <p>Bold: **<span className='bold'>Text</span>**</p>
+                        <p>Italic + Bold: ***<span className='italic_bold'>Text</span>***</p>
+                        <p>Optional: ~<span className='optional'>Text</span>~</p>
+                    </div>
+                </div>
                 <span className='error'>{mdError}</span>
                 <span className='count'>{value?.length || 0}/512</span>
             </div>
@@ -260,13 +295,7 @@ export function ZoneArea({ onChange, value }: { onChange?: (text: string) => any
 
                 <textarea spellCheck={'false'} className={mode} name="new_subject" id="new_subject" cols={30} rows={10} value={value} onChange={(e) => {
                     const v = e.currentTarget.value
-                    if (v.length >= 512) {
-                        setMdError('maximun length is 512')
-                    } else {
-                        setMdError('')
-                        // setMd(v);
-                        onChange?.(v);
-                    }
+                    onChange?.(v);
                 }}></textarea>
                 <div className={"text " + mode}>
                     <Markdown remarkPlugins={[remarkGfm]}>{value}</Markdown>

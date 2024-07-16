@@ -1,0 +1,16 @@
+.note-stars{
+    display: flex;
+    align-items: center;
+}
+.note-stars .icon.half{
+    background: no-repeat center/80% url(/src/res/rating.png);
+}
+.note-stars .icon.vide{
+    filter: invert(80%);
+    background: no-repeat center/80% url(/src/res/star-black.png);
+}
+.note-stars .icon {
+    width: 20px;
+    height: 20px;
+    background: no-repeat center/80% url(/src/res/star.png);
+}
