@@ -64,17 +64,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
         });
         const json = await response.json() as ListType<ClientVisites>;
         if (!json || !json.list) return;
-        console.log(json.list);
-
         set(() => ({ visites: json }));
-
-         ({
-            ...json,
-            list: json.list.map(p => (p.note = ({
-                value: (Math.trunc((Math.random() * 5 * 100)) / 100),
-                vote: (Math.trunc((Math.random() * 5 * 100)))
-            })) && p)
-        })
     },
     featuresCollector: undefined,
     async setProductById(d) {
@@ -124,12 +114,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
         if (!filter.no_save) {
             set(() => ({ products }))
         }
+        // console.log(products);
+        
         return {
             ...products,
-            list: products.list.map(p => (p.note = ({
-                value: (Math.trunc((Math.random() * 5 * 100)) / 100),
-                vote: (Math.trunc((Math.random() * 5 * 100)))
-            })) && p)
         }
         // const product = products[0];
 
@@ -153,8 +141,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
                 collector[f.id] = f.components?.find(v => !!v.is_default);
                 f.default_value = collector[f.id];
             } else {
-                console.log('ooooooooooooo');
-
+             
                 collector[f.id] = f.default_value
             }
             // l.push(() => {

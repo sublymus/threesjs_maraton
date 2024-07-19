@@ -262,29 +262,40 @@ export interface ProductInterface {
     scene_dir: string,
     features: ListType<Feature>
     created_at: string;
-    note?:{
-        value:number,
-        vote:number,
+    note?: {
+        note: number,
+        votes: number,
+        star: number
     },
     updated_at: string
 }
 
-export interface ProductComment{
-    id: string,
+export interface ProductCommentInterface {
+    id: number,
     user_id: string,
+    product_id: string,
     user?: {
         id: string,
         name: string,
         email: string,
         photos: string[],
-        country?:string,
-        country_icon?:string
+        country?: string,
+        country_icon?: string
     },
-    files: string[],
+    photos: string[],
+    photos_count: number,
+    videos: string[],
+    videos_count: number
     note: number,
-    message: string,
-    response: string,
+    text: string,
+    response?: string,
     created_at: string
+}
+
+export interface CommentIndex {
+    befor: number,
+    comment: ProductCommentInterface,
+    total: number
 }
 
 const gemFeature: Feature = {
@@ -419,24 +430,24 @@ const metalFeature: Feature = {
     view: 'icon',
     default_value: {
         "id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
-            "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
-            "component_id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
-            "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
-            "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
-            "price": 12345,
-            "unity": "Kg",
-            "devise": "$",
-            "created_at": "2024-05-20 07:59:07",
-            "updated_at": "2024-05-20 07:59:07",
-            "name": "Silver",
-            "description": "silver",
-            "images": "[]",
-            "icon": [
-                '/src/World/images/metal/silver.png'
-            ],
-            "scene": null,
-            "code": "eeeeee",
-            "key": "silver"
+        "product_id": "05e7dc8e-f409-46ae-91cc-6a125add8c5b",
+        "component_id": "5707c6a6-d197-4a7b-8a8c-34150325e514",
+        "feature_id": "2c711848-789a-4ff2-bb14-9b2e3e024485",
+        "store_id": "b5b40cb3-29b1-4ada-9aa4-7e26614d6a36",
+        "price": 12345,
+        "unity": "Kg",
+        "devise": "$",
+        "created_at": "2024-05-20 07:59:07",
+        "updated_at": "2024-05-20 07:59:07",
+        "name": "Silver",
+        "description": "silver",
+        "images": "[]",
+        "icon": [
+            '/src/World/images/metal/silver.png'
+        ],
+        "scene": null,
+        "code": "eeeeee",
+        "key": "silver"
     },
     components: [
         {

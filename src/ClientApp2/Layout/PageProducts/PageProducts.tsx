@@ -8,20 +8,22 @@ import { DetailProduct } from "./DetailProduct";
 // import { ListPaging } from "../../../DashView/Component/GenericList/ListPaging/ListPaging";
 export function PageProducts() {
     const { json, qs, check } = useAppRouter()
-    const { products, fetchProducts , selectProduct, product} = useProductStore();
+    const { products, fetchProducts, selectProduct, product } = useProductStore();
     const { user } = useRegisterStore();
     const [text, setText] = useState('')
     useEffect(() => {
-        fetchProducts({ limit: 10 }).then((p)=>{
-            if(p?.list[0]){
-                selectProduct(p?.list[0]);
+        fetchProducts({ limit: 10 }).then((p) => {
+            if (p?.list[0]) {
+                if (window.innerWidth > 1190) {
+                    selectProduct(p?.list[0]);
+                }
             }
         })
     }, [json, user])
     useEffect(() => {
         fetchProducts({
             ...json,
-            text :text||''
+            text: text || ''
         })
     }, [text]);
 
@@ -37,7 +39,7 @@ export function PageProducts() {
                         <input id='product-search' type="text" placeholder='Search Product' value={text} onChange={(e) => {
                             setText(e.currentTarget.value);
                         }} />
-                        <div className="clear" onClick={()=>{
+                        <div className="clear" onClick={() => {
                             setText('')
                         }}></div>
                     </label>
@@ -58,16 +60,16 @@ export function PageProducts() {
                 <div className="list">
                     {
                         products?.list.map((p) => (
-                            <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={()=>{
-                                selectProduct(p) 
+                            <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
+                                selectProduct(p)
                             }} />
                         ))
                     }
                 </div>
                 {/* <ListPaging limit={products?.limit||10} page={products?.page||1} setPage={()=>{}} total={products?.total||0}/> */}
             </div>
-            <div className={"right "+(product ?'open':'')}>
-                    <DetailProduct />
+            <div className={"right " + (product ? 'open' : '')}>
+                <DetailProduct />
             </div>
         </div>
     )

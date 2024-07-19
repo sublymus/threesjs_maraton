@@ -1,0 +1,302 @@
+.page-comments {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* TOP */
+.page-comments>.top {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    box-shadow: rgba(var(--discret-var), 0.3) 1px 2px 5px;
+}
+
+.page-comments .top .return {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: no-repeat center /80% url(/src/res/arrow-left.png);
+    cursor: pointer;
+}
+
+.page-comments .top .option {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: no-repeat center /80% url(/src/res/ellipsis-vertical.png);
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.detail-product .page-comments .group-file-rating {
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* WRITE ZONE */
+
+.page-comments .write-comment {
+    width: 90%;
+    max-width: 600px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: rgba(var(--discret-var), 1) 0px 0px 1px;
+}
+
+.page-comments .write-comment .top-prompt {
+    font-weight: bold;
+    display: flex;
+    font-size: 1.3em;
+    padding-left: 10px;
+    background: rgba(var(--discret-var), 0.3);
+}
+
+.page-comments .write-comment .top-prompt span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+    margin-left: 10px;
+}
+
+.page-comments .write-comment .zone-inputs {
+    overflow: hidden;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*rating*/
+.page-comments .write-comment .zone-inputs .user-rating .value {
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.page-comments .write-comment .zone-inputs .user-rating {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.page-comments .write-comment .zone-inputs .stars {
+    display: flex;
+}
+
+.page-comments .write-comment .zone-inputs .stars .icon.star {
+    background: no-repeat center/60% url(/src/res/star.png);
+    filter: initial;
+}
+
+.page-comments .write-comment .zone-inputs .stars .icon {
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+    filter: invert(70%);
+    background: no-repeat center/60% url(/src/res/star-black.png);
+}
+
+/*input*/
+.page-comments .write-comment .input-text {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #123;
+    border-radius: 10px;
+    display: flex;
+    box-shadow: rgba(var(--discret-var), 0.5) 0px 0px 10px;
+}
+
+.page-comments .write-comment .input-text div {
+    margin-left: 10px;
+}
+
+.page-comments .write-comment .input-text input {
+    all: unset;
+    width: 100%;
+}
+
+/*files*/
+.page-comments .files-ctn {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.page-comments .files-ctn div[class$='-ctn'] {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-comments .files-ctn label:hover {
+    background: rgba(var(--discret-var), 0.1);
+}
+
+.page-comments .files-ctn label {
+    padding: 10px 5px;
+    display: inline-flex;
+    cursor: pointer;
+    margin: 10px auto;
+    border-radius: 7px;
+    box-shadow: var(--discret) 0px 0px 1px, var(--discret) 0px 0px 1px;
+}
+
+.page-comments .files-ctn label span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: no-repeat center/cover url(/src/res/plus.png);
+}
+
+
+.page-comments .files-ctn div[class^='files-'] {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.page-comments .files-ctn div[class^='files-'] div {
+    min-width: 60px;
+    height: 80px;
+    border-radius: 10px;
+    margin: 0 5px;
+    background: rgba(var(--discret-var), 0.3);
+    position: relative;
+}
+
+.page-comments .files-ctn div[class^='files-video'] div {
+    min-width: 80px;
+}
+
+.page-comments .files-ctn div[class^='files-'] span:hover {
+    background: no-repeat center/80% url(/src/res/x.png), #fff9;
+}
+
+.page-comments .files-ctn div[class^='files-'] span {
+    position: absolute;
+    display: block;
+    width: 30px;
+    height: 30px;
+    right: 0;
+    top: 0;
+    filter: invert();
+    border-radius: 10px;
+    background: no-repeat center/80% url(/src/res/x.png), #fff4;
+}
+
+
+/*send*/
+.page-comments .write-comment .send-comment {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.page-comments .write-comment .send-comment span.text.no {
+    background: rgba(var(--discret-var), 0.7);
+    cursor: initial;
+}
+
+.page-comments .write-comment .send-comment span.text {
+    padding: 10px 15px;
+    display: inline-block;
+    background: rgba(var(--impact-var), 1);
+    color: var(--impact-color);
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.page-comments .write-comment .send-comment.loading span.text {
+    display: none;
+}
+
+.page-comments .write-comment .send-comment.loading span.loading {
+    width: 60px;
+    height: 40px;
+    border-radius: 100px;
+    background: no-repeat center/50% url(/src/res/loading.gif), #3457;
+}
+
+/*  FILTER */
+.page-comments .filter {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    justify-content: space-around;
+}
+
+.page-comments .filter>div {
+    background: rgba(var(--discret-var), 0.3);
+    padding: 10px 10px;
+    border-radius: 7px;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.8;
+}
+
+.page-comments .filter>div.date,
+.page-comments .filter>div.active {
+    background: initial;
+    opacity: 1;
+    box-shadow: var(--discret) 0px 0px 1px, var(--discret) 0px 0px 1px;
+}
+
+.page-comments .filter>div.date span.desc {
+    rotate: -90deg;
+}
+
+.page-comments .filter>div.date span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 3px;
+    rotate: 90deg;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+}
+
+.page-comments .filter>div.date>div.open {
+    transition: 400ms;
+    visibility: visible;
+    opacity: 1;
+}
+
+.page-comments .filter>div.date>div {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: 400ms;
+    top: 40px;
+    left: 0;
+    z-index: 1;
+    padding:5px 10px;
+    border-radius: 10px;
+    box-shadow: rgba(var(--discret-var), 1) 0px 3px 5px;
+    background: var(--back-item);
+}
+
+.page-comments .filter>div.date div div:hover{
+    background: rgba(var(--discret-var), 0.3);
+}
+.page-comments .filter>div.date div div {
+    display: flex;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+
+/* COMMENTS */
+.page-comments .comments {
+    padding: 20px;
+    width: 100%;
+    max-width: 700px;
+}

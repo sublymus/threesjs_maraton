@@ -1,0 +1,121 @@
+.page-comment-image{
+    width: 100%;
+    height: 100%;
+    background: var(--contrast);
+    color: var(--contrast-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-comment-image .page-top{
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.page-comment-image .page-top .return{
+    width: 30px;
+    height: 30px;
+    margin: 0 30px;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+}
+.page-comment-image .page-top .count{
+    margin: 0 auto;
+    transform: translateX(-45px);
+    font-weight: bold;
+}
+.page-comment-image .file-view{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.page-comment-image .file-view > div{
+    width: 90%;
+    height: 100%;
+}
+
+.page-comment-image .file-view > div video{
+    position: absolute;
+}
+.page-comment-image .file-view .img{
+    width: 100%;
+    height: 100%;
+}
+
+.page-comment-image .file-view .move-next,.page-comment-image .file-view .move-back {
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+.page-comment-image .file-view > div:hover >div {
+    scale: 1.2;
+    opacity: 1;
+    transition: 300ms;
+}
+.page-comment-image .file-view .move-next {
+    left: initial;
+    right: 0;
+    justify-content: flex-end;
+}
+.page-comment-image .file-view .move-next > div ,.page-comment-image .file-view .move-back > div {
+    transition: 300ms;
+    opacity: 0.8;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background: rgba(var(--contrast-color-var), 0.7);
+    border-radius: 100%;
+}
+.page-comment-image .file-view .move-next > div span ,.page-comment-image .file-view .move-back > div span{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+    border-radius: 100%;
+}
+
+.page-comment-image .file-view .move-next > div span{
+    rotate: 180deg;
+}
+
+.page-comment-image .btm{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.page-comment-image .btm .top{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+.page-comment-image .btm .top .name{
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.page-comment-image .btm .top .open:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.page-comment-image .btm .top .open{
+    text-decoration: underline;
+    margin-left: auto;
+    margin:0 10px;
+}
+
+.page-comment-image .message{
+    padding: 10px 20px;
+    opacity: 0.9;
+}
+
+
+

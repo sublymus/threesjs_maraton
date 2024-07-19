@@ -11,4 +11,11 @@ file manager
 categorie & features
 user roles
 
+
+// TODO Product Card resizable
+//TODO faire le calculcule des couler , filter et autre coter server..
+et le mieu, lors de la modification des proprierter pare le cleient de sort a avoir un json des valeur calculer 
+
+
+//TODO ajouter un container d'emoji responsive
 */

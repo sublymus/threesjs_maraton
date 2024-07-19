@@ -1,6 +1,7 @@
 .note-stars{
     display: flex;
     align-items: center;
+    margin-right: 5px;
 }
 .note-stars .icon.half{
     background: no-repeat center/80% url(/src/res/rating.png);

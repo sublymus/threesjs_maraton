@@ -45,7 +45,29 @@ a {
   position: inherit;
   cursor: pointer;
 }
-
+._flex{
+  display: flex;
+  align-items: center;
+}
+._flex._wrap{
+  flex-wrap: wrap; 
+}
+._flex._end{
+  justify-content: flex-end; 
+}
+._flex._center{
+  justify-content: center; 
+}
+._l-auto{
+  margin-left: auto; 
+}
+._r-auto{
+  margin-right: auto; 
+}
+._lr-auto{
+  margin-left: auto; 
+  margin-right: auto; 
+}
 #root {
   width: 100%;
   height: 100%;
@@ -64,14 +86,19 @@ a {
   --background: #fff;
   --color: #345;
   --filter: invert(0);
-  --back-item: #fff;
+  --back-item: #fff;;
+  --back-item-var: 255,255,255;
+  --item-color: #123;
   --impact: #358f27;
   --impact-var: 53, 143, 39;
   --impact-color: #fff;
+  --contrast: #0f2336d7;
+  --contrast-var: 15,35,54;
+  --contrast-color: #fff;
+  --contrast-color-var: 225,225,225;
   --discret: #7F817E;
   --discret-var: 127, 129, 126;
   --discret-color: #fff;
-  --item-color: #123;
 }
 
 *::-webkit-scrollbar {
@@ -113,24 +140,34 @@ sombre-mode-variable .child-viewer-ctn {
   height: 100%;
 }
 
-.sombre-mode-variable .editor {
-  background: #0002 !important;
-}
 
-.not-found {
+.h-scroll-icon-ctn:hover{
+  background: rgba(var(--back-item-var));
+  box-shadow: var(--discret) 0px 0px 2px, rgba(var(--discret-var), 1) 0px 0px 5px;
+}
+.h-scroll-icon-ctn{
+  width: 30px;
+  height: 30px;
+  left:0px;
+  top: calc(50% - 15px);
+  border-radius: 20px;
+  overflow: hidden;
+  position: absolute; 
+  background: rgba(var(--back-item-var), 0.9);
+  cursor: pointer;
+  box-shadow: var(--discret) 0px 0px 2px, rgba(var(--discret-var), 0.5) 0px 0px 5px;
+}
+.h-scroll-icon-ctn.right{
+  right: 0px;
+  left: initial;
+}
+.h-scroll-icon.right{
+  rotate: 180deg;
+}
+.h-scroll-icon{
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.not-found .img {
-  margin-top: 100px;
-  border-radius: 20px;
-  box-shadow: var(--box-shadow);
-  width: 60%;
-  height: 60%;
-  background: no-repeat center/cover url(/src/res/not_found.jpg);
+  background: no-repeat center/80% url(/src/res/arrow-left.png); 
 }
 
 @media (width < 700px) {

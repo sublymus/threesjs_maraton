@@ -24,24 +24,55 @@
     display: none;
 }
 .product-card .images {
-    width: 260px;
+    width: 100%;
     height: 200px;
     overflow-y: hidden;
     overflow-x: auto;
     white-space: nowrap;
+    position: relative;
 }
 .product-card .images .image {
     width: 100%;
     height: 100%;
     display: inline-flex;
 }
+/* *** counters *** */
 
+.product-card  .counters{
+    position: absolute;
+    top:2px;
+    left: 0px;
+    min-width: 100%;
+    min-height: 10px;
+    /* background: rgba(var(--impact-var), 1); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card .counter.active{
+    scale: 1;
+    opacity: 1;
+    transition: 200ms;
+}
+.product-card  .counter{
+    width: 10px;
+    height: 10px;
+    border-radius: 20px;
+    margin: 0 5px;
+    background: var(--discret);
+    scale: 0.6;
+    opacity: 0.8;
+    transition: 200ms;
+}
+/* **** INFOS  **** */
 .product-card .infos{
     padding: 10px;
     width: 100%;
     height: calc(320px - 200px);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 .product-card .name {
     font-weight: bold;

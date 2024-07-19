@@ -47,10 +47,10 @@ export function NewSubject() {
         console.log('$$$$$$$$$');
 
         if (targs.length > 3) {
-            edit && setTargError('maximum targs length is 3')
+            edit && setTargError('maximum tags length is 3')
             error = true;
         } else if (targs.length < 1) {
-            edit && setTargError('at least one targ required')
+            edit && setTargError('at least one tag required')
             error = true;
         }
         const t = title.trim();
@@ -104,13 +104,13 @@ export function NewSubject() {
                     }} />
                 </div>
                 <div className="targ-ctn">
-                    <div className='label'>TARGS <span className={'error ' + (!(targError ?? false) ? '' : 'show')}>{targError}</span></div>
+                    <div className='label'>TAGS <span className={'error ' + (!(targError ?? false) ? '' : 'show')}>{targError}</span></div>
                     <div className="list" onClick={(e) => {
                         setOpenNav(!openNav);
                         e.preventDefault();
                         e.stopPropagation();
                     }}>
-                        {(targs.length == 0) && <div className="promt">Select one or more targs</div>}
+                        {(targs.length == 0) && <div className="promt">Select one or more tags</div>}
                         {
                             targs.map(s => (
                                 <div key={s.targ?.name + s.name} className="collected-targ " onClick={(e) => {
@@ -140,9 +140,9 @@ export function NewSubject() {
                                                 icon: n.icon,
                                             }, ...targs])
                                         } else if (targs.length < 1) {
-                                            setTargError('at least one targ required')
+                                            setTargError('at least one tag required')
                                         } else {
-                                            setTargError('max targ is 3');
+                                            setTargError('maximum tag is 3');
                                             setTimeout(() => {
                                                 setTargError('');
                                             }, 2000);
@@ -162,7 +162,7 @@ export function NewSubject() {
                                                         }
                                                     }, ...targs])
                                                 } else {
-                                                    setTargError('maximum targ is 3');
+                                                    setTargError('maximum tag is 3');
                                                     setTimeout(() => {
                                                         setTargError('');
                                                     }, 5000);

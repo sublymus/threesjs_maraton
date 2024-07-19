@@ -250,7 +250,7 @@
 
 .page-new-store .btn-ctn .btn.create,
 .page-new-store .btn-ctn .btn.next {
-    background: linear-gradient(rgba(47, 255, 168, 0.6) 0%, rgba(47, 255, 168, 0.45) 100%);
+    background: linear-gradient(rgba(47, 255, 109, 0.6) 0%, rgba(47, 255, 64, 0.45) 100%);
     box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
 }
 

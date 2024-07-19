@@ -1,53 +1,142 @@
-.product-comment{
+.product-comment {
     width: 100%;
-    min-height: 150px;
-    background: #3452;
+    box-shadow: rgba(var(--discret-var), 0.2) 0px 0px 4px, rgba(var(--discret-var), 0.2) 0px 0px 20px;
     margin: 10px 0;
     border-radius: 20px;
     padding: 10px;
+    opacity: 1;
+    background: var(--back-item);
+    transition: 300ms;
+    position: relative;
 }
-.product-comment .top{
+
+.product-comment.deleted {
+    transform: translateX(200px);
+    opacity: 0;
+    transition: 300ms;
+}
+
+.product-comment .top {
     width: 100%;
     display: flex;
 }
-.product-comment .top .photo{
+
+.product-comment .top .photo {
     min-width: 60px;
     height: 60px;
-    border-radius: 100%;   
+    border-radius: 100%;
     position: relative;
     margin-right: 10px;
 }
-.product-comment .top .photo span{
+
+.product-comment .top .photo span {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 100%;
     position: absolute;
     right: 0;
-    bottom: 0%;   
+    bottom: 0%;
 }
-.product-comment .coment-right{
+
+.product-comment .coment-right {
     width: 100%;
 }
+
 .product-comment .coment-right .name {
     font-weight: bold;
 }
-.product-comment .coment-right .flex{
+
+.product-comment .coment-right .flex {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
 }
+
 .product-comment .coment-right .date {
     color: var(--discret);
 }
+
 .product-comment .coment-right .note-stars {
     color: var(--discret);
     margin-left: auto;
 }
-.product-comment .message{
+
+.product-comment .top .coment-right .option {
+    min-width: 20px;
+    margin: 0 10px;
+    position: relative;
+    /* rotate: 90deg; */
+}
+
+.product-comment .top .coment-right .ctn-option.open {
+    visibility: visible;
+    rotate: 0deg;
+    opacity: 1;
+    transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.product-comment .top .coment-right .ctn-option {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(var(--impact-var), 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    color: var(--item-color);
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    rotate: -90deg;
+    transform-origin: 100% 0%;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.product-comment .top .coment-right .ctn-option div:hover {
+    text-decoration: underline;
+}
+
+.product-comment .top .coment-right .ctn-option div {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.product-comment .message-ctn {
+    display: flex;
+}
+.product-comment .message-ctn .gap {
+    width: 10%;
+    max-width: 60px;
+}
+.product-comment .message {
     margin: 10px 0;
 }
-.product-comment .open-response{
+
+.product-comment .files-ctn{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-start!important;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+}
+
+.product-comment .files-ctn div:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.product-comment .files-ctn div{
+    min-width: 60px;
+    height: 60px;
+    margin: 0 5px;
+    background: #4544;
+    border-radius: 10px;
+}
+
+
+.product-comment .open-response {
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -56,29 +145,60 @@
     transition: 200ms;
     margin-bottom: 5px;
 }
-.product-comment .open-response.open{
+
+.product-comment .open-response.open {
     color: var(--item-color);
     transition: 200ms;
 }
-.product-comment .open-response.open span{
+
+.product-comment .open-response.open span {
     transition: 200ms;
     rotate: 180deg;
     filter: invert(0%);
 }
-.product-comment .open-response span{
+
+.product-comment .open-response span {
     display: inline-block;
     width: 20px;
     height: 20px;
     transition: 200ms;
     rotate: 0deg;
     filter: invert(50%);
-    background: no-repeat center/cover url(/src/res/chevron-down.png);    
+    background: no-repeat center/cover url(/src/res/chevron-down.png);
 }
 
-.product-comment .response{
+.product-comment .response {
     display: none;
 }
-.product-comment .response.open{
+
+.product-comment .response.open {
     display: initial;
     margin: 10px 0px;
+}
+
+.product-comment label {
+    display: inline-flex;
+    width: 100%;
+    border-radius: 20px;
+    padding: 5px 5px 5px 20px;
+    box-shadow: rgba(var(--discret-var), 0.7) 0px 0px 4px;
+}
+
+.product-comment label input {
+    all: unset;
+    width: 100%;
+}
+
+.product-comment label span:hover {
+    scale: 1.2;
+    transition: 200ms;
+}
+
+.product-comment label span {
+    width: 30px;
+    height: 30px;
+    transition: 200ms;
+    border-radius: 20px;
+    cursor: pointer;
+    background: no-repeat center/80% url(/src/res/send.png), #0001;
 }

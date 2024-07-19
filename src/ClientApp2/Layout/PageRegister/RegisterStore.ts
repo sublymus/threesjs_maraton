@@ -7,6 +7,7 @@ interface RegisterState {
     user: UserInterface | undefined;
     store: StoreInterface | undefined,
     userStore: UserStore | undefined,
+    manager: UserStore | undefined,
     openAuth: boolean;
     disconnection(): Promise<void>;
     authenticateUser(): Promise<void>;
@@ -19,6 +20,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
     user: undefined,
     store: undefined,
     userStore: undefined,
+    manager:undefined,
     openAuth: false,
     async updateUser({ name, photos, id }) {
 
@@ -111,7 +113,9 @@ export const useRegisterStore = create<RegisterState>((set) => ({
                 return //clear();
             }
             const _user = { ...user, ...js.user };
-            set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false}))
+            // console.log(js);
+            
+            set(() => ({ user: _user,manager:js.manager, userStore: js.userStore, store: js.store, openAuth: false}))
 
             localStorage.setItem('user', JSON.stringify(_user));
         }
