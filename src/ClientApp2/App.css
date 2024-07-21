@@ -1,6 +1,10 @@
 .app {
     width: 100%;
     height: 100%;
+    /* align-items: center; */
+    display: flex;
+    flex-direction: column;
+    background: rgba(var(--impact-var), 0.04);
 }
 
 .app .tactil {
@@ -10,15 +14,33 @@
     /* position: absolute; */
     top: 0;
     left: 0;
-    /* background: #f006; */
 }
 
 .app-ctn {
     width: 100%;
     height: 100%;
+    max-width: 1900px;
     display: flex;
     flex-direction: column;
 }
+
+
+.app-ctn {
+    height: calc(100% - var(--top-bar-height));
+}
+
+@media (width < 935px) {
+    .mobile-device .top-bar{
+        display: none;
+    }
+    .mobile-device .bottom-nav{
+        display: flex;
+    }
+    .mobile-device  .app-ctn {
+        height: calc(100% - var(--bottom-nav-height) - 100px);
+    }
+}
+
 
 .search {
     display: flex;

@@ -1,7 +1,7 @@
 
 import { create } from 'zustand'
 import { ListType, ClientVisites, ProductScenus, FeaturesCollector, CollectedFeatures, features } from '../../../DataBase'
-import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
+// import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
 
@@ -11,7 +11,7 @@ export interface ProductState {
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
     setProductById(d: { product_id: string, collected: Record<string, any> }): void
-    selectProduct: (id: ProductScenus) => Promise<void>,
+    selectProduct: (id: ProductScenus | undefined) => Promise<void>,
     fetchVisites(filter: { after_date?: string, before_date?: string, client_id?: string, product_id?: string, limit?: number, page?: number }): Promise<void>;
     setClientVisite(product_id: string): Promise<void>;
     fetchProducts: (filter: {
@@ -26,7 +26,7 @@ export interface ProductState {
 }
 
 
-const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
+// const PRODUCTS_CACHE: { [key: string]: ProductScenus } = {}
 
 export const useProductStore = create<ProductState>((set, get) => ({
     visites: undefined,
@@ -57,7 +57,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
-            searchParams.set(key, value);
+            (value != undefined) && searchParams.set(key, value);
         }
         const response = await fetch(`${Host}/get_client_visited/?${searchParams.toString()}`, {
             headers: h.headers
@@ -69,32 +69,34 @@ export const useProductStore = create<ProductState>((set, get) => ({
     featuresCollector: undefined,
     async setProductById(d) {
         if (!d.product_id) return;
-        const ps = useProductStore.getState().products;
+        const ps = get().products;
         const p1 = ps?.list.find((p) => p.id == d.product_id);
         if (p1) {
-            useProductStore.getState().selectProduct(p1)
+            get().selectProduct(p1)
             set(() => ({ featuresCollector: p1?.featuresCollector }))
-            showProductWorld(set, p1);
+            console.log(d);
+
+            // showProductWorld(set, p1);
         } else {
             const store = useRegisterStore.getState().store;
             if (!store) return;
             const query: any = {};
             query.product_id = d.product_id;
             query.is_features_required = true;
-            query.store_id = useRegisterStore.getState().store?.id;
-            query.by_product_category = !ps?.list[0]
+            query.store_id = store.id;
+            query.by_product_category = !ps?.list[0] // TODO la recher n'est pas optimise, le produit peut ne pas se trouver dans la list, a cause de limit et page
             const searchParams = new URLSearchParams({});
             for (const key in query) {
                 const value = query[key];
-                searchParams.set(key, value);
+                (value != undefined) && searchParams.set(key, value);
             }
             const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
             const ps2 = (await response.json()) as ListType<ProductScenus>
             if (!ps2.list) return
             const p2 = ps2.list.find(p => p.id == d.product_id) || ps2.list[0];
-            set(() => ({ products: ps && { ...ps, list: [...ps.list, ...(ps2.list.filter(p => !ps.list.find(_p => _p.id == p.id)))] }, product: p2, featuresCollector: p2?.featuresCollector }))
-            useProductStore.getState().selectProduct(p2)
-            // if()
+            set(() => ({ products: ps ? { ...ps, list: [...(ps2.list.filter(p => !ps.list.find(_p => _p.id == p.id))), ...ps.list] } : ps2, product: p2, featuresCollector: p2?.featuresCollector }))
+            get().selectProduct(p2)
+
         }
     },
     fetchProducts: async (filter) => {
@@ -103,19 +105,20 @@ export const useProductStore = create<ProductState>((set, get) => ({
         const query: any = { ...filter };
 
         query.is_features_required = true;
-        query.store_id = useRegisterStore.getState().store?.id;
+        query.store_id = store.id;
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
-            searchParams.set(key, value);
+            (value != undefined) && searchParams.set(key, value);
         }
         const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
         const products = (await response.json()) as ListType<ProductScenus>
-        if (!filter.no_save) {
+        if (!products?.list) return
+        if (!filter?.no_save) {
             set(() => ({ products }))
         }
         // console.log(products);
-        
+
         return {
             ...products,
         }
@@ -127,7 +130,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
         // set(() => ({ products, product:productScenus , featuresCollector:productScenus?.featuresCollector}));
     },
 
-    async selectProduct(product: ProductScenus) {
+    async selectProduct(product) {
         if (!product) return set(() => ({ product: undefined }));
 
         // const productScenus = await showProductWorld(set, product);
@@ -141,7 +144,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
                 collector[f.id] = f.components?.find(v => !!v.is_default);
                 f.default_value = collector[f.id];
             } else {
-             
+
                 collector[f.id] = f.default_value
             }
             // l.push(() => {
@@ -172,67 +175,67 @@ export const useProductStore = create<ProductState>((set, get) => ({
         }
         set(() => ({ product }));
         // console.log(' selectProduct',get().product , productScenus);
-        // useProductStore.getState().setClientVisite(product.id)
+        get().setClientVisite(product.id)
     }
 }))
 
-async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Partial<ProductState>) => void, product: ProductScenus) {
-    if (!WorldManager.worldManager) {
-        return;
-    }
-    if (!product) return;
-    WorldManager.worldManager?.currentWorl?.close();
+// async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Partial<ProductState>) => void, product: ProductScenus) {
+//     if (!WorldManager.worldManager) {
+//         return;
+//     }
+//     if (!product) return;
+//     WorldManager.worldManager?.currentWorl?.close();
 
-    let productCache = PRODUCTS_CACHE[product.id];
+//     let productCache = PRODUCTS_CACHE[product.id];
 
-    if (productCache?.scene) {
-        WorldManager.worldManager.setWorld(productCache.scene);
-        return productCache
-    }
-    const { World } = await import(/* @vite-ignore */`${Host}${product.scene_dir}/World.js`);
+//     if (productCache?.scene) {
+//         WorldManager.worldManager.setWorld(productCache.scene);
+//         return productCache
+//     }
+//     const { World } = await import(/* @vite-ignore */`${Host}${product.scene_dir}/World.js`);
 
-    const world = new World() as AbstractWorld
-    await WorldManager.worldManager.initialize((...a) => {
-        world.init(...a)
-    });
-    //  WorldManager.worldManager.setWorld(world);
+//     const world = new World() as AbstractWorld
+//     await WorldManager.worldManager.initialize((...a) => {
+//         world.init(...a)
+//     });
+//     //  WorldManager.worldManager.setWorld(world);
 
-    const l: Function[] = []
-    const collector: CollectedFeatures = {}
-    product.features.list.forEach(f => {
-        collector[f.id] = f.components?.find(v => !!v.is_default);
-        f.default_value = collector[f.id];
-        l.push(() => {
-            world.localLoader.getModel().then(() => {
-                world.localLoader.updateFeature(f, f.default_value?.code || '')
-            })
-        })
-    });
-    productCache = {
-        ...product,
-        scene: world,
-        featuresCollector: {
-            collectFeature(feature, value) {
-                if (value != undefined) {
-                    collector[feature.id] = value
-                    world.localLoader.updateFeature(feature, value.code)
-                } else {
-                    if (feature.default_value) {
-                        collector[feature.id] = feature.components?.find(v => v.is_default);
-                        feature.default_value && world.localLoader.updateFeature(feature, feature.default_value.code)
-                    }
-                }
-                set(() => ({ featuresCollector: productCache.featuresCollector && { ...productCache.featuresCollector } }))
-            },
-            getCollectedFeatures(key) {
-                return collector[key];
-            },
-            allCollectedFeatures() {
-                return collector
-            }
-        }
-    };
-    WorldManager.worldManager.setWorld(world);
-    l.forEach(f => f())
-    return PRODUCTS_CACHE[product.id] = productCache;
-}
+//     const l: Function[] = []
+//     const collector: CollectedFeatures = {}
+//     product.features.list.forEach(f => {
+//         collector[f.id] = f.components?.find(v => !!v.is_default);
+//         f.default_value = collector[f.id];
+//         l.push(() => {
+//             world.localLoader.getModel().then(() => {
+//                 world.localLoader.updateFeature(f, f.default_value?.code || '')
+//             })
+//         })
+//     });
+//     productCache = {
+//         ...product,
+//         scene: world,
+//         featuresCollector: {
+//             collectFeature(feature, value) {
+//                 if (value != undefined) {
+//                     collector[feature.id] = value
+//                     world.localLoader.updateFeature(feature, value.code)
+//                 } else {
+//                     if (feature.default_value) {
+//                         collector[feature.id] = feature.components?.find(v => v.is_default);
+//                         feature.default_value && world.localLoader.updateFeature(feature, feature.default_value.code)
+//                     }
+//                 }
+//                 set(() => ({ featuresCollector: productCache.featuresCollector && { ...productCache.featuresCollector } }))
+//             },
+//             getCollectedFeatures(key) {
+//                 return collector[key];
+//             },
+//             allCollectedFeatures() {
+//                 return collector
+//             }
+//         }
+//     };
+//     WorldManager.worldManager.setWorld(world);
+//     l.forEach(f => f())
+//     return PRODUCTS_CACHE[product.id] = productCache;
+// }

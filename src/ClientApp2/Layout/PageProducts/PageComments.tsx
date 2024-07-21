@@ -5,14 +5,20 @@ import { ToImagesRating } from './DetailProduct'
 import './PageComments.css'
 import { getImg } from '../../../Tools/StringFormater'
 import { useCommentStore } from "./CommentStore";
+import { useAppRouter, useAppStore } from '../../AppStore'
+import { PageAuth } from "../PageRegister/PageAuth";
+import { useRegisterStore } from '../PageRegister/RegisterStore'
 
-export function PageComments({ page, setPage, product, setRef, userCommand }: { userComment?: ProductCommentInterface, userCommand?: CommandInterface, setRef: (ref: HTMLElement | null) => any, product: ProductInterface, page: string, setPage: (page: string) => any }) {
-    const { userComment, comments, create_product_comment, fetchProductComments, setLastPage, setIndex } = useCommentStore()
+export function PageComments({ product, setRef, userCommand }: { userComment?: ProductCommentInterface, userCommand?: CommandInterface, setRef: (ref: HTMLElement | null) => any, product: ProductInterface }) {
+    const { userComment, comments, create_product_comment, fetchProductComments, setIndex } = useCommentStore()
+    const { openChild } = useAppStore()
+    const { user } = useRegisterStore()
+    const { navBack, qs, current, json } = useAppRouter()
     const [photos, setPhotos] = useState<File[]>([])
     const [videos, setVideos] = useState<File[]>([])
     const [text, setText] = useState('');
     const [star, setStar] = useState(0);
-    const [seeMyComment, setSeeMyComment] = useState(false);
+    const [_seeMyComment, setSeeMyComment] = useState(false);
     const [newComment, setNewComment] = useState<ProductCommentInterface>();
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState({
@@ -29,17 +35,17 @@ export function PageComments({ page, setPage, product, setRef, userCommand }: { 
             product_id: product.id,
             ...filter
         });
-    }, [newComment, product, filter])
-  
-    return <section className={'page-comments ' + (page == 'comments' ? 'open' : 'close')} ref={setRef}>
+    }, [newComment, product, filter, json])
+
+    return current('comments') && <section className={'page-comments ' + (current('comments') ? 'open' : 'close')} ref={setRef}>
         <div className="top" >
             <div className="return" onClick={() => {
-                setPage('')
+                navBack()
             }}></div>
             <h1>Comments</h1>
             <div className="option"></div>
         </div>
-        <ToImagesRating product={product} onClick={() => setPage('images')} />
+        <ToImagesRating product={product} onClick={() => qs().keepJson().setAbsPath(['products', 'detail', 'images'])} />
         <div className="write-comment">
             <div className="top-prompt"> Leave a comment <span></span></div>
             {
@@ -111,6 +117,9 @@ export function PageComments({ page, setPage, product, setRef, userCommand }: { 
                                     </div>
                                 </div>
                                 <div className={"send-comment " + (loading ? 'loading' : '')}><span className={'text ' + (text.trim() ? '' : 'no')} onClick={() => {
+                                    if (!user) {
+                                        return openChild(<PageAuth />, true,/* background 80% */ '#fffc')
+                                    }
                                     if (!!star && text) {
                                         setLoading(true)
                                         create_product_comment({
@@ -120,14 +129,11 @@ export function PageComments({ page, setPage, product, setRef, userCommand }: { 
                                             text,
                                             videos
                                         }).then((c) => {
-                                            setTimeout(() => {
-                                                setLoading(false)
-                                                console.log('===>>', c);
-                                                if (c?.id) {
+                                            setLoading(false)
+                                            if (c?.id) {
 
-                                                    setNewComment(c)
-                                                }
-                                            }, 2000);
+                                                setNewComment(c)
+                                            }
                                             return;
                                         })
                                     }
@@ -159,15 +165,12 @@ export function PageComments({ page, setPage, product, setRef, userCommand }: { 
             {
                 comments?.list.map((c) => (
                     <ProductComment key={c.id} comment={c} canOpen={true} onClick={(d) => {
-                        console.log('@@@@@@@', d);
-
                         const a = d?.comment;
                         if (a) {
-                            setPage('images');
-                            setLastPage('comments')
+                            qs().keepJson().setAbsPath(['products', 'detail', 'images'])
                             setIndex({
-                                comment:a,
-                                relative:d.relative
+                                comment: a,
+                                relative: d.relative
                             })
                         }
                     }} />

@@ -1,0 +1,217 @@
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;;
+    position: relative;
+    box-shadow: rgba(var(--discret-var), 1) 0px 0px 2px;
+}
+
+.top-bar-ctn {
+    width: 100%;
+    padding: 0 20px;
+    max-width: 1900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    min-height: 50px;
+}
+
+.top-bar .left {
+    display: flex;
+    align-items: center;
+}
+
+.top-bar .left .logo-ctn {
+    cursor: pointer;
+    min-width: 150px;
+    height: 50px;
+    background: no-repeat center/contain url(/src/res/sublymus_logo.png);
+}
+
+.top-bar .top-bar-center {
+    display: flex;
+    height: 100%;
+}
+
+.top-bar li.active,
+.top-bar li.active:hover {
+    font-weight: bold;
+}
+
+.top-bar li{
+    all: unset;
+    position: relative;
+    letter-spacing: 3px;
+    margin: 0px 10px;
+    padding: 0px 10px;
+    height:100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    /* font-weight: bold; */
+    filter: invert(0%);
+    /* color: var(--text-color-annex); */
+    border-radius: 10px;
+    border: 1px solid #fff0;
+    transition: 200ms;
+}
+
+.top-bar li.active span{
+    background: rgba(var(--discret-var), 1);
+}
+.top-bar li.active span,
+.top-bar li:hover span {
+   scale: 1;
+}
+.top-bar li span{
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    scale: 0;
+    border-radius: 10px;
+    display: inline-block;
+    background: rgba(var(--discret-var), 0.6);
+    transition: 200ms;
+}
+
+.top-bar .ctn-icon:hover {
+    border: 1px solid #fff5;
+    background: #fff1;
+}
+
+.top-bar .ctn-icon {
+    border: 1px solid #fff0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    margin-right: 20px;
+    /* margin-right: 50px; */
+}
+
+.top-bar .ctn-icon .icon {
+    min-width: 30px;
+    height: 30px;
+    filter: invert();
+    background: no-repeat center/100% url('/src/res/ellipsis.png');
+}
+
+.more-navs {
+    position: relative;
+}
+
+.more-navs ul li {
+    padding: 5px;
+}
+
+.more-navs ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 230px;
+    padding: 15px 0;
+    max-width: 260px;
+    margin-top: 10px;
+    z-index: 1;
+    top: 40px;
+    right: 0px;
+    background: rgba(15, 14, 71, 0.3);
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+    backdrop-filter: blur(40px) brightness(80%) saturate(150%);
+    border-radius: 20px;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    transform-origin: right top;
+    transform: translateX(-10px) translateY(10px);
+}
+
+.more-navs ul.close {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transform: rotateZ(-10deg) rotateY(20deg) translateY(0px);
+}
+
+
+.top-bar .right {
+    /* width: 200px; */
+    display: flex;
+    align-items: center;
+}
+
+.top-bar .profile {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin-left: 20px;
+    border: 1px #bbbbbb solid;
+    box-shadow: 0px 0px 10px #fff9;
+}
+
+.top-bar .login {
+    min-width: 100px;
+    border-radius: 100%;
+    text-decoration: underline;
+}
+
+@media (width < 550px) {
+    .more-navs ul {
+        right: 0px;
+    }
+}
+
+@media (width < 400px) {
+    .top-bar-ctn {
+        height: 50px;
+    }
+}
+
+
+/* //////////  footer       //////////// */
+
+.footer {
+    width: 100%;
+    margin-top: 100px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-top: 2px #44548a66 solid;
+}
+
+.footer .links {
+    max-width: 450px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+
+.footer .links li {
+    margin: 10px 10px;
+    opacity: 0.8;
+    width: 150px;
+}
+
+.footer .more-info {
+    max-width: 300px;
+    
+    margin: 30px;
+}
+
+.footer .more-info div {
+    margin: 15px;
+}
+
+.footer .more-info div p {
+    display: inline;
+    opacity: 0.7;
+}
+

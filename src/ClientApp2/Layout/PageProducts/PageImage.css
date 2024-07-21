@@ -88,6 +88,7 @@
 .page-comment-image .btm{
     width: 100%;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .page-comment-image .btm .top{
@@ -117,5 +118,36 @@
     opacity: 0.9;
 }
 
+/* PRODUCT COMMENT COMPONENT */
 
+.page-comment-image .preview-comment .close:hover{
+    scale: 1.2;
+}
+.page-comment-image .preview-comment .close{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+    top: 20px;
+    cursor: pointer;
+    background: no-repeat center/80% url(/src/res/x.png), #0002;
+    border-radius: 20px;
+}
+.page-comment-image .preview-comment {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition: all 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+
+.page-comment-image .preview-comment.open{
+    transform: scaleY(1);
+}
+.page-comment-image .preview-comment.close{
+    transform: scaleY(0);
+}
 

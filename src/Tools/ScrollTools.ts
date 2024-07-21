@@ -9,8 +9,9 @@ export function AddHorizontalScrollIcon({ posistion, size, top, step }: {step?:n
         ref.dataset.init = 'init';
         ref.style.scrollBehavior = 'smooth'
         const parent = ref.parentElement!;
+       
         const ctn = document.createElement('div')
-        ctn.style.width = '100%';
+        ctn.style.width = ref.style.width;
         ctn.style.position = 'relative';
 
         ctn.append(ref);
@@ -48,14 +49,14 @@ export function AddHorizontalScrollIcon({ posistion, size, top, step }: {step?:n
         ctn.append(right, left);
 
         const checkScroll = ()=>{
-            if (ref.scrollLeft < 30) {
+            if (ref.scrollLeft <= 0) {
                 left.style.display = 'none'
             } else {
                 left.style.display = 'block'
             }
-            if (ref.scrollLeft > (ref.scrollWidth - ref.getBoundingClientRect().width ) - 30) {
+            if (ref.scrollLeft >= (ref.scrollWidth - ref.getBoundingClientRect().width ) - 30 ) {
                 right.style.display = 'none'
-            } else {
+            } else  {
                 right.style.display = 'block'
             }
         }
@@ -73,9 +74,11 @@ export function AddHorizontalScrollIcon({ posistion, size, top, step }: {step?:n
                 ref.scrollLeft += ref.getBoundingClientRect().width /2 
             }
         })
-        ref.addEventListener('scroll', checkScroll)
+        ref.addEventListener('scroll', checkScroll);
+
+      
         setTimeout(() => {
             checkScroll()
-        }, 200);
+        }, 500);
     }
 }

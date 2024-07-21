@@ -31,6 +31,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
         } else {
             return
         }
+        
         fromData.append('id', id);
         fromData.append('photos', '["photos_0"]');
 
@@ -42,6 +43,7 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             body: fromData,
             headers: h.headers,
         });
+        
         const user = await response.json();
         console.log({ user });
 
@@ -102,10 +104,12 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             
             const response = await fetch(`${Host}/can_use_store/${store_name}`, requestOptions)
             let js: any
+
             // const clear = () => {
             //     localStorage.removeItem('user');
             //     set(() => ({ user: undefined, userStore: undefined, openAuth: true }));
             // }
+
             try {
                 js = await response.json();
                 if (!js.user) return //clear()

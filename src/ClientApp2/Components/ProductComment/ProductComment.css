@@ -6,6 +6,7 @@
     padding: 10px;
     opacity: 1;
     background: var(--back-item);
+    color: var(--item-color);
     transition: 300ms;
     position: relative;
 }
@@ -63,10 +64,12 @@
 }
 
 .product-comment .top .coment-right .option {
-    min-width: 20px;
-    margin: 0 10px;
-    position: relative;
-    /* rotate: 90deg; */
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: no-repeat center /80% url(/src/res/ellipsis-vertical.png);
+    margin-left: auto;
+    cursor: pointer;
 }
 
 .product-comment .top .coment-right .ctn-option.open {
@@ -86,7 +89,7 @@
     color: var(--item-color);
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
-    rotate: -90deg;
+    rotate: -45deg;
     transform-origin: 100% 0%;
     visibility: hidden;
     opacity: 0;
@@ -97,6 +100,17 @@
     text-decoration: underline;
 }
 
+.product-comment .top .coment-right .ctn-option .close{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+    background: no-repeat center/80% url(/src/res/x.png), #0002;
+    border-radius: 20px;
+}
 .product-comment .top .coment-right .ctn-option div {
     padding: 5px 0;
     cursor: pointer;

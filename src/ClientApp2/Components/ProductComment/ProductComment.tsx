@@ -27,7 +27,10 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
 
     // const currentFiles = [...(c.photos || []), ...(c.videos || [])]
 
-    return <div ref={setRef} className="product-comment" onClick={() => onClick?.()}>
+    return <div ref={setRef} className="product-comment" onClick={() => {
+        onClick?.()
+        setOpenOption(false)
+    }}>
         <div className="top">
             <div className="photo" style={{ background: c.user ? getImg(c.user.photos[0]) : '' }}><span style={{ background: c.user?.country_icon ? getImg(c.user.country_icon) : '' }}></span></div>
             <div className="coment-right">
@@ -38,23 +41,17 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
                     </div>
                     {
                         (isUser || isManager) && <>
-                            <div className="option" onClick={() => {
+                            <div className="option" onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
                                 setOpenOption(!openOption)
                             }}></div>
                             <div className={"ctn-option " + (openOption ? 'open' : '')} onClick={() => {
                                 setOpenOption(false)
                             }}>
-                                <div className="delete" onClick={() => {
-                                    deleteComment(c, 300).then((r) => {
-                                        if (r?.deleted) {
-                                            ref?.classList.add('deleted');
-                                            setTimeout(() => {
-                                                ref && (ref.style.display = 'none')
-                                            }, 300);
-
-                                        }
-                                    })
-                                }}>Delete</div>
+                                <div className="close" onClick={() => {
+                                     setOpenOption(false)
+                                }}></div>
                                 {
                                     isUser && <div className="edit-comment" onClick={() => {
                                         setEditMessage(true)
@@ -67,6 +64,17 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
                                         setEditMessage(false)
                                     }}>{c.response ? 'Edit Response' : 'Add Response'}</div>
                                 }
+                                 <div className="delete" onClick={() => {
+                                    deleteComment(c, 300).then((r) => {
+                                        if (r?.deleted) {
+                                            ref?.classList.add('deleted');
+                                            setTimeout(() => {
+                                                ref && (ref.style.display = 'none')
+                                            }, 300);
+
+                                        }
+                                    })
+                                }}>Delete</div>
                             </div>
                         </>
 

@@ -6,6 +6,18 @@ export interface AppInterface {
 
 }
 
+export interface CategoryInterface {
+    id: string,
+    label: string
+    description: string
+    catalog_id: string
+    scene_dir?: string
+    index: number
+    store_id: string
+    created_at: string
+    updated_at: string
+}
+
 export interface CommandInterface {
     id: string,
     status: string,

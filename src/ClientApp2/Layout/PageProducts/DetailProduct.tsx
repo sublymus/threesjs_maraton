@@ -3,7 +3,7 @@ import { getImg, limit } from '../../../Tools/StringFormater';
 import './DetailProduct.css'
 import { useProductStore } from './ProductStore';
 import { toFilter } from '../../../Tools/FilterColor'
-import { CommandInterface, Feature, ListType ,ProductCommentInterface, ProductInterface } from '../../../DataBase';
+import { CommandInterface, Feature, ListType, ProductCommentInterface, ProductInterface } from '../../../DataBase';
 import { ProductCard } from '../../Components/ProductCard/ProductCard';
 import { useRegisterStore } from '../PageRegister/RegisterStore';
 import { ProductComment } from "../../Components/ProductComment/ProductComment";
@@ -13,6 +13,8 @@ import { AddHorizontalScrollIcon } from "../../../Tools/ScrollTools";
 import { PageComments } from "./PageComments";
 import { useCommentStore } from './CommentStore';
 import { PageImage } from "./PageImage";
+import { useAppRouter, useAppStore } from '../../AppStore';
+import { PageAuth } from '../PageRegister/PageAuth';
 const images = {
     more: true,
     list: [
@@ -27,24 +29,43 @@ const images = {
 let imageIndex: ((index: number) => void) | undefined;
 export function DetailProduct() {
 
-    const { product, fetchProducts, fetchVisites, visites, selectProduct } = useProductStore()
-    const [moreProducts, setMoreProducts] = useState<ListType<ProductInterface>>()
-    const {fetchProductComments , setLastPage} = useCommentStore()
+    const { json, qs, check, current } = useAppRouter()
+    const { setProductById, product, fetchProducts, fetchVisites, visites, selectProduct } = useProductStore()
+    const { fetchProductComments, setLastPage } = useCommentStore()
     const { user } = useRegisterStore()
+    const { openChild } = useAppStore();
+    const infoRef = useRef<HTMLDivElement>(null);
+    const diffRef = useRef<HTMLDivElement>(null);
+    const detailRef = useRef<HTMLDivElement>(null);
+
+
+    const [moreProducts, setMoreProducts] = useState<ListType<ProductInterface>>()
     const [minText, setMinText] = useState(true);
     const [index, setIndex] = useState(0);
     const [readDescription, setReadDescription] = useState(false);
     const [feature, setFeature] = useState<Feature>()
 
-    const [openPage, setOpenPage] = useState('comments');
-  
-    const infoRef = useRef<HTMLDivElement>(null);
-    const diffRef = useRef<HTMLDivElement>(null);
-    const detailRef = useRef<HTMLDivElement>(null);
+    const [commentCanUp, setCommentCanUp] = useState(false);
+    const [userComment/* , setCanWrite */] = useState<ProductCommentInterface>();
+    const [userCommand/* , setCanWrite */] = useState<CommandInterface>({
+        payment_id: 'lol'
+    } as any);
+   
+    const [commentRef, setCommentRef] = useState<HTMLElement | null>(null)
 
-    const [comments,setComments] = useState<ListType<ProductCommentInterface>>();
+    const [comments, setComments] = useState<ListType<ProductCommentInterface>>();
+    const [s] = useState<any>({})
+
     useEffect(() => {
-        if (product) {
+        if (check('detail') && json?.product_id && json.product_id != s.product_id) {
+            s.product_id = json.product_id;
+            setProductById(json as any)
+        }
+    }, [json]);
+
+    useEffect(() => {
+
+        if (product && check('detail')) {
             fetchProducts({
                 no_save: true,
                 category_id: product.category_id
@@ -54,63 +75,61 @@ export function DetailProduct() {
                 }
             });
             fetchProductComments({
-                product_id:product.id,
-                no_save:true,
-            }).then((list)=>{
+                product_id: product.id,
+                no_save: true,
+            }).then((list) => {
                 return setComments(list)
             })
+            detailRef.current && (detailRef.current.scrollTop = 0)
+            setReadDescription(false);
+            setIndex(0)
+            imageIndex?.(0);
+            qs().keepJson().setAbsPath(['products', 'detail'])
         }
-        detailRef.current && (detailRef.current.scrollTop = 0)
-        setReadDescription(false);
-        setOpenPage('')
     }, [product])
     useEffect(() => {
         !visites && user && fetchVisites({
             limit: 10,
         });
-    }, [user])
-    // useEffect(() => {
-    //     const m = 2;
-    //     const w = 80;
-    //     const left = i.i * (2 * m + w);
-    //     // listRef.current && (
-    //     //     listRef.current.scrollLeft =
-    //     // )
-    //     if (listRef.current) {
-    //         console.log((left / 100) * listRef.current.getBoundingClientRect().width);
-    //         listRef.current.scrollLeft = (left / 100) * listRef.current.getBoundingClientRect().width
-    //     }
-    // }, [i]);
-
-    // console.log(product?.featuresCollector);
+    }, [user, product])
+    console.log(product);
     
-    const [commentCanUp, setCommentCanUp] = useState(false);
-    const [userComment/* , setCanWrite */] = useState<ProductCommentInterface>();
-    const [userCommand/* , setCanWrite */] = useState<CommandInterface>({
-        payment_id:'lol' 
-    } as any);
-    const [commentRef, setCommentRef] = useState<HTMLElement|null>(null)
-    useEffect(()=>{
-        if(commentRef){
-            if(commentRef.dataset.init) return;
+    useEffect(() => {
+        if (commentRef) {
+            if (commentRef.dataset.init) return;
             commentRef.dataset.init = 'init';
-            commentRef.addEventListener('scroll',()=>{
-                if(commentRef.scrollTop > 200){
+            commentRef.addEventListener('scroll', () => {
+                if (commentRef.scrollTop > 200) {
                     setCommentCanUp(true)
-                }else{
+                } else {
                     setCommentCanUp(false)
                 }
             })
         }
-    },[commentRef])
+    }, [commentRef])
 
-    return (
+    return product && (
         <div className={"detail-product " + (product ? 'open' : '')} >
-            {product && <PageComments userComment={userComment} userCommand = {userCommand} setRef={setCommentRef} product={product} page={openPage} setPage={setOpenPage} />}
-            { product && <PageImage   setPage={setOpenPage} page={openPage} product={product}/>}
-            <section className={'detail ' + (openPage == 'detail' || openPage == '' ? 'open' : 'close')} ref={detailRef}>
+            {product && <PageComments userComment={userComment} userCommand={userCommand} setRef={setCommentRef} product={product} />}
+            {product && <PageImage product={product} />}
+            <section className={'detail ' + ((current('products')||current('detail')) ? 'open' : 'close')} ref={detailRef}>
                 <div className="top-top _flex">
-                    <div className="return"></div>
+                    <div className="return" ref={ref => {
+                        if (!ref) return;
+                        if (ref.dataset.init) return;
+                        ref.dataset.init = 'init';
+                        const doIt = () => {
+                            if (window.innerWidth > 940) {
+                                ref.style.display = ' none'
+                            } else {
+                                ref.style.display = 'flex'
+                            }
+                        }
+                        window.addEventListener('resize', doIt)
+                        doIt();
+                    }} onClick={() => {
+                        selectProduct(undefined)
+                    }}></div>
                     <div className="label _lr-auto">Detail Product</div>
                 </div>
                 <div className="top-infos" ref={ref => {
@@ -163,7 +182,7 @@ export function DetailProduct() {
                         <div className="min-list">
                             {
                                 product?.images.map((img, i) => (
-                                    <div key={img + product?.id} className={"min-img "+ (index == i ? 'active' : '')} style={{ background: getImg(img) }} onClick={() => {
+                                    <div key={img + product?.id} className={"min-img " + (index == i ? 'active' : '')} style={{ background: getImg(img) }} onClick={() => {
                                         setIndex(i)
                                         imageIndex?.(i);
                                     }}></div>
@@ -175,7 +194,7 @@ export function DetailProduct() {
                         <div className="diff" ref={diffRef}>
                             <div className={"text " + ((feature && minText) ? 'min' : '')}>
                                 <div className='title'>{product?.title}<span></span></div>
-                                <p className="description">{((product?.description.length||0) > 100 && !readDescription) ? (<>{limit(product?.description||'', 100)} <span onClick={() => setReadDescription(true)}>Read more</span></>) : product?.description||''}</p>
+                                <p className="description">{((product?.description.length || 0) > 100 && !readDescription) ? (<>{limit(product?.description || '', 100)} <span onClick={() => setReadDescription(true)}>Read more</span></>) : product?.description || ''}</p>
                             </div>
 
                             {
@@ -226,56 +245,58 @@ export function DetailProduct() {
                         </div>
                     </div>
                 </div>
-                <div className="center">
-                    <div className='title'>product reviews<span></span></div>
-                    {product && <ToImagesRating onClick={()=>{ setLastPage('');setOpenPage('images')}} product={product} />}
-                    <div className='title'>Comments<span></span></div>
-                    <div className="min-comments" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
-                        {
-                            comments?.list.map((c) => (
-                                <ProductComment key={c.id} comment={c} onClick={() => {
-                                    setLastPage(openPage);
-                                    setOpenPage('comments');
-                                }} />
-                            ))
-                        }
-                        <div className="more-comment" onClick={() => {
-                            setLastPage(openPage);
-                            setOpenPage('comments');
-                        }}>
-                            <div className={"icon "+((comments?.list.length||0 > 0)?'':'add')}><span style={{ filter: /* background */toFilter('#ffffff').result.filter }}></span></div>
-                            <div className="label">{(comments?.list.length||0 > 0)?'More':'Add'}</div>
+                <div className='detail-box'>
+                    <div className="center">
+                        <div className='title'>product reviews<span></span></div>
+                        {product && <ToImagesRating onClick={() => { setLastPage(''); qs().keepJson().setAbsPath(['products', 'detail', 'images']) }} product={product} />}
+                        <div className='title'>Comments<span></span></div>
+                        <div className="min-comments" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
+                            {
+                                comments?.list.map((c) => (
+                                    <ProductComment key={c.id} comment={c} onClick={() => {
+                                        qs().keepJson().setAbsPath(['products', 'detail', 'comments'])
+                                    }} />
+                                ))
+                            }
+                            <div className={"more-comment " + (comments?.list.length || 0 > 0 ? '' : 'horizontal')} onClick={() => {
+                                qs().keepJson().setAbsPath(['products', 'detail', 'comments'])
+                            }}>
+                                <div className={"icon " + ((comments?.list.length || 0 > 0) ? '' : 'add')}><span style={{ filter: /* background */toFilter('#ffffff').result.filter }}></span></div>
+                                <div className="label">{(comments?.list.length || 0 > 0) ? 'More' : 'Add First Comment'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="visites">
+                        <div className='title'>Products Visited<span></span></div>
+                        <div className="list" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
+                            {!user && (
+                                <div style={{ cursor:'pointer',textDecoration:'underline'}} onClick={()=>openChild(<PageAuth/>, true,/* background 80% */ '#fffc')}>Connexion required</div>
+                            )}
+                            {
+                                visites?.list.map((p) => (
+                                    <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
+                                        selectProduct(p)
+                                    }} />
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div className="more-products">
+                        <div className='title more'>More Products<span></span></div>
+                        <div className="list" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
+                            {
+                                moreProducts?.list.map((p) => (
+                                    <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
+                                        selectProduct(p)
+                                    }} />
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
-                <div className="visites">
-                    <div className='title'>Products Visited<span></span></div>
-                    <div className="list" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
-                        {
-                            visites?.list.map((p) => (
-                                <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
-                                    selectProduct(p)
-                                }} />
-                            ))
-                        }
-                    </div>
-                </div>
-                <div className="more-products">
-                    <div className='title more'>More Products<span></span></div>
-                    <div className="list">
-                        {
-                            moreProducts?.list.map((p) => (
-                                <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
-                                    selectProduct(p)
-                                }} />
-                            ))
-                        }
-                    </div>
-                </div>
-                <footer></footer>
             </section>
             {
-                (openPage == 'detail' || openPage == '') && <div className="price-zone">
+                current('detail') && <div className="price-zone">
                     <div className="ctn">
                         <div className="price">
                             <div>Price</div>
@@ -286,10 +307,10 @@ export function DetailProduct() {
                 </div>
             }
             {
-                openPage == 'comments' && (commentCanUp || (userCommand?.payment_id && !userComment)) && <div className="write-zone">
-                   {commentCanUp &&  <div className="up-icon" onClick={()=>{
-                    commentRef && (commentRef.scrollTop = 0)
-                   }}><span></span></div>}
+                current('comments') && (commentCanUp || (userCommand?.payment_id && !userComment)) && <div className="write-zone">
+                    {commentCanUp && <div className="up-icon" onClick={() => {
+                        commentRef && (commentRef.scrollTop = 0)
+                    }}><span></span></div>}
                     <div className="write-icon"><span></span></div>
                 </div>
             }
@@ -297,9 +318,9 @@ export function DetailProduct() {
     )
 }
 
-export function ToImagesRating({ product, onClick}: { product: ProductInterface , onClick?:()=>any }) {
-
-   return <div className="group-file-rating">
+export function ToImagesRating({ product, onClick }: { product: ProductInterface, onClick?: () => any }) {
+    const { qs } = useAppRouter()
+    return <div className="group-file-rating">
         <div className="after-order">
             <div className="ctn-mini-files" onClick={onClick}>
                 {
@@ -313,11 +334,10 @@ export function ToImagesRating({ product, onClick}: { product: ProductInterface 
                     images.more && <div className="back" style={{ background: getImg(images.list[0]) }}>
                         <div className="more-files" >+ More</div>
                     </div>
-
                 }
             </div>
         </div>
-        {product?.note && <div className="rating">
+        {product?.note && <div className="rating" onClick={() => qs().keepJson().setAbsPath(['products', 'detail', 'comments'])}>
             <div className="note">{product.note.star}</div>
             <NoteStars note={product.note.star} />
             <div className="vote">{product.note.votes} <span></span></div>

@@ -30,6 +30,7 @@
     overflow-x: auto;
     white-space: nowrap;
     position: relative;
+    border-radius: 20px;
 }
 .product-card .images .image {
     width: 100%;
@@ -74,19 +75,60 @@
     flex-direction: column;
     position: relative;
 }
-.product-card .name {
-    font-weight: bold;
+.product-card .name{
+    padding: 2px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--discret);
+}
+.product-card .name .product-title {
+    font-weight: 600;
+    color: var(--item-color);
 }
 .product-card .stars {
     display: flex;
     align-items: center;
+    margin: 0px 0;
+    justify-content: flex-end;
 }
 .product-card .stars .value{
     display: flex;
-
     align-items: center;
 }
-.product-card .stars span {
+.product-card .stars .note{
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+.product-card .stars .vote{
+    font-size: 0.8em;
+    color: var(--discret);
+    margin-right: 5px;
+
+}
+.product-card .stars .point{
+    width: 5px;
+    height: 5px;
+    background: var(--discret);
+    border-radius: 10px;
+    margin: 0 5px;
+}
+
+.product-card .stars .star.vide{
+    filter: invert(70%);
+    background: no-repeat center/80% url(/src/res/star-black.png);
+}
+.product-card .stars .star{
+    width: 20px;
+    height: 20px;
+    background: no-repeat center/80% url(/src/res/star.png);
+}
+.product-card .stars .new{
+    padding: 0 5px;
+    background: rgba(var(--contrast-var), 0.6);
+    color: var(--contrast-color);
+    border-radius: 20px; 
+}
+.product-card .stars .users {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -95,14 +137,12 @@
 }
 .product-card .price {
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
 }
-.product-card .price .label {
-    opacity: 0.8;
-    margin-right: 10px;
-}
+
 .product-card .price .value {
     font-weight: bold;
+    color: var(--impact);
 }
 
 .product-card .add-btn {

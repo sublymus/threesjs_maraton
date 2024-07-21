@@ -1,3 +1,5 @@
+import { elementMounted } from "./Mounted";
+
 
 
 export const cardHorizontalCenter = (cb?: ((setIndex: (index: number) => any) => any) | undefined, newIndex?: (index: number) => any) => {
@@ -7,7 +9,8 @@ export const cardHorizontalCenter = (cb?: ((setIndex: (index: number) => any) =>
         if (!ref) return;
         if (ref.dataset.init) return cb?.((ref as any).setIndex)
 
-        ref.dataset.init = 'init'
+
+        ref.dataset.init = 'init:' + (Math.trunc(Math.random() * 1000) / 1000)
 
         const init = () => {
 
@@ -57,38 +60,23 @@ export const cardHorizontalCenter = (cb?: ((setIndex: (index: number) => any) =>
                 if (B < w / 2 - z) {
                     a = i + 1;
                     setIndex(a);
-                    
+
                 } else if (B > w / 2 + z) {
                     a = i - 1;
                     setIndex(a)
-                    
+
                 } else {
                     setIndex(i)
                 }
                 newIndex?.(a)
-                console.log('#############');
-                
             })
 
             cb?.(setIndex)
 
         }
-
-        const id = setInterval(() => {
-            let p: any = ref;
-            let count = 0;
-            while (count < 100 && p != null && p != undefined && p != document.body) {
-                p = p?.parentElement;
-                count++;
-            }
-            if (p == document.body) {
-                clearInterval(id)
-                init();
-            }
-
-        }, 100);
-
-
+        elementMounted(ref, () => {
+            init()
+        });
     }
 
 }

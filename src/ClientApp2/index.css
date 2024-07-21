@@ -68,6 +68,14 @@ a {
   margin-left: auto; 
   margin-right: auto; 
 }
+
+/* ZOOTA */
+.limit-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 #root {
   width: 100%;
   height: 100%;
@@ -99,6 +107,14 @@ a {
   --discret: #7F817E;
   --discret-var: 127, 129, 126;
   --discret-color: #fff;
+  ----device-color:#358f27;
+
+  /* Dimmension */
+
+  --top-bar-height:50px;
+  --bottom-nav-height:40px;
+
+
 }
 
 *::-webkit-scrollbar {

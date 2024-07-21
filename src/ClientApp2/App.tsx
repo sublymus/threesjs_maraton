@@ -2,8 +2,9 @@ import './App.css'
 import { useEffect, useRef } from 'react'
 import { useRegisterStore } from './Layout/PageRegister/RegisterStore'
 import { useAppRouter, useAppStore } from './AppStore'
-import { PageProducts } from "./Layout/PageProducts/PageProducts";
-
+import { PageProducts, IsMobile } from "./Layout/PageProducts/PageProducts";
+import { TopBar } from "./Components/TopBar/TopBar";
+import { BottomNav } from "./Components/BottomNav/BottomNav";
 export function App() {
     const { authenticateUser } = useRegisterStore();
     const { openChild, currentChild, back_color, blur } = useAppStore();
@@ -23,6 +24,14 @@ export function App() {
         window.addEventListener('blur', () => {
             openChild(undefined)
         })
+        // window.addEventListener('resize', () => {
+        //     document.body.style.width = `${window.innerWidth}px`
+        //     document.body.style.height = `${window.innerHeight}px`
+        // })
+        // document.body.style.width = `${window.innerWidth}px`;
+        // document.body.style.height = `${window.innerHeight}px`;
+
+    
         // if (WorldManager.worldManager) return;
         // const w = document.getElementById('world')!
         // root.prepend(w);
@@ -59,10 +68,10 @@ export function App() {
             </div>
         </div>
         }
-
-        <div ref={ref} className="app-ctn" style={{ filter: blur ? 'blur(10px)' : '' }}>
+        <TopBar/>
+        <div ref={ref} className="app-ctn" style={{ filter: blur ? 'blur(10px)' : '', height: `calc(100% - var(--bottom-nav-height) - ${IsMobile == 'mobile-device' ?(window.screen.height - window.innerHeight):0}px)` }}>
            <PageProducts/>
-           {/* <DetailProduct/> */}
         </div>
+        <BottomNav/>
     </div>)
 }

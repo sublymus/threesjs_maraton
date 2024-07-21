@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { ProductScenus } from '../../../DataBase';
 import { cardHorizontalCenter } from '../../../Tools/CardPosition';
 import { getImg } from '../../../Tools/StringFormater';
-import { NoteStars } from '../NoteStars/NoteStars';
 import './ProductCard.css'
 
 export function ProductCard({ product, active, onClick }: { onClick: () => any, active: boolean, product: ProductScenus }) {
@@ -27,15 +26,24 @@ export function ProductCard({ product, active, onClick }: { onClick: () => any, 
                         ))
                     }
                 </div>
-                <div className="name">{product.title}</div>
-                <div className="stars">
-                    {product.note && <NoteStars note={product.note.star} />}
-                    <div className="value">{product.note?.votes} <span></span></div>
-                </div>
+               
+               
                 <div className="price">
                     <div className="value">12450.93 $</div>
                 </div>
-                <div className="add-btn">
+                <h3 className="name limit-text"><span className='product-title'>{product.title}</span> <span className='slash'>/</span> <span>{product.description}</span></h3>
+                <div className="stars">
+                   <div className={"star "+(product.note?.star?'':'vide')}></div>
+                   <div className="note">{product.note?.star}</div>
+                   <div className="point"></div>
+                   <div className="vote">{product.note?.votes}</div>
+                   <div className="users"></div>
+                   {!product.note?.star && <div className="new">New</div>}
+                </div>
+                <div className="add-btn" onClick={(e)=>{
+                    e.preventDefault()
+                    e.stopPropagation()
+                }}>
                     <div className="btn">Add <span> to cart</span></div>
                 </div>
             </div>
