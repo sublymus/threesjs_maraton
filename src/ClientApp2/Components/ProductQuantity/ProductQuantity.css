@@ -1,0 +1,32 @@
+.cart-quantity {
+    display: flex;
+    align-items: center;
+}
+.cart-quantity .min:hover,.cart-quantity .max:hover {
+    opacity: 0.8;
+}
+.cart-quantity .min,.cart-quantity .max {
+    min-width: 32px;
+    min-height: 32px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgb(var(--impact-var), 0.2);
+}
+.cart-quantity .min span,.cart-quantity .max span {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    background: no-repeat center/80% url(/src/res/plus.png);
+}
+.cart-quantity .min.bloc,.cart-quantity .max.bloc {
+    background: rgb(var(--discret-var), 0.5);
+}
+.cart-quantity .min span {
+    background: no-repeat center/80% url(/src/res/minus.png);
+}
+.cart-quantity .count {
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+}

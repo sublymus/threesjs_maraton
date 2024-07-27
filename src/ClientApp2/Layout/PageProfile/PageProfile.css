@@ -1,0 +1,299 @@
+.page-profile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+/* CTN */
+
+.page-profile .ctn {
+    width: 100%;
+    /* height: 100%; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.page-profile .ctn .title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    /* background: #345; */
+}
+
+
+.page-profile .ctn .title h1 {
+    margin: auto;
+    transform: translateX(-35px);
+}
+
+.page-profile .ctn .title .option-nav {
+    height: 30px;
+    display: none;
+    width: 30px;
+    margin: 0 20px;
+    background: no-repeat center/80% url(/src/res/align-left.png);
+
+}
+
+/* NAV */
+.page-profile .nav {
+    min-width: 280px;
+    max-width: 450px;
+    width: 35%;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: rgba(var(--discret-var), 0.3) 0px 0px 10px;
+}
+
+.page-profile .nav-ctn {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    padding: 0 20px;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: var(--back-item);
+    box-shadow: rgba(var(--discret-var), 0.3) 0px 0px 10px;
+}
+
+.page-profile .nav-ctn .top {
+    width: 100%;
+    min-height: 200px;
+    position: relative;
+}
+
+.page-profile .nav-ctn .top .close {
+    width: 32px;
+    height: 32px;
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+}
+
+.page-profile .nav-ctn .top .login .icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 20px;
+    background: no-repeat center/80% url(/src/res/google2.png);
+}
+
+/* .page-profile .nav-ctn .top .login span{
+
+} */
+.page-profile .nav-ctn .top .login {
+    width: 100%;
+    min-height: 80px;
+    margin-top: 50px;
+    border-radius: 20px;
+    display: flex;
+    /* color: var(--impact-color); */
+    align-items: center;
+    box-shadow: rgba(var(--discret-var), 0.3) 0px 0px 10px;
+    /* background:  rgba(var(--impact-var), 0.5) ; */
+}
+
+.page-profile .nav-ctn .cover-image {
+    width: 100%;
+    height: 110px;
+    position: absolute;
+    z-index: 0;
+    /* background: #345; */
+}
+
+.page-profile .nav-ctn .photo {
+    width: 150px;
+    height: 150px;
+    top: calc(50% - 75px);
+    left: calc(50% - 75px);
+    border-radius: 100%;
+    position: absolute;
+}
+
+.page-profile .nav-ctn .name {
+    margin-bottom: 10px;
+}
+
+.page-profile .nav-ctn .email {
+    margin-bottom: 10px;
+    color: var(--contrast);
+    min-height: 35px;
+    padding: 7px 20px;
+    max-width: 100%;
+    background: rgba(var(--discret-var), 0.2);
+    border-radius: 20px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.page-profile .nav-ctn ul {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.page-profile .nav-ctn li.active {
+    background: rgba(var(--contrast-var), 0.2);
+    transition: 200ms;
+}
+
+.page-profile .nav-ctn li:hover {
+    background: rgba(var(--contrast-var), 0.2);
+    transition: 200ms;
+}
+
+.page-profile .nav-ctn li.hide {
+    display: none;
+}
+
+.page-profile .nav-ctn li {
+    all: unset;
+    display: inline-flex;
+    width: 100%;
+    margin: 5px 0px;
+    min-height: 50px;
+    align-items: center;
+    text-transform: capitalize;
+    transition: 200ms;
+    color: var(--contrast);
+    background: rgba(var(--contrast-var), 0.03);
+    border-radius: 10px;
+
+    /* background: var(--background); */
+    /* box-shadow: rgba(var(--discret-var), 0.3) 0px 0px 10px; */
+}
+
+
+.page-profile .nav-ctn span {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+.page-profile .nav-ctn .next {
+    margin-left: auto;
+    rotate: -90deg;
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+}
+
+.page-profile .nav-ctn li.edit span.icon {
+    background: no-repeat center/80% url(/src/res/edit.png);
+}
+
+.page-profile .nav-ctn li.command span.icon {
+    background: no-repeat center/80% url(/src/res/order-empty.png);
+}
+
+.page-profile .nav-ctn li.messages span.icon {
+    background: no-repeat center/80% url(/src/res/message-circle-more.png);
+}
+
+.page-profile .nav-ctn li.setting span.icon {
+    background: no-repeat center/80% url(/src/res/settings.png);
+}
+
+.page-profile .nav-ctn li.language span.icon {
+    background: no-repeat center/80% url(/src/res/globe.png);
+}
+
+.page-profile .nav-ctn li.about span.icon {
+    background: no-repeat center/80% url(/src/res/circle-help2.png);
+}
+
+.page-profile .nav-ctn .disconnect:hover{
+    background: rgba(var(--error-var), 0.12);
+    cursor: pointer;
+}
+.page-profile .nav-ctn .disconnect {
+    all: unset;
+    display: inline-flex;
+    width: 100%;
+    margin: 5px 0px;
+    min-height: 50px;
+    color: var(--error);
+    background: rgba(var(--error-var), 0.08);
+    border-radius: 10px;
+    margin: 20px 0;
+    align-items: center;
+    text-transform: capitalize;
+    /* background: var(--background); */
+    /* box-shadow: rgba(var(--discret-var), 0.3) 0px 0px 10px; */
+}
+
+.page-profile .nav-ctn .disconnect .icon {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    background: no-repeat center/80% url(/src/res/log-out.png);
+}
+
+
+
+
+
+@media (width < 935px) {
+
+    .page-profile .nav-ctn .top .close {
+        display: block;
+        z-index: 1;
+    }
+
+    .page-profile .nav,
+    .page-profile .nav.open {
+        visibility: visible;
+    }
+
+    .page-profile .nav.close {
+        visibility: hidden;
+    }
+
+    .page-profile .nav .nav-ctn,
+    .page-profile .nav.open .nav-ctn {
+        transform: translateX(0px);
+        transition: 300ms;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .page-profile .nav.close .nav-ctn {
+        opacity: 0;
+        transform: translateX(-450px);
+        visibility: hidden;
+        transition: 300ms;
+    }
+
+    .page-profile .nav {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100vh;
+        max-width: initial;
+        min-width: initial;
+        background: rgba(var(--discret-var), 0.3);
+    }
+
+    .page-profile .nav-ctn {
+        max-width: 450px;
+    padding-bottom: 200px;
+    }
+
+
+    .page-profile .ctn .title .option-nav {
+        display: block;
+    }
+}
+
+@media (width < 550px) {
+    .page-profile .nav-ctn {
+        max-width: initial;
+        width: 100%;
+    }
+}

@@ -5,6 +5,10 @@ import { useAppRouter, useAppStore } from './AppStore'
 import { PageProducts, IsMobile } from "./Layout/PageProducts/PageProducts";
 import { TopBar } from "./Components/TopBar/TopBar";
 import { BottomNav } from "./Components/BottomNav/BottomNav";
+import { PageCategories } from "./Layout/PageCategories/PageCategories";
+import { PageFavorites } from "./Layout/PageFavorites/PageFavorites";
+import { PageCart } from "./Layout/PageCart/PageCart";
+import { PageProfile } from "./Layout/PageProfile/PageProfile";
 export function App() {
     const { authenticateUser } = useRegisterStore();
     const { openChild, currentChild, back_color, blur } = useAppStore();
@@ -71,6 +75,10 @@ export function App() {
         <TopBar/>
         <div ref={ref} className="app-ctn" style={{ filter: blur ? 'blur(10px)' : '', height: `calc(100% - var(--bottom-nav-height) - ${IsMobile == 'mobile-device' ?(window.screen.height - window.innerHeight):0}px)` }}>
            <PageProducts/>
+           <PageCategories/>
+           <PageFavorites/>
+           <PageCart/>
+           <PageProfile/>
         </div>
         <BottomNav/>
     </div>)

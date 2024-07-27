@@ -1,21 +1,46 @@
 import { SRouter } from "../Tools/SRouter";
 export const DefaultImage = '/src/res/photo2.png';
 
+export const appNavs = [{
+    u: 'products',
+    n: 'Home',
+    i: '/src/res/application.png'
+}, {
+    u: 'categories',
+    n: 'Categories',
+    i: '/src/res/catalog.png'
+}, {
+    u: 'favorites',
+    n: 'Favorites',
+    i: '/src/res/shopping-cart.png'
+}, {
+    u: 'cart',
+    n: 'Cart',
+    i: '/src/res/chat.png'
+}, {
+    u: 'profile',
+    n: 'Prolife',
+    i: '/src/res/chat.png'
+}
+]
+
 const Pages = {
     '/': {
         loading: {},
-        products: {
-            detail: {
-                comments: {},
-                images: {}
+        products: {//ok  : `categoires_filter`
+            detail: {//ok
+                comments: {},//ok
+                images: {}//ok
             },
         },
         categories: {},
         favorites: {},
-        cart: {},
-        payment: {},
-        command: {},
-        profile: {}
+        cart: {//ok
+            payment: {}//
+        },
+        profile: { // --
+            command: {} //--
+        }
     }
 }
 

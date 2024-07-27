@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    /* font-weight: bold; */
+    font-weight: bold;
     filter: invert(0%);
     /* color: var(--text-color-annex); */
     border-radius: 10px;
@@ -88,6 +88,7 @@
     display: flex;
     justify-content: center;
     width: 50px;
+    cursor: pointer;
     margin-right: 20px;
     /* margin-right: 50px; */
 }
@@ -105,6 +106,7 @@
 
 .more-navs ul li {
     padding: 5px;
+    /* margin: 5px; */
 }
 
 .more-navs ul {
@@ -112,15 +114,16 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 230px;
-    padding: 15px 0;
+    /* width: 230px; */
+    padding: 15px 10px;
     max-width: 260px;
     margin-top: 10px;
     z-index: 1;
     top: 40px;
     right: 0px;
-    background: rgba(15, 14, 71, 0.3);
-    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset;
+    background: rgba(var(--contrast-var), 0.3);
+    color: var(--contrast-color);
+    /* box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 0.5px inset; */
     backdrop-filter: blur(40px) brightness(80%) saturate(150%);
     border-radius: 20px;
     visibility: visible;
@@ -151,9 +154,11 @@
     margin-left: 20px;
     border: 1px #bbbbbb solid;
     box-shadow: 0px 0px 10px #fff9;
+    cursor: pointer;
 }
 
 .top-bar .login {
+    cursor: pointer;
     min-width: 100px;
     border-radius: 100%;
     text-decoration: underline;
@@ -168,6 +173,12 @@
 @media (width < 400px) {
     .top-bar-ctn {
         height: 50px;
+    }
+    .top-bar .ctn-icon{
+        margin: 0px;
+    }
+    .top-bar .left .logo-ctn{
+        min-width: 75px;
     }
 }
 

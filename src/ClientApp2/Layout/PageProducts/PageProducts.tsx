@@ -26,16 +26,19 @@ const FilterBindJSON = (a: any, b: any) => {
             a[key] = b[key]
         }
     }
+    delete a.product_id
     return diff
 }
 // let differ = 0;
 export function PageProducts() {
-    const { json, qs, check } = useAppRouter()
+    const { json, qs, check, pathList } = useAppRouter()
     const { products, fetchProducts, selectProduct, product } = useProductStore();
     const { store } = useRegisterStore();
     const [filter, setFilter] = useState({
         order_by: 'date_desc',
         category_id: '',
+        limit:4,
+        add_cart:true,
         price_min: undefined, price_max: undefined,
         text: '' as string | undefined,
         product_id: '' as string | undefined
@@ -58,7 +61,7 @@ export function PageProducts() {
                 }
             }
         })
-    }, [filter, store])
+    }, [filter, store,pathList])
 
     useEffect(() => {
         /* on recupere les categories */
@@ -66,8 +69,6 @@ export function PageProducts() {
             limit: 25,
             no_save: true,
         }).then((list) => {
-            console.log(list);
-
             if (list?.list) {
                 setCategories(list)
             }
@@ -94,7 +95,8 @@ export function PageProducts() {
    
     s.product = product
     s.products = products
-    const [text, setText] = useState('')
+
+    const [_text, setText] = useState('')
     useEffect(()=>{
         window.addEventListener('resize',()=>{
           
@@ -102,6 +104,7 @@ export function PageProducts() {
         })
         setText(`${window.innerWidth} / ${window.innerHeight} / ${window.devicePixelRatio}  => ${IsMobile}`)
     },[])
+   
     return check('products') && (
         <div className='page-products'>
             <div className={"left " +  (isFilterOpen ? 'open' : '') + ' ' + (check('detail') && product ? 'product-detail' : '')} onClick={() => {
@@ -150,7 +153,7 @@ export function PageProducts() {
                             });
                         }}></div>
                     </label>
-                    <div style={{ position:'absolute'}}> {text}</div>
+                    {/* <div style={{ position:'absolute'}}> {text}</div> */}
                     <div className="search-text">{filter.text && <>Search result for "<span>{filter.text}</span>"</>}</div>
                     <div className="sort" >
                         <div className="label"onClick={() => {
@@ -170,11 +173,11 @@ export function PageProducts() {
                 <div className="list">
                     {
                         products?.list.map((p) => (
-                            <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
+                            <ProductCard canAddToCart={p.title.includes('321')} key={p.id} product={p} active={product?.id == p.id} onClick={() => {
 
-                                selectProduct(p)
+                                selectProduct({...p})
                                 qs({ ...json, product_id: p.id }).setAbsPath(['products', 'detail'])
-                            }} />
+                            }}/>
                         ))
                     }
                 </div>

@@ -4,8 +4,6 @@ import './DetailProduct.css'
 import { useProductStore } from './ProductStore';
 import { toFilter } from '../../../Tools/FilterColor'
 import { CommandInterface, Feature, ListType, ProductCommentInterface, ProductInterface } from '../../../DataBase';
-import { ProductCard } from '../../Components/ProductCard/ProductCard';
-import { useRegisterStore } from '../PageRegister/RegisterStore';
 import { ProductComment } from "../../Components/ProductComment/ProductComment";
 import { NoteStars } from "../../Components/NoteStars/NoteStars";
 import { cardHorizontalCenter } from "../../../Tools/CardPosition";
@@ -13,8 +11,11 @@ import { AddHorizontalScrollIcon } from "../../../Tools/ScrollTools";
 import { PageComments } from "./PageComments";
 import { useCommentStore } from './CommentStore';
 import { PageImage } from "./PageImage";
-import { useAppRouter, useAppStore } from '../../AppStore';
-import { PageAuth } from '../PageRegister/PageAuth';
+import { useAppRouter } from '../../AppStore';
+import { Visites } from "../../Components/Visites/Visites";
+import { MoreProduct } from "../../Components/MoreProduct/MoreProduct";
+import { ProductQuantity } from '../../Components/ProductQuantity/ProductQuantity';
+import { useCommandStore } from '../PageCommand/CommandStore';
 const images = {
     more: true,
     list: [
@@ -30,16 +31,14 @@ let imageIndex: ((index: number) => void) | undefined;
 export function DetailProduct() {
 
     const { json, qs, check, current } = useAppRouter()
-    const { setProductById, product, fetchProducts, fetchVisites, visites, selectProduct } = useProductStore()
+    const { setProductById, product, selectProduct,products, fetchProducts, setProducts } = useProductStore()
     const { fetchProductComments, setLastPage } = useCommentStore()
-    const { user } = useRegisterStore()
-    const { openChild } = useAppStore();
+    const { addProductToCart } = useCommandStore()
+   
     const infoRef = useRef<HTMLDivElement>(null);
     const diffRef = useRef<HTMLDivElement>(null);
     const detailRef = useRef<HTMLDivElement>(null);
 
-
-    const [moreProducts, setMoreProducts] = useState<ListType<ProductInterface>>()
     const [minText, setMinText] = useState(true);
     const [index, setIndex] = useState(0);
     const [readDescription, setReadDescription] = useState(false);
@@ -47,10 +46,11 @@ export function DetailProduct() {
 
     const [commentCanUp, setCommentCanUp] = useState(false);
     const [userComment/* , setCanWrite */] = useState<ProductCommentInterface>();
+    
     const [userCommand/* , setCanWrite */] = useState<CommandInterface>({
         payment_id: 'lol'
     } as any);
-   
+
     const [commentRef, setCommentRef] = useState<HTMLElement | null>(null)
 
     const [comments, setComments] = useState<ListType<ProductCommentInterface>>();
@@ -66,34 +66,28 @@ export function DetailProduct() {
     useEffect(() => {
 
         if (product && check('detail')) {
-            fetchProducts({
-                no_save: true,
-                category_id: product.category_id
-            }).then((ps) => {
-                if (ps?.list) {
-                    setMoreProducts(ps)
-                }
-            });
-            fetchProductComments({
-                product_id: product.id,
-                no_save: true,
-            }).then((list) => {
-                return setComments(list)
-            })
-            detailRef.current && (detailRef.current.scrollTop = 0)
+            // detailRef.current && (detailRef.current.scrollTop = 0)
             setReadDescription(false);
             setIndex(0)
             imageIndex?.(0);
             qs().keepJson().setAbsPath(['products', 'detail'])
         }
     }, [product])
-    useEffect(() => {
-        !visites && user && fetchVisites({
-            limit: 10,
-        });
-    }, [user, product])
-    console.log(product);
     
+    useEffect(() => {
+        if (product && check('detail')) {
+            console.log('new Comments fech');
+            
+            fetchProductComments({
+                product_id: product.id,
+                no_save: true,
+                limit:4
+            }).then((list) => {
+                return setComments(list)
+            })
+        }
+    }, [ product]);
+
     useEffect(() => {
         if (commentRef) {
             if (commentRef.dataset.init) return;
@@ -107,12 +101,27 @@ export function DetailProduct() {
             })
         }
     }, [commentRef])
-
+    const refreshProducts = ()=>{
+        product && fetchProducts({
+            add_cart:true,
+            product_id:product.id,
+            no_save:true
+        }).then((p)=>{
+            if(p?.list[0].id){
+                const newP = {...p?.list[0]};
+                products && setProducts({
+                    ...products,
+                    list:products?.list.map((l=>l.id==p?.list[0].id?newP:l))
+                })
+                product?.id == p?.list[0].id && (selectProduct(newP))
+            }
+        })
+    }
     return product && (
         <div className={"detail-product " + (product ? 'open' : '')} >
             {product && <PageComments userComment={userComment} userCommand={userCommand} setRef={setCommentRef} product={product} />}
             {product && <PageImage product={product} />}
-            <section className={'detail ' + ((current('products')||current('detail')) ? 'open' : 'close')} ref={detailRef}>
+            <section className={'detail ' + ((current('products') || current('detail')) ? 'open' : 'close')} ref={detailRef}>
                 <div className="top-top _flex">
                     <div className="return" ref={ref => {
                         if (!ref) return;
@@ -266,33 +275,9 @@ export function DetailProduct() {
                             </div>
                         </div>
                     </div>
-                    <div className="visites">
-                        <div className='title'>Products Visited<span></span></div>
-                        <div className="list" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
-                            {!user && (
-                                <div style={{ cursor:'pointer',textDecoration:'underline'}} onClick={()=>openChild(<PageAuth/>, true,/* background 80% */ '#fffc')}>Connexion required</div>
-                            )}
-                            {
-                                visites?.list.map((p) => (
-                                    <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
-                                        selectProduct(p)
-                                    }} />
-                                ))
-                            }
-                        </div>
-                    </div>
-                    <div className="more-products">
-                        <div className='title more'>More Products<span></span></div>
-                        <div className="list" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
-                            {
-                                moreProducts?.list.map((p) => (
-                                    <ProductCard key={p.id} product={p} active={product?.id == p.id} onClick={() => {
-                                        selectProduct(p)
-                                    }} />
-                                ))
-                            }
-                        </div>
-                    </div>
+                    <Visites />
+                    <MoreProduct />
+
                 </div>
             </section>
             {
@@ -302,7 +287,18 @@ export function DetailProduct() {
                             <div>Price</div>
                             <div className="value">{product?.price || 0} $</div>
                         </div>
-                        <div className="add-to-cart">Add to cart</div>
+                        {(
+                            product.quantity != undefined &&
+                            product.quantity != null &&
+                            parseInt(product.quantity + '') != 0 &&
+                            product.quantity.toString() != '0') ? <ProductQuantity canNull product={product} onChange={() => {
+                                refreshProducts()
+                            }} /> : <div className="add-to-cart" onClick={() =>
+                                addProductToCart({ product_id: product.id , quantity:1 }).then((c) => {
+                                    if (c?.id) {
+                                        refreshProducts()
+                                    }
+                                })}>Add <span> to cart</span></div>}
                     </div>
                 </div>
             }

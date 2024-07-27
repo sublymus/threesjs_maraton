@@ -1,0 +1,39 @@
+.comp-visites {
+    background: var(--back-item);
+    width: 100%;
+    padding-top: 0;
+}
+.comp-visites.h{
+    padding: 20px;
+}
+
+
+.comp-visites.v .list {
+    width: 100%;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0px;
+}
+
+.comp-visites.h .list {
+    width: 100%;
+    padding: 10px 20px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* margin:  20px 0; */
+}
+
+.comp-visites .list::-webkit-scrollbar {
+    display: none;
+}
+
+.comp-visites.v .list .product-card{
+    width: 45vw;
+    margin:7px  0px;
+    max-width: 200px;
+    min-height: 220px;
+    min-width: initial;
+}

@@ -117,7 +117,7 @@ export class SRouter<T extends PageType = PageType>{
 
         this.store = create<UnUseAppState<T>>((set) => ({
             Pages: pages,
-            json: {},
+            json: undefined,
             navHistory: [],
             pathList: self.defaultPath || ['/'] as any,
             current(...path) {
@@ -141,7 +141,7 @@ export class SRouter<T extends PageType = PageType>{
                 return;
             },
             qs(json) {
-                _qs = json;
+                _qs = Object.keys(json||{}).length > 0 ? json : undefined ;
                 return {
                     ...self.store.getState(),
                     apply() {
@@ -219,6 +219,7 @@ export class SRouter<T extends PageType = PageType>{
     navHistoryUpdate(pathList: string[], cancel?: boolean) {
 
         console.log('navHistoryUpdate');
+        _qs = Object.keys(_qs||{}).length > 0 ? _qs : undefined
         let path = pathList.join('/').replace('//', '');
         try {
             if (_qs) path += '=' + JSON.stringify(_qs);

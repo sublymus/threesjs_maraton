@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react'
 import './BottomNav.css'
-
+import { appNavs, useAppRouter } from '../../AppStore'
 
 export function BottomNav() {
-    
-    const [text, setText] = useState('')
-    useEffect(()=>{
-        window.addEventListener('resize',()=>{
-            setText(`${window.innerWidth} / ${window.innerHeight}`)
-        })
-        setText(`${window.innerWidth} / ${window.innerHeight} / ${window.devicePixelRatio} `)
-    },[])
+    const { check , setAbsPath } = useAppRouter()
     return <div className="bottom-nav">
-    <ul>
-        <li className='home'>home</li>
-        <li className='categories'>categories</li>
-        <li className='favorites'>favorites</li>
-        <li className='cart'>cart</li>
-        <li className='profile'>profile</li>
-        {text}
-    </ul>
-</div>
-}
+        <ul>
+            {
+                appNavs.map((d, i) => (
+                    
+                        <li key={i} className={d.u + ' '+ (check(d.u as any) ? 'active' : '')} onClick={() => setAbsPath([d.u as any])}><span className='label'>{d.n}</span><span className={'icon '+d.u}></span></li>
+                ))
+            }
+        </ul>
+    </div>
+} 

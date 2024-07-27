@@ -21,6 +21,7 @@ export interface CategoryInterface {
 export interface CommandInterface {
     id: string,
     status: string,
+    collected_features?:Record<string, any>
     created_at: string,
     updated_at: string,
     quantity: number,
@@ -29,6 +30,7 @@ export interface CommandInterface {
     payment_id: string | null,
     images: string[],
     title: string,
+    description:string,
     stock: number,
     product_id: string
 }
@@ -274,6 +276,7 @@ export interface ProductInterface {
     scene_dir: string,
     features: ListType<Feature>
     created_at: string;
+    quantity?:number;
     note?: {
         note: number,
         votes: number,

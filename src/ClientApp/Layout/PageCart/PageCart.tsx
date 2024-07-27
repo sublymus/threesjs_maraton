@@ -12,7 +12,7 @@ export function PageCart() {
     const { store, user } = useRegisterStore()
     useEffect(() => {
         store && fetchCarts({})
-    }, [store])
+    }, [user])
 
     let i = 0;
     carts?.list?.forEach((c) => i += Number(c.quantity));

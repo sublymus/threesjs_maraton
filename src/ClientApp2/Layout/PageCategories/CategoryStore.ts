@@ -38,7 +38,7 @@ export const useCategoryStore = create<CategoryState>((set)=>({
         if (!filter?.no_save) {
             set(() => ({ categories }))
         }
-        console.log(categories);
+        // console.log(categories);
         
         return {
             ...categories,

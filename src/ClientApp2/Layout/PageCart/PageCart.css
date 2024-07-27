@@ -1,0 +1,393 @@
+.page-cart {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-cart .top-cart {
+    width: 100%;
+    min-height: 40px;
+}
+
+.page-cart .top-cart .label {
+    font-weight: bold;
+    font-size: 1.6em;
+    transform: translateX(-17px);
+}
+
+.page-cart .top-cart .return {
+    width: 30px;
+    height: 30px;
+    background: no-repeat center/80% url(/src/res/arrow-left.png);
+    margin: 0 20px;
+}
+
+.page-cart .cart-ctn {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    max-width: 1500px;
+}
+
+/* Select All */
+.page-cart .select-all{
+    background: var(--back-item);
+    padding:10px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.page-cart .select-all .btn.select{
+    background: rgb(var(--discret-var), 0.2);
+    color: var(--discret);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.page-cart .select-all .btn{
+    display: inline-block;
+    color: var(--impact-color);
+    background: var(--impact);
+    padding: 7px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.page-cart .select-all .my-command{
+    display: flex;
+}
+.page-cart .select-all .my-command span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    rotate: -90deg;
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+}
+
+/* Item */
+.page-cart .cart-ctn .items {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* GO TO CHECKOUT */
+.page-cart .go-to-checkout {
+    background: var(--back-item);
+    width: 100%;
+    padding: 10px;
+    margin: 15px;
+    border-radius: 20px;
+    box-shadow: rgb(var(--discret-var), 0.2) 0px 0px 10px;
+}
+
+.page-cart .go-to-checkout .title:hover {
+    opacity: 0.9;
+}
+
+.page-cart .go-to-checkout .title {
+    width: 100%;
+    background: var(--variant-claire);
+    color: var(--impact-color);
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.page-cart .go-to-checkout p {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.page-cart .go-to-checkout .infos {
+    width: 100%;
+    border-bottom: rgb(var(--discret-var), 0.5) solid 1px;
+    border-top: rgb(var(--discret-var), 0.5) solid 1px;
+    margin: 20px 0;
+    padding: 10px 0;
+}
+
+
+.page-cart .go-to-checkout .infos>div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+}
+
+
+.page-cart .go-to-checkout .infos .count .val {
+    color: var(--discret);
+}
+
+.page-cart .go-to-checkout .infos .initial-price {
+    font-weight: bold;
+}
+
+.page-cart .go-to-checkout .infos .initial-price {
+    font-weight: bold;
+}
+
+.page-cart .go-to-checkout .infos .detail:hover {
+    opacity: 0.8;
+}
+
+.page-cart .go-to-checkout .infos .detail {
+    color: var(--contrast);
+    font-weight: bold;
+    display: flex;
+    cursor: pointer;
+}
+
+.page-cart .go-to-checkout .infos .detail span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: no-repeat center / 80% url(/src/res/chevron-down.png);
+}
+
+.page-cart .go-to-checkout .infos .discount {
+    color: var(--error);
+    font-weight: bold;
+}
+
+.page-cart .go-to-checkout .total {
+    margin-left: auto;
+}
+
+@media (width > 1100px) {
+    .page-cart .cart-ctn {
+        flex-wrap: nowrap;
+    }
+
+    .page-cart .go-to-checkout {
+        max-width: 400px;
+    }
+}
+
+.page-cart .page-auth{
+    position: initial;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Cart - Item  */
+.page-cart .cart-ctn .cart-item {
+    width: 100%;
+    /* height: 200px; */
+    background: #fff;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: rgb(var(--discret-var), 0.2) 0px 0px 10px;
+}
+
+.page-cart .cart-ctn .cart-item .infos {
+    display: flex;
+    width: 100%;
+}
+
+.page-cart .cart-ctn .cart-item .image {
+    min-width: 90px;
+    height: 90px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.page-cart .cart-ctn .cart-item .info-right {
+    width: calc(100% - 90px);
+    width: 100%;
+    /* height: ; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .top {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .name {
+    padding: 2px;
+    width: 200px;
+    overflow: hidden;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--discret);
+}
+
+@media (width< 340px) {
+
+    .page-cart .cart-ctn .cart-item .info-right .name {
+        width: 175px;
+        overflow: hidden;
+    }
+
+    .page-cart .cart-ctn .cart-item .info-right .quantity {
+        margin-right: 10px;
+    }
+}
+
+.page-cart .cart-ctn .cart-item .info-right .name .product-title {
+    font-weight: 600;
+    color: var(--item-color);
+}
+
+.page-cart .cart-ctn .cart-item .info-right .features {
+    font-size: 0.9em;
+    /* font-weight: 600; */
+    color: var(--discret);
+    margin: 5px 0px;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .features .k {
+    margin-right: 3px;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .features .v {
+    margin-left: 7px;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .all-features {
+    margin: 5px 0px;
+    color: var(--impact);
+    display: flex;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .all-features span {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    display: inline-block;
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+}
+
+
+.page-cart .cart-ctn .cart-item .info-right .price {
+    display: flex;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .price .current {
+    color: var(--impact);
+    font-weight: bold;
+}
+
+.page-cart .cart-ctn .cart-item .info-right .price .initial-price {
+    color: var(--discret);
+    font-size: 0.9em;
+    margin-left: 10px;
+    text-decoration: line-through;
+}
+
+
+.page-cart .cart-ctn .cart-item .btm {
+    display: flex;
+}
+
+.page-cart .cart-ctn .cart-item .btm .options {
+    display: flex;
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div:hover {
+    background: rgb(var(--discret-var), 0.3);
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div {
+    width: 32px;
+    height: 32px;
+    background: rgb(var(--discret-var), 0.1);
+    border-radius: 5px;
+    margin: 10px 0px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.page-cart .cart-ctn .cart-item .btm {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div span {
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div.to-favorites span {
+    background: no-repeat center/50% url(/src/res/love-fill.png);
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div.delete span {
+    background: no-repeat center/50% url(/src/res/trash.png);
+}
+
+.page-cart .cart-ctn .cart-item .btm .options>div.share span {
+    background: no-repeat center/50% url(/src/res/reply.png);
+    transform: scaleX(-1);
+}
+
+.page-cart .cart-ctn .cart-item .btm .check-box:hover {
+    background: rgb(var(--discret-var), 0.4);
+}
+
+.page-cart .cart-ctn .cart-item .btm .check-box {
+    min-width: 100px;
+    padding: 0 10px;
+    height: 32px;
+    background: rgb(var(--discret-var), 0.2);
+    color: var(--discret);
+    cursor: pointer;
+    margin-left: auto;
+    border-radius: 5px;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.page-cart .cart-ctn .cart-item .btm .check-box.selected {
+
+    background: var(--impact);
+    color: var(--impact-color);
+}

@@ -1,0 +1,148 @@
+.page-edit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+
+.page-edit .photo {
+    position: relative;
+    min-width: 260px;
+    height: 260px;
+    background: #345;
+    margin: 0 40px;
+    margin-bottom: 40px;
+    border-radius: 100%;
+}
+.page-edit .photo >div:hover{
+    background: rgba(var(--contrast-var), 0.2);
+}
+.page-edit .photo >div {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    bottom: 10px;
+    right:  10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: rgba(var(--contrast-var), 0.1);
+} 
+.page-edit .new-photo{
+    width: 32px;
+    cursor: pointer;
+    height: 32px;
+    background: no-repeat center/80% url(/src/res/write.png);
+}
+
+.page-edit .infos {
+    width: 100%;
+    padding: 20px;
+}
+
+.page-edit label[class^='edit-'] {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.page-edit label .prompt {
+    position: absolute;
+    text-transform: capitalize;
+    top: -25px;
+}
+
+.page-edit label[class^='edit-'] .icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+}
+
+.page-edit label[class^='edit-'] .send:active {
+    scale: 1.2;
+}
+
+.page-edit label[class^='edit-'] .send {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/50% url(/src/res/send.png);
+    opacity: 0.5;
+    right: 0;
+}
+
+.page-edit label[class^='edit-'] input {
+    all: unset;
+    height: 40px;
+    width: 100%;
+    padding-left: 42px;
+    padding-right: 42px;
+    background: var(--back-item);
+    border: none;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: var(--color);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.page-edit label[class^='edit-'] input:focus {
+    outline: none;
+    padding-left: 60px;
+    box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;
+    background: rgba(var(--impact-var), 0.1);
+}
+
+
+.page-edit label.edit-email .icon {
+    background: no-repeat center/60% url(/src/res/email.png);
+}
+.page-edit label.edit-name .icon {
+    background: no-repeat center/70% url(/src/res/user-empty.png);
+}
+
+.page-edit label.edit-phone .icon {
+    background: no-repeat center/60% url(/src/res/phone.png);
+}
+
+.page-edit label.edit-address .icon {
+    background: no-repeat center/60% url(/src/res/map-pin.png);
+}
+
+.page-edit label.edit-date .icon {
+    background: no-repeat center/60% url(/src/res/date-empty.png);
+}
+
+.page-edit label.edit-devise .icon {
+    background: no-repeat center/60% url(/src/res/wallet.png);
+}
+
+@media (width< 600px) {
+    .page-edit {
+        flex-wrap: wrap;
+    }
+}
+@media (600px < width< 800px ) {
+    .page-edit .photo{ 
+        min-width: 200px;
+        height: 200px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+@media (width< 480px) {
+    .page-edit .photo{ 
+        min-width: 200px;
+        height: 200px;
+    }
+}

@@ -1,34 +1,13 @@
 import { useEffect, useState } from 'react'
 import './TopBar.css'
-import { useAppRouter } from '../../AppStore';
+import { appNavs, useAppRouter } from '../../AppStore';
 import { Host } from '../../../Config';
 import { useWindowSize } from '../../../Hooks';
 import { getImg } from '../../../Tools/StringFormater';
 import { bindTopToParentScroll } from '../../../Tools/BindToParentScroll';
-import { disableNotifications } from '../../../Tools/Notification';
 import { useRegisterStore } from "../../Layout/PageRegister/RegisterStore";
-const navs = [{
-    u: 'products',
-    n: 'Home',
-    i: '/src/res/application.png'
-}, {
-    u: 'categories',
-    n: 'Categories',
-    i: '/src/res/catalog.png'
-}, {
-    u: 'favorites',
-    n: 'Favorites',
-    i: '/src/res/shopping-cart.png'
-}, {
-    u: 'cart',
-    n: 'Cart',
-    i: '/src/res/chat.png'
-}, {
-    u: 'profile',
-    n: 'Prolife',
-    i: '/src/res/chat.png'
-}
-]
+import { toFilter } from '../../../Tools/FilterColor';
+
 
 export function Footer() {
 
@@ -37,7 +16,7 @@ export function Footer() {
         <footer className="footer">
             <ul className='links'>
                 {
-                    navs.map((d, i) => (
+                    appNavs.map((d, i) => (
                         <li key={i} style={{ pointerEvents: 'initial' }} onClick={() => setAbsPath([d.u as any])}>
                             <span style={{ background: getImg(d.i, '60%') }}></span>{d.n}
                         </li>
@@ -93,7 +72,7 @@ export function TopBar() {
                 </div>
                 <ul className='top-bar-center'>
                     {
-                        navs.map((d, i) => i * 150 < size.width - 400 ? (
+                        appNavs.map((d, i) => i * 150 < size.width - 400 ? (
                             <li key={i} className={active == d.u ? 'active' : ''} onClick={() => {
                                 update(d.u);
                             }}><span></span>{d.n}</li>
@@ -106,18 +85,13 @@ export function TopBar() {
                         e.stopPropagation();
                         setOpenMoreNavs(!openMoreNavs)
                     }}>
-                        <div className="icon"></div>
+                        <div className="icon" style={{/* Color */filter:toFilter('#345').result.filter}}></div>
                     </div>
                     {user ? (
                         <div className="profile" style={{ background: `no-repeat center/cover url(${user?.photos[0]?.startsWith('/') ? Host : ''}${user?.photos}),#bbb` }}
-                            onClick={() => disableNotifications({
-                                user: user,
-                                target: 'all'
-                                // user_browser_id:'e8e34d4f-3e3e-4dc4-9ecd-7cf8d2f16922'
-                            }).then(res => {
-                                console.log(res);
-
-                            })}>
+                            onClick={() =>{
+                                update('profile')
+                            }}>
                         </div>
                     ) : <div className="login" onClick={() => getAccess()}>Se connecter</div>}
                 </div>
@@ -128,16 +102,16 @@ export function TopBar() {
             }}>
                 <ul className={openMoreNavs ? '' : 'close'}>
                     {
-                        navs.map((d, i) => i * 150 >= size.width - 400 ? (
+                        appNavs.map((d, i) => i * 150 >= size.width - 400 ? (
                             <li key={i} className={active == d.u ? 'active' : ''} onClick={() => {
                                 update(d.u)
                                 setOpenMoreNavs(!openMoreNavs);
-                            }}><span style={{ background: getImg(d.i, '60%') }}></span>{d.n}</li>
+                            }}><span></span>{d.n}</li>
                         ) : null)
                     }
-                    <li className={active == 'mode-lite' ? 'active' : ''} onClick={() => {
+                    <li className={active == 'mode-lite' ? 'active' : ''} style={{whiteSpace:'nowrap'}} onClick={() => {
                         setLiteMode(!liteMode)
-                    }}><span style={{ background: getImg('/src/res/mark.png', '70%') }} ></span>{liteMode ? 'Lite mode off' : 'Lite mode on'}</li>
+                    }}><span></span>{liteMode ? 'Lite mode off' : 'Lite mode on'}</li>
                 </ul>
             </div>
         </div>

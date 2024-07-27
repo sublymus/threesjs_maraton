@@ -83,6 +83,7 @@
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 1;
     background: rgba(var(--impact-var), 0.1);
     backdrop-filter: blur(10px);
     padding: 10px;
@@ -100,7 +101,7 @@
     text-decoration: underline;
 }
 
-.product-comment .top .coment-right .ctn-option .close{
+.product-comment .top .coment-right .ctn-option .close {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -111,6 +112,7 @@
     background: no-repeat center/80% url(/src/res/x.png), #0002;
     border-radius: 20px;
 }
+
 .product-comment .top .coment-right .ctn-option div {
     padding: 5px 0;
     cursor: pointer;
@@ -119,29 +121,36 @@
 .product-comment .message-ctn {
     display: flex;
 }
+
 .product-comment .message-ctn .gap {
     width: 10%;
     max-width: 60px;
 }
+
 .product-comment .message {
     margin: 10px 0;
+    padding: 3px 0;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    overflow: hidden;
 }
 
-.product-comment .files-ctn{
+.product-comment .files-ctn {
     width: 100%;
     height: 60px;
     display: flex;
-    justify-content: flex-start!important;
+    justify-content: flex-start !important;
     overflow-x: auto;
     overflow-y: hidden;
 
 }
 
-.product-comment .files-ctn div:hover{
+.product-comment .files-ctn div:hover {
     opacity: 0.8;
     cursor: pointer;
 }
-.product-comment .files-ctn div{
+
+.product-comment .files-ctn div {
     min-width: 60px;
     height: 60px;
     margin: 0 5px;

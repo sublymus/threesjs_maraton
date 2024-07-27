@@ -1,0 +1,243 @@
+.page-command {
+    width: 100%;
+    /* height : 100%; */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* .page-command .orders{
+
+} */
+
+
+/* Cart - Item  */
+.order-item {
+    width: 100%;
+    /* height: 200px; */
+    background: #fff;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: rgb(var(--discret-var), 0.2) 0px 0px 10px;
+}
+
+.order-item .infos {
+    display: flex;
+    width: 100%;
+}
+
+.order-item .image {
+    min-width: 90px;
+    height: 90px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.order-item .info-right {
+    width: calc(100% - 90px);
+    width: 100%;
+    /* height: ; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.order-item .info-right .top {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.order-item .info-right .name {
+    padding: 2px;
+    width: 200px;
+    overflow: hidden;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--discret);
+}
+
+@media (width< 340px) {
+
+    .order-item .image {
+        min-width: 70px;
+        height: 70px;
+        margin-right: 10px;
+        border-radius: 10px;
+    }
+
+    
+    .order-item .info-right .name {
+        width: 175px;
+        overflow: hidden;
+    }
+
+    .order-item .info-right .quantity {
+        margin-right: 10px;
+    }
+}
+
+.order-item .info-right .name .product-title {
+    font-weight: 600;
+    color: var(--item-color);
+}
+
+.order-item .info-right .features {
+    font-size: 0.9em;
+    /* font-weight: 600; */
+    color: var(--discret);
+    margin: 5px 0px;
+}
+
+.order-item .info-right .features .k {
+    margin-right: 3px;
+}
+
+.order-item .info-right .features .v {
+    margin-left: 7px;
+}
+
+.order-item .info-right .all-features {
+    margin: 5px 0px;
+    color: var(--impact);
+    display: flex;
+}
+
+.order-item .info-right .all-features span {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    display: inline-block;
+    background: no-repeat center/80% url(/src/res/chevron-down.png);
+}
+
+
+.order-item .info-right .price {
+    display: flex;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.order-item .info-right .price .current {
+    color: var(--impact);
+    font-weight: bold;
+}
+
+.order-item .info-right .price .initial-price {
+    color: var(--discret);
+    font-size: 0.9em;
+    margin-left: 10px;
+    text-decoration: line-through;
+}
+
+.order-item .info-right .status {
+    font-size: 1.2em;
+    border-radius: 20px;
+    padding: 5px 20px;
+    color: var(--impact);
+    background: rgb(var(--impact-var), 0.1);
+}
+
+
+
+.order-item .btm {
+    display: flex;
+}
+
+.order-item .btm .options {
+    display: flex;
+}
+
+.order-item .btm .options>div:hover {
+    background: rgb(var(--discret-var), 0.3);
+}
+
+.order-item .btm .options>div {
+    width: 32px;
+    height: 32px;
+    background: rgb(var(--discret-var), 0.1);
+    border-radius: 5px;
+    margin: 10px 0px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.order-item .btm {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.order-item .btm .options>div span {
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.order-item .btm .options>div.to-favorites span {
+    background: no-repeat center/50% url(/src/res/love-fill.png);
+}
+
+.order-item .btm .options>div.start-comment span {
+    background: no-repeat center/50% url(/src/res/star-black.png);
+}
+
+.order-item .btm .options>div.share span {
+    background: no-repeat center/50% url(/src/res/reply.png);
+    transform: scaleX(-1);
+}
+
+.order-item .btm .ref-id {
+    font-size: 0.9em;
+    color: var(--discret);
+    display: flex;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+
+.order-item .btm .ref-id span.anim-top{
+    transform: translateY(-20px);
+    scale: 1.5;
+    opacity: 0;
+    transition: 300ms;
+}
+.order-item .btm .ref-id span.anim-btm{
+    transform: translateY(20px);
+    scale: 1.5;
+    opacity: 0;
+}
+
+.order-item .btm .ref-id span{
+    transform: translateY(0px);
+    scale: 1;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    transition: 300ms;
+    background: no-repeat center/100% url(/src/res/copy.png);
+}
+
+.order-item .btm .check-box:hover {
+    background: rgb(var(--discret-var), 0.4);
+}
+
+.order-item .btm .check-box {
+    min-width: 100px;
+    padding: 0 10px;
+    height: 32px;
+    background: var(--impact);
+    color: var(--impact-color);    cursor: pointer;
+    margin-left: auto;
+    border-radius: 5px;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+}

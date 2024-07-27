@@ -46,19 +46,15 @@
 }
 
 .page-comment-image .file-view .move-next,.page-comment-image .file-view .move-back {
-    width: 50%;
-    height: 100%;
-    top: 0;
+    width: 60px;
+    height: 60px;
+    top: calc( 50% - 15px);
     left: 0;
     position: absolute;
     display: flex;
     align-items: center;
 }
-.page-comment-image .file-view > div:hover >div {
-    scale: 1.2;
-    opacity: 1;
-    transition: 300ms;
-}
+
 .page-comment-image .file-view .move-next {
     left: initial;
     right: 0;

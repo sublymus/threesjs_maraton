@@ -13,7 +13,13 @@ interface RegisterState {
     authenticateUser(): Promise<void>;
     getAccess(): Promise<void>;
     getStore(): Promise<void>
-    updateUser(data: Record<string, any>): Promise<void>;
+    updateUser(data: {
+        name?:string,
+        photo?:Blob,
+        address?:string,
+        devise?:string,
+        phone?:string,
+    }): Promise<void>;
     getHeaders(): {store:StoreInterface,user:UserInterface, headers:Headers} | undefined
 }
 export const useRegisterStore = create<RegisterState>((set) => ({
@@ -22,21 +28,21 @@ export const useRegisterStore = create<RegisterState>((set) => ({
     userStore: undefined,
     manager:undefined,
     openAuth: false,
-    async updateUser({ name, photos, id }) {
-
-        const fromData = new FormData();
-        if (name) fromData.append('name', name);
-        if (photos?.[0]) {
-            fromData.append('photos_0', photos[0]);
-        } else {
-            return
-        }
-        
-        fromData.append('id', id);
-        fromData.append('photos', '["photos_0"]');
+    async updateUser(data) {
 
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
+
+        const fromData = new FormData();
+        (data as any).photos_0 = data.photo;
+        delete data.photo;
+        for (const k in data) {
+           if((data as any)[k]){
+            fromData.append(k,(data as any)[k])
+           }
+        }
+        
+        fromData.append('photos', '["photos_0"]');
 
         const response = await fetch(`${Host}/edit_me`, {
             method: 'PUT',
@@ -49,12 +55,9 @@ export const useRegisterStore = create<RegisterState>((set) => ({
 
         if (!user.id) return
         set(() => ({
-            user: {
-                ...user,
-                photos: user.photos.map((p: string) => `${Host}${p}`)
-            }
+            user:user,
         }));
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify({...h.user,...user}));
     },
     async disconnection() {
         const h = useRegisterStore.getState().getHeaders();

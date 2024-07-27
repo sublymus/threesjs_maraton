@@ -10,6 +10,7 @@ export interface ProductState {
     products: ListType<ProductScenus> | undefined,
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
+    setProducts(partialProducts :Partial<ListType<ProductScenus> >| undefined, products ?:ListType<ProductScenus>| undefined):void,
     setProductById(d: { product_id: string, collected: Record<string, any> }): void
     selectProduct: (id: ProductScenus | undefined) => Promise<void>,
     fetchVisites(filter: { after_date?: string, before_date?: string, client_id?: string, product_id?: string, limit?: number, page?: number }): Promise<void>;
@@ -17,6 +18,8 @@ export interface ProductState {
     fetchProducts: (filter: {
         page?: number,
         limit?: number,
+        add_cart?:boolean,
+        product_id?:string,
         order_by?: string,
         category_id?: string,
         text?: string,
@@ -32,6 +35,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
     visites: undefined,
     product: undefined,
     products: { limit: 25, list: [], page: 1, total: 0 },
+    setProducts(partialPs , ps ) {
+        //@ts-ignore
+        set(({products})=>({products:(products ||ps) && {...products,...ps,...partialPs}}))
+    },
     async setClientVisite(product_id) {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
@@ -50,7 +57,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
         query.store_id = h.store.id;
         query.product_id = product_id || '';
         query.client_id = client_id || '';
-        query.limit = limit || 25;
+        query.limit = limit || 6;
         query.page = page || 1;
         query.after_date = after_date || '';
         query.before_date = before_date || '';
@@ -100,18 +107,20 @@ export const useProductStore = create<ProductState>((set, get) => ({
         }
     },
     fetchProducts: async (filter) => {
-        const store = useRegisterStore.getState().store;
-        if (!store) return;
+        const h = useRegisterStore.getState().getHeaders();
+        if (!h) return;
         const query: any = { ...filter };
-
+        
         query.is_features_required = true;
-        query.store_id = store.id;
+        query.store_id = h.store.id;
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
             (value != undefined) && searchParams.set(key, value);
         }
-        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`);
+        const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`,{
+            headers:h.headers
+        });
         const products = (await response.json()) as ListType<ProductScenus>
         if (!products?.list) return
         if (!filter?.no_save) {

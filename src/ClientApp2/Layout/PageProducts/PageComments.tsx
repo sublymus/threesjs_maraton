@@ -131,7 +131,6 @@ export function PageComments({ product, setRef, userCommand }: { userComment?: P
                                         }).then((c) => {
                                             setLoading(false)
                                             if (c?.id) {
-
                                                 setNewComment(c)
                                             }
                                             return;

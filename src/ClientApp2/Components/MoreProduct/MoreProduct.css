@@ -1,0 +1,41 @@
+.more-products {
+    background: var(--back-item);
+    width: 100%;
+    padding-top: 0;
+}
+.more-products.h{
+    padding: 20px;
+}
+
+
+
+.more-products.v .list {
+    width: 100%;
+    padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px;
+    justify-content: space-around;
+}
+
+.more-products.h .list {
+    width: 100%;
+    padding: 10px 20px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* margin:  20px 0; */
+}
+
+.more-products .list::-webkit-scrollbar {
+    display: none;
+}
+
+.more-products.v .list .product-card{
+    width: 45vw;
+    margin:7px  0px;
+    max-width: 200px;
+    min-height: 220px;
+    min-width: initial;
+}
+

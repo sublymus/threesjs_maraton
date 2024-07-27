@@ -5,7 +5,6 @@ import { Host, Local } from '../../../Config';
 import { useWindowSize } from '../../../Hooks';
 import { getImg } from '../../../Tools/StringFormater';
 import { bindTopToParentScroll } from '../../../Tools/BindToParentScroll';
-import { disableNotifications} from '../../../Tools/Notification';
 
 const navs = [{
     u: 'home',
@@ -116,14 +115,16 @@ export function TopBar() {
                         </div>
                         {owner ? (
                             <div className="profile" style={{ background: `no-repeat center/cover url(${owner?.photos[0]?.startsWith('/') ? Host : ''}${owner?.photos}),#bbb` }} 
-                            onClick={()=>disableNotifications({
-                                user:owner,
-                                target:'all'
-                                // user_browser_id:'e8e34d4f-3e3e-4dc4-9ecd-7cf8d2f16922'
-                            }).then(res=>{
-                                console.log(res);
+                            // onClick={
+                            //     ()=>disableNotifications({
+                            //     user:owner,
+                            //     target:'all'
+                            //     // user_browser_id:'e8e34d4f-3e3e-4dc4-9ecd-7cf8d2f16922'
+                            // }).then(res=>{
+                            //     console.log(res);
                                 
-                            })}>
+                            // })}
+                            >
                             </div>
                         ) : <div className="login" onClick={() => createOwner()}>Se connecter</div>}
                     </div>

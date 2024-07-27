@@ -1,4 +1,3 @@
-import { useAppRouter } from "../../AppStore"
 import './PageCommand.css'
 import { useCommandStore } from "./CommandStore";
 import { useEffect } from "react";
@@ -6,13 +5,12 @@ import { useRegisterStore } from "../PageRegister/RegisterStore";
 import { getImg } from "../../../Tools/StringFormater";
 
 export function PageCommand() {
-    const { check } = useAppRouter();
     const {store} = useRegisterStore();
     const {  commands , fetchCommands } = useCommandStore();
     useEffect(()=>{
         store&&fetchCommands({})
     },[store])
-    return (check('command') && <div className="page-command">
+    return <div className="page-command">
          <div className="cart-top">Commands</div>
         <div className="products">
             {
@@ -33,6 +31,5 @@ export function PageCommand() {
             }
         </div>
     </div>
-    )
 }
  

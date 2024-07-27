@@ -12,7 +12,7 @@ import { ProductComment } from '../../Components/ProductComment/ProductComment';
 export function PageImage({ product }: { product: ProductInterface }) {
 
     const { current, navBack , pathList} = useAppRouter()
-    const { getCommentIndex, index } = useCommentStore();
+    const { getCommentIndex, index, setIndex } = useCommentStore();
 
     const [videoRef, setVideoRef] = useState<HTMLDivElement | null>(null)
 
@@ -151,7 +151,15 @@ export function PageImage({ product }: { product: ProductInterface }) {
                     <div className="close" onClick={()=>{
                         setOpenComment(false)
                     }}></div>
-                    <ProductComment canOpen comment={commentIndex.comment} />
+                    <ProductComment  comment={commentIndex.comment} canOpen={true} onClick={(d) => {
+                        const a = d?.comment;
+                        if (a) {
+                            setIndex({
+                                comment: a,
+                                relative: d.relative
+                            })
+                        }
+                    }} />
                 </div>
             </div>
         </section>

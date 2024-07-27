@@ -70,7 +70,7 @@ a {
 }
 
 /* ZOOTA */
-.limit-text {
+._limit-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -91,13 +91,15 @@ a {
 }
 
 :root {
+  --variant-claire:#10c44c;
+  --variant-sombre:#068f34;
   --background: #fff;
   --color: #345;
   --filter: invert(0);
   --back-item: #fff;;
   --back-item-var: 255,255,255;
   --item-color: #123;
-  --impact: #358f27;
+  --impact: #068f34;
   --impact-var: 53, 143, 39;
   --impact-color: #fff;
   --contrast: #0f2336d7;
@@ -107,7 +109,17 @@ a {
   --discret: #7F817E;
   --discret-var: 127, 129, 126;
   --discret-color: #fff;
-  ----device-color:#358f27;
+  
+  --error :#c43d4c;
+  --error-var :196,61,76;
+  --error-color : #fff;
+
+  --success :#10c44c;
+  --success-var :16,196,76;
+  --success-color : #fff 
+
+
+
 
   /* Dimmension */
 

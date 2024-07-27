@@ -18,6 +18,7 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
         manager?.type.toLocaleLowerCase() == 'owner'
     )
 
+    const [refresh, setRefresh] = useState(0);
     const [editMessage, setEditMessage] = useState(false)
     const [editResponse, setEditResponse] = useState(false)
     const [editMessageText, setEditMessageText] = useState(c.text || '')
@@ -94,7 +95,12 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
                     fetcheditCommentText({
                         comment_id: c.id,
                         text: editMessageText
-                    })
+                    }).then((res=>{
+                        if(res?.id){
+                            c.text = res.text;
+                            setRefresh(refresh+1);
+                        }
+                    }))
                 }}></span></label> : c.text
             }</div>
         </div>
@@ -148,7 +154,12 @@ export function ProductComment({ comment: c, canOpen, onClick }: { onClick?: (da
                         sendCommentResponse({
                             comment_id: c.id,
                             response: editResponseText
-                        })
+                        }).then((res=>{
+                            if(res?.id){
+                                c.response = res.response;
+                                setRefresh(refresh+1);
+                            }
+                        }))
                     }}></span></label> : c.response
                 }</div>
             </>

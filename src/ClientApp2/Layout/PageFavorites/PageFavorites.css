@@ -1,0 +1,9 @@
+.page-favorites{
+    width: 100%;
+    height: 100%;
+    position: initial;
+}
+
+.page-favorites .page-auth{
+    position: relative;
+}
