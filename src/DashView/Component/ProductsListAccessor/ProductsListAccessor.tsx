@@ -16,11 +16,11 @@ const topCard=  [
         path: ['categories']
     },
     {
-        label: "features",
-        value: '78',
-        url: '/src/res/jigsaw.png',
-        path: ['features']
-    },
+        label: "catalogs",
+        value: '15',
+        url: '/src/res/catalog.png',
+        path: ['catalogs']
+    }
 ] as const 
 export function ProductsListAccessor({active, setActive}:{ active:typeof topCard[number]['label'], setActive:(active:typeof topCard[number])=>any}) {
     const {storeVar} = useDashStore();

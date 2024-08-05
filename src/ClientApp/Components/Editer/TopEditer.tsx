@@ -45,7 +45,7 @@ export function TopEditer() {
       <div className='features-values' style={{display:feature?'flex':'none', width: dim.width, height: dim.height ,overflowY:row>6?'scroll':'inherit'}}>
         {feature && (
           feature.components?.map((_value) => (
-            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${Host}${_value.icon[0]})` }} onClick={() => {
+            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${Host}${_value.images?.[0]})` }} onClick={() => {
               
               if (valueId == (_value as any).id) {
                 

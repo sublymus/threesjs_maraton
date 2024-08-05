@@ -26,3 +26,18 @@ export const Click = (n=0.5 )=>{
 export function getSeconContext(context: string|undefined, d: Discussion) {
     return ((d.from_id||null)=== (context||null) ? d.to_id : d.from_id)||null
 }
+
+
+const caches: any = {
+
+}
+
+export function LabelToColor(label: string) {
+    if (caches[label]) return caches[label]
+    const color = (
+        ((label.charCodeAt(0) || 0)%32) +
+        ((label.charCodeAt(1) || 0) % 32) +
+        ((label.charCodeAt(2) || 0) % 32)
+    ) / (32*3);
+    return caches[label] = `hsl(${255*color}, 100%, 71%)`;
+}

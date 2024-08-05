@@ -11,11 +11,11 @@ const StatusColors :any = {
 }
 
 export function PageCommand() {
-    const { store } = useRegisterStore();
+    const { user } = useRegisterStore();
     const { commands, fetchCommands } = useCommandStore();
     useEffect(() => {
-        store && fetchCommands({})
-    }, [store])
+        user && fetchCommands({})
+    }, [user])
     return <div className="page-command">
         <div className="orders">
             {

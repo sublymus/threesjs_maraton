@@ -20,7 +20,6 @@ interface CategoryState {
 export const useCategoryStore = create<CategoryState>((set)=>({
     categories:undefined,
     async fetchCategoies(filter) {
-        console.log({filter});
         
         const store = useRegisterStore.getState().store;
         if (!store) return;

@@ -11,8 +11,9 @@ import { getImg } from '../../../Tools/StringFormater';
 import { toFilter } from '../../../Tools/FilterColor';
 import { PageAuth } from '../PageRegister/PageAuth';
 import { ProductQuantity } from "../../Components/ProductQuantity/ProductQuantity";
+import { FavoritesBtn } from '../../Components/FavoritesBtn/FavoritesBtn';
 export function PageCart() {
-    const { check, pathList, navBack, setAbsPath } = useAppRouter();
+    const { check, pathList, navBack, qs } = useAppRouter();
     const { visites, fetchVisites } = useProductStore();
     const { current } = useAppRouter();
     const { user } = useRegisterStore();
@@ -65,7 +66,7 @@ export function PageCart() {
                     <div className={"btn " + (selecteds.length < (carts?.list.length || 0) ? '' : 'select')} onClick={() => {
                         selecteds.length < (carts?.list.length || 0) ? setSelecteds(carts?.list.map(c => c) || []) : setSelecteds([])
                     }}>{selecteds.length < (carts?.list.length || 0) ? 'Select All' : 'Deselect All'}</div>
-                    <a className="my-command " onClick={() => setAbsPath(['profile', 'command'])}>my orders <span></span></a>
+                    <a className="my-command " onClick={() => qs({ page: 'command' }).setAbsPath(['profile'])}>my orders <span></span></a>
                 </div>
                 {
                     carts?.list.map(c => (
@@ -79,40 +80,48 @@ export function PageCart() {
                             deleteCommand(c.id);
                         }} onQuantityChange={() => {
                             setRefresh(refresh + 1)
+                        }} onLike={() => {
+                            fetchCarts({}).then((cs => {
+                                if (cs?.list) {
+                                    setSelecteds(cs.list)
+                                }
+                            }));
                         }} />
                     ))
                 }
             </div>
-            <div className="go-to-checkout">
-                <div className="title" onClick={()=>{
-                    confirmCommand({
-                        list:selecteds.map(s=>s.id)
-                    })
-                }}>Go to checkout</div>
-                <p>Available delivery methods and times can be selected when placing an order.</p>
-                <div className="infos">
-                    <div className="count">
-                        <h2>Your cart</h2>
-                        <div className="val">{all} products <span></span> {/* '700g' */}</div>
-                    </div>
-                    <div>
-                        <span>Products ({selecteds.length})</span>
-                        <span className='initial-price'>{total.toLocaleString()}{'$'}</span>
-                    </div>
-
-                    <div>
-                        <div className="text">
-                            <div>Discount</div>
-                            <div className="detail">More details <span></span></div>
+            <div className="right">
+                <div className="go-to-checkout">
+                    <div className="title" onClick={() => {
+                        confirmCommand({
+                            list: selecteds.map(s => s.id)
+                        })
+                    }}>Go to checkout</div>
+                    <p>Available delivery methods and times can be selected when placing an order.</p>
+                    <div className="infos">
+                        <div className="count">
+                            <h2>Your cart</h2>
+                            <div className="val">{all} products <span></span> {/* '700g' */}</div>
                         </div>
-                        <span className='discount'>{Number(0).toLocaleString()}{'$'}</span>
-                    </div>
+                        <div>
+                            <span>Products ({selecteds.length})</span>
+                            <span className='initial-price'>{total.toLocaleString()}{'$'}</span>
+                        </div>
 
+                        <div>
+                            <div className="text">
+                                <div>Discount</div>
+                                <div className="detail">More details <span></span></div>
+                            </div>
+                            <span className='discount'>{Number(0).toLocaleString()}{'$'}</span>
+                        </div>
+                    </div>
+                    <div className="_flex">
+                        <h1>total cost</h1>
+                        <h1 className="total">{total.toLocaleString()}{'$'}</h1>
+                    </div>
                 </div>
-                <div className="_flex">
-                    <h1>total cost</h1>
-                    <h1 className="total">{total.toLocaleString()}{'$'}</h1>
-                </div>
+                    <div className="cart-cover-image"></div>
             </div>
         </div>
         <Visites mode='h' />
@@ -120,14 +129,10 @@ export function PageCart() {
     </div>)
 }
 
-let features = {
-    metal: 'gold',
-    'gem': 'Diamon',
-    size: 56
-} as any
 
 function CartItem({ cart, selected, onClick, onSelect, onDelete, onLike, onShare, onQuantityChange }: { onQuantityChange?: (c: CommandInterface) => any, onDelete?: (c: CommandInterface) => any, onLike?: (c: CommandInterface) => any, onShare?: (c: CommandInterface) => any, onClick?: (c: CommandInterface) => any, onSelect?: (c: CommandInterface) => any, selected?: boolean, cart: CommandInterface }) {
-
+    console.log(cart);
+    
     return <div className="cart-item" onClick={() => onClick?.(cart)}>
         <div className="infos">
             <div className="image" style={{ background: getImg(cart.images[0]) }}></div>
@@ -137,12 +142,12 @@ function CartItem({ cart, selected, onClick, onSelect, onDelete, onLike, onShare
                         <h3 className="name _limit-text"><span className='product-title'>{cart.title}</span> <span className='slash'>/</span> <span>{cart.description}</span></h3>
                         <div className="features">
                             {
-                                Object.keys(/* cart.collected_features */{ ...features } || {}).slice(0, 2).map(k => (
-                                    <div key={k} className='feature'><span className='k'>{k}</span>:<span className='v'>{(/* cart.collected_features */features || {})[k]}</span></div>
+                                Object.keys(/* cart.collected_features */{ ...cart.collected_features } || {}).slice(0, 2).map(k => (
+                                    <div key={k} className='feature'><span className='k'>{k}</span>:<span className='v'>{(cart.collected_features || {})[k]?.name ? (cart.collected_features || {})[k]?.name : (cart.collected_features || {})[k]?.toString() }</span></div>
                                 ))
                             }
                             {
-                                Object.keys(/* cart.collected_features */features || {}).length > 2 && (
+                                Object.keys(/* cart.collected_features */{ ...cart.collected_features || {}}).length > 2 && (
                                     <div className="all-features">See more <span></span></div>
                                 )
                             }
@@ -158,8 +163,8 @@ function CartItem({ cart, selected, onClick, onSelect, onDelete, onLike, onShare
 
                 </div>
                 <div className="btm">
-                    <div className="options">
-                        <div style={{ filter: toFilter(/* contrast */'#123').result.filter }} className="to-favorites" onClick={() => onLike?.(cart)}><span ></span></div>
+                    <div className="options" style={{ position: 'relative' }}>
+                        <FavoritesBtn elm={cart} onChange={() => onLike?.(cart)} />
                         <div style={{ filter: toFilter(/* contrast */'#123').result.filter }} className="delete" onClick={() => {
                             onDelete?.(cart)
                         }}><span></span></div>

@@ -2,9 +2,9 @@ import './FeaturesList.css'
 import { useDashRoute } from '../../../dashStore'
 import { GenericList } from '../../../Component/GenericList/GenericList';
 import { useFeatureStore } from '../FeatureStore'
-import { getImg } from "../../../../Tools/StringFormater";
 import { useEffect } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
+import { Host } from '../../../../Config';
 export function FeaturesList() {
 
     const { current, setAbsPath, qs } = useDashRoute();
@@ -35,17 +35,13 @@ export function FeaturesList() {
                         name: GenericList.StringElement({ size_interval: [50, 200] }),
                         collect_type: GenericList.StringElement({ size: 150 }),
                         icon: {
-                            getView(colunm, value, e, setRef) {
-                                let img: HTMLElement | null = null
-                                e.onResize(colunm, (d) => {
-                                    if (!img) return
-                                    img.style.width = `${Math.min(d.height, d.width) * 0.9}px`;
-                                    img.style.height = `${Math.min(d.height, d.width) * 0.9}px`;
-                                })
-                                return <div ref={setRef} key={colunm}>
-                                    <div className="image-element" ref={(ref) => img = ref} style={{ background:getImg(value[0]||'', '40%')}}></div>
-                                </div>
-                            }
+                            getView(label, value, e, setRef) {
+                               console.log({value});
+                               
+                                return GenericList.ImageElement({
+                                    // schadow:''
+                                }).getView(label,`${Host}${value[0]}`,e,setRef)
+                            },
                         },
                         created_at: GenericList.DateStringElement({ size: 200 }),
                     }}

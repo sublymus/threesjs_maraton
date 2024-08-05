@@ -43,6 +43,7 @@
     background: #345;
     border-radius: 50px;
     position: relative;
+    cursor: pointer;
 }
 
 .page-new-store .steps .icon-ctn .icon {

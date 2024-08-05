@@ -10,7 +10,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
 .dash .dash-ctn.blur {
@@ -38,6 +38,9 @@
 .dash .center-ctn {
     width: 100%;
     height: calc(100% - 70px);
+}
+.dash .editor {
+    margin: 10px;
 }
 
 .dash.sombre-mode-variable .center-top .nav-min {

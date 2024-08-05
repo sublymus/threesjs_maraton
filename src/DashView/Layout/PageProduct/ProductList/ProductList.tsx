@@ -9,34 +9,48 @@ import { FilterInterval } from '../../../Component/GenericList/ListSearchBar/Fil
 import { FilterSwitch } from '../../../Component/GenericList/ListSearchBar/Filter/FilterSwitch/FilterSwitch';
 import { bindToParentScroll } from "../../../../Tools/BindToParentScroll";
 import { StatusElement } from '../../../Component/ChoiseStatus/ChoiseStatus';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRegisterStore } from '../../PageAuth/RegisterStore';
+import { SearchFilterBindJson } from '../../../../Tools/SearchFilterBindJson';
 // import React from 'react'
 export function ProductList() {
-    const { current, setAbsPath, qs } = useDashRoute();
+    const { current, setAbsPath, qs, json} = useDashRoute();
     const { store } = useRegisterStore()
     const { fetchProducts, products, setSelectedProduct } = useProductStore();
+    const [filter, setFilter] = useState({
+        sortBy: 'id',
+        sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
+        limit: products?.limit,
+        page: products?.page,
+        total: products?.total,
+        filter: {
+            price: FilterInterval([0, 100000], [0, 10000]),
+            stock: FilterInterval([0, 10000], [0, 10000]),
+            status: FilterCollector(['PAUSE', 'TRASH', 'NEW'], []),
+            index: FilterLevel([0, 100], 5),
+            is_dynamic_price: FilterSwitch(),
+            hasScene: FilterSwitch()
+        }
+    })
+    const [s] =useState<any>({})
+    s.json = json;
+    s.filter = filter;
+
+    useEffect(()=>{
+        if(SearchFilterBindJson(s.filter,s.json)){
+            console.log('diff', s.filter);
+            setFilter({...s.filter})
+            
+        };
+    },[json, store])
     useEffect(() => {
-        current('products') && store && fetchProducts()
+        current('products') && store && fetchProducts({...filter, filter:undefined})
     }, [store])
+
     return current('products') && (
         <div className="product-list" ref={bindToParentScroll}>
             <div className="list-ctn">
-                <GenericList filter={{
-                    sortBy: 'id',
-                    sortableColumns: ['id', 'title', 'stock', 'price', 'date', 'status'],
-                    limit: products?.limit,
-                    page: products?.page,
-                    total: products?.total,
-                    filter: {
-                        price: FilterInterval([0, 100000], [0, 10000]),
-                        stock: FilterInterval([0, 10000], [0, 10000]),
-                        status: FilterCollector(['PAUSE', 'TRASH', 'NEW'], []),
-                        index: FilterLevel([0, 100], 5),
-                        is_dynamic_price: FilterSwitch(),
-                        hasScene: FilterSwitch()
-                    }
-                }}
+                <GenericList filter={filter}
                     items_height={80} id={'product_list'} datas={products?.list || []} itemsMapper={{
                         images: {
                             getView(label, value, e, setRef) {

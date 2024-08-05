@@ -16,6 +16,7 @@ import { ChoiseFeatures } from '../../../Component/ChoiseFeatures/ChoiseFeatures
 import { EditorTopBar } from "../../../Component/EditorTopBar/EditorTopBar";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { ChoiseStatus } from "../../../Component/ChoiseStatus/ChoiseStatus";
+import { useFeatureStore } from '../../PageFeature/FeatureStore';
 // enum StatusMap {
 //     Start, Payment, Waiting, Delivery, End, Cancel
 // }
@@ -23,14 +24,18 @@ import { ChoiseStatus } from "../../../Component/ChoiseStatus/ChoiseStatus";
 
 export function ProductDash() {
 
-    const { current, setAbsPath, json } = useDashRoute();
+    const { current, setAbsPath , qs, json, pathList } = useDashRoute();
     const { selectedProduct, setSelectedProduct, updateProduct, createProduct, removeProduct, setProductById, fectProductCommands } = useProductStore();
     const [isCheckRequired,] = useState(false);
     const [commands, setCommands]  = useState<CommandInterface[]>([])
     const [error, setError] = useState('')
 
+    const {setSelectedFeature} =useFeatureStore()
 
-    
+    useEffect(()=>{
+        current('dash_product') && setSelectedFeature(undefined);
+    },[pathList]);
+
     useEffect(()=>{
         if(json?.product_id){
             setProductById(json?.product_id)
@@ -46,9 +51,6 @@ export function ProductDash() {
     }, [selectedProduct]);
     const size = useWindowSize();
     const wrap = size.width < 1000 ? 'wrap' : '';
-
-    // console.log(selectedProduct);
-    
 
     const [collected] = useState<Record<string, any>>({});
     //TODO coder un composant d'error
@@ -138,14 +140,16 @@ export function ProductDash() {
                             }} />
                         </div>
                         <div className="editor-features">
-                            <ChoiseFeatures features={isDash && (selectedProduct?.features?.list)} onChange={(ids) => {
-                                collected['features'] = ids;
-                                console.log(collected);
+                            <ChoiseFeatures features={isDash && (selectedProduct?.features?.list)} onEdit={(f)=>{
+                                qs({feature_id:f.id}).setAbsPath(['features','dash_features'])
+                            }} onNew={()=>{
+                                selectedProduct && qs({product_id:selectedProduct.id}).setAbsPath(['features','new_feature'])
                             }} />
                         </div>
                     </div>
                     <div className="editor-right">
                         <div className="editor-images">
+                            <h3>Product Images</h3>
                             <ImageViewer name='images' images={isDash && (selectedProduct?.images ? selectedProduct.images : [])} autosave={isNew} onSave={(imageMapper) => {
                                 isDash ? (selectedProduct && updateProduct({
                                     product_id: selectedProduct.id,
@@ -154,6 +158,7 @@ export function ProductDash() {
                             }} />
                         </div>
                         <div className="editor-mmodel-images">
+                            <h3>3d Model Images <span style={{fontSize:'0.8rem', fontWeight:'normal'}}>( optional )</span></h3>
                             <ImageViewer name='model_images' images={isDash && (selectedProduct?.images ? selectedProduct.model_images : [])} autosave={isNew} onSave={(imageMapper) => {
                                 isDash ? (selectedProduct && updateProduct({
                                     product_id: selectedProduct.id,

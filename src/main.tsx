@@ -6,8 +6,6 @@ import "./Tools/Notification";
 
 const reservedStoreName = ['web', 'dash', 'sublymus', 'admin', 'noga'];//nom de store indisponible
 (async () => {
-  console.log('suspect 1');
-  
   const first = window.location.pathname.split('/')[1]?.toLocaleLowerCase()
   const scond = window.location.pathname.split('/')[2]?.toLocaleLowerCase()
   let view;

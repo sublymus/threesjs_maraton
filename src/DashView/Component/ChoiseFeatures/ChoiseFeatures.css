@@ -15,7 +15,12 @@
     width: 50px;
     height: 60px;
     background: no-repeat center/50% url(/src/res/jigsaw.png);
-    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}
+
+.choise-features .item .icon {
+    min-width: 100px;
+    height: 77px;
+    background: no-repeat center/50% url(/src/res/jigsaw.png);
 }
 
 .choise-features .back {
@@ -29,13 +34,31 @@
     opacity: 0.7;
     margin-top: 5px;
 }
-
-.choise-features .choise-icon {
-    margin-left: auto;
-    width: 50px;
-    height: 60px;
-    background: no-repeat center/50% url(/src/res/chevron-down.png);
+.choise-features .icons div{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50px;
     filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
+}
+.choise-features .icons{
+    width: 80px;
+    display: flex;
+    margin-left: auto;
+    justify-content: space-between;
+}
+
+.choise-features .i_open:hover {
+    background: no-repeat center/80% url(/src/res/chevron-down.png),#0003;
+}
+.choise-features .i_open {
+    background: no-repeat center/80% url(/src/res/chevron-down.png),#0001;
+}
+.choise-features .add:hover {
+    background: no-repeat center/80% url(/src/res/plus.png),#0003;
+}
+.choise-features .add {
+    background: no-repeat center/80% url(/src/res/plus.png),#0001;
 }
 
 /***/
@@ -57,16 +80,17 @@
 
 .choise-features .list-features .item {
     width: 100%;
-    height: 40px;
+    height: 80px;
+    max-height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
     display: flex;
-    justify-content: flex-end;
     margin-top: 5px;
     background: #1482;
     border-radius: 10px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .choise-features .list-features .item .id {
@@ -74,5 +98,19 @@
 }
 
 .choise-features .list-features .item .label {
-    margin-right: 20px;
+    padding-left: 20px;
+}
+.choise-features .list-features .item .edit:hover{
+    background: no-repeat center/70% url(/src/res/write.png), #0003;  
+}
+.choise-features .list-features .item .edit{
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    background: no-repeat center/70% url(/src/res/write.png), #0002;
+    filter: invert(10%) sepia(95%) saturate(7495%) hue-rotate(275deg) brightness(76%) contrast(114%);
 }

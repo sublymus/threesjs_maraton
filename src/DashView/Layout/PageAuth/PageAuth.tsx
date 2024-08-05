@@ -4,8 +4,8 @@ import { useRegisterStore } from './RegisterStore';
 export function PageAuth() {
     
     const store_name = localStorage.getItem('store_name');
-    const {getAccess , openAuth}  = useRegisterStore();
-    return openAuth&&(
+    const {getAccess}  = useRegisterStore();
+    return (
         <div className="page-auth" >
             <div className="auth-ctn">
                 <div className="image">

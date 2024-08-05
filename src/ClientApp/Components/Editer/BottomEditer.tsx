@@ -65,7 +65,7 @@ export function BottomEditer() {
       <div className='features-values'>
         {feature && (
           feature.components?.map((_value) => (
-            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${Host}${_value.icon[0]})` }} onClick={() => {
+            <div key={(_value as any).id} className={'features-value ' + ((_value as any).id == valueId ? 'active' : '')} style={{ backgroundImage: `url(${Host}${_value.images?.[0]})` }} onClick={() => {
               if (valueId == (_value as any).id) {
                 product?.featuresCollector?.collectFeature(feature, undefined);
                 setValueId(undefined);

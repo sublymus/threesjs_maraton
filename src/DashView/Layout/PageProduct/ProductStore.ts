@@ -107,7 +107,7 @@ export const useProductStore = create<ProductState>((set) => ({
                     }
                 });
                 formData.append(p, JSON.stringify(list));
-            } else {
+            } else if(p == 'images') {
                 return error.push(p + ' is not defined');
             }
         });
@@ -196,26 +196,16 @@ export const useProductStore = create<ProductState>((set) => ({
         // , category_id, catalog_id,  text, 
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
-        const query: any = {};
-        if (filter?.page) query.page = Number(filter.page);
-        if (filter?.limit) query.limit = Number(filter.limit);
-        if (filter?.sortBy) query.order_by = filter.sortBy;
-        if (filter?.query.text) query.text = filter.query.text;
-        if (filter?.query.price) query.price_min = filter.query.price[0];
-        if (filter?.query.price) query.price_max = filter.query.price[1];
-        if (filter?.query.stock) query.stock_min = filter.query.stock[0];
-        if (filter?.query.stock) query.stock_max = filter.query.stock[1];
-        if (filter?.query.product_id) query.product_id = filter.query.product_id;
-
         // query.is_features_required = true;
-        query.all_status = true;
-        query.store_id = h.store.id;
+        if(!filter) filter = {}
+        filter.all_status = true;
+        filter.store_id = h.store.id;
 
 
         const searchParams = new URLSearchParams({});
-        for (const key in query) {
-            const value = query[key];
-            searchParams.set(key, value);
+        for (const key in filter) {
+            const value = filter[key];
+            value && searchParams.set(key, value);
         }
         const response = await fetch(`${Host}/get_products/?${searchParams.toString()}`, { headers: h.headers });
         const json = await response.json() as ListType<ProductInterface>;

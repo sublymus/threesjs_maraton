@@ -2,42 +2,42 @@ import { useEffect, useState } from 'react'
 import './ChoiseFeatures.css'
 import { Feature } from '../../../DataBase';
 import { useFeatureStore } from "../../Layout/PageFeature/FeatureStore";
+import { getImg } from '../../../Tools/StringFormater';
+import { toFilter } from '../../../Tools/FilterColor';
 
-export function ChoiseFeatures({onChange , features:_features }:{features?:Feature[],onChange?:(ids:string[])=>any}) {
-    const {fetchFeatures , features} = useFeatureStore()
-    const [selected, setSelected] = useState(_features);
+export function ChoiseFeatures({ features: _features, onEdit, onNew }: { features?: Feature[], onNew?: () => any, onEdit?: (feature: Feature) => any }) {
+    const { fetchFeatures, features } = useFeatureStore()
     const [open, setOpen] = useState('');
-
-    useEffect(()=>{
+    
+    useEffect(() => {
         fetchFeatures();
-    },[]);
-    useEffect(()=>{
-        setSelected(_features?.filter((_f=>features?.list.find(f=>f.id == _f.id))));
-    },[features]);
+    }, []);
     return (
         <div className="choise-features">
-            <div className="choise-ctn" onClick={()=>{
-                setOpen(open?'':'open');
-            }}>
+            <div className="choise-ctn" >
                 <div className="back">
-                    <div className="icon"></div>
+                    <div className="icon" style={{ filter: toFilter('6500c4').result.filter }}></div>
                 </div>
                 <div className="text">
-                    <div className="label">Features</div>
-                    <div className="name">{selected?.length||0} Selected</div>
+                    <div className="Titile">Features</div>
+                    <div className="label"> ( {features?.list.length} ) Avalaible</div>
                 </div>
-                <div className="choise-icon" style={{transform:open?`rotate(180deg)`:''}}></div>
+                <div className="icons">
+                    <div className="add" style={{ transform: open ? `rotate(180deg)` : '' }} onClick={() => {
+                        onNew?.();
+                    }}></div>
+                    <div className="i_open" style={{ transform: open ? `rotate(180deg)` : '' }} onClick={() => {
+                        setOpen(open ? '' : 'open');
+                    }}></div>
+                </div>
             </div>
-            <div className={"list-features "+open} style={{height:open?`${45*(features?.list.length||0)}px`:'0px'}}>
+            <div className={"list-features " + open} style={{ height: open ? `${85 * (features?.list.length || 0)}px` : '0px' }}>
                 {
                     features?.list.map((l) => (
-                        <div  key={l.id}  className={"item "+ ( selected?.find(f=>f.id ==l.id) ?'selected':'')} onClick={()=>{
-                            const s = selected?.find(f=>f.id ==l.id)?selected.filter(f=>f.id!==l.id):[...(selected||[]),l];
-                            setSelected(s);
-                            onChange?.(s.map(i=>i.id));
-                        }}>
+                        <div key={l.id} className="item">
+                            <div className="edit" onClick={() => onEdit?.(l)}></div>
+                            <div className="icon" style={{ background: getImg(l.icon?.[0]) }}></div>
                             <div className="label">{l.name}</div>
-                            <div className="id">#{l.id.split('-')[0]}</div>
                         </div>
                     ))
                 }

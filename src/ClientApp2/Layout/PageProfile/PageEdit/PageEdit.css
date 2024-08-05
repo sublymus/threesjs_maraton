@@ -71,7 +71,7 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    background: no-repeat center/50% url(/src/res/send.png);
+    background: no-repeat center/50% url(/src/res/pencil.png);
     opacity: 0.5;
     right: 0;
 }
@@ -95,7 +95,11 @@
     transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
 }
 
-.page-edit label[class^='edit-'] input:focus {
+.page-edit label[class^='edit-']:hover input{
+    background: rgba(var(--impact-var), 0.1);
+    cursor: text;
+}
+.page-edit label[class^='edit-'] input:focus{
     outline: none;
     padding-left: 60px;
     box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;

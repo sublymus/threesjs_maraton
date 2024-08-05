@@ -51,21 +51,21 @@ export function Producd3d() {
 					<div className="ctn">
 						{
 							selectedFeature?.components?.map((c, i) => {
-								return <div key={i} className={"value " + (selectedComponent?.id == c.id ? 'active' : '')} style={{ background: getImg(c.icon[0], selectedComponent?.id == c.id ? '80%' : '70%') }} onClick={() => {
+								return <div key={i} className={"value " + (selectedComponent?.id == c.id ? 'active' : '')} style={{ background: c.images?.[0] && getImg(c.images[0], selectedComponent?.id == c.id ? '80%' : '70%') }} onClick={() => {
 									if (selectedComponent?.id == c.id) {
-										setSelectedComponent(selectedFeature.default_value);
+										setSelectedComponent(selectedFeature.components?.[0]);
 										setCollected({
-											...collected,
-											[selectedFeature.name]: selectedFeature.default_value
+											...collected,  
+											[selectedFeature.name]: selectedFeature.components?.[0]
 										})
-										data.product3d?.loader.updateFeature(selectedFeature, selectedFeature.default_value?.code)
+										data.product3d?.loader.updateFeature(selectedFeature, selectedFeature.components?.[0]?.scene_code)
 									} else {
 										setSelectedComponent(c);
 										setCollected({
 											...collected,
 											[selectedFeature.name]: c
 										})
-										data.product3d?.loader.updateFeature(selectedFeature, c.code)
+										data.product3d?.loader.updateFeature(selectedFeature, c.scene_code)
 									}
 								}}></div>
 							})
@@ -73,17 +73,17 @@ export function Producd3d() {
 					</div>
 				</div>
 				<div className="name">
-					<h4>{collected[selectedFeature?.name || '']?.name || selectedFeature?.default_value?.name}</h4>
+					<h4>{collected[selectedFeature?.name || '']?.name || selectedFeature?.components?.[0]?.name}</h4>
 				</div>
 				<div className="features">
 					{features.list.map((f, i) => {
-						return <div key={i} className={"feature " + (selectedFeature?.id == f.id ? 'active' : '')} style={{ background: getImg(f.icon, selectedFeature?.id == f.id ? '70%' : '60%') }} onClick={() => {
+						return <div key={i} className={"feature " + (selectedFeature?.id == f.id ? 'active' : '')} style={{ background: getImg(f.icon[0], selectedFeature?.id == f.id ? '70%' : '60%') }} onClick={() => {
 							if (selectedFeature?.id == f.id) {
 								setSelectedFeature(undefined);
 								setSelectedComponent(undefined)
 							} else {
 								setSelectedFeature(f);
-								const c = collected[f.name] || f.default_value;
+								const c = collected[f.name] || f.components?.[0];
 								setCollected({
 									...collected,
 									[f.name]: c

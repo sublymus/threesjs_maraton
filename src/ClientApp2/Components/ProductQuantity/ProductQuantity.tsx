@@ -11,7 +11,10 @@ export function ProductQuantity({ cart, canNull, product, onChange }: { onChange
         setCount(Number(cart?.quantity || product?.quantity || 0) || 0);
     }, [product, cart])
     
-    return <div className="cart-quantity">
+    return <div className="cart-quantity" onClick={(e)=>{
+        e.preventDefault();
+        e.stopPropagation()
+    }}>
         <div className={"min " + (count <= (canNull ? 0 : 1) ? 'bloc' : '')} onClick={() => {
             let c = parseInt(count + '');
             c = c - 1 <(canNull ? 0 : 1) ?(canNull ? 0 : 1) :c-1;

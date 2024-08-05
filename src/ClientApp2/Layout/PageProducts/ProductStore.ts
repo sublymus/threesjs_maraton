@@ -4,12 +4,13 @@ import { ListType, ClientVisites, ProductScenus, FeaturesCollector, CollectedFea
 // import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
-
+//B
 export interface ProductState {
     visites: ListType<ClientVisites> | undefined
     products: ListType<ProductScenus> | undefined,
     product: ProductScenus | undefined,
     featuresCollector: FeaturesCollector | undefined,
+    setVisites(partialProducts :Partial<ListType<ProductScenus> >| undefined, products ?:ListType<ProductScenus>| undefined):void,
     setProducts(partialProducts :Partial<ListType<ProductScenus> >| undefined, products ?:ListType<ProductScenus>| undefined):void,
     setProductById(d: { product_id: string, collected: Record<string, any> }): void
     selectProduct: (id: ProductScenus | undefined) => Promise<void>,
@@ -21,8 +22,10 @@ export interface ProductState {
         add_cart?:boolean,
         product_id?:string,
         order_by?: string,
+        lol?:boolean,
         category_id?: string,
         text?: string,
+        is_features_required?:boolean,
         caracteristique?: { [key: string]: string | number | boolean }
         no_save?: boolean
     }) => Promise<ListType<ProductScenus> | undefined>;
@@ -39,9 +42,13 @@ export const useProductStore = create<ProductState>((set, get) => ({
         //@ts-ignore
         set(({products})=>({products:(products ||ps) && {...products,...ps,...partialPs}}))
     },
+    setVisites(partialPs , ps ) {
+        //@ts-ignore
+        set(({visites})=>({visites:(visites ||ps) && {...visites,...ps,...partialPs}}))
+    },
     async setClientVisite(product_id) {
         const h = useRegisterStore.getState().getHeaders();
-        if (!h) return
+        if (!h?.user) return
         const formData = new FormData();
         formData.append('product_id', product_id);
         /* const response =  */await fetch(`${Host}/set_client_visited`, {
@@ -61,6 +68,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
         query.page = page || 1;
         query.after_date = after_date || '';
         query.before_date = before_date || '';
+        query.add_favorite = true;
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
@@ -81,8 +89,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
         if (p1) {
             get().selectProduct(p1)
             set(() => ({ featuresCollector: p1?.featuresCollector }))
-            console.log(d);
-
             // showProductWorld(set, p1);
         } else {
             const store = useRegisterStore.getState().store;
@@ -111,8 +117,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
         if (!h) return;
         const query: any = { ...filter };
         
-        query.is_features_required = true;
         query.store_id = h.store.id;
+        query.add_favorite = true;
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
@@ -144,32 +150,19 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
         // const productScenus = await showProductWorld(set, product);
         // set(() => ({ product: productScenus, featuresCollector: productScenus?.featuresCollector }))
-        product.features = features;
+        // product.features = features;
         const collector: CollectedFeatures = {};
-        product.features.list.forEach(f => {
-            if (!f.default_value) {
-                console.log('nnnnnnnnnn');
-
-                collector[f.id] = f.components?.find(v => !!v.is_default);
-                f.default_value = collector[f.id];
-            } else {
-
-                collector[f.id] = f.default_value
-            }
-            // l.push(() => {
-            //     world.localLoader.getModel().then(() => {
-            //         world.localLoader.updateFeature(f, f.default_value?.code || '')
-            //     })
-            // })
+        product?.features.list.forEach(f => {
+            collector[f.name] = f.components?.[0];
         });
-        product.featuresCollector = {
+        product && (product.featuresCollector = {
             collectFeature(feature, value) {
                 if (value != undefined) {
-                    collector[feature.id] = value
+                    collector[feature.name] = value
                     // world.localLoader.updateFeature(feature, value.code)
                 } else {
-                    if (feature.default_value) {
-                        collector[feature.id] = feature.default_value;
+                    if (feature.components?.[0]) {
+                        collector[feature.name] = feature.components?.[0];
                         // feature.default_value && world.localLoader.updateFeature(feature, feature.default_value.code)
                     }
                 }
@@ -181,7 +174,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
             allCollectedFeatures() {
                 return collector
             }
-        }
+        })
         set(() => ({ product }));
         // console.log(' selectProduct',get().product , productScenus);
         get().setClientVisite(product.id)

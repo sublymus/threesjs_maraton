@@ -11,30 +11,25 @@ import { AddHorizontalScrollIcon } from "../../../Tools/ScrollTools";
 import { PageComments } from "./PageComments";
 import { useCommentStore } from './CommentStore';
 import { PageImage } from "./PageImage";
-import { useAppRouter } from '../../AppStore';
+import { useAppRouter, useAppStore } from '../../AppStore';
 import { Visites } from "../../Components/Visites/Visites";
 import { MoreProduct } from "../../Components/MoreProduct/MoreProduct";
 import { ProductQuantity } from '../../Components/ProductQuantity/ProductQuantity';
 import { useCommandStore } from '../PageCommand/CommandStore';
-const images = {
-    more: true,
-    list: [
-        '/fs/1hvrng7iv_29tvf0_products_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg',
-        '/fs/1hv1lpqtk_27y870_products_model_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg',
-        '/fs/1hv1mieub_19ahe0_products_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg',
-        '/fs/1hvrng7iv_29tvf0_products_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg',
-        '/fs/1hv1lpqtk_27y870_products_model_images_05e7dc8e-f409-46ae-91cc-6a125add8c5b.jpg',
-    ]
-}
+import { useRegisterStore } from '../PageRegister/RegisterStore';
+import { PageAuth } from '../PageRegister/PageAuth';
+
 
 let imageIndex: ((index: number) => void) | undefined;
-export function DetailProduct() {
+export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
 
-    const { json, qs, check, current } = useAppRouter()
-    const { setProductById, product, selectProduct,products, fetchProducts, setProducts } = useProductStore()
+    const { json, qs, check, current, navBack, pathList } = useAppRouter()
+    const { setProductById, product, selectProduct, products, fetchProducts, setProducts } = useProductStore()
     const { fetchProductComments, setLastPage } = useCommentStore()
     const { addProductToCart } = useCommandStore()
-   
+    const { user } = useRegisterStore()
+    const { openChild } = useAppStore()
+
     const infoRef = useRef<HTMLDivElement>(null);
     const diffRef = useRef<HTMLDivElement>(null);
     const detailRef = useRef<HTMLDivElement>(null);
@@ -46,7 +41,7 @@ export function DetailProduct() {
 
     const [commentCanUp, setCommentCanUp] = useState(false);
     const [userComment/* , setCanWrite */] = useState<ProductCommentInterface>();
-    
+
     const [userCommand/* , setCanWrite */] = useState<CommandInterface>({
         payment_id: 'lol'
     } as any);
@@ -54,40 +49,83 @@ export function DetailProduct() {
     const [commentRef, setCommentRef] = useState<HTMLElement | null>(null)
 
     const [comments, setComments] = useState<ListType<ProductCommentInterface>>();
+    const [ImageComments, setImageComments] = useState<{
+        images: string[],
+        more: boolean
+    }>();
     const [s] = useState<any>({})
+    const [imagesCtn] = useState<{ current: HTMLDivElement | null }>({ current: null });
+
+
+    const handler = () => {
+        if (!imagesCtn.current) return
+        const rect = imagesCtn.current.getBoundingClientRect();
+        const imgs = imagesCtn.current.querySelectorAll('.img') as NodeListOf<HTMLDivElement>;
+        let w = rect.width - 60;
+        w = w > 400 ? 400 : w;
+        for (const img of imgs) {
+            img.style.height = `${(w) / 1.295}px`
+            img.style.width = `${w}px`
+            img.style.minWidth = `${w}px`
+        }
+
+    }
+
+    handler()
 
     useEffect(() => {
         if (check('detail') && json?.product_id && json.product_id != s.product_id) {
             s.product_id = json.product_id;
-            setProductById(json as any)
+            setProductById({json} as any)
         }
     }, [json]);
 
     useEffect(() => {
 
         if (product && check('detail')) {
-            // detailRef.current && (detailRef.current.scrollTop = 0)
+            detailRef.current && (detailRef.current.scrollTop = 0)
             setReadDescription(false);
             setIndex(0)
             imageIndex?.(0);
-            qs().keepJson().setAbsPath(['products', 'detail'])
+            // qs().keepJson().setAbsPath(['products', 'detail'])
         }
     }, [product])
-    
+
     useEffect(() => {
         if (product && check('detail')) {
             console.log('new Comments fech');
-            
+
             fetchProductComments({
                 product_id: product.id,
                 no_save: true,
-                limit:4
+                limit: 4
             }).then((list) => {
                 return setComments(list)
             })
+            fetchProductComments({
+                product_id: product.id,
+                no_save: true,
+                with_photo: true,
+                limit: 5
+            }).then((list) => {
+                const a = list?.list.map(i => i.photos).flat();
+                return setImageComments({
+                    images: a?.slice(0, 5) || [],
+                    more: (a?.length || 0) > 5
+                })
+            })
         }
-    }, [ product]);
+    }, [product, pathList]);
 
+    useEffect(() => {
+
+        window.addEventListener('resize', handler);
+        return () => {
+            window.removeEventListener('resize', handler)
+        }
+
+        handler()
+    }, [])
     useEffect(() => {
         if (commentRef) {
             if (commentRef.dataset.init) return;
@@ -101,17 +139,17 @@ export function DetailProduct() {
             })
         }
     }, [commentRef])
-    const refreshProducts = ()=>{
+    const refreshProducts = () => {
         product && fetchProducts({
-            add_cart:true,
-            product_id:product.id,
-            no_save:true
-        }).then((p)=>{
-            if(p?.list[0].id){
-                const newP = {...p?.list[0]};
+            add_cart: true,
+            product_id: product.id,
+            no_save: true
+        }).then((p) => {
+            if (p?.list[0].id) {
+                const newP = { ...p?.list[0] };
                 products && setProducts({
                     ...products,
-                    list:products?.list.map((l=>l.id==p?.list[0].id?newP:l))
+                    list: products?.list.map((l => l.id == p?.list[0].id ? newP : l))
                 })
                 product?.id == p?.list[0].id && (selectProduct(newP))
             }
@@ -119,7 +157,7 @@ export function DetailProduct() {
     }
     return product && (
         <div className={"detail-product " + (product ? 'open' : '')} >
-            {product && <PageComments userComment={userComment} userCommand={userCommand} setRef={setCommentRef} product={product} />}
+            {product && <PageComments onRefresh={onRefresh} ImageComments={ImageComments} userComment={userComment} userCommand={userCommand} setRef={setCommentRef} product={product} />}
             {product && <PageImage product={product} />}
             <section className={'detail ' + ((current('products') || current('detail')) ? 'open' : 'close')} ref={detailRef}>
                 <div className="top-top _flex">
@@ -138,6 +176,7 @@ export function DetailProduct() {
                         doIt();
                     }} onClick={() => {
                         selectProduct(undefined)
+                        navBack()
                     }}></div>
                     <div className="label _lr-auto">Detail Product</div>
                 </div>
@@ -175,7 +214,10 @@ export function DetailProduct() {
                     }, 200);
                 }}>
                     <div className="images">
-                        <div className="list" ref={cardHorizontalCenter((setIndex) => { imageIndex = setIndex }, setIndex)}>
+                        <div className="list" ref={(ref => {
+                            cardHorizontalCenter((setIndex) => { imageIndex = setIndex }, setIndex)(ref);
+                            imagesCtn.current = ref;
+                        })}>
                             <div className="gap"></div>
                             {
                                 product?.images.map((img, i) => (
@@ -216,7 +258,7 @@ export function DetailProduct() {
                                     <div className="features">
                                         {
                                             product?.features.list.map(f => (
-                                                <div key={f.id} className={"feature " + (feature?.id == f.id ? 'active' : '')} style={{ filter: /* impact */toFilter('#358f27')?.result.filter || '' }} onClick={() => {
+                                                <div key={f.id} className={"feature " + (feature?.id == f.id ? 'active' : '')}  onClick={() => {
                                                     if (!feature) {
                                                         const iH = infoRef.current?.getBoundingClientRect().height || 0
                                                         const dH = diffRef.current?.getBoundingClientRect().height || 0
@@ -229,7 +271,7 @@ export function DetailProduct() {
                                                     if (feature?.id == f.id) setFeature(undefined);
                                                     else setFeature(f);
                                                 }}>
-                                                    <div className="icon" style={{ background: getImg(f.icon) }}></div>
+                                                    <div className="icon" style={{ background: getImg(f.icon[0]) }}></div>
                                                     <div className="label">{limit(f.name, 10)}</div>
                                                 </div>
                                             ))
@@ -245,7 +287,7 @@ export function DetailProduct() {
                                             if (product?.featuresCollector?.allCollectedFeatures()[feature.id]?.id == c.id) product?.featuresCollector?.collectFeature(feature, undefined);
                                             else product?.featuresCollector?.collectFeature(feature, c);
                                         }}>
-                                            <div className="icon" style={{ background: getImg(c.icon[0], 'contain') }}></div>
+                                            <div className="icon" style={{ background: c.images?.[0] && getImg(c.images[0], 'cover') }}></div>
                                             <div className="label">{limit(c.name, 10)}</div>
                                         </div>
                                     ))
@@ -257,7 +299,7 @@ export function DetailProduct() {
                 <div className='detail-box'>
                     <div className="center">
                         <div className='title'>product reviews<span></span></div>
-                        {product && <ToImagesRating onClick={() => { setLastPage(''); qs().keepJson().setAbsPath(['products', 'detail', 'images']) }} product={product} />}
+                        {product && <ToImagesRating images={ImageComments?.images} more={ImageComments?.more} onClick={() => { setLastPage(''); qs().keepJson().setAbsPath(['products', 'detail', 'images']) }} product={product} />}
                         <div className='title'>Comments<span></span></div>
                         <div className="min-comments" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
                             {
@@ -294,11 +336,12 @@ export function DetailProduct() {
                             product.quantity.toString() != '0') ? <ProductQuantity canNull product={product} onChange={() => {
                                 refreshProducts()
                             }} /> : <div className="add-to-cart" onClick={() =>
-                                addProductToCart({ product_id: product.id , quantity:1 }).then((c) => {
+                                user ? addProductToCart({ product_id: product.id, quantity: 1, collected_features:product.featuresCollector?.allCollectedFeatures() }).then((c) => {
                                     if (c?.id) {
                                         refreshProducts()
                                     }
-                                })}>Add <span> to cart</span></div>}
+                                }) : openChild(<PageAuth />, false, '#3455')
+                            }>Add <span> to cart</span></div>}
                     </div>
                 </div>
             }
@@ -314,20 +357,20 @@ export function DetailProduct() {
     )
 }
 
-export function ToImagesRating({ product, onClick }: { product: ProductInterface, onClick?: () => any }) {
+export function ToImagesRating({ product, onClick, images, more }: { images?: string[], more?: boolean, product: ProductInterface, onClick?: () => any }) {
     const { qs } = useAppRouter()
     return <div className="group-file-rating">
         <div className="after-order">
             <div className="ctn-mini-files" onClick={onClick}>
                 {
-                    images.list.map((i, a) => (
+                    images?.map((i, a) => (
                         <div key={a} className="w">
                             <div className="mini-file" style={{ background: getImg(i) }}></div>
                         </div>
                     ))
                 }
                 {
-                    images.more && <div className="back" style={{ background: getImg(images.list[0]) }}>
+                    more && <div className="back" style={{ background: images?.[0] && getImg(images?.[0]) }}>
                         <div className="more-files" >+ More</div>
                     </div>
                 }

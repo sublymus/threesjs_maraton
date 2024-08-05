@@ -9,7 +9,13 @@ import { useAppRouter, useAppStore } from '../../AppStore'
 import { PageAuth } from "../PageRegister/PageAuth";
 import { useRegisterStore } from '../PageRegister/RegisterStore'
 
-export function PageComments({ product, setRef, userCommand }: { userComment?: ProductCommentInterface, userCommand?: CommandInterface, setRef: (ref: HTMLElement | null) => any, product: ProductInterface }) {
+export function PageComments({ product, setRef, userCommand,ImageComments, onRefresh }: {
+    onRefresh?:()=>any,
+    ImageComments: {
+        images: string[],
+        more: boolean
+    } | undefined, userComment?: ProductCommentInterface, userCommand?: CommandInterface, setRef: (ref: HTMLElement | null) => any, product: ProductInterface
+}) {
     const { userComment, comments, create_product_comment, fetchProductComments, setIndex } = useCommentStore()
     const { openChild } = useAppStore()
     const { user } = useRegisterStore()
@@ -45,7 +51,7 @@ export function PageComments({ product, setRef, userCommand }: { userComment?: P
             <h1>Comments</h1>
             <div className="option"></div>
         </div>
-        <ToImagesRating product={product} onClick={() => qs().keepJson().setAbsPath(['products', 'detail', 'images'])} />
+        <ToImagesRating images={ImageComments?.images} more={ImageComments?.more} product={product} onClick={() => qs().keepJson().setAbsPath(['products', 'detail', 'images'])} />
         <div className="write-comment">
             <div className="top-prompt"> Leave a comment <span></span></div>
             {
@@ -118,7 +124,7 @@ export function PageComments({ product, setRef, userCommand }: { userComment?: P
                                 </div>
                                 <div className={"send-comment " + (loading ? 'loading' : '')}><span className={'text ' + (text.trim() ? '' : 'no')} onClick={() => {
                                     if (!user) {
-                                        return openChild(<PageAuth />, true,/* background 80% */ '#fffc')
+                                        return openChild(<PageAuth />, false,/* background 80% */ '#3455')
                                     }
                                     if (!!star && text) {
                                         setLoading(true)
@@ -132,6 +138,7 @@ export function PageComments({ product, setRef, userCommand }: { userComment?: P
                                             setLoading(false)
                                             if (c?.id) {
                                                 setNewComment(c)
+                                                onRefresh?.()
                                             }
                                             return;
                                         })

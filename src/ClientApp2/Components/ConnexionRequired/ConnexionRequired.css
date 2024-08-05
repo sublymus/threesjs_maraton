@@ -1,0 +1,57 @@
+.connexion-required{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connexion-required .ctn{
+    position: relative;
+    width: 260px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 20px;
+    background: #fff;
+    color: #123;
+}
+.connexion-required .close:hover{
+    background: no-repeat center/100% url(/src/res/x.png),#0003;
+}
+.connexion-required .close{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    border-radius: 100%;
+    background: no-repeat center/100% url(/src/res/x.png),#0001;
+}
+.connexion-required .btn{
+    display: flex;
+    align-items: center;
+    box-shadow: #345 0px 0px 2px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+
+}
+
+.connexion-required .btn .logo{
+    width: 50px;
+    height: 50px;
+    background: no-repeat center/100% url(/src/res/google2.png);
+    margin: 0 10px;
+}
+
+.connexion-required .btn{
+    display: flex;
+}
+
+
+
+

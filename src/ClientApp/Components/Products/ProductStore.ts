@@ -170,11 +170,10 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
     const l: Function[] = []
     const collector: CollectedFeatures = {}
     product.features.list.forEach(f => {
-        collector[f.id] = f.components?.find(v => !!v.is_default);
-        f.default_value = collector[f.id];
+        collector[f.id] = f.components?.[0];
         l.push(() => {
             world.localLoader.getModel().then(() => {
-                world.localLoader.updateFeature(f, f.default_value?.code || '')
+                world.localLoader.updateFeature(f, f.components?.[0]?.scene_code || '')
             })
         })
     });
@@ -185,11 +184,11 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
             collectFeature(feature, value) {
                 if (value != undefined) {
                     collector[feature.id] = value
-                    world.localLoader.updateFeature(feature, value.code)
+                    world.localLoader.updateFeature(feature, value.scene_code||'')
                 } else {
-                    if (feature.default_value) {
-                        collector[feature.id] = feature.components?.find(v => v.is_default);
-                        feature.default_value && world.localLoader.updateFeature(feature, feature.default_value.code)
+                    if (feature.components?.[0]) {
+                        collector[feature.id] = feature.components?.[0];
+                        feature.components?.[0] && world.localLoader.updateFeature(feature, feature.components?.[0].scene_code||'')
                     }
                 }
                 set(() => ({ featuresCollector: productCache.featuresCollector && { ...productCache.featuresCollector } }))

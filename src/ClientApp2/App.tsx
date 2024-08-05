@@ -2,7 +2,7 @@ import './App.css'
 import { useEffect, useRef } from 'react'
 import { useRegisterStore } from './Layout/PageRegister/RegisterStore'
 import { useAppRouter, useAppStore } from './AppStore'
-import { PageProducts, IsMobile } from "./Layout/PageProducts/PageProducts";
+import { PageProducts, /* IsMobile */ } from "./Layout/PageProducts/PageProducts";
 import { TopBar } from "./Components/TopBar/TopBar";
 import { BottomNav } from "./Components/BottomNav/BottomNav";
 import { PageCategories } from "./Layout/PageCategories/PageCategories";
@@ -26,7 +26,7 @@ export function App() {
     useEffect(() => {
         authenticateUser()
         window.addEventListener('blur', () => {
-            openChild(undefined)
+            // openChild(undefined)
         })
         // window.addEventListener('resize', () => {
         //     document.body.style.width = `${window.innerWidth}px`
@@ -73,7 +73,7 @@ export function App() {
         </div>
         }
         <TopBar/>
-        <div ref={ref} className="app-ctn" style={{ filter: blur ? 'blur(10px)' : '', height: `calc(100% - var(--bottom-nav-height) - ${IsMobile == 'mobile-device' ?(window.screen.height - window.innerHeight):0}px)` }}>
+        <div ref={ref} className="app-ctn" style={{ filter: blur ? 'blur(10px)' : '' }}>
            <PageProducts/>
            <PageCategories/>
            <PageFavorites/>

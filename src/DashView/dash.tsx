@@ -13,7 +13,7 @@ import { PageCategory } from "./Layout/PageCategory/PageCategory";
 import { PageFeature } from "./Layout/PageFeature/PageFeature";
 import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
 import { PageAuth } from './Layout/PageAuth/PageAuth'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRegisterStore } from './Layout/PageAuth/RegisterStore'
 import { PageModerator } from "./Layout/PageModerator/pageModerator";
 import { PageRole } from './Layout/PageRole/PageRole'
@@ -58,7 +58,7 @@ const PathMap = {
 
 export function Dash() {
 
-    const { currentChild, blur, openChild, fetchUsersVar, fetchStoreVar, T, setT, back_color } = useDashStore();
+    const { currentChild,overlay, blur, openChild, fetchUsersVar, fetchStoreVar, T, setT, back_color } = useDashStore();
     const { authenticateUser, user, store } = useRegisterStore();
     const { pathList, setAbsPath, } = useDashRoute()
     const { fetchRolesJson } = useRoleStore()
@@ -71,10 +71,12 @@ export function Dash() {
     useEffect(()=>{
         openChild(undefined)
     },[pathList])
+    const [s] = useState<any>({})
+    s.overlay = overlay;
     useEffect(() => {
         authenticateUser();
         window.addEventListener('blur', () => {
-            openChild(undefined)
+            // !s.overlay && openChild(undefined)
         })
     }, []);
 
@@ -89,7 +91,6 @@ export function Dash() {
     return (
         <div className={'dash ' + (T ? 'sombre-mode-variable' : '')} >
             <NavBar blur={blur} />
-            {(!user) && <PageAuth />}
             <div className={"dash-ctn " + (user ? (blur ? 'blur' : '') : 'blur')}>
                 <div className="center">
                     <div className="center-top">
@@ -141,15 +142,16 @@ export function Dash() {
                     </div>
                 </div>
             </div>
+            {(!user) && <PageAuth />}
             {currentChild && <div className="child-viewer" onContextMenu={(e) => {
                 e.preventDefault();
-                openChild(undefined)
+                !s.overlay &&openChild(undefined)
             }} >
                 <div className="child-viewer-ctn" style={{ background: back_color }} onClick={() => {
-                    openChild(undefined);
+                    !s.overlay &&openChild(undefined);
                 }} onContextMenu={(e) => {
                     e.preventDefault();
-                    openChild(undefined)
+                    !s.overlay &&openChild(undefined)
                 }}>
                     {currentChild}
                 </div>

@@ -161,7 +161,7 @@ export const useWebStore = create<WebState>((set) => ({
 
         const response = await fetch(`${Host}/me`, requestOptions);
         let js = await response.json();
-        if (!js?.id) return localStorage.removeItem('user');
+        if (!js?.id) return// localStorage.removeItem('user');
         useWebStore.getState().fetchStores({});
         js = { token: owner.token, ...js }
         set(() => ({ owner: js }))

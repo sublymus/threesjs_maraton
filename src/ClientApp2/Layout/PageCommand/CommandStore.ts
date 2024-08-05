@@ -13,6 +13,7 @@ interface CommandStore {
         collected_features?: Record<string, any>,
         command_id?: string,
         product_id?:string,
+        add_favorite?:boolean
     }): Promise<CommandInterface | undefined>
     confirmCommand(data?:{
         list:string[]
@@ -50,6 +51,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
         if(!(data.product_id || data.command_id)) return
         const fromData = new FormData();
         const query: any = {};
+        fromData.append('store_id', h.store.id);
         data.product_id && fromData.append('product_id', data.product_id+'');
         data.command_id && fromData.append('command_id', data.command_id+'');
         data.quantity && fromData.append('quantity', (data.quantity)+'');
@@ -75,7 +77,6 @@ export const useCommandStore = create<CommandStore>((set) => ({
                 list: [...(c?.list || []).map(f => f.id == cart.id ? cart : f)]
             }
         }));
-
         return cart
     },
     async confirmCommand(data) {
@@ -101,6 +102,8 @@ export const useCommandStore = create<CommandStore>((set) => ({
         const query: any = {};
         query.store_id = h.store.id;
         query.status = 'CART';
+        query.add_favorite = true;
+
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];
@@ -120,6 +123,8 @@ export const useCommandStore = create<CommandStore>((set) => ({
         const query: any = {};
         query.store_id = h.store.id;
         query.no_status = 'CART';
+        query.add_favorite = true;
+        
         const searchParams = new URLSearchParams({});
         for (const key in query) {
             const value = query[key];

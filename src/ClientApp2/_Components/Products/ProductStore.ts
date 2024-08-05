@@ -4,7 +4,7 @@ import {  ListType, ClientVisites, ProductScenus, FeaturesCollector, CollectedFe
 import { AbstractWorld, WorldManager } from '../../../World/WorldManager'
 import { Host } from '../../../Config';
 import { useRegisterStore } from '../../Layout/PageRegister/RegisterStore';
-
+//A
 export interface Filter {
     page?: number,
     limit?: number,

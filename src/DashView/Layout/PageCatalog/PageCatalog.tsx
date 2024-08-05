@@ -12,7 +12,7 @@ export function PageCatalog() {
     return check('catalogs') && (
         <div className='page-catalogs'>
             {
-                (current('catalogs') || current('new_catalog')|| current('dash_catalogs'))  && <ProductsListAccessor active='categories' setActive={((a)=>setAbsPath(a.path as any))}/>
+                (current('catalogs') || current('new_catalog')|| current('dash_catalogs'))  && <ProductsListAccessor active='catalogs' setActive={((a)=>setAbsPath(a.path as any))}/>
             }
             <CatalogDash/>
             <CatalogList />

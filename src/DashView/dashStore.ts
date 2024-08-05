@@ -114,6 +114,7 @@ interface DashState {
     openChild(child: JSX.Element | undefined, blur?:boolean,back_color?: string, option?:{
         overlay:boolean
     }) : any,
+    overlay:boolean|undefined,
     fetchStoreVar(): Promise<void>;
     fetchUsersVar(): Promise<void>;
 }
@@ -124,6 +125,7 @@ export const useDashStore = create<DashState>((set) => ({
     usersVar: undefined,
     back_color: '',
     blur:false,
+    overlay:undefined,
     async fetchStoreVar() {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
@@ -159,7 +161,7 @@ export const useDashStore = create<DashState>((set) => ({
                 }
             }
         }
-        set(() => ({ currentChild: child,blur:child?blur||useDashStore.getState().blur:undefined ,back_color: child ?(back_color || useDashStore.getState().back_color):'' }))
+        set(() => ({overlay:options?.overlay, currentChild: child,blur:child?blur||useDashStore.getState().blur:undefined ,back_color: child ?(back_color || useDashStore.getState().back_color):'' }))
     },
 }));
 

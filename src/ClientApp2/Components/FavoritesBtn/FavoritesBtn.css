@@ -1,0 +1,159 @@
+.favorites-btn:hover, .favorites-btn:active,  .favorites-btn.favorite,  .favorites-btn.open{
+    background: rgba(var(--back-item-var), 0.9);
+}
+.favorites-btn{
+    display: block;
+    position: absolute;
+    width: 32px;
+    top: 5px;
+    right: 5px;
+    /* z-index: 1; */
+    border-radius: 20px;
+    cursor: pointer;
+    background: rgba(var(--back-item-var), 0.6);
+}
+
+.favorites-btn span{
+   display: block;
+    width: 32px;
+    height: 32px;
+}
+.favorites-btn .icon{
+    background: no-repeat center/70% url(/src/res/love-empty.png);
+}
+.favorites-btn.favorite .icon{
+    opacity: 0.6;
+    background: no-repeat center/70% url(/src/res/love-fill.png);
+}
+
+
+.favorites-btn .plus{
+    opacity: 0.6;
+    background: no-repeat center/70% url(/src/res/plus.png);
+}
+
+.favorites-btn .down{
+    text-align: center;
+}
+
+
+
+
+.choise-label{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+.choise-label .ctn{
+    width: 280px;
+    border-radius: 20px;
+    background: var(--back-item);
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    align-items: center;
+}
+.choise-label .ctn .list{
+    width: 100%;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    background: var(--back-item);
+    display: flex;
+    flex-direction: column;
+}
+
+.choise-label  .ctn .list .label:hover{
+    opacity: 0.9;
+    background: rgba(var(--contrast-var), 0.05);
+}
+.choise-label  .ctn .list .label{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 5px;
+    padding-left: 10px;
+}
+.choise-label  .ctn .list .label:hover span{
+    transition: 200ms;
+    margin-right: 0px;
+}
+.choise-label  .ctn .list .label span{
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 20px;
+    transition: 200ms;
+}
+
+.choise-label .ctn .new-label{
+    width: 100%;
+}
+.choise-label .ctn .new-label label{
+    width: 100%;
+    display: flex;
+}
+
+.choise-label .ctn .add-new:hover{
+    opacity: 0.8;
+}
+.choise-label .ctn .add-new{
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--impact-color);
+    background: rgba(var(--impact-var), 0.7) ;
+}
+
+.choise-label .ctn .new-label label .plus {
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/40% url(/src/res/write.png);
+    opacity: 0.7;
+}
+
+.choise-label .ctn .new-label label .send:active {
+    scale: 1.2;
+}
+
+.choise-label .ctn .new-label label .send {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: no-repeat center/60% url(/src/res/send.png);
+    opacity: 0.7;
+    right: 0;
+}
+
+.choise-label .ctn .new-label label input {
+    all: unset;
+    height: 40px;
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 42px;
+    background: var(--back-item);
+    border: none;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 20px 40px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: var(--color);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.choise-label .ctn .new-label label input:focus {
+    outline: none;
+    padding-left: 40px;
+    box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;
+    background: rgba(var(--impact-var), 0.1);
+}

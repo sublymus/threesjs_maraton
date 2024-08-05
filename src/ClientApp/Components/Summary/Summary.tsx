@@ -48,11 +48,11 @@ export function Summary() {
                                             <div className="f-info">
                                                 <div className="f-icon" style={{ background: getImg(f[key].icon[0]) }}></div>
                                                 <div className="f-name">{f[key].name}</div>
-                                                <div className="v-price">+{(a[key] as Component)?.price || 0} {a[key]?.devise}</div>
+                                                <div className="v-price">+{(a[key] as Component)?.price || 0}</div>
                                             </div>
                                             <div className="v-info">
                                                 <div className="v-label">{(a[key] as Component)?.name}</div>
-                                                <div className="v-icon" style={{ background: getImg(a?.[key]?.icon[0] || '') }}></div>
+                                                <div className="v-icon" style={{ background: getImg(a?.[key]?.images?.[0] || '') }}></div>
                                             </div>
                                         </div>
                                     )

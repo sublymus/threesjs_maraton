@@ -114,6 +114,8 @@ export function PageNewStore() {
                     </div>
                     <input type="text" className={isValid('name') ? 'ok' : ''} id={id + 'name'} value={collected.name || ''} placeholder="Name" onChange={(e) => {
                         const name = e.currentTarget.value
+                        console.log(name);
+                        
                         if (name.trim().length < 3) setEnable('no')
                         else exist(name)?.then((deja_pris) => {
                             setEnable(deja_pris ? 'no' : 'yes')
@@ -123,6 +125,14 @@ export function PageNewStore() {
                             ...collected,
                             ['name']: name
                         })
+                    }} onKeyUp={(e)=>{
+                        if(e.code == 'Enter'){
+                            qs({ step: step + 1, id: Math.trunc(Math.random() * 100) }).apply();
+                        }
+                    }} onKeyDown={(e)=>{
+                        if(e.code == 'Tab'){
+                            qs({ step: step + 1, id: Math.trunc(Math.random() * 100) }).apply();
+                        }
                     }} />
                 </div>
             </div>

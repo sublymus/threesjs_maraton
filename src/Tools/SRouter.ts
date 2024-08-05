@@ -99,8 +99,6 @@ export const urlToPath = (self?: SRouter<any>): { pathList: string[], json?: Rec
     } else {
         h = hash
     }
-  console.log('suspect 2');
-
     const pathList = ['/', ...h.split('/')] as any;
     return { pathList, json };
 }
@@ -135,8 +133,6 @@ export class SRouter<T extends PageType = PageType>{
                 self.isInitialized = true;
             },
             navNext() {
-                console.log('navNext');
-
                 history.forward();
                 return;
             },

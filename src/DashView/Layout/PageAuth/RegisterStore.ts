@@ -12,9 +12,9 @@ interface RegisterState {
     authenticateUser(): Promise<void>;
     getAccess(): Promise<void>;
     updateUser(data: Record<string, any>): Promise<void>;
-    getHeaders(): {headers:Headers,user:UserInterface, store:StoreInterface} | undefined
+    getHeaders(): { headers: Headers, user: UserInterface, store: StoreInterface } | undefined
 }
-export const useRegisterStore = create<RegisterState>((set) => ({
+export const useRegisterStore = create<RegisterState>((set,get) => ({
     user: undefined,
     store: undefined,
     userStore: undefined,
@@ -71,8 +71,8 @@ export const useRegisterStore = create<RegisterState>((set) => ({
             const user = userJson && JSON.parse(userJson);
             if (user) {
                 console.log('getAccess', { token: user.token });
-
-                set(() => ({ user: user }))
+                get().authenticateUser()
+                // set(() => ({ user: user }))
                 clearInterval(id);
                 useRegisterStore.getState().authenticateUser()
             }
@@ -92,26 +92,28 @@ export const useRegisterStore = create<RegisterState>((set) => ({
                 headers: myHeaders,
             };
 
-            const response = await fetch(`${Host}/can_manage_store/${store_name}`, requestOptions)
-
-            let js: any
-            const clear = () => {
-                localStorage.removeItem('user');
-                localStorage.removeItem('store');
-                set(() => ({ user: undefined, userStore: undefined, store: undefined, openAuth: true }));
-            }
+            // const clear = () => {
+            //     localStorage.removeItem('user');
+            //     localStorage.removeItem('store');
+            //     set(() => ({ user: undefined, userStore: undefined, store: undefined, openAuth: true }));
+            // }
             try {
+                let js: any
+                set(() => ({ user: undefined, userStore: undefined, store: undefined, openAuth: true }))
+                const response = await fetch(`${Host}/can_manage_store/${store_name}`, requestOptions)
+
                 js = await response.json();
-                if (!js.user) return clear()
+                if (!js?.user) return //clear()
+                const _user = { ...user, ...js.user };
+                set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false }))
+                localStorage.setItem('user', JSON.stringify(_user));
             } catch (error) {
-                return clear();
+                return
             }
-            const _user = { ...user, ...js.user };
-            set(() => ({ user: _user, userStore: js.userStore, store: js.store, openAuth: false }))
-            localStorage.setItem('user', JSON.stringify(_user));
+
         } else {
-            localStorage.removeItem('user');
-            localStorage.removeItem('store');
+            // localStorage.removeItem('user');
+            // localStorage.removeItem('store');
             set(() => ({ user: undefined, userStore: undefined, store: undefined, openAuth: true }))
         }
     },
@@ -122,6 +124,6 @@ export const useRegisterStore = create<RegisterState>((set) => ({
         if (!user) return
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${user.token}`);
-        return {headers ,user, store}
+        return { headers, user, store }
     }
 }));

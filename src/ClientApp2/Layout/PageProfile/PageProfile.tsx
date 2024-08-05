@@ -100,7 +100,7 @@ export function PageProfile() {
                 }}></span>
                 <h1> {mapTitle[page]||mapTitle['edit']}</h1>
             </div>
-            {mapPage[page]||mapPage['edit']}
+            {user ? (mapPage[page]||mapPage['edit']):mapPage['about']}
         </div>
     </div>
 }
