@@ -74,10 +74,10 @@ export const useFeatureStore = create<DashState>((set) => ({
             feature[k] != undefined && formData.append(k, feature[k]);
         }
 
-        (feature.components as Component[])?.forEach((c, i) => {
+        (feature.components as Component[])?.forEach((c) => {
             if ((c.images?.[0] && c.images as any as string[] | Blob[] | undefined)?.[0] instanceof Blob) {
-                formData.append(c.name+':images_'+i, c.images?.[0] as any);
-                (c as any).images = JSON.stringify([c.name+':images_'+i]);
+                formData.append(c.name+':images_0', c.images?.[0] as any);
+                (c as any).images = JSON.stringify([c.name+':images_0']);
                 (c as any).distinct = c.name;
             }
         })
@@ -121,12 +121,11 @@ export const useFeatureStore = create<DashState>((set) => ({
 
         (feature.components as Component[])?.forEach((c,i) => {
             if ((c.images as any as string[] | Blob[] | undefined)?.[0] instanceof Blob) {
-                console.log('new Blob');
-                
-                const isBlob = ((c.images?.[0] as any) instanceof Blob);
-                (c.images?.[0] && isBlob) && formData.append(c.name+':images_'+i, c.images[0] as any);
-                (c as any).images = JSON.stringify(isBlob ? [c.name+':images_'+i] : c.images);
+                formData.append(c.name+':images_0', c.images?.[0] as any);
+                (c as any).images = JSON.stringify([c.name+':images_0']);
                 (c as any).distinct = c.name;
+            }else{
+                (c as any).images = JSON.stringify(c.images)
             }
         })
         feature.components && formData.append('components', JSON.stringify(feature.components));
