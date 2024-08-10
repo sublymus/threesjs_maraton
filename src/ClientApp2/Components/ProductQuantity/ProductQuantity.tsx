@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import './ProductQuantity.css'
-import { CommandInterface, ProductInterface } from '../../../DataBase';
+import { CommandInterface, ProductScenus } from '../../../DataBase';
 import { toFilter } from '../../../Tools/FilterColor';
 import { useCommandStore } from '../../Layout/PageCommand/CommandStore';
 
-export function ProductQuantity({ cart, canNull, product, onChange }: { onChange?: (count: number) => any, canNull?: boolean, cart?: CommandInterface, product?: ProductInterface }) {
+export function ProductQuantity({ cart, canNull, product, onChange , ingoreFeature}: {ingoreFeature?:boolean, onChange?: (count: number) => any, canNull?: boolean, cart?: CommandInterface, product?: ProductScenus }) {
     let [count, setCount] = useState(Number(cart?.quantity || product?.quantity || 0) || 0);
     const { addProductToCart } = useCommandStore()
     useEffect(()=>{
@@ -46,9 +46,13 @@ export function ProductQuantity({ cart, canNull, product, onChange }: { onChange
                 product_id: product?.id,
                 //@ts-ignore
                 command_id: cart?.id,
-                quantity: c
-            }).then(() => {
+                quantity: c,
+                collected_features:ingoreFeature ?undefined:product?.featuresCollector?.allCollectedFeatures()
+            }).then((c) => {
+                console.log('________',c);
+                
                 onChange?.(count);
+                return;
             })
         }}>
             <span style={{ filter: count >= ((product||cart)?.stock || Number.MAX_VALUE) ?/* discret color */toFilter('#fff').result.filter : /* impact */  toFilter('#358f27').result.filter }}></span>

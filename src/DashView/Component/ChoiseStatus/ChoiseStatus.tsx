@@ -19,7 +19,7 @@ export function ChoiseStatus({onChange , status}:{status?:StatusType, onChange?:
             <div className="ctn">
                 {
                     statusLsit.map((s)=>(
-                        <div className={"use-status "+ s.toLocaleLowerCase()+' '+(selected == s?'active':'')} onClick={()=>{
+                        <div key={s} className={"use-status "+ s.toLocaleLowerCase()+' '+(selected == s?'active':'')} onClick={()=>{
                             setSelected(s);
                             onChange?.(s)
                         }}>

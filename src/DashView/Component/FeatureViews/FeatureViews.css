@@ -1,0 +1,362 @@
+.components {
+    width: 100%;
+}
+
+.components .add-btn {
+    display: inline-flex;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 5px;
+    margin-left: 20px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 69, 153, 0.288) 0px 0px 5px;
+}
+
+
+.components .add-btn span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 20px;
+    background: no-repeat center/80% url('/src/res/plus.png'), #9996;
+}
+
+.components .comp-list {
+    width: 100%;
+    display: flex;
+    overflow-y: hidden;
+    align-items: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.components .comp-list .component.active {
+    background: rgba(53, 143, 39, 0.3);
+}
+
+.components .comp-list .component {
+    min-width: 100px;
+    margin: 10px;
+    position: relative;
+    background: rgba(53, 143, 39, 0.1);
+    border-radius: 20px;
+    border-top-right-radius: 0;
+    color: #000;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.components .comp-list .component .icon {
+    width: 100px;
+    height: 77px;
+}
+
+.components .comp-list .component.not-icon {
+    padding:0 10px;
+    min-width: initial;
+    overflow: initial;
+    max-width: 150px;
+}
+
+.components .comp-list.can-add .component.not-icon {
+    padding-right: 20px;
+    width: initial;
+    min-width: initial;
+}
+
+.components .comp-list .component .label {
+    text-align: center;
+    width: 100%;
+    padding: 5px 0px;
+}
+
+.components .comp-list .component .remove {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    /* margin: 0 5px; */
+    border-radius: 10px;
+    background: no-repeat center/60% url('/src/res/x.png'), #FFF;
+}
+
+
+
+
+.new-component .ctn > .is-default:hover{
+    background: #3451;
+}
+.new-component .ctn > .is-default{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 5px;
+}
+.new-component .is-default .check{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #3455;
+}
+
+.new-component .is-default.default .check{
+    background: #049;
+}
+.new-component .is-default .check span{
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: invert();
+}
+
+.new-component .is-default.default .check span{
+    background: no-repeat center/60% url(/src/res/mark.png);
+
+}
+
+.new-component {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-component .ctn {
+    padding: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 800px;
+    padding: 20px 5%;
+    border-radius: 20px;
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.new-component .ctn > * {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.new-component label .label {
+    margin: 5px 0;
+}
+
+.new-component label .label span{
+    font-size: 0.8em;
+    color: #333;
+}
+.new-component input:hover {
+    background: rgba(var(--impact-var), 0.1);
+}
+
+.new-component input {
+    all: unset;
+    height: 30px;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 5px;
+    background: var(--back-item);
+    border: none;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px, rgba(255, 255, 255, 0.3) 0px 0px 0px 0.5px inset;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 130%;
+    color: var(--color);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+}
+
+.new-component input:focus {
+    outline: none;
+    padding-left: 24px;
+    box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;
+    background: rgba(var(--impact-var), 0.1);
+}
+
+.new-component .btm {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+    padding-top: 20px;
+}
+
+.new-component .btm div.cancel {
+    background: #3453;
+}
+
+.new-component .btm div.create {
+    color: #fff;
+    background: rgba(var(--impact-var), 0.5);
+}
+
+.new-component .btm div:hover {
+    opacity: 0.8;
+}
+
+.new-component .btm div {
+    width: 120px;
+    cursor: pointer;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.new-component .new-comp-image .label {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    white-space: nowrap;
+}
+
+.new-component .new-comp-image:hover {
+    background: #3453;
+}
+
+.new-component .new-comp-image {
+    margin-top: 40px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    cursor: pointer;
+    height: 80px;
+    background: #3452;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.components .btn-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.components .button.active {
+    color: #fff;
+    background: #049;
+}
+
+.components .button {
+    position: relative;
+    padding: 5px 10px;
+    padding-right: 30px;
+    max-width: 200px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 69, 153, 0.288) 0px 0px 5px;
+}
+
+.components .button .remove:hover {
+    background: no-repeat center/60% url('/src/res/x.png'), #9996;
+}
+
+
+
+.components .add-section {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.components .add-section span:hover {
+    background: no-repeat center/80% url('/src/res/plus.png'), #9996;
+}
+
+.components .add-section input:focus {
+    outline: none;
+    padding-left: 24px;
+    box-shadow: rgba(var(--impact-var), 0.3) 0px 10px 40px, rgba(var(--impact-var), 1)0px 0px 0px 1px inset;
+    background: rgba(var(--impact-var), 0.1);
+}
+
+.components .add-section input {
+    padding-right: 30px;
+    padding-right: 30px;
+    max-width: 200px;
+    cursor: pointer;
+    margin: 5px !important;
+    width: 180px;
+    background: rgba(var(--impact-var), 0.1);
+}
+
+.components .add-section label {
+    margin: 0;
+}
+
+.components .add-section span {
+    display: block;
+    position: absolute;
+    width: 20px;
+    cursor: pointer;
+    height: 20px;
+    border-radius: 20px;
+    top: 10px;
+    right: 10px;
+    background: no-repeat center/80% url('/src/res/plus.png'), #9999;
+}

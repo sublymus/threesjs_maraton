@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import './ChoiseFeatures.css'
 import { Feature } from '../../../DataBase';
-import { useFeatureStore } from "../../Layout/PageFeature/FeatureStore";
+import { useFeatureStore } from "../../Layout/PageProduct/PageFeature/FeatureStore";
 import { getImg } from '../../../Tools/StringFormater';
 import { toFilter } from '../../../Tools/FilterColor';
 
 export function ChoiseFeatures({ features: _features, onEdit, onNew }: { features?: Feature[], onNew?: () => any, onEdit?: (feature: Feature) => any }) {
     const { fetchFeatures, features } = useFeatureStore()
     const [open, setOpen] = useState('');
-    
+
     useEffect(() => {
         fetchFeatures();
     }, []);

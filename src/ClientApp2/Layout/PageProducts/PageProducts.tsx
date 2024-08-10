@@ -41,30 +41,50 @@ export function PageProducts() {
 
     const { fetchCategoies } = useCategoryStore()
     const [categories, setCategories] = useState<ListType<CategoryInterface>>()
-    const [s] = useState<any>({})
+    const [s] = useState<any>({});
+    s.newPage = true;
+
     const [isFilterOpen, setIsFilterOpen] = useState(false)
+
+    const loadProducts = () => {
+        fetchProducts({
+            ...filter
+        }).then((p) => {
+            const newP = p?.list[0];
+            setProducts(p)
+            if (newP) {
+                if (!product) {
+                    if (window.innerWidth > 940) {
+                        selectProduct(newP);
+                        qs({ ...json, product_id: p.list[0].id }).setAbsPath(['products', 'detail'])
+                    }
+                } else {
+                    const newLastP = p.list.find(_p => s.product?.id == _p.id)
+                    newLastP && selectProduct(newLastP);
+                }
+            }
+        })
+    }
     useEffect(() => {
         /* on recupere les produits */
 
-        // if (s.pathList.join('/') != s.lastPage) {
-        //     s.newPage = true;
-        //     s.lastPage = s.pathList.join('/')
-        // }
-        
-        if (check('products')  && store) {
-            // s.newPage  = false;
-            fetchProducts({
-                ...filter
-            }).then((p) => {
-                if (p?.list[0]) {
-                    if ( !product && window.innerWidth > 940 ) {
-                        selectProduct(p?.list[0]);
-                        qs({ ...json, product_id: p.list[0].id }).setAbsPath(['products', 'detail'])
-                    }
-                }
-            })
+        if (s.pathList.join('/') !== s.lastPage) {
+            s.newPage = true;
+            s.lastPage = s.pathList.join('/')
+        } else {
+            s.newPage = false;
         }
-    }, [ filter, store, pathList ])
+
+        if (check('products') && store && (s.newPage || s.products?.list.length == 0)) {
+            loadProducts()
+        }
+    }, [store, pathList])
+
+    useEffect(() => {
+        if (check('products') && store) {
+            loadProducts()
+        }
+    }, [filter])
 
     useEffect(() => {
         /* on recupere les categories */
@@ -86,6 +106,8 @@ export function PageProducts() {
             p && selectProduct(p);
         }
         if (check('products') && SearchFilterBindJson(filter, json || {})) {
+            console.log('@@@@@@@@@@@@@@@@@');
+
             setFilter({ ...filter })
         }
     }, [json])
@@ -93,26 +115,22 @@ export function PageProducts() {
     useEffect(() => {
         /* en cas de resize desktop on selection un produit*/
         // if (s.init) return;
-        // s.init = true;
+        // s.init = true;  
         window.addEventListener('resize', () => {
             if (window.innerWidth > 940) {
-                !s.product && selectProduct(s.products?.list[0]);
-            }
+                if(!s.product)selectProduct({...s.products?.list[0]});
+                else{
+                    selectProduct({...s.product});
+                }
+            }  
         })
     }, []);
 
     s.product = product
     s.products = products
+    s.filter = filter
     s.pathList = pathList
 
-    const [_text, setText] = useState('')
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-
-            setText(`${window.innerWidth} / ${window.innerHeight}  / ${window.screen.height} => ${IsMobile}`)
-        })
-        setText(`${window.innerWidth} / ${window.innerHeight} / ${window.devicePixelRatio}  => ${IsMobile}`)
-    }, [])
     const refresh = (_p: ProductInterface) => {
         s.products && fetchProducts({
             add_cart: true,
@@ -124,12 +142,12 @@ export function PageProducts() {
             if (p?.list[0].id) {
                 const newP = { ...p?.list[0] };
                 console.log(newP);
-                
+
                 s.products && setProducts({
                     ...s.products,
-                    list: s.products.list.map((p:ProductInterface) => p.id == newP.id ? newP : p)
+                    list: s.products.list.map((p: ProductInterface) => p.id == newP.id ? newP : p)
                 });
-                (s.product?.id ==  newP.id ) && selectProduct(newP);
+                (s.product?.id == newP.id) && selectProduct(newP);
             }
         })
 
@@ -207,8 +225,8 @@ export function PageProducts() {
                                 qs({ ...json, product_id: p.id }).setAbsPath(['products', 'detail'])
                             }} onRefresh={(_p) => {
                                 refresh(_p)
-                                console.log('onRefresh',_p);
-                                
+                                console.log('onRefresh', _p);
+
                             }} />
                         ))
                     }

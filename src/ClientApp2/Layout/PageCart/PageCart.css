@@ -172,6 +172,44 @@
     margin-left: auto;
 }
 
+/* CMD ==> list des produit commade */
+
+.page-cart .go-to-checkout .infos .cmd{
+    display: block;
+}
+
+.page-cart .go-to-checkout .cmd .top{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+
+
+.page-cart .go-to-checkout .cmd .top .name{
+    padding: 2px;
+    width: 50%;
+    max-width: 300px;
+    /* min-width: 130px; */
+    overflow: hidden;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--discret);
+}
+.page-cart .go-to-checkout .cmd .top .name .product-title {
+    font-weight: 600;
+    color: var(--item-color);
+}
+
+
+.page-cart .go-to-checkout .infos .cmd .feature{
+    margin-left: 7%;
+    display: flex;
+    white-space: nowrap;
+
+    justify-content: space-between;
+}
+
 @media (width > 1100px) {
     .page-cart .cart-ctn {
         flex-wrap: nowrap;
@@ -192,6 +230,10 @@
         display: flex;
         padding: 5px;
     }
+    .page-cart .go-to-checkout .infos .cmd .feature{
+        margin-left: 0;
+    }
+    
 }
 
 .page-cart .page-auth{

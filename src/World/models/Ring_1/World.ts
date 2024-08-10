@@ -60,7 +60,7 @@ class World {
             (this.camera).updateProjectionMatrix();
         })
 
-        this.controls = new this.dependencies.obj.ADDON.OrbitControls(this.camera, this.WorldManager.tactil.getView())
+        this.controls = new this.dependencies.obj.ADDON.OrbitControls(this.camera, this.WorldManager._renderer.domElement)
         this.controls.target.z = 0;
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;

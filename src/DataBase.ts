@@ -198,7 +198,8 @@ export type CollectedFeatures = { [key: string]: Component | undefined }
 export type FeaturesCollector = {
     collectFeature(feature: Feature, value: Component | undefined): void
     getCollectedFeatures(key: string): Component | undefined
-    allCollectedFeatures(): CollectedFeatures
+    allCollectedFeatures(): CollectedFeatures,
+    setAll(all:CollectedFeatures):void
 };
 
 export interface ProductScenus extends ProductInterface {
@@ -253,6 +254,14 @@ export interface Feature {
     components?: (Component)[];
 }
 
+export interface ProductDetailInterface{ 
+    id:string,
+    title:string,
+    detail:string,
+    index:number,
+    images?:string[],
+    product_id:string,
+}
 export interface ProductInterface {
     id: string,
     title: string,
@@ -272,6 +281,7 @@ export interface ProductInterface {
     created_at: string;
     updated_at: string
     quantity?: number;
+    details?:ProductDetailInterface[]
     star: number
     note?: {
         note: number,

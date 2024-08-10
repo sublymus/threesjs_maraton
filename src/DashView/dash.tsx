@@ -10,7 +10,6 @@ import { PageChat } from './Layout/PageChat/PageChat'
 import { PageInterface } from './Layout/PageInterface/PageInterface'
 import { useDashStore, useDashRoute } from './dashStore';
 import { PageCategory } from "./Layout/PageCategory/PageCategory";
-import { PageFeature } from "./Layout/PageFeature/PageFeature";
 import { PageCatalog } from './Layout/PageCatalog/PageCatalog'
 import { PageAuth } from './Layout/PageAuth/PageAuth'
 import { useEffect, useState } from 'react'
@@ -130,8 +129,6 @@ export function Dash() {
                         <PageProduct />
                         <PageCategory />
                         <PageCatalog />
-                        <PageFeature />
-
                         <PageClient />
                         <PageModerator />
                         <PageCollaborator />

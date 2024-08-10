@@ -1,0 +1,192 @@
+.product-3d {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.product-3d .top{
+    width: 100%;
+
+}
+
+/* TOP */
+.product-3d>.top {
+    width: 100%;
+    display: flex;
+    padding:5px 20px;
+    box-shadow: rgba(var(--discret-var), 0.3) 1px 2px 5px;
+}
+
+.product-3d>.top h1{
+    margin: 0 auto;
+    color: var(--color);
+}
+
+.product-3d .top .return {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: no-repeat center /80% url(/src/res/arrow-left.png);
+    cursor: pointer;
+}
+
+.product-3d .top .cart {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: no-repeat center /80% url(/src/res/cart-empty.png);
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.product-3d .features::-webkit-scrollbar{
+    display: none;
+}
+
+.product-3d .features.open{
+    scale: 1;
+}
+.product-3d .features{
+    position: absolute;
+    padding: 20px;
+    bottom: 20px;
+    width: 90%;
+    scale: 0;
+    margin-right: 20px;
+    max-height:60%;
+    height: 60%;
+    border-radius: 50px;
+    border-bottom-right-radius: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    backdrop-filter: blur(7px);
+    transform-origin: 100% 100%; 
+    transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    background: rgba(var(--variant-sombre-var), 0.3);
+    box-shadow: rgba(var(--variant-sombre-var), 0.3) 0px 0px 20px ,rgba(var(--discret-var), 0.3) 0px 0px 5px , var(--discret-color) 0px 0px 2px inset;
+}
+
+.product-3d .features .feature{
+    width: 100%;
+    color: var(--discret-color);
+}
+
+.product-3d .features .feature .name{
+    font-size: 1.4em;
+    text-transform: capitalize;
+
+}
+
+.product-3d .features .feature .space{
+    display: block;
+    width: 100%;
+    height: 1px;
+    opacity: 0.6;
+    background: var(--discret-color);
+}
+
+.product-3d .btm{
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-right: 20px;
+    height: 60px;
+    border-radius: 50px;
+    border-bottom-right-radius: 0;
+    background: var(--back-item);
+    box-shadow: rgba(var(--variant-sombre-var), 0.3) 0px 0px 20px ,rgba(var(--discret-var), 0.3) 0px 0px 5px , var(--discret-color) 0px 0px 2px inset;   
+}
+
+
+.product-3d .btm .price {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px 0;
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+.product-3d .btm .price .value {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.product-3d .btm .add-to-cart:hover {
+    opacity: 0.8;
+    transition: 200ms;
+}
+
+.product-3d .btm .add-to-cart {
+    text-transform: capitalize;
+    font-weight: bold;
+    padding: 15px 30px;
+    background: var(--impact);
+    color: var(--impact-color);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 70px;
+    transition: 200ms;
+}
+
+.product-3d .btm .cart-quantity {
+    margin: 5px 0;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.product-3d .btm .cart-quantity .count {
+    padding: 0 20px;
+}
+
+.product-3d .btm .buy:hover {
+    opacity: 0.8;
+}
+
+.product-3d .btm .buy {
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 15px 10px;
+    background: var(--impact);
+    color: var(--impact-color);
+    border-radius: 20px;
+    margin-right: 70px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+.product-3d .option{
+    position: absolute;
+    width: 60px;
+    cursor: pointer;
+    right: 0px;
+    height: 60px;
+    border-radius: 50px;
+    border-bottom-right-radius: 0;
+    background: var(--impact);
+    box-shadow: rgba(var(--variant-sombre-var), 0.3) 0px 0px 20px ,rgba(var(--discret-var), 0.3) 0px 0px 5px , var(--discret-color) 0px 0px 2px inset;
+}
+
+.product-3d .option.open span{
+    background: no-repeat center/50% url(/src/res/x.png);
+}
+.product-3d .option span{
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: invert();
+    background: no-repeat center/50% url(/src/res/write.png);
+}

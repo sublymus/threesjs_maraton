@@ -168,7 +168,7 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
     });
     //  WorldManager.worldManager.setWorld(world);
     const l: Function[] = []
-    const collector: CollectedFeatures = {}
+    let collector: CollectedFeatures = {}
     product.features.list.forEach(f => {
         collector[f.id] = f.components?.[0];
         l.push(() => {
@@ -192,6 +192,9 @@ async function showProductWorld(set: (cb: (data: Partial<ProductState>) => Parti
                     }
                 }
                 set(() => ({ featuresCollector: productCache.featuresCollector && { ...productCache.featuresCollector } }))
+            },
+            setAll(all) {
+                collector = all
             },
             getCollectedFeatures(key) {
                 return collector[key];

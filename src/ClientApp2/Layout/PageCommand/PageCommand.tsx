@@ -20,19 +20,15 @@ export function PageCommand() {
         <div className="orders">
             {
                 commands?.list.map((p) => (
-                    <OrderItem order={p} key={p.id} onShare={() => { }} onClick={() => { }} onLike={() => { }} />
+                    <OrderItem order={p} key={p.id} onShare={() => { }} onClick={() => { }} onChat={() => { }} />
                 )
                 )
             }
         </div>
     </div>
-} let features = {
-    metal: 'gold',
-    'gem': 'Diamon',
-    size: 56
-} as any
+}
 
-function OrderItem({ order, onClick, onLike, onShare, onComment }: { onComment?: (c: CommandInterface) => any, onLike?: (c: CommandInterface) => any, onShare?: (c: CommandInterface) => any, onClick?: (c: CommandInterface) => any, order: CommandInterface }) {
+function OrderItem({ order, onClick, onChat, onShare, onComment }: { onComment?: (c: CommandInterface) => any, onChat?: (c: CommandInterface) => any, onShare?: (c: CommandInterface) => any, onClick?: (c: CommandInterface) => any, order: CommandInterface }) {
 
     return <div className="order-item" onClick={() => onClick?.(order)}>
         <div className="infos">
@@ -43,12 +39,12 @@ function OrderItem({ order, onClick, onLike, onShare, onComment }: { onComment?:
                         <h3 className="name _limit-text"><span className='product-title'>{order.title}</span> <span className='slash'>/</span> <span>{order.description}</span></h3>
                         <div className="features">
                             {
-                                Object.keys(/* order.collected_features */{ ...features } || {}).slice(0, 2).map(k => (
-                                    <div key={k} className='feature'><span className='k'>{k}</span>:<span className='v'>{(/* order.collected_features */features || {})[k]}</span></div>
+                                Object.keys(/* order.collected_features */{ ...order.collected_features } || {}).slice(0, 2).map(k => (
+                                    <div key={k} className='feature'><span className='k'>{k}</span>:<span className='v'>{(/* order.collected_features */order.collected_features || {})[k]}</span></div>
                                 ))
                             }
                             {
-                                Object.keys(/* order.collected_features */features || {}).length > 2 && (
+                                Object.keys(/* order.collected_features */order.collected_features || {}).length > 2 && (
                                     <div className="all-features">See more <span></span></div>
                                 )
                             }
@@ -63,7 +59,7 @@ function OrderItem({ order, onClick, onLike, onShare, onComment }: { onComment?:
                 </div>
                 <div className="btm">
                     <div className="options">
-                        <div style={{ filter: toFilter(/* contrast */'#123').result.filter }} className="to-favorites" onClick={() => onLike?.(order)}><span ></span></div>
+                        <div style={{ filter: toFilter(/* contrast */'#123').result.filter }} className="chat-service" onClick={() => onChat?.(order)}><span ></span></div>
                         <div style={{ filter: toFilter(/* contrast */'#123').result.filter }} className="start-comment" onClick={() => {
                             onComment?.(order)
                         }}><span></span></div>

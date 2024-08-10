@@ -39,11 +39,11 @@ export function ProductCard({ product, active, onClick, aspect, mode, onRefresh 
             window.removeEventListener('resize', handler)
         }
     }, [ref, aspect, mode]);
-    
+
     return (
         <div className={'product-card ' + mode + ' ' + (active ? 'active' : '')} onClick={onClick} ref={ref}>
-            
-                <div className="back"></div>
+
+            <div className="back"></div>
             <div className="images" ref={cardHorizontalCenter(undefined, setIndex)}>
                 <div className="gap"></div>
                 {
@@ -65,6 +65,9 @@ export function ProductCard({ product, active, onClick, aspect, mode, onRefresh 
             </div>
             <div className="infos">
                 <div className="counters">
+                {
+                    product.scene_dir && <div className="view-3d"></div>
+                }
                     {
                         product.images.map((i, a) => (
                             <div key={i} className={"counter " + (index == a ? 'active' : '')}></div>
@@ -74,7 +77,7 @@ export function ProductCard({ product, active, onClick, aspect, mode, onRefresh 
 
 
                 <div className="price">
-                    <div className="value">12450.93 $</div>
+                    <div className="value">{product.price} {'$'}</div>
                 </div>
                 <h3 className="name _limit-text"><span className='product-title'>{product.title}</span> <span className='slash'>/</span> <span>{product.description}</span></h3>
                 <div className="stars">
@@ -96,7 +99,7 @@ export function ProductCard({ product, active, onClick, aspect, mode, onRefresh 
                         product.quantity.toString() != '0') ? <ProductQuantity canNull product={product} onChange={() => {
                             onRefresh?.(product)
                         }} /> : <div className="btn _limit-text" onClick={() =>
-                            user ? addProductToCart({ product_id: product.id, quantity: 1, collected_features : product.featuresCollector?.allCollectedFeatures() }).then((c) => {
+                            user ? addProductToCart({ product_id: product.id, quantity: 1, collected_features: product.featuresCollector?.allCollectedFeatures() }).then((c) => {
                                 if (c?.id) {
                                     onRefresh?.(product)
                                 }

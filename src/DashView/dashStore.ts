@@ -12,16 +12,16 @@ const Pages = {
     '/': {
         chat: {
             discussions: {
-                discussions_all:{},
-                discussions_new:{},
-                discussions_blocked:{},
-                discussions_admin:{}
+                discussions_all: {},
+                discussions_new: {},
+                discussions_blocked: {},
+                discussions_admin: {}
             },
             groups: {},
             sessions: {
-                sessions_new:{},
-                sessions_opened:{},
-                sessions_closed:{},
+                sessions_new: {},
+                sessions_opened: {},
+                sessions_closed: {},
             },
             surveys: {}
         },
@@ -37,8 +37,8 @@ const Pages = {
             //list
             client_profile: {},
         },
-        moderators:{
-            moderator_profile:{}
+        moderators: {
+            moderator_profile: {}
         },
         collaborators: {
             //list
@@ -53,8 +53,10 @@ const Pages = {
                 // edition de product (avec data) <EditProduct/>
                 product_preview: {},
                 product_statistic: {},
-                action: {}
+                action: {},
             },
+            dash_features: {},
+            new_feature: {},
             new_product: {
                 //creation de products
                 preview: {},
@@ -68,17 +70,6 @@ const Pages = {
             },
             new_category: {
                 // creation de categories
-                preview: {},
-            }
-        },
-        features: {
-            //list des features
-            dash_features: {
-                preview: {},
-                action: {}
-            },
-            new_feature: {
-                // creation de features
                 preview: {},
             }
         },
@@ -105,16 +96,16 @@ interface StoreVar {
 
 interface DashState {
     back_color: string;
-    blur:boolean,
+    blur: boolean,
     T: string | undefined | null,
     setT(T: string | undefined): void,
     storeVar: StoreVar | undefined,
     usersVar: StoreVar | undefined,
-    currentChild: JSX.Element[]|JSX.Element | undefined,
-    openChild(child: JSX.Element | undefined, blur?:boolean,back_color?: string, option?:{
-        overlay:boolean
-    }) : any,
-    overlay:boolean|undefined,
+    currentChild: JSX.Element[] | JSX.Element | undefined,
+    openChild(child: JSX.Element | undefined, blur?: boolean, back_color?: string, option?: {
+        overlay: boolean
+    }): any,
+    overlay: boolean | undefined,
     fetchStoreVar(): Promise<void>;
     fetchUsersVar(): Promise<void>;
 }
@@ -124,13 +115,13 @@ export const useDashStore = create<DashState>((set) => ({
     storeVar: undefined,
     usersVar: undefined,
     back_color: '',
-    blur:false,
-    overlay:undefined,
+    blur: false,
+    overlay: undefined,
     async fetchStoreVar() {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
-        
-        const response = await fetch(`${Host}/get_store_var?store_id=${h.store.id}`,{headers:h.headers});
+
+        const response = await fetch(`${Host}/get_store_var?store_id=${h.store.id}`, { headers: h.headers });
         const json = await response.json();
         if (!json) return;
         set(() => ({ storeVar: json }));
@@ -139,29 +130,29 @@ export const useDashStore = create<DashState>((set) => ({
     async fetchUsersVar() {
         const h = useRegisterStore.getState().getHeaders();
         if (!h) return
-        const response = await fetch(`${Host}/get_users_var?store_id=${h.store.id}`, {headers:h.headers});
+        const response = await fetch(`${Host}/get_users_var?store_id=${h.store.id}`, { headers: h.headers });
         const json = await response.json();
         if (!json) return;
         set(() => ({ usersVar: json }));
 
     },
     setT(T) {
-        localStorage.setItem('theme', T||'');
+        localStorage.setItem('theme', T || '');
         set(() => ({ T }))
     },
     currentChild: undefined,
-    openChild(child , blur,back_color, options) {
-        if(options?.overlay){
+    openChild(child, blur, back_color, options) {
+        if (options?.overlay) {
             const chidren = useDashStore.getState().currentChild;
-            if(chidren){
-                if(Array.isArray(chidren)){
-                    child = [...chidren,child] as any;
-                }else{
-                    child = [chidren,child] as any;
+            if (chidren) {
+                if (Array.isArray(chidren)) {
+                    child = [...chidren, child] as any;
+                } else {
+                    child = [chidren, child] as any;
                 }
             }
         }
-        set(() => ({overlay:options?.overlay, currentChild: child,blur:child?blur||useDashStore.getState().blur:undefined ,back_color: child ?(back_color || useDashStore.getState().back_color):'' }))
+        set(() => ({ overlay: options?.overlay, currentChild: child, blur: child ? blur || useDashStore.getState().blur : undefined, back_color: child ? (back_color || useDashStore.getState().back_color) : '' }))
     },
 }));
 

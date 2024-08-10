@@ -8,13 +8,14 @@ import { useRegisterStore } from "../PageAuth/RegisterStore";
 interface ProductState {
     products: ListType<ProductInterface> | undefined;
     selectedProduct: ProductInterface | undefined;
-    fetchProducts(filter?: Record<string, any>): Promise<ListType<ProductInterface> | undefined>;
+    fetchProducts(filter?:{add_detail?:boolean} & Record<string, any>): Promise<ListType<ProductInterface> | undefined>;
     setSelectedProduct(selected: ProductInterface | undefined): Promise<void>;
     updateProduct(product: Record<string, any>): Promise<void>;
     createProduct(product: Record<string, any>): Promise<string[] | undefined>;
     removeProduct(product_id: string): Promise<string | undefined>
     setProductById(product_id: string): void,
-    fectProductCommands(data :{status?:string, no_status?:string,user_id?:string,product_id?: string, limit?:number, page?:number}): Promise<ListType<CommandInterface> | undefined>
+    fectProductCommands(data :{status?:string, no_status?:string,user_id?:string,product_id?: string, limit?:number, page?:number}): Promise<ListType<CommandInterface> | undefined>,
+    
 }
 
 export const useProductStore = create<ProductState>((set) => ({

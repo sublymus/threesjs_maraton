@@ -16,7 +16,8 @@ import { ChoiseFeatures } from '../../../Component/ChoiseFeatures/ChoiseFeatures
 import { EditorTopBar } from "../../../Component/EditorTopBar/EditorTopBar";
 import { bindToParentScroll } from '../../../../Tools/BindToParentScroll';
 import { ChoiseStatus } from "../../../Component/ChoiseStatus/ChoiseStatus";
-import { useFeatureStore } from '../../PageFeature/FeatureStore';
+import { useFeatureStore } from '../PageFeature/FeatureStore';
+import { ProductDetail } from "../../../Component/ProductDetail/ProductDetail";
 // enum StatusMap {
 //     Start, Payment, Waiting, Delivery, End, Cancel
 // }
@@ -141,9 +142,9 @@ export function ProductDash() {
                         </div>
                         <div className="editor-features">
                             <ChoiseFeatures features={isDash && (selectedProduct?.features?.list)} onEdit={(f)=>{
-                                qs({feature_id:f.id}).setAbsPath(['features','dash_features'])
+                                qs({feature_id:f.id}).setAbsPath(['products','dash_features'])
                             }} onNew={()=>{
-                                selectedProduct && qs({product_id:selectedProduct.id}).setAbsPath(['features','new_feature'])
+                                selectedProduct && qs({product_id:selectedProduct.id}).setAbsPath(['products','new_feature'])
                             }} />
                         </div>
                     </div>
@@ -177,6 +178,10 @@ export function ProductDash() {
                                 }} />
                             </div>
                         }
+                        <ProductDetail product={selectedProduct} onChange={(details)=>{
+                            console.log(details);
+                            
+                        }}/>
                     </div>
                 </section>
                 {isDash && <div className="product-dash-ctn">

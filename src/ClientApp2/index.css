@@ -92,7 +92,8 @@ a {
 
 :root {
   --variant-claire:#10c44c;
-  --variant-sombre:#068f34;
+  --variant-sombre:#016623;
+  --variant-sombre-var:1, 102, 35;
   --background: #fff;
   --color: #345;
   --filter: invert(0);

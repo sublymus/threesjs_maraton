@@ -2,7 +2,6 @@ import * as THREE from "three";
 // import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 // import Stats from "three/examples/jsm/libs/stats.module.js";
 import * as ADDON from 'three/addons'
-import { Tactil } from "../Tools/Tactil";
 import { Feature } from "../DataBase";
 
 export const WorlGui: any = null//new GUI();
@@ -16,7 +15,7 @@ export interface AbstractLocalLoader {
 
 export interface AbstractWorld {
     localLoader: AbstractLocalLoader;
-    init(this: AbstractWorld, dependencies: Dependencies['obj'], renderer: THREE.WebGLRenderer, world:typeof WorldManager): void
+    init(this: AbstractWorld, dependencies: Dependencies['obj'], renderer: THREE.WebGLRenderer, world: typeof WorldManager): void
     getDependencies(): Dependencies,
     getScene(): THREE.Scene
     getCamera(): THREE.Camera
@@ -53,7 +52,7 @@ export interface Dependencies {
     }
 }
 
-type i = (obj: Dependencies['obj'], renderer: THREE.WebGLRenderer , world:typeof WorldManager) => void|((obj: Record<string, any>) => void)
+type i = (obj: Dependencies['obj'], renderer: THREE.WebGLRenderer, world: typeof WorldManager) => void | ((obj: Record<string, any>) => void)
 
 export class WorldManager {
     public static worldManager: WorldManager | null = null;
@@ -69,26 +68,42 @@ export class WorldManager {
             });
         }
     }
-    
+
     public static WorldCache: { [path: string]: any } = {};
-    public static tactil = new Tactil();
-    
+
     public _renderer: THREE.WebGLRenderer;
     public currentWorl: AbstractWorld | null = null;
     // private stats: Stats;
     // WorlList
-    constructor(container: HTMLElement) {
+    public static getNewWorldManager(container: HTMLElement){
+        const a = WorldManager.worldManager
+        if( a ){
+            container.innerHTML = ''
+            container.append(a._renderer.domElement); 
+            return a
+        }else{
+            return new WorldManager(container);
+        }
+    }
+    constructor(public container: HTMLElement) {
         WorldManager.worldManager = this;
-        this._renderer = new THREE.WebGLRenderer();
+        this._renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            premultipliedAlpha: false,
+            antialias: true
+        });
+
         this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.9));
-        this._renderer.setSize(window.innerWidth, window.innerHeight);
+        const div = document.querySelector('.page-products>.right.product') as HTMLDivElement;
+        const rect = div.getBoundingClientRect();
+        this._renderer.setSize(rect.width, rect.height);
         this._renderer.setAnimationLoop(this.animus);
         this._renderer.toneMapping = toneMappingOptions[params.toneMapping];
         this._renderer.toneMappingExposure = params.exposure;
         // this.stats = new Stats();
         container.append(this._renderer.domElement);
         // container.append(WorldManager.tactil.getView())
-        container.style.zIndex = '-100';
+        // container.style.zIndex = '-100';
 
         window.addEventListener('resize', this.onResize)
 
@@ -134,7 +149,7 @@ export class WorldManager {
         //     //     if (Object.prototype.hasOwnProperty.call(dependencies.path, key)) {
         //     //         const path = dependencies.path[key];
         //     //         console.log('==>',path);
-                    
+
         //     //         const module = await import(/* @vite-ignore */ path);
         //     //         console.log('ok',path);
         //     //         obj[key] = module[key]||module;
@@ -143,32 +158,37 @@ export class WorldManager {
         //     // rev(null)
         // });
         console.log('three , addon');
-        
-        initializer({THREE, ADDON}, this._renderer , WorldManager );
+
+        initializer({ THREE, ADDON }, this._renderer, WorldManager);
     }
 
     setWorld(world: AbstractWorld) {
         this.currentWorl?.close()
         world.open();
         this.currentWorl = world;
-        world.getScene().backgroundBlurriness = params.blurriness;
+        // world.getScene().backgroundBlurriness = params.blurriness;
     }
 
-    setExposure(uuid: string, data: { exposure?: number, toneMapping?: keyof typeof toneMappingOptions }) {
+    setExposure(uuid: string, _data: { exposure?: number, toneMapping?: keyof typeof toneMappingOptions }) {
         if (uuid != this.currentWorl?.getScene().uuid) return;
-        if (data.toneMapping) this._renderer.toneMapping = toneMappingOptions[data.toneMapping];
-        if (data.exposure) this._renderer.toneMappingExposure = data.exposure
+        // if (data.toneMapping) this._renderer.toneMapping = toneMappingOptions[data.toneMapping];
+        // if (data.exposure) this._renderer.toneMappingExposure = data.exposure
     }
 
     onResize = () => {
-        WorldManager.tactil.resize({ height: window.innerHeight, width: window.innerWidth })
-        this._renderer.setSize(window.innerWidth, window.innerHeight, true);
+        const div = document.querySelector('.page-products>.right.product') as HTMLDivElement;
+        const rect = div?.getBoundingClientRect()||{width:360,height:window.innerHeight};
+        this.currentWorl&&  ((this.currentWorl.getCamera() as any).aspect = rect.width/(rect.height-44));
+        this.currentWorl&&  (this.currentWorl.getCamera() as any).updateProjectionMatrix();
+        this._renderer.setSize(rect.width, rect.height-44, true);
     }
 
     animus = (time: number) => {
         const t = time * 0.001;
         // this.stats.update();
         if (this.currentWorl) {
+            // console.log(this.currentWorl);
+            
             this.currentWorl.update(t)  // TODO  if( .. update(t)) renderer... 
             this._renderer.render(this.currentWorl.getScene(), this.currentWorl.getCamera())
         }

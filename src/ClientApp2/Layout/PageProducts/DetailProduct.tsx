@@ -3,7 +3,7 @@ import { getImg, limit } from '../../../Tools/StringFormater';
 import './DetailProduct.css'
 import { useProductStore } from './ProductStore';
 import { toFilter } from '../../../Tools/FilterColor'
-import { CommandInterface, Feature, ListType, ProductCommentInterface, ProductInterface } from '../../../DataBase';
+import { CommandInterface, Feature, ListType, ProductCommentInterface, ProductInterface, ProductScenus } from '../../../DataBase';
 import { ProductComment } from "../../Components/ProductComment/ProductComment";
 import { NoteStars } from "../../Components/NoteStars/NoteStars";
 import { cardHorizontalCenter } from "../../../Tools/CardPosition";
@@ -18,7 +18,7 @@ import { ProductQuantity } from '../../Components/ProductQuantity/ProductQuantit
 import { useCommandStore } from '../PageCommand/CommandStore';
 import { useRegisterStore } from '../PageRegister/RegisterStore';
 import { PageAuth } from '../PageRegister/PageAuth';
-
+import { Producd3d } from "../../Components/Product3d/Producd3d";
 
 let imageIndex: ((index: number) => void) | undefined;
 export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
@@ -26,7 +26,7 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
     const { json, qs, check, current, navBack, pathList } = useAppRouter()
     const { setProductById, product, selectProduct, products, fetchProducts, setProducts } = useProductStore()
     const { fetchProductComments, setLastPage } = useCommentStore()
-    const { addProductToCart } = useCommandStore()
+    const { addProductToCart, carts, fetchCarts } = useCommandStore()
     const { user } = useRegisterStore()
     const { openChild } = useAppStore()
 
@@ -38,7 +38,6 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
     const [index, setIndex] = useState(0);
     const [readDescription, setReadDescription] = useState(false);
     const [feature, setFeature] = useState<Feature>()
-
     const [commentCanUp, setCommentCanUp] = useState(false);
     const [userComment/* , setCanWrite */] = useState<ProductCommentInterface>();
 
@@ -68,7 +67,6 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
             img.style.width = `${w}px`
             img.style.minWidth = `${w}px`
         }
-
     }
 
     handler()
@@ -76,7 +74,7 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
     useEffect(() => {
         if (check('detail') && json?.product_id && json.product_id != s.product_id) {
             s.product_id = json.product_id;
-            setProductById({json} as any)
+            setProductById({ json } as any)
         }
     }, [json]);
 
@@ -93,7 +91,7 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
 
     useEffect(() => {
         if (product && check('detail')) {
-            console.log('new Comments fech');
+            // console.log('new Comments fech');
 
             fetchProductComments({
                 product_id: product.id,
@@ -114,17 +112,37 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                     more: (a?.length || 0) > 5
                 })
             })
+            if (s.carts?.list) {
+                // console.log('dans la list existant',s.carts?.list);
+
+                const cart = (s.carts.list as CommandInterface[]).find(c => c.product_id == s.product?.id)
+                if (cart) {
+                    (s.product as ProductScenus).featuresCollector?.setAll(cart.collected_features as any)
+                }
+            } else {
+                fetchCarts({}).then((catrs) => {
+                    console.log('dans la new  list');
+                    if (catrs?.list) {
+                        const cart = (s.carts.list as CommandInterface[]).find(c => c.product_id == s.product?.id)
+                        if (cart) {
+                            (s.product as ProductScenus).featuresCollector?.setAll(cart.collected_features as any)
+                        }
+                    }
+                })
+            }
         }
+
     }, [product, pathList]);
 
     useEffect(() => {
 
         window.addEventListener('resize', handler);
+        setTimeout(() => {
+            handler()
+        }, 1000);
         return () => {
             window.removeEventListener('resize', handler)
         }
-
-        handler()
     }, [])
     useEffect(() => {
         if (commentRef) {
@@ -139,24 +157,31 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
             })
         }
     }, [commentRef])
+
+    s.product = product
+    s.carts = carts
     const refreshProducts = () => {
         product && fetchProducts({
             add_cart: true,
             product_id: product.id,
+            is_features_required: true,
             no_save: true
         }).then((p) => {
             if (p?.list[0].id) {
                 const newP = { ...p?.list[0] };
                 products && setProducts({
                     ...products,
-                    list: products?.list.map((l => l.id == p?.list[0].id ? newP : l))
-                })
-                product?.id == p?.list[0].id && (selectProduct(newP))
+                    list: products?.list.map((l => l.id == newP.id ? newP : l))
+                });
+                // (product?.id == newP.id) && (selectProduct(newP));
             }
+            return
         })
     }
+
     return product && (
         <div className={"detail-product " + (product ? 'open' : '')} >
+            {product && product.scene_dir && <Producd3d product={product} />}
             {product && <PageComments onRefresh={onRefresh} ImageComments={ImageComments} userComment={userComment} userCommand={userCommand} setRef={setCommentRef} product={product} />}
             {product && <PageImage product={product} />}
             <section className={'detail ' + ((current('products') || current('detail')) ? 'open' : 'close')} ref={detailRef}>
@@ -179,6 +204,9 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                         navBack()
                     }}></div>
                     <div className="label _lr-auto">Detail Product</div>
+                    <div className="cart" onClick={() => {
+                        qs().setAbsPath(['cart']);
+                    }}></div>
                 </div>
                 <div className="top-infos" ref={ref => {
                     if (!ref) return;
@@ -227,6 +255,18 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                                     }}></div>
                                 ))
                             }
+                            {
+                                product.scene_dir && <div className="img card-h-c open3d" onClick={() => {
+                                    qs().keepJson().setAbsPath(['products', 'detail', 'product3d'])
+                                }}>
+                                    <div className="blur">
+
+                                        <span></span>
+                                        <h1>Open 3D View</h1>
+                                    </div>
+
+                                </div>
+                            }
                             <div className="gap"></div>
                         </div>
 
@@ -238,6 +278,11 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                                         imageIndex?.(i);
                                     }}></div>
                                 ))
+                            }
+                            {
+                                product.scene_dir && <div className="min-img i3d" onClick={() => {
+                                    qs().keepJson().setAbsPath(['products', 'detail', 'product3d'])
+                                }}><span style={{ filter:/* impact - color */toFilter('#fff').result.filter }}></span></div>
                             }
                         </div>
                     </div>
@@ -255,43 +300,74 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                                             setFeature(undefined)
                                         }}></span>
                                     }</div>
-                                    <div className="features">
-                                        {
-                                            product?.features.list.map(f => (
-                                                <div key={f.id} className={"feature " + (feature?.id == f.id ? 'active' : '')}  onClick={() => {
-                                                    if (!feature) {
-                                                        const iH = infoRef.current?.getBoundingClientRect().height || 0
-                                                        const dH = diffRef.current?.getBoundingClientRect().height || 0
-                                                        if ((iH - dH) < 150) {
-                                                            setMinText(true);
-                                                        } else {
-                                                            setMinText(false);
+                                    <div className="lol">
+                                        <div className="features" ref={AddHorizontalScrollIcon({ posistion: 20 })}>
+                                            {
+                                                product?.features.list.map(f => (
+                                                    <div key={f.id} className={"feature " + (feature?.id == f.id ? 'active' : '')} onClick={() => {
+                                                        if (!feature) {
+                                                            const iH = infoRef.current?.getBoundingClientRect().height || 0
+                                                            const dH = diffRef.current?.getBoundingClientRect().height || 0
+                                                            if ((iH - dH) < 150) {
+                                                                setMinText(true);
+                                                            } else {
+                                                                setMinText(false);
+                                                            }
                                                         }
-                                                    }
-                                                    if (feature?.id == f.id) setFeature(undefined);
-                                                    else setFeature(f);
-                                                }}>
-                                                    <div className="icon" style={{ background: getImg(f.icon[0]) }}></div>
-                                                    <div className="label">{limit(f.name, 10)}</div>
-                                                </div>
-                                            ))
-                                        }
+                                                        if (feature?.id == f.id) setFeature(undefined);
+                                                        else setFeature(f);
+                                                    }}>
+                                                        <div className="icon" style={{ background: getImg(f.icon[0]) }}></div>
+                                                        <div className="label">{limit(f.name, 10)}</div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
                                     </div>
                                 </>
                             }
                             {feature && <div className="label-components">Components: <span>{product?.featuresCollector?.allCollectedFeatures()[feature.id]?.name}</span></div>}
-                            <div className={"components " + (feature ? 'open' : '')}>
-                                {
-                                    feature?.components?.map(c => (
-                                        <div className={"component " + (product?.featuresCollector?.allCollectedFeatures()[feature.id]?.id == c.id ? 'active' : '')} onClick={() => {
-                                            if (product?.featuresCollector?.allCollectedFeatures()[feature.id]?.id == c.id) product?.featuresCollector?.collectFeature(feature, undefined);
-                                            else product?.featuresCollector?.collectFeature(feature, c);
-                                        }}>
-                                            <div className="icon" style={{ background: c.images?.[0] && getImg(c.images[0], 'cover') }}></div>
-                                            <div className="label">{limit(c.name, 10)}</div>
-                                        </div>
-                                    ))
-                                }
+                            <div className={'lol ' + (feature ? 'open' : '')}>
+                                <div className={"components " + (feature ? 'open' : '')} ref={AddHorizontalScrollIcon({ posistion: 20 })}>
+                                    {
+                                        feature?.components?.map(c => (
+                                            <div key={c.id} className={"component " + (product?.featuresCollector?.allCollectedFeatures()[feature.name]?.id == c.id ? 'active' : '')} onClick={() => {
+                                                if (product?.featuresCollector?.allCollectedFeatures()[feature.name]?.id == c.id) product?.featuresCollector?.collectFeature(feature, undefined);
+                                                else product?.featuresCollector?.collectFeature(feature, c);
+                                                if (carts) {
+                                                    let cart = carts.list.find(c => c.product_id == product.id);
+                                                    if (cart) {
+                                                        addProductToCart({
+                                                            //@ts-ignore
+                                                            product_id: product?.id,
+                                                            //@ts-ignore
+                                                            command_id: cart.id,
+                                                            collected_features: product?.featuresCollector?.allCollectedFeatures()
+                                                        })
+                                                    } else {
+                                                        fetchCarts({}).then((res) => {
+                                                            if (res?.list) {
+                                                                cart = res?.list.find(c => c.product_id == product.id);
+                                                                if (cart) {
+                                                                    addProductToCart({
+                                                                        //@ts-ignore
+                                                                        product_id: product?.id,
+                                                                        //@ts-ignore
+                                                                        command_id: cart.id,
+                                                                        collected_features: product?.featuresCollector?.allCollectedFeatures()
+                                                                    })
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                }
+                                            }}>
+                                                <div className="icon" style={{ background: c.images?.[0] && getImg(c.images[0], 'cover') }}></div>
+                                                <div className="label">{limit(c.name, 10)}</div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,7 +399,7 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                 </div>
             </section>
             {
-                current('detail') && <div className="price-zone">
+                (current('detail') || current('products')) && <div className="price-zone">
                     <div className="ctn">
                         <div className="price">
                             <div>Price</div>
@@ -333,15 +409,20 @@ export function DetailProduct({ onRefresh }: { onRefresh?: () => any }) {
                             product.quantity != undefined &&
                             product.quantity != null &&
                             parseInt(product.quantity + '') != 0 &&
-                            product.quantity.toString() != '0') ? <ProductQuantity canNull product={product} onChange={() => {
+                            product.quantity.toString() != '0') ? <>
+                            <ProductQuantity canNull product={product} onChange={() => {
                                 refreshProducts()
-                            }} /> : <div className="add-to-cart" onClick={() =>
-                                user ? addProductToCart({ product_id: product.id, quantity: 1, collected_features:product.featuresCollector?.allCollectedFeatures() }).then((c) => {
-                                    if (c?.id) {
-                                        refreshProducts()
-                                    }
-                                }) : openChild(<PageAuth />, false, '#3455')
-                            }>Add <span> to cart</span></div>}
+                            }} />
+                            <div className="buy" onClick={() => {
+                                qs().setAbsPath(['cart'])
+                            }}>BUY <span></span></div>
+                        </> : <div className="add-to-cart" onClick={() =>
+                            user ? addProductToCart({ product_id: product.id, quantity: 1, collected_features: { ...product.featuresCollector?.allCollectedFeatures() } }).then((c) => {
+                                if (c?.id) {
+                                    refreshProducts()
+                                }
+                            }) : openChild(<PageAuth />, false, '#3455')
+                        }>Add <span> to cart</span></div>}
                     </div>
                 </div>
             }

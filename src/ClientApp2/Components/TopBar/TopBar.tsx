@@ -37,7 +37,7 @@ export function Footer() {
 
 export function TopBar() {
 
-    const { setAbsPath, pathList } = useAppRouter();
+    const { setAbsPath, pathList} = useAppRouter();
     const [active, setActive] = useState(pathList[1] as string || 'home');
     const [liteMode, setLiteMode] = useState(false);
     const [openMoreNavs, setOpenMoreNavs] = useState(false);

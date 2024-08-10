@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { Component, Feature, ListType, ProductInterface } from "../../../DataBase";
-import { Host } from "../../../Config";
-import { useProductStore } from "../PageProduct/ProductStore";
-import { useRegisterStore } from "../PageAuth/RegisterStore";
+import { Component, Feature, ListType, ProductInterface } from "../../../../DataBase";
+import { Host } from "../../../../Config";
+import { useProductStore } from "../../PageProduct/ProductStore";
+import { useRegisterStore } from "../../PageAuth/RegisterStore";
 interface DashState {
     features: ListType<Feature> | undefined,
     selectedFeature: Feature | undefined,
@@ -119,7 +119,7 @@ export const useFeatureStore = create<DashState>((set) => ({
             feature[k] != undefined && formData.append(k, feature[k]);
         }
 
-        (feature.components as Component[])?.forEach((c,i) => {
+        (feature.components as Component[])?.forEach((c) => {
             if ((c.images as any as string[] | Blob[] | undefined)?.[0] instanceof Blob) {
                 formData.append(c.name+':images_0', c.images?.[0] as any);
                 (c as any).images = JSON.stringify([c.name+':images_0']);

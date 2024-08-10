@@ -30,7 +30,8 @@ const Pages = {
         products: {//ok  : `categoires_filter`
             detail: {//ok
                 comments: {},//ok
-                images: {}//ok
+                images: {},//ok
+                product3d:{},
             },
         },
         categories: {},

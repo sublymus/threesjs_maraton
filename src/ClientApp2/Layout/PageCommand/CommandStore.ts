@@ -54,7 +54,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
         fromData.append('store_id', h.store.id);
         data.product_id && fromData.append('product_id', data.product_id+'');
         data.command_id && fromData.append('command_id', data.command_id+'');
-        data.quantity && fromData.append('quantity', (data.quantity)+'');
+        data.quantity != undefined && fromData.append('quantity', (data.quantity)+'');
         data.collected_features&&fromData.append('collected_features', JSON.stringify(data.collected_features));
         const searchParams = new URLSearchParams({});
         for (const key in query) {
@@ -67,6 +67,8 @@ export const useCommandStore = create<CommandStore>((set) => ({
             body:fromData
         });
         const cart = (await response.json()) as CommandInterface
+        console.log('@@@@@@@@@@@@@@@', cart);
+        
         if (!cart.id) return;
         const c = useCommandStore.getState().carts;
         set(() => ({
@@ -74,7 +76,7 @@ export const useCommandStore = create<CommandStore>((set) => ({
                 limit: c?.limit || 25,
                 page: c?.page || 1,
                 total: c?.total || 0,
-                list: [...(c?.list || []).map(f => f.id == cart.id ? cart : f)]
+                list: [...(c?.list?c?.list.map(f => f.id == cart.id ? cart : f):[cart])]
             }
         }));
         return cart
@@ -135,8 +137,6 @@ export const useCommandStore = create<CommandStore>((set) => ({
         });
         const commands = (await response.json()) as ListType<CommandInterface>
         set(() => ({ commands }));
-        console.log(commands);
-        
         return commands
     },
 }));

@@ -5,6 +5,7 @@ import { ProductList } from './ProductList/ProductList'
 import { ProductDash } from './ProductDash/ProductDash'
 import { ProductPreview } from './ProductPreview/ProductPreview'
 import { ProductStat } from './ProductStat/ProductStat'
+import { FeaturesDash } from "./PageFeature/FeaturesDash";
 // import { useState } from 'react'
 import { ProductsListAccessor } from "../../Component/ProductsListAccessor/ProductsListAccessor";
 // import React from 'react'
@@ -21,6 +22,7 @@ export function PageProduct() {
                         {
                            ( current('products','dash_product','new_product')) && <ProductsListAccessor active='products' setActive={((a)=>setAbsPath(a.path as any))}/>
                         }
+                        <FeaturesDash/>
                         <ProductDash  />
                         <ProductList  />
                         <ProductPreview />

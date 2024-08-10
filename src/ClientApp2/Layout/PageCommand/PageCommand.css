@@ -179,8 +179,8 @@
     height: 32px;
 }
 
-.order-item .btm .options>div.to-favorites span {
-    background: no-repeat center/50% url(/src/res/love-fill.png);
+.order-item .btm .options>div.chat-service span {
+    background: no-repeat center/60% url(/src/res/headset.png);
 }
 
 .order-item .btm .options>div.start-comment span {
